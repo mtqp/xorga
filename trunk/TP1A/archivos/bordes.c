@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 int main( int argc, char** argv )
 {
 
@@ -11,9 +10,13 @@ int main( int argc, char** argv )
    IplImage * dst = 0;
    IplImage * dst_ini = 0;
 
-   char* filename = argc == 3 ? argv[2] : (char*)"lena.bmp";
-   
-	switch((char)argv[1][2]){
+	char* filename = argc == 3 ? argv[2] : (char*)"lena.bmp";
+	char opcion = (char)argv[1][2];
+	
+	//Me aseguro del comando...
+	if( argv[1][0] != '-' || argv[1][1] != 'r' || argv[1][3]) opcion = '6';
+	
+	switch(opcion){
 		
 		case '1': 
 			printf( "Usando el operador de Roberts para realzar bordes\n");
@@ -40,6 +43,7 @@ int main( int argc, char** argv )
 			printf( "    -r4: Operador de Sobel derivando por Y\n"); 
 			printf( "    -r5: Operador de Sobel derivando por X e Y\n\n"); 
 			printf( "Si no se especifica un archivo de entrada, se usara 'lena.bmp'\n\n");
+			return 0;
             break;
 	}
 
@@ -61,13 +65,37 @@ int main( int argc, char** argv )
 	   return -1;
 	}
 
-   // Aplico el filtro (Sobel con derivada x en este caso) y salvo imagen 
-   cvSobel(src, dst, 1,0,3); 	// Esta parte es la que tienen que programar los alumnos en ASM	y comparar
-   cvSaveImage("derivada x.BMP", dst);
+	
+	switch(opcion){
+		
+		case '1': 
+			//Roberts
+			
+			break;
 
-   // Aplico el filtro (Sobel con derivada y en esta caso) y salvo imagen 
-   cvSobel(src, dst, 0,1,3);    // Esta parte es la que tienen que programar los alumnos en ASM	y comparar
-   cvSaveImage("derivada y.BMP", dst);
+		case '2': 
+			//Prewitt
+			break;
+
+		case '3': 
+			//Sobel derivando en X
+			// Aplico el filtro (Sobel con derivada x en este caso) y salvo imagen 
+			cvSobel(src, dst, 1,0,3); 	// Esta parte es la que tienen que programar los alumnos en ASM	y comparar
+			cvSaveImage("derivada x.BMP", dst);
+			break;
+
+		case '4':
+			//Sobel derivando en Y
+			// Aplico el filtro (Sobel con derivada y en esta caso) y salvo imagen 
+			cvSobel(src, dst, 0,1,3);    // Esta parte es la que tienen que programar los alumnos en ASM	y comparar
+			cvSaveImage("derivada y.BMP", dst);
+			break;
+
+		case '5': 
+			//Sobel derivando en X e Y 
+			break;
+	}
+
 
 
    return 0;
