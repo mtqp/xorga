@@ -7,7 +7,7 @@ main.o: main.c
 	gcc -c main.c `pkg-config --cflags opencv`
 
 filters.o: filters.c filters.h
-	gcc -c filters.c -o filters.o
+	gcc -c filters.c
 
 clean:
 	rm -f $(OBJECTS)
