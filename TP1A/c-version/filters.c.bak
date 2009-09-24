@@ -41,7 +41,7 @@ void cSobel( const unsigned char* src, unsigned char *dst, int ancho, int alto, 
 				for( j = 0 ; j < 3 ; j++ )
 					k += yorder * OPERADOR_SOBEL_Y[i][j]*src[row*(y+i-1)+x+j-1];
 			if( k > 255 )
-				dst[row*y+x] = 255;
+				dst[row*y+x] = k;
 			else if( k < 0 )
 				dst[row*y+x] = 0;
 			else
