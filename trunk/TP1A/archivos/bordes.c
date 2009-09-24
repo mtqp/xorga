@@ -12,7 +12,7 @@ int main( int argc, char** argv )
 
 	char* filename = argc == 3 ? argv[2] : (char*)"lena.bmp";
 	
-	char opcion = argc==1 ? '6':(char)argv[1][2];
+	char opcion = (argc==1 || argc>3) ? '6':(char)argv[1][2];
 	
 	//Me aseguro del comando...
 	if(argc==1 || argv[1][0] != '-' || argv[1][1] != 'r' || argv[1][3]) opcion = '6';
