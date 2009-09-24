@@ -11,10 +11,13 @@ int main( int argc, char** argv )
    IplImage * dst_ini = 0;
 
 	char* filename = argc == 3 ? argv[2] : (char*)"lena.bmp";
-	char opcion = (char)argv[1][2];
+	
+	char opcion = argc==1 ? '6':(char)argv[1][2];
 	
 	//Me aseguro del comando...
-	if( argv[1][0] != '-' || argv[1][1] != 'r' || argv[1][3]) opcion = '6';
+	if(argc==1 || argv[1][0] != '-' || argv[1][1] != 'r' || argv[1][3]) opcion = '6';
+	
+	
 	
 	switch(opcion){
 		
@@ -95,7 +98,6 @@ int main( int argc, char** argv )
 			//Sobel derivando en X e Y 
 			break;
 	}
-
 
 
    return 0;
