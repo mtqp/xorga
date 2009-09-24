@@ -6,16 +6,17 @@
 
 int main( int argc, char** argv )
 {
+	char* filename = argc == 3 ? argv[2] : (char*)"lena.bmp";
+	char opcion='0';
 
 	IplImage * src = 0;
 	IplImage * dst = 0;
-	IplImage * dst_ini = 0; // Para qué se debería usar??
+	//IplImage * dst_ini = 0; // Para qué se debería usar??
 
-	char* filename = argc == 3 ? argv[2] : (char*)"lena.bmp";
-	char opcion= argv[1][2];
 	//Me aseguro del comando...
-	if( argv[1][0] != '-' || argv[1][1] != 'r' || argv[1][2]<'1' || argv[1][2]>'5' || argv[1][3]) 
-		opcion = '6';
+	if( argc>1 && argv[1][0] == '-' && argv[1][1] == 'r' && argv[1][2]>'0' 
+		&& argv[1][2]<'6' && argv[1][3]=='\0')
+		opcion = argv[1][2];
 
 	switch(opcion){
 		case '1':
@@ -57,8 +58,8 @@ int main( int argc, char** argv )
 		return -1;
 
 	// Creo una IplImage para cada salida esperada
-	if( (dst_ini = cvCreateImage (cvGetSize (src), IPL_DEPTH_8U, 1) ) ==0 )
-		return -1;
+	//if( (dst_ini = cvCreateImage (cvGetSize (src), IPL_DEPTH_8U, 1) ) ==0 )
+	//	return -1;
 
 	switch(opcion) {
 		case '1':
@@ -80,6 +81,8 @@ int main( int argc, char** argv )
 			cSobel(src->imageData, dst->imageData,src->width,src->height, 1,1);	// Esta parte es la que tienen que programar los alumnos en ASM y comparar
 			cvSaveImage("sobel.bmp", dst);
 	}
-	printf("OK\n");
+	//printf("OK\n");
+	cvReleaseImage( &dst );
+	cvReleaseImage( &src );
 	return 0;
 }
