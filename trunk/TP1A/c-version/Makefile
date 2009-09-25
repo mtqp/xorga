@@ -1,13 +1,15 @@
+CC=gcc
+CFLAGS=-c
 OBJECTS = main.o filters.o
 
 bordes: $(OBJECTS)
-	gcc  $(OBJECTS) -o bordes `pkg-config --cflags --libs opencv`
+	$(CC) $(OBJECTS) -o bordes `pkg-config --cflags --libs opencv`
 
 main.o: main.c
-	gcc -c main.c `pkg-config --cflags opencv`
+	$(CC) $(CFLAGS) main.c `pkg-config --cflags opencv`
 
 filters.o: filters.c filters.h
-	gcc -c filters.c
+	$(CC) $(CFLAGS) filters.c
 
 clean:
 	rm -f $(OBJECTS)
