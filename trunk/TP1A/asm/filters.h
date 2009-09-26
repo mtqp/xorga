@@ -8,6 +8,7 @@
 #define lineSize(width,align) width-width%align+align*(width%align>0)
 
 void cSobel( const unsigned char* src, unsigned char *dst, int ancho, int alto, int xorder, int yorder );
+extern asmSobel( const unsigned char* src, unsigned char *dst, int ancho, int alto, int xorder, int yorder );
 //int apply_mask( const unsigned char* src, unsigned int line, const char *mask, unsigned int mask_sz );
 extern int apply_mask( const unsigned char* src, unsigned int line, const char *mask, unsigned int mask_sz );
 
