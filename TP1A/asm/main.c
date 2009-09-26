@@ -74,17 +74,17 @@ int main( int argc, char** argv )
 			break;
 		case '3':
 			// Aplico el filtro (Sobel con derivada x en este caso) y salvo imagen
-			cSobel(src->imageData, dst->imageData,src->width,src->height, 1,0); 	// Esta parte es la que tienen que programar los alumnos en ASM	y comparar
+			asmSobel(src->imageData, dst->imageData,src->width,src->height, 1,0); 	// Esta parte es la que tienen que programar los alumnos en ASM	y comparar
 			cvSaveImage("derivada-x.bmp", dst);
 			break;
 		case '4':
 			// Aplico el filtro (Sobel con derivada y en este caso) y salvo imagen
-			cSobel(src->imageData, dst->imageData,src->width,src->height, 0,1);	// Esta parte es la que tienen que programar los alumnos en ASM y comparar
+			asmSobel(src->imageData, dst->imageData,src->width,src->height, 0,1);	// Esta parte es la que tienen que programar los alumnos en ASM y comparar
 			cvSaveImage("derivada-y.bmp", dst);
 			break;
 		case '5':
 			// Aplico el filtro (Sobel con derivada y en esta caso) y salvo imagen
-			cSobel(src->imageData, dst->imageData,src->width,src->height, 1,1);	// Esta parte es la que tienen que programar los alumnos en ASM y comparar
+			asmSobel(src->imageData, dst->imageData,src->width,src->height, 1,1);	// Esta parte es la que tienen que programar los alumnos en ASM y comparar
 			cvSaveImage("sobel.bmp", dst);
 			/*cvSobel(src,dst,1,0,3);
 			cvSaveImage("sobel-orig-x.bmp", dst);
