@@ -105,16 +105,20 @@ cicloFilas:
 		add esp,16	;reapunto el esp
 				;en ebx tengo el line
 		pop ecx
-		mov dword ptr_imgDst,edi	;guardo la imagen
-		inc dword ptr_imgDst
-		inc ecx
-		cmp ecx,width
+		mov eax,ptr_imgDst 	;guardo el pixel en imgDst
+		mov [eax],edi
+
+;mov dword ptr_imgDst,edi     ;asi guardaba la imagen antes creo q no func
+
+		inc dword ptr_imgDst	;apunto dst al prox pixel
+		inc ecx			;me corro uno en la columna
+		cmp ecx,width		;llegue al final de la columna?
 		jne cicloColumnas
 
-	mov eax, fill
-	add dword ptr_imgDst,eax
-	mov edx,ebx
-	add ebx,line
+	mov eax, fill			;manejo de los pixels basura
+	add dword ptr_imgDst,eax	;salteo pixels basura
+	mov edx,ebx			;en ebx esta la linea q recorre img
+	add ebx,line			;paso a la siguiente fila
 	inc esi
 	cmp esi,height
 	jne cicloFilas
