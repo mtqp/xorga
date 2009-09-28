@@ -13,6 +13,7 @@ filters.o: filters.c filters.h
 
 filters_asm.o: filters_asm.asm
 	nasm -g -f elf filters_asm.asm
+
 asmSobel.o: asmSobel.asm
 	nasm -g -f elf asmSobel.asm
 
