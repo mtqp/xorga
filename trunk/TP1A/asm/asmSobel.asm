@@ -18,28 +18,6 @@ extern apply_mask
 %endmacro
 
 %macro adjustLineEnebx 0
-			;ajusto linea
-			;l(w,a) = w - (w%a) + a(w%a>0)
-	mov eax,width		;muevo el ancho a eax
-	mov esi, align		;el alineamiento a 4 q quiero
-	xor edx,edx
-	div esi			;eax = quotient(width/align)
-				;edx = resto(width/align)
-
-				;tengo q saber si tengo resto o no
-				;o sea cuantos pixels basura hay
-	mov ebx, width
-	sub ebx, edx            ; w - w%a
-
-	cmp edx, 0
-	je procesar		;si salta aca es xq NO hay basura
-
-	add ebx, align		;tengo en ebx = w- (w%a) + a(w%a>0) == line
-	mov dword line,ebx
-
-	mov eax, width
-	mov dword fill,ebx
-	sub dword fill,eax	;guardo la cant de pixels basura
 
 %endmacro
 
@@ -66,7 +44,28 @@ asmSobel:
 	%define x_order	 [ebp+24]
 	%define y_order	 [ebp+28]
 
-	adjustLineEnebx
+			;ajusto linea
+			;l(w,a) = w - (w%a) + a(w%a>0)
+	mov eax,width		;muevo el ancho a eax
+	mov esi, align		;el alineamiento a 4 q quiero
+	xor edx,edx
+	div esi			;eax = quotient(width/align)
+				;edx = resto(width/align)
+
+				;tengo q saber si tengo resto o no
+				;o sea cuantos pixels basura hay
+	mov ebx, width
+	sub ebx, edx            ; w - w%a
+
+	cmp edx, 0
+	je procesar		;si salta aca es xq NO hay basura
+
+	add ebx, align		;tengo en ebx = w- (w%a) + a(w%a>0) == line
+	mov dword line,ebx
+
+	mov eax, width
+	mov dword fill,ebx
+	sub dword fill,eax	;guardo la cant de pixels basura
 
 procesar:
 	dec dword width		;porq necesito el width -1
