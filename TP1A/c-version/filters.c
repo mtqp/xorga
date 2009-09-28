@@ -34,7 +34,7 @@ const char OPERADOR_PREWITT_Y[9] = {
 	 1,  1,  1
 };
 
-//#define abs(x) x>0?x:-x
+#define abs(x) x>0?x:-x
 
 /**
  * cX - procesa la imagen con el operador X
@@ -63,8 +63,8 @@ void cRoberts( const unsigned char* src, unsigned char *dst, int width, int heig
 
 	for( y = 0 ; y < height-1 ; y++ )
 		for( x = 0 ; x < width-1 ; x++ ) {
-			k =xorder * apply_mask( &src[line*(y-1)+x-1], line, OPERADOR_ROBERTS_X, 2 );
-			k+=yorder * apply_mask( &src[line*(y-1)+x-1], line, OPERADOR_ROBERTS_Y, 2 );
+			k =xorder * apply_mask( &src[line*y+x], line, OPERADOR_ROBERTS_X, 2 );
+			k+=yorder * apply_mask( &src[line*y+x], line, OPERADOR_ROBERTS_Y, 2 );
 			dst[line*y+x]=toCharS(k);
 		}
 }
