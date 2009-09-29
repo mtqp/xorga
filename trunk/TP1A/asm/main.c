@@ -64,12 +64,12 @@ int main( int argc, char** argv )
 	switch(opcion) {
 		case '1':
 			// Aplico el filtro (Roberts con derivada x en este caso) y salvo imagen
-			cRoberts(src->imageData, dst->imageData,src->width,src->height, 1,1);		// Esta parte es la que tienen que programar los alumnos en ASM	y comparar
+			asmRoberts(src->imageData, dst->imageData,src->width,src->height, 1,1);		// Esta parte es la que tienen que programar los alumnos en ASM	y comparar
 			cvSaveImage("roberts.bmp", dst);
 			break;
 		case '2':
 			// Aplico el filtro (Roberts con derivada x en este caso) y salvo imagen
-			cPrewitt(src->imageData, dst->imageData,src->width,src->height, 1,1);		// Esta parte es la que tienen que programar los alumnos en ASM	y comparar
+			asmPrewitt(src->imageData, dst->imageData,src->width,src->height, 1,1);		// Esta parte es la que tienen que programar los alumnos en ASM	y comparar
 			cvSaveImage("prewitt.bmp", dst);
 			break;
 		case '3':
