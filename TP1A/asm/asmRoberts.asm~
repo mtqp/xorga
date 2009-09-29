@@ -47,14 +47,14 @@ extern apply_mask
 
 section .data
 
-	sobelX: db -1,0,1,-2,0,2,-1,0,1
-	sobelY: db -1,-2,-1,0,0,0,1,2,1
+	RobertsX: db 1,0,0,-1
+	RobertsY: db 0,1,-1,0
 
 section .text
 
-	global asmSobel
+	global asmRoberts
 
-asmSobel:
+asmRoberts:
 	convencion_C 8
 
 	%define line		[ebp-4]
@@ -86,18 +86,22 @@ ciclo:
 	lea ecx, [ebx+edi]			; ecx = posición actual de src en memoria
 	push dword 0				; guarda una variable temporal para resultado
 	push mask_size				; 4to parámetro: tamaño de la máscara
-	push sobelX					; 3er paráemtro: máscara
+	push RobertsX				; 3er paráemtro: máscara
 	push dword line				; 2do parámetro: tamaño de la línea
 	push dword ecx				; 1er parámetro: posición en src (top-left)
 
-	cmp dword xorder, 0			; verifica si tiene que derivar en X
-	je dy						; si no hay que derivar en X salta a dy
+;;; Esto no lo necesito verificar mas, porq se hace si o si por X y por Y
+;	cmp dword xorder, 0			; verifica si tiene que derivar en X
+;	je dy						; si no hay que derivar en X salta a dy
 	call apply_mask				; aplica la máscara
 	mov [ebp-24], eax			; guarda el resultado de derivar en X
-dy:
-	cmp dword yorder, 0			; verifica si tiene que derivar en Y
-	je continuar				; si no hay que derivar en Y salta a continuar
-	mov dword [ebp-32],sobelY	; coloca el operador de sobel para Y
+
+;;; Idem arriba
+;dy:
+;	cmp dword yorder, 0			; verifica si tiene que derivar en Y
+;	je continuar				; si no hay que derivar en Y salta a continuar
+
+	mov dword [ebp-32],RobertsY	; coloca el operador de Roberts para Y
 	call apply_mask				; aplica la máscara
 continuar:
 	add esp, 16					; 'quita' los parámetros del stack

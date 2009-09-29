@@ -87,7 +87,7 @@ void cPrewitt( const unsigned char* src, unsigned char *dst, int width, int heig
  *		line		tamaño de línea del array (incluyendo el fill)
  *		mask		máscara a aplicar
  *		mask_sz		tamaño del lado de la máscara
- 
+ *
 int apply_mask( const unsigned char* src, unsigned int line, const char* mask, unsigned int mask_sz ) {
 	int i,j,k=0;
 	for( i = 0 ; i < mask_sz ; i++ )

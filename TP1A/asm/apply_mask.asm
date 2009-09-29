@@ -11,6 +11,7 @@
 	pop esi
 	pop edi
 	pop ebp
+	ret
 %endmacro
 
 section .text
