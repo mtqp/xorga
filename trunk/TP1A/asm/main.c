@@ -7,6 +7,7 @@
 int main( int argc, char** argv )
 {
 	char* filename = argc == 3 ? argv[2] : (char*)"lena.bmp";
+	char* ventana = "ventana";
 	char opcion='0';
 
 	IplImage * src = 0;
@@ -17,6 +18,10 @@ int main( int argc, char** argv )
 	if( argc>1 && argv[1][0] == '-' && argv[1][1] == 'r' && argv[1][2]>'0' 
 		&& argv[1][2]<'6' && argv[1][3]=='\0')
 		opcion = argv[1][2];
+	else
+	if( argc>1 && argv[1][0] == '-' && argv[1][1] == 'g' && argv[1][2]=='\0')  ///opcion 6 == ventana
+		opcion = '6';
+
 
 	switch(opcion){
 		case '1':
@@ -34,8 +39,22 @@ int main( int argc, char** argv )
 		case '5':
 			printf( "Usando el operador de Sobel para realzar bordes\nDerivando en X e Y\n"); 
 			break;
+		case '6':
+			cvNamedWindow(ventana, CV_WINDOW_AUTOSIZE);
+			printf( "\nRealzador de Bordes TP1 OrgaII Grupo XOR (cambiar..)\n\n");
+			printf( "Uso:\n     Presionar la tecla correspondiente para aplicar el filtro \n\n");
+			printf( "Operadores posibles:\n");
+			printf( "    1: Operador de Roberts \n");
+			printf( "    2: Operador de Prewitt\n");
+			printf( "    3: Operador de Sobel derivando por X\n");
+			printf( "    4: Operador de Sobel derivando por Y\n");
+			printf( "    5: Operador de Sobel derivando por X e Y\n");
+			printf( "    0: Imagen original\n");
+			printf( "    q: Salir\n\n");
+			
+			break;
 		default:
-			printf( "\nRealzador de Bordes TP1 OrgaII Grupo XoOoOoOoR (cambiar..)\n\n");
+			printf( "\nRealzador de Bordes TP1 OrgaII Grupo XOR \n\n");
 			printf( "Uso:\n     ./bordes operador [filename] \n\n");
 			printf( "Operadores posibles:\n");
 			printf( "    -r1: Operador de Roberts \n");
@@ -43,6 +62,7 @@ int main( int argc, char** argv )
 			printf( "    -r3: Operador de Sobel derivando por X\n");
 			printf( "    -r4: Operador de Sobel derivando por Y\n");
 			printf( "    -r5: Operador de Sobel derivando por X e Y\n\n");
+			printf( "    -g : Modo Grafico \n\n");
 			printf( "Si no se especifica un archivo de entrada, se usara 'lena.bmp'\n\n");
 			return 0;
 	}
@@ -90,6 +110,41 @@ int main( int argc, char** argv )
 			cvSaveImage("sobel-orig-x.bmp", dst);
 			cvSobel(src,dst,0,1,3);
 			cvSaveImage("sobel-orig-y.bmp", dst);*/
+		case '6': 
+			cvShowImage( ventana, src);
+			int key;
+			while(1){
+				key = cvWaitKey(100);
+				switch((char)key) {
+					case '1':
+						
+						asmRoberts(src->imageData, dst->imageData,src->width,src->height, 1,1);
+						cvShowImage( ventana, dst);
+						break;
+					case '2':
+						asmPrewitt(src->imageData, dst->imageData,src->width,src->height, 1,1);
+						cvShowImage( ventana, dst);
+						break;
+					case '3':
+						asmSobel(src->imageData, dst->imageData,src->width,src->height, 1,0); 
+						cvShowImage( ventana, dst);
+						break;
+					case '4':
+						asmSobel(src->imageData, dst->imageData,src->width,src->height, 0,1);
+						cvShowImage( ventana, dst);
+						break;
+					case '5':
+						asmSobel(src->imageData, dst->imageData,src->width,src->height, 1,1);
+						cvShowImage( ventana, dst);
+						break;
+					case '0':
+						cvShowImage( ventana, src);
+						break;
+					case 'q':   //Se sale con 'q' porq no sabia poner el escape....
+						return 0;
+					default:break;
+				}
+			}
 	}
 	//printf("OK\n");
 	cvReleaseImage( &dst );
