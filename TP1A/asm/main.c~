@@ -2,28 +2,77 @@
 #include <highgui.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "filters.h"
 
-int main( int argc, char** argv )
-{
-	char* filename = argc == 3 ? argv[2] : (char*)"lena.bmp";
-	char* ventana = "ventana";
-	char opcion='0';
+void apply_filter( char filter, IplImage *src, IplImage *dst ) {
+	switch(filter) {
+		case '1':
+			// Aplico el filtro (Roberts con derivada x en este caso)
+			asmRoberts(src->imageData, dst->imageData,src->width,src->height, 1,1);
+			break;
+		case '2':
+			// Aplico el filtro (Roberts con derivada x en este caso)
+			asmPrewitt(src->imageData, dst->imageData,src->width,src->height, 1,1);
+			break;
+		case '3':
+			// Aplico el filtro (Sobel con derivada x en este caso)
+			asmSobel(src->imageData, dst->imageData,src->width,src->height, 1,0);
+			break;
+		case '4':
+			// Aplico el filtro (Sobel con derivada y en este caso)
+			asmSobel(src->imageData, dst->imageData,src->width,src->height, 0,1);
+			break;
+		case '5':
+			// Aplico el filtro (Sobel con derivada y en esta caso)
+			asmSobel(src->imageData, dst->imageData,src->width,src->height, 1,1);
+			break;			
+	}
+}
 
-	IplImage * src = 0;
-	IplImage * dst = 0;
-	//IplImage * dst_ini = 0; // Para qué se debería usar??
+void save_image( char *filename, IplImage *dst, char filter ) {
+	char extension[5] = ".xxx\0";
+	char *filterName, *finalName;
+	char len = strlen(filename);
+	extension[1]=filename[len-3];
+	extension[2]=filename[len-2];
+	extension[3]=filename[len-1];
+	if( filter == '0' ) filterName = (char*)"-grayscale";
+	else if( filter == '1' ) filterName = (char*)"-roberts";
+	else if( filter == '2' ) filterName = (char*)"-prewitt";
+	else if( filter == '3' ) filterName = (char*)"-sobel_x";
+	else if( filter == '4' ) filterName = (char*)"-sobel_y";
+	else if( filter == '5' ) filterName = (char*)"-sobel";
+	finalName = (char*)malloc( len + strlen(filterName) );
+	strncpy( finalName, filename, len-4 );
+	strcpy( (char*)(finalName+len-4), filterName );
+	strcpy( (char*)(finalName+len-4+strlen(filterName)), extension );
+	printf( "Guardado %s\n", finalName );
+	cvSaveImage( finalName, dst );
 
-	//Me aseguro del comando...
-	if( argc>1 && argv[1][0] == '-' && argv[1][1] == 'r' && argv[1][2]>'0' 
-		&& argv[1][2]<'6' && argv[1][3]=='\0')
-		opcion = argv[1][2];
-	else
-	if( argc>1 && argv[1][0] == '-' && argv[1][1] == 'g' && argv[1][2]=='\0')  ///opcion 6 == ventana
-		opcion = '6';
+	free( finalName );
+}
 
+void show_window( char* wndTitle, char* filename, IplImage *src, IplImage *dst, char filter ) {
+	char key;
+	cvNamedWindow( wndTitle, CV_WINDOW_AUTOSIZE);
+	cvShowImage( wndTitle, filter=='0'? src : dst );
+	while(cvGetWindowHandle(wndTitle)){
+		key = cvWaitKey(100);
+		if( key == '0' ) cvShowImage( wndTitle, src);
+		else if( key == 's' ) save_image( filename, filter=='0'? src : dst, filter );
+		else if( key == 'q' || key=='\e' ) return;
+		else if( key > '0' && key <= '5' ) {
+			apply_filter( key, src, dst );
+			cvShowImage( wndTitle, dst );
+			filter = key;
+		}
+	}
+}
 
-	switch(opcion){
+void showMsg( char filter, char window_mode ) {
+	printf( "\nRealzador de Bordes TP1 OrgaII Grupo XOR \n\n");
+	switch(filter){
 		case '1':
 			printf( "Usando el operador de Roberts para realzar bordes\n");
 			break;
@@ -39,33 +88,64 @@ int main( int argc, char** argv )
 		case '5':
 			printf( "Usando el operador de Sobel para realzar bordes\nDerivando en X e Y\n"); 
 			break;
-		case '6':
-			cvNamedWindow(ventana, CV_WINDOW_AUTOSIZE);
-			printf( "\nRealzador de Bordes TP1 OrgaII Grupo XOR (cambiar..)\n\n");
-			printf( "Uso:\n     Presionar la tecla correspondiente para aplicar el filtro \n\n");
+		case '0':
+			break;
+		default:
+			printf( "Uso:\n     ./bordes {-r# | -g} [filename] \n\n");
+			printf( "Opciones:\n");
+			printf( "    -r#\t\tAplica el operador # \n");
+			printf( "    -g\t\tModo Grafico \n\n");
 			printf( "Operadores posibles:\n");
 			printf( "    1: Operador de Roberts \n");
 			printf( "    2: Operador de Prewitt\n");
 			printf( "    3: Operador de Sobel derivando por X\n");
 			printf( "    4: Operador de Sobel derivando por Y\n");
-			printf( "    5: Operador de Sobel derivando por X e Y\n");
-			printf( "    0: Imagen original\n");
-			printf( "    q: Salir\n\n");
-			
-			break;
-		default:
-			printf( "\nRealzador de Bordes TP1 OrgaII Grupo XOR \n\n");
-			printf( "Uso:\n     ./bordes operador [filename] \n\n");
-			printf( "Operadores posibles:\n");
-			printf( "    -r1: Operador de Roberts \n");
-			printf( "    -r2: Operador de Prewitt\n");
-			printf( "    -r3: Operador de Sobel derivando por X\n");
-			printf( "    -r4: Operador de Sobel derivando por Y\n");
-			printf( "    -r5: Operador de Sobel derivando por X e Y\n\n");
-			printf( "    -g : Modo Grafico \n");
+			printf( "    5: Operador de Sobel derivando por X e Y\n\n");
 			printf( "Si no se especifica un archivo de entrada, se usara 'lena.bmp'\n\n");
-			return 0;
+			return;
 	}
+
+	if( window_mode ) {
+		printf( "Uso:\n     Presionar la tecla correspondiente para aplicar el filtro \n\n");
+		printf( "Opciones:\n");
+		printf( "    1: Operador de Roberts \n");
+		printf( "    2: Operador de Prewitt\n");
+		printf( "    3: Operador de Sobel derivando por X\n");
+		printf( "    4: Operador de Sobel derivando por Y\n");
+		printf( "    5: Operador de Sobel derivando por X e Y\n");
+		printf( "    0: Escala de grises\n");
+		printf( "    s: Guardar\n");
+		printf( "    q: Salir\n\n");
+	}
+
+}
+
+int main( int argc, char** argv )
+{
+	char* filename = (char*)"lena.bmp";
+	char filter=0, window_mode = 0;
+	int i;
+
+	IplImage * src = 0;
+	IplImage * dst = 0;
+	
+	for( i = 1 ; i < argc ; i++ ) {
+		if( argv[i][0]=='-' )
+		switch( argv[i][1] ) {
+			case 'g': 
+				window_mode = 1;
+				if( !filter ) filter = '0';
+				break;
+			case 'r':
+				filter = (argv[i][2]>'0' && argv[i][2]<'6' && argv[i][3]=='\0' ) * argv[i][2];
+		}
+		else
+			filename = argv[i];
+	}
+
+ 	showMsg( filter, window_mode );
+	if( filter == 0 )
+		return;
 
 	// Cargo la imagen
 	if( (src = cvLoadImage (filename, CV_LOAD_IMAGE_GRAYSCALE)) == 0 ) {
@@ -77,77 +157,15 @@ int main( int argc, char** argv )
 	if( (dst = cvCreateImage (cvGetSize (src), IPL_DEPTH_8U, 1) ) == 0 )
 		return -1;
 
-	// Creo una IplImage para cada salida esperada
-	//if( (dst_ini = cvCreateImage (cvGetSize (src), IPL_DEPTH_8U, 1) ) ==0 )
-	//	return -1;
+	apply_filter( filter, src, dst );
 
-	switch(opcion) {
-		case '1':
-			// Aplico el filtro (Roberts con derivada x en este caso) y salvo imagen
-			asmRoberts(src->imageData, dst->imageData,src->width,src->height, 1,1);		// Esta parte es la que tienen que programar los alumnos en ASM	y comparar
-			cvSaveImage("roberts.bmp", dst);
-			break;
-		case '2':
-			// Aplico el filtro (Roberts con derivada x en este caso) y salvo imagen
-			asmPrewitt(src->imageData, dst->imageData,src->width,src->height, 1,1);		// Esta parte es la que tienen que programar los alumnos en ASM	y comparar
-			cvSaveImage("prewitt.bmp", dst);
-			break;
-		case '3':
-			// Aplico el filtro (Sobel con derivada x en este caso) y salvo imagen
-			asmSobel(src->imageData, dst->imageData,src->width,src->height, 1,0); 	// Esta parte es la que tienen que programar los alumnos en ASM	y comparar
-			cvSaveImage("derivada-x.bmp", dst);
-			break;
-		case '4':
-			// Aplico el filtro (Sobel con derivada y en este caso) y salvo imagen
-			asmSobel(src->imageData, dst->imageData,src->width,src->height, 0,1);	// Esta parte es la que tienen que programar los alumnos en ASM y comparar
-			cvSaveImage("derivada-y.bmp", dst);
-			break;
-		case '5':
-			// Aplico el filtro (Sobel con derivada y en esta caso) y salvo imagen
-			asmSobel(src->imageData, dst->imageData,src->width,src->height, 1,1);	// Esta parte es la que tienen que programar los alumnos en ASM y comparar
-			cvSaveImage("sobel.bmp", dst);
-			/*cvSobel(src,dst,1,0,3);
-			cvSaveImage("sobel-orig-x.bmp", dst);
-			cvSobel(src,dst,0,1,3);
-			cvSaveImage("sobel-orig-y.bmp", dst);*/
-		case '6': 
-			cvShowImage( ventana, src);
-			int key;
-			while(1){
-				key = cvWaitKey(100);
-				switch((char)key) {
-					case '1':
-						
-						asmRoberts(src->imageData, dst->imageData,src->width,src->height, 1,1);
-						cvShowImage( ventana, dst);
-						break;
-					case '2':
-						asmPrewitt(src->imageData, dst->imageData,src->width,src->height, 1,1);
-						cvShowImage( ventana, dst);
-						break;
-					case '3':
-						asmSobel(src->imageData, dst->imageData,src->width,src->height, 1,0); 
-						cvShowImage( ventana, dst);
-						break;
-					case '4':
-						asmSobel(src->imageData, dst->imageData,src->width,src->height, 0,1);
-						cvShowImage( ventana, dst);
-						break;
-					case '5':
-						asmSobel(src->imageData, dst->imageData,src->width,src->height, 1,1);
-						cvShowImage( ventana, dst);
-						break;
-					case '0':
-						cvShowImage( ventana, src);
-						break;
-					case 'q':   //Se sale con 'q' porq no sabia poner el escape....
-						return 0;
-					default:break;
-				}
-			}
-	}
-	//printf("OK\n");
+	if(window_mode)
+		show_window( "Grupo XOR - Detección de bordes", filename, src, dst, filter );
+	else
+		save_image( filename, dst, filter );
+
 	cvReleaseImage( &dst );
 	cvReleaseImage( &src );
+	cvDestroyAllWindows();
 	return 0;
 }
