@@ -36,13 +36,13 @@ extern apply_mask
 
 %macro eax_to_char_sat 0
 	cmp eax,255
-	jle .saturMin
-	mov al,255
-.saturMin:
+	jle %%saturMin
+	mov eax,255
+%%saturMin:
 	cmp eax,0
-	jge .return
-	mov al, 0
-.return:
+	jge %%return
+	xor eax, eax
+%%return:
 %endmacro
 
 section .data
@@ -93,12 +93,15 @@ ciclo:
 	cmp dword xorder, 0			; verifica si tiene que derivar en X
 	je dy						; si no hay que derivar en X salta a dy
 	call apply_mask				; aplica la máscara
+	eax_to_char_sat				; satura el resultado
 	mov [ebp-24], eax			; guarda el resultado de derivar en X
 dy:
+	xor eax, eax				; borra el resultado anterior
 	cmp dword yorder, 0			; verifica si tiene que derivar en Y
 	je continuar				; si no hay que derivar en Y salta a continuar
 	mov dword [ebp-32],sobelY	; coloca el operador de sobel para Y
 	call apply_mask				; aplica la máscara
+	eax_to_char_sat				; satura el resultado
 continuar:
 	add esp, 16					; 'quita' los parámetros del stack
 	mov edx, line				; copia temporalmente line a edx
