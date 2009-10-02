@@ -1,2 +1,12 @@
 \section{Introducci\'on}
-Esta es la introducci\'on del Trabajo Pr\'actico 1 A
+\noindent Esta es la introducci\'on del Trabajo Pr\'actico 1 A
+
+En el presente trabajo, nos proponemos programar una aplicación de procesamiento de imágenes para la detección de bordes escrito mayormente en lenguaje ensamblador. Para ello implementaremos distintos algoritmos de detección, los cuales se basan en obtener para cada píxel, una matriz de las derivadas parciales de los píxeles alrededor, para luego aplicarla sobre la imagen resultante. 
+	
+
+Usaremos los algoritmos de Roberts, Prewitt y Sobel, que difieren sólo en la matriz a utilizar para la transformación de los píxeles.  Se procesarán, para cada algoritmo, la derivadas parciales respecto a X y respecto a Y, teniendo para Sobel la posibilidad de aplicar el filtro en base a cada variable por separado o ambas a la vez.
+
+	
+En cuanto a la implementación del programa, se utilizará la librería OpenCv para el manejo de entrada/salida de las imágenes y para comparar estadísticamente el tiempo de ejecución entre la implementación de los filtros escritos en lenguaje ensamblador y la función cvSobel propia de la librería. El sistema de interfaz con el usuario está escrito en lenguaje C, mientras que los filtros de bordes en lenguaje ensamblador.
+
+En las siguientes secciones se explicará detalladamente el trabajo realizado, mostrando diferentes resultados intermedios y decisiones tomadas.
