@@ -31,7 +31,7 @@ void apply_filter( char filter, IplImage *src, IplImage *dst ) {
 }
 
 void save_image( char *filename, IplImage *dst, char filter ) {
-	char extension[5] = ".xxx\0";
+	char extension[5] = ".xxx";
 	char *filterName, *finalName;
 	char len = strlen(filename);
 	// Establece la extensión del archivo
@@ -46,10 +46,11 @@ void save_image( char *filename, IplImage *dst, char filter ) {
 	else if( filter == '4' ) filterName = (char*)"-sobel-y";
 	else if( filter == '5' ) filterName = (char*)"-sobel";
 	// Compone el nombre del archivo final con la forma nombre_original-filtro.extension_original
-	finalName = (char*)malloc( len + strlen(filterName) );
+	finalName = (char*)malloc( len + strlen(filterName)+1 );
 	strncpy( finalName, filename, len-4 );
 	strcpy( (char*)(finalName+len-4), filterName );
-	strcpy( (char*)(finalName+len-4+strlen(filterName)), extension );
+	strncpy( (char*)(finalName+len-4+strlen(filterName)), (char*)(filename+len-4),4 );
+	finalName[len+strlen(filterName)]='\0';
 	// Guarda la imagen
 	cvSaveImage( finalName, dst );
 	printf( "Guardado %s\n", finalName );
