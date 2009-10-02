@@ -34,12 +34,10 @@ const char OPERADOR_PREWITT_Y[9] = {
 	 1,  1,  1
 };
 
-#define abs(x) x>0?x:-x
-
 /**
  * cX - procesa la imagen con el operador X
- *		src		array de pixels ordenados (grayscale)
- *		dst		array de pixels final
+ *		src	array de pixels ordenados (grayscale)
+ *		dst	array de pixels final
  *		width	ancho (en pixels) de la imagen
  *		height	alto (en pixels) de la imagen
  *		xorder	orden de la derivada x
@@ -63,8 +61,8 @@ void cRoberts( const unsigned char* src, unsigned char *dst, int width, int heig
 
 	for( y = 0 ; y < height-1 ; y++ )
 		for( x = 0 ; x < width-1 ; x++ ) {
-			k =xorder * apply_mask( &src[line*y+x], line, OPERADOR_ROBERTS_X, 2 );
-			k+=yorder * apply_mask( &src[line*y+x], line, OPERADOR_ROBERTS_Y, 2 );
+			k =abs(xorder * apply_mask( &src[line*y+x], line, OPERADOR_ROBERTS_X, 2 ));
+			k+=abs(yorder * apply_mask( &src[line*y+x], line, OPERADOR_ROBERTS_Y, 2 ));
 			dst[line*y+x]=toCharS(k);
 		}
 }
@@ -83,7 +81,7 @@ void cPrewitt( const unsigned char* src, unsigned char *dst, int width, int heig
 
 /**
  * apply_mask - aplica la máscara y devuelve el resultado
- *		src			array de pixels ordenados (grayscale)
+ *		src		array de pixels ordenados (grayscale)
  *		line		tamaño de línea del array (incluyendo el fill)
  *		mask		máscara a aplicar
  *		mask_sz		tamaño del lado de la máscara

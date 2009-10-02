@@ -60,7 +60,7 @@ int main( int argc, char** argv )
 	// Creo una IplImage para cada salida esperada
 	//if( (dst_ini = cvCreateImage (cvGetSize (src), IPL_DEPTH_8U, 1) ) ==0 )
 	//	return -1;
-
+	cvSaveImage("gray.bmp",src);
 	switch(opcion) {
 		case '1':
 			// Aplico el filtro (Roberts con derivada x en este caso) y salvo imagen
