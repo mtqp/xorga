@@ -31,13 +31,8 @@ void apply_filter( char filter, IplImage *src, IplImage *dst ) {
 }
 
 void save_image( char *filename, IplImage *dst, char filter ) {
-	char extension[5] = ".xxx";
 	char *filterName, *finalName;
 	char len = strlen(filename);
-	// Establece la extensión del archivo
-	extension[1]=filename[len-3];
-	extension[2]=filename[len-2];
-	extension[3]=filename[len-1];
 	// Establece el nombre del filtro
 	if( filter == '0' ) filterName = (char*)"-grayscale";
 	else if( filter == '1' ) filterName = (char*)"-roberts";
