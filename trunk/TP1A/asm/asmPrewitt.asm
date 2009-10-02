@@ -36,13 +36,20 @@ extern apply_mask
 
 %macro eax_to_char_sat 0
 	cmp eax,255
-	jle .saturMin
-	mov al,255
-.saturMin:
+	jle %%saturMin
+	mov eax,255
+%%saturMin:
 	cmp eax,0
-	jge .return
-	mov al, 0
-.return:
+	jge %%return
+	xor eax,eax
+%%return:
+%endmacro
+
+%macro abs_eax 0
+	cmp eax,0
+	jg %%retAbs
+	neg eax
+%%retAbs:
 %endmacro
 
 section .data
@@ -86,19 +93,24 @@ ciclo:
 	lea ecx, [ebx+edi]			; ecx = posición actual de src en memoria
 	push dword 0				; guarda una variable temporal para resultado
 	push mask_size				; 4to parámetro: tamaño de la máscara
-	push PrewittX					; 3er paráemtro: máscara
+	push PrewittX				; 3er paráemtro: máscara
 	push dword line				; 2do parámetro: tamaño de la línea
 	push dword ecx				; 1er parámetro: posición en src (top-left)
 
-	;cmp dword xorder, 0			; verifica si tiene que derivar en X
-	;je dy						; si no hay que derivar en X salta a dy
+	cmp dword xorder, 0			; verifica si tiene que derivar en X
+	je dy						; si no hay que derivar en X salta a dy
 	call apply_mask				; aplica la máscara
+	abs_eax						; toma el valor absoluto
+	eax_to_char_sat				; satura el resultado
 	mov [ebp-24], eax			; guarda el resultado de derivar en X
-;dy:
-	;cmp dword yorder, 0			; verifica si tiene que derivar en Y
-	;je continuar				; si no hay que derivar en Y salta a continuar
+dy:
+	xor eax, eax				; borra el resultado anterior
+	cmp dword yorder, 0			; verifica si tiene que derivar en Y
+	je continuar				; si no hay que derivar en Y salta a continuar
 	mov dword [ebp-32],PrewittY	; coloca el operador de Prewitt para Y
 	call apply_mask				; aplica la máscara
+	abs_eax						; toma el valor absoluto
+	eax_to_char_sat				; satura el resultado
 continuar:
 	add esp, 16					; 'quita' los parámetros del stack
 	mov edx, line				; copia temporalmente line a edx

@@ -36,9 +36,9 @@ extern apply_mask
 
 %macro eax_to_char_sat 0
 	cmp eax,255
-	jle saturMin
+	jle %%saturMin
 	mov al,255
-saturMin:
+%%saturMin:
 	cmp eax,0
 	jge %%retChar
 	mov al, 0
@@ -97,22 +97,21 @@ ciclo:
 	push dword line				; 2do parámetro: tamaño de la línea
 	push dword ecx				; 1er parámetro: posición en src (top-left)
 
-;;; Esto no lo necesito verificar mas, porq se hace si o si por X y por Y
-;	cmp dword xorder, 0			; verifica si tiene que derivar en X
-;	je dy						; si no hay que derivar en X salta a dy
+	cmp dword xorder, 0			; verifica si tiene que derivar en X
+	je dy						; si no hay que derivar en X salta a dy
 	call apply_mask				; aplica la máscara
-	abs_eax						; obtiene el valor absoluto del resultado
+	abs_eax						; toma el valor absoluto
+	eax_to_char_sat				; satura el resultado
 	mov [ebp-24], eax			; guarda el resultado de derivar en X
-
-;;; Idem arriba
-;dy:
-;	cmp dword yorder, 0			; verifica si tiene que derivar en Y
-;	je continuar				; si no hay que derivar en Y salta a continuar
-
+dy:
+	xor eax, eax				; borra el resultado anterior
+	cmp dword yorder, 0			; verifica si tiene que derivar en Y
+	je continuar				; si no hay que derivar en Y salta a continuar
 	mov dword [ebp-32],RobertsY	; coloca el operador de Roberts para Y
 	call apply_mask				; aplica la máscara
-	abs_eax						; obtiene el valor absoluto del resultado
-;continuar:
+	abs_eax						; toma el valor absoluto
+	eax_to_char_sat				; satura el resultado
+continuar:
 	add esp, 16					; 'quita' los parámetros del stack
 	mov edx, line				; copia temporalmente line a edx
 	lea ecx, [esi+edi]			; ecx = posición en dst
