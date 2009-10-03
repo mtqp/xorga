@@ -26,29 +26,36 @@ extern apply_mask
 
 	mov eax, %1			;eax = width	[no necesito la división]
 	cmp edx, 0			;el ancho era múltiplo de 4?
-	je  .return			;si ya era, entonces devuelve el line
+	je  %%retLine		;si ya era, entonces devuelve el line
 
 	sub eax, edx		;eax = width - width%align
 	add eax, esi		;eax = width - witdh%align + align
-.return:
+%%retLine:
 	mov line, eax
 %endmacro
 
 %macro eax_to_char_sat 0
 	cmp eax,255
-	jle .saturMin
+	jle saturMin
 	mov al,255
-.saturMin:
+saturMin:
 	cmp eax,0
-	jge .return
+	jge %%retChar
 	mov al, 0
-.return:
+%%retChar:
+%endmacro
+
+%macro abs_eax 0
+	cmp eax,0
+	jg %%retAbs
+	neg eax
+%%retAbs:
 %endmacro
 
 section .data
 
-	RobertsX: db 1,0,0,-1
-	RobertsY: db 0,1,-1,0
+	RobertsX: db 10,-5,-5,-10
+	RobertsY: db 0,10,-10,0
 
 section .text
 
@@ -60,7 +67,7 @@ asmRoberts:
 	%define line		[ebp-4]
 	%define yindex		[ebp-8]
 	%define align		4
-	%define mask_size	3
+	%define mask_size	2
 	%define ptr_src		[ebp+8]
 	%define ptr_dst		[ebp+12]
 	%define width		[ebp+16]
@@ -94,6 +101,7 @@ ciclo:
 ;	cmp dword xorder, 0			; verifica si tiene que derivar en X
 ;	je dy						; si no hay que derivar en X salta a dy
 	call apply_mask				; aplica la máscara
+	abs_eax						; obtiene el valor absoluto del resultado
 	mov [ebp-24], eax			; guarda el resultado de derivar en X
 
 ;;; Idem arriba
@@ -103,7 +111,8 @@ ciclo:
 
 	mov dword [ebp-32],RobertsY	; coloca el operador de Roberts para Y
 	call apply_mask				; aplica la máscara
-continuar:
+	abs_eax						; obtiene el valor absoluto del resultado
+;continuar:
 	add esp, 16					; 'quita' los parámetros del stack
 	mov edx, line				; copia temporalmente line a edx
 	lea ecx, [esi+edi]			; ecx = posición en dst

@@ -26,6 +26,7 @@ void apply_filter( char filter, IplImage *src, IplImage *dst ) {
 		case '5':
 			// Aplico el filtro (Sobel con derivada x e y en esta caso)
 			asmSobel(src->imageData, dst->imageData,src->width,src->height, 1,1);
+			
 			break;			
 	}
 }
