@@ -119,8 +119,6 @@ continuar:
 
 	pop edx						; obtiene el resultado de derivar en X
 	add eax, edx				; suma los resultados
-	sub eax, 255
-	neg eax
 	eax_to_char_sat				; aplica saturación
 	mov byte [ecx],	al			; pone el resultado de apply_mask en dst
 

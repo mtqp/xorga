@@ -21,10 +21,10 @@ extern apply_mask
 %macro getLineSize 2	; getLineSize(width, align)
 	mov eax, %1			;eax = width
 	mov esi, %2			;esi = 4
-	xor edx, edx		;edx = 0		[INSTRUCCION NECESARIA?]
+	xor edx, edx		;edx = 0
 	div esi				;eax = width/align , edx = width%align
 
-	mov eax, %1			;eax = width	[no necesito la división]
+	mov eax, %1			;eax = width
 	cmp edx, 0			;el ancho era múltiplo de 4?
 	je  .return			;si ya era, entonces devuelve el line
 
