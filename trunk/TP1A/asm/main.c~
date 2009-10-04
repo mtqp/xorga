@@ -5,29 +5,48 @@
 #include <string.h>
 #include "filters.h"
 
-void apply_filter( char filter, IplImage *src, IplImage *dst ) {
+int apply_filter( char filter, IplImage *src, IplImage *dst ) {
+	int tscl=0, xorder=1, yorder=1;
+	FILTERFN* f=NULL;
 	switch(filter) {
 		case '1':
 			// Aplico el filtro (Roberts con derivada x en este caso)
-			asmRoberts(src->imageData, dst->imageData,src->width,src->height, 1,1);
+			//asmRoberts(src->imageData, dst->imageData,src->width,src->height, 1,1);
+			f=&asmRoberts;
 			break;
 		case '2':
 			// Aplico el filtro (Roberts con derivada x en este caso)
-			asmPrewitt(src->imageData, dst->imageData,src->width,src->height, 1,1);
+			//asmPrewitt(src->imageData, dst->imageData,src->width,src->height, 1,1);
+			f=&asmPrewitt;
 			break;
 		case '3':
 			// Aplico el filtro (Sobel con derivada x en este caso)
-			asmSobel(src->imageData, dst->imageData,src->width,src->height, 1,0);
+			//asmSobel(src->imageData, dst->imageData,src->width,src->height, 1,0);
+			f=&asmSobel;
+			yorder=0;
 			break;
 		case '4':
 			// Aplico el filtro (Sobel con derivada y en este caso)
-			asmSobel(src->imageData, dst->imageData,src->width,src->height, 0,1);
+			//asmSobel(src->imageData, dst->imageData,src->width,src->height, 0,1);
+			f=&asmSobel;
+			xorder=0;
 			break;
 		case '5':
 			// Aplico el filtro (Sobel con derivada x e y en esta caso)
-			asmSobel(src->imageData, dst->imageData,src->width,src->height, 1,1);
-			break;			
+			//asmSobel(src->imageData, dst->imageData,src->width,src->height, 1,1);
+			f=&asmSobel;
+			break;
 	}
+	if( f != NULL ) {
+		// Tomar estado del TSC antes de iniciar el procesamiento de bordes.
+		 __asm__ __volatile__ ("rdtsc;mov %%eax,%0" : : "g" (tscl));
+		//f( src->imageData, dst->imageData, src->width, src->height, xorder, yorder );
+		cvSobel(src, dst, xorder,yorder,3);
+		// Cantidad de clocks insumidos por el algoritmo.
+	 	__asm__ __volatile__ ("rdtsc;sub %0,%%eax;mov %%eax,%0" : : "g" (tscl));
+	}
+	return tscl;
+
 }
 
 void save_image( char *filename, IplImage *dst, char filter ) {
@@ -126,8 +145,9 @@ void showMsg( char filter, char window_mode ) {
 int main( int argc, char** argv )
 {
 	char* filename = (char*)"lena.bmp";
-	char filter=0, window_mode = 0;
-	int i;
+	char filter=0, window_mode = 0, show_info=0;
+	unsigned int i, t, iter=1;
+	unsigned long long int info_avg=0, info_min=0;
 
 	IplImage * src = 0;
 	IplImage * dst = 0;
@@ -144,11 +164,15 @@ int main( int argc, char** argv )
 			case 'r':
 				// Filtro = 0 si es inválido, de '1' a '5' si es válido
 				filter = (argv[i][2]>'0' && argv[i][2]<'6' && argv[i][3]=='\0' ) * argv[i][2];
+				break;
+			case 'i':
+				iter = atoi(argv[++i]);
+				show_info = 1;
+				break;
 		}
 		else
 			filename = argv[i];
 	}
-
 	// Muestra el mensaje correspondiente a la opción solicitada
  	showMsg( filter, window_mode );
 
@@ -167,14 +191,25 @@ int main( int argc, char** argv )
 		return -1;
 
 	// Aplica el filtro correspondiente a las opciones
-	apply_filter( filter, src, dst );
+	for( i = 0 ; i < iter ; i++ ) {
+		t = apply_filter( filter, src, dst );
+		if( t < info_min || info_min==0 ) info_min = t;
+		info_avg += t;
+	}
+	info_avg /= iter;
 
 	// Si está en modo ventana, abre la ventana. Sino guarda la imagen.
 	if(window_mode)
 		show_window( "Grupo XOR - Detección de bordes", filename, src, dst, filter );
-	else
+	else {
 		save_image( filename, dst, filter );
-	
+		if( show_info ) {
+			printf("Muestras: %d\n", iter );
+			printf("Promedio de ciclos de reloj: %lld\n", info_avg);
+			printf("Cantidad mínima de ciclos: %lld\n", info_min);
+		}
+		//printf("Tiempo estimado: %d ms\n", t/1000/2150);
+	}
 	// Libera la memoria
 	cvReleaseImage( &dst );
 	cvReleaseImage( &src );
