@@ -49,8 +49,8 @@ void cSobel( const unsigned char* src, unsigned char *dst, int width, int height
 
 	for( y = 1 ; y < height-1 ; y++ )
 		for( x = 1 ; x < width-1 ; x++ ) {
-			k =xorder * apply_mask( &src[line*(y-1)+x-1], line, OPERADOR_SOBEL_X, 3 );
-			k+=yorder * apply_mask( &src[line*(y-1)+x-1], line, OPERADOR_SOBEL_Y, 3 );
+			k =toCharS(xorder * apply_mask( &src[line*(y-1)+x-1], line, OPERADOR_SOBEL_X, 3 ));
+			k+=toCharS(yorder * apply_mask( &src[line*(y-1)+x-1], line, OPERADOR_SOBEL_Y, 3 ));
 			dst[line*y+x]=toCharS(k);
 		}
 }
@@ -73,8 +73,8 @@ void cPrewitt( const unsigned char* src, unsigned char *dst, int width, int heig
 
 	for( y = 1 ; y < height-1 ; y++ )
 		for( x = 1 ; x < width-1 ; x++ ) {
-			k =xorder * apply_mask( &src[line*(y-1)+x-1], line, OPERADOR_PREWITT_X, 3 );
-			k+=yorder * apply_mask( &src[line*(y-1)+x-1], line, OPERADOR_PREWITT_Y, 3 );
+			k =abs(xorder * apply_mask( &src[line*(y-1)+x-1], line, OPERADOR_PREWITT_X, 3 ));
+			k+=abs(yorder * apply_mask( &src[line*(y-1)+x-1], line, OPERADOR_PREWITT_Y, 3 ));
 			dst[line*y+x]=toCharS(k);
 		}
 }

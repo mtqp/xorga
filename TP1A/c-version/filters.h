@@ -11,9 +11,11 @@
 #define abs(x) x>0?x:-x
 
 
-void cSobel( const unsigned char* src, unsigned char *dst, int ancho, int alto, int xorder, int yorder );
-void cRoberts( const unsigned char* src, unsigned char *dst, int ancho, int alto, int xorder, int yorder );
-void cPrewitt( const unsigned char* src, unsigned char *dst, int ancho, int alto, int xorder, int yorder );
+typedef void(FILTERFN)( const unsigned char* src, unsigned char* dst, int width, int height, int xorder, int yorder );
+FILTERFN cSobel;
+FILTERFN cRoberts;
+FILTERFN cPrewitt;
+
 int apply_mask( const unsigned char* src, unsigned int line, const char *mask, unsigned int mask_sz );
 
 #endif // __FILTERS_H__
