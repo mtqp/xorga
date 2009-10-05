@@ -2,7 +2,11 @@
 
 \usepackage[spanish]{babel}
 \usepackage{makeidx}
+\usepackage{multirow}
 \usepackage{caratula}
+
+\newcommand\keyword[1]{\textit{#1}}
+\newcommand\code[1]{\texttt{#1}}
 
 \makeindex
 
@@ -29,5 +33,7 @@
 % SECCIONES
 %=======================
 \input{introducción/introducción.tex}
+\input{desarrollo/desarrollo.tex}
+\input{discusión/discusión.tex}
 
 \end{document}
