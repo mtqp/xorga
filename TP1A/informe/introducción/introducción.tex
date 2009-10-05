@@ -1,12 +1,22 @@
 \section{Introducci\'on}
-\noindent Esta es la introducci\'on del Trabajo Pr\'actico 1 A
 
-En el presente trabajo, nos proponemos programar una aplicación de procesamiento de imágenes para la detección de bordes escrito mayormente en lenguaje ensamblador. Para ello implementaremos distintos algoritmos de detección, los cuales se basan en obtener para cada píxel, una matriz de las derivadas parciales de los píxeles alrededor, para luego aplicarla sobre la imagen resultante. 
+En el presente trabajo, nos proponemos programar una aplicaci\'on de procesamiento de im\'agenes para la detecci\'on 
+de bordes escrito mayormente en lenguaje ensamblador. Para ello implementaremos distintos algoritmos de detecci\'on,
+los cuales se basan en obtener para cada p\'ixel, una matr\'iz de las derivadas parciales de los p\'ixeles alrededor, 
+para luego aplicarla sobre la imagen resultante. \\
 	
 
-Usaremos los algoritmos de Roberts, Prewitt y Sobel, que difieren sólo en la matriz a utilizar para la transformación de los píxeles.  Se procesarán, para cada algoritmo, la derivadas parciales respecto a X y respecto a Y, teniendo para Sobel la posibilidad de aplicar el filtro en base a cada variable por separado o ambas a la vez.
+Usaremos los algoritmos de Roberts, Prewitt y Sobel, que difieren s\'olo en la matr\'iz a utilizar para la 
+transformaci\'on de los p\'ixeles.  Se procesar\'an, para cada algoritmo, la derivadas parciales respecto a X y 
+respecto a Y, teniendo para Sobel la posibilidad de aplicar el filtro en base a cada variable por separado 
+o ambas a la vez. \\
 
-	
-En cuanto a la implementación del programa, se utilizará la librería OpenCv para el manejo de entrada/salida de las imágenes y para comparar estadísticamente el tiempo de ejecución entre la implementación de los filtros escritos en lenguaje ensamblador y la función cvSobel propia de la librería. El sistema de interfaz con el usuario está escrito en lenguaje C, mientras que los filtros de bordes en lenguaje ensamblador.
+En cuanto a la implementaci\'on del programa, se utilizar\'a la librer\'ia OpenCv para el manejo de entrada/salida de 
+las im\'agenes y para comparar estad\'isticamente el tiempo de ejecuci\'on entre la implementaci\'on de los filtros 
+escritos en lenguaje ensamblador y la funci\'on cvSobel propia de la librer\'ia. El sistema de interfaz con el 
+usuario est\'a escrito en lenguaje C, mientras que los filtros de bordes en lenguaje ensamblador. \\
 
-En las siguientes secciones se explicará detalladamente el trabajo realizado, mostrando diferentes resultados intermedios y decisiones tomadas.
+En las siguientes secciones se explicar\'a detalladamente el trabajo realizado, mostrando diferentes resultados 
+intermedios y decisiones tomadas.
+
+\pagebreak
