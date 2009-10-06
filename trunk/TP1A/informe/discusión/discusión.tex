@@ -1,47 +1,61 @@
 \section{Discusi\'on}
 
+Antes de entrar en las cuestiones propias de cada versi\'on, es importante denotar algunas consideraciones sobre la 
+implementaci\'on de la funci\'on \code{apply\_mask}. Como ya fue mencionado, esta matr\'iz recorre un vector de $n$ x $n$ 
+($n<=255$) posiciones sin importar su contenido. Es decir, si encuentra un cero, multiplicar\'a el debido p\'ixel por 
+cero, si es $-1$ realizar\'a tambi\'en la multiplicaci\'on en vez de invertir el signo del n\'umero, as\'i como en el caso 
+del $1$. Dejar estas multiplicaciones que van en detrimento de la \keyword{performance} fue una decisi\'on grupal 
+tras larga discusi\'on. La raz\'on fue que si modific\'abamos la matr\'iz, o de ahora en m\'as ten\'iamos un nuevo operador 
+completamente diferente al existente, lo \'unico que deb\'iamos cambiar era el vector, la llamada a \code{apply\_mask} 
+iba a ser completamente id\'entica, y la creaci\'on de un nuevo operador completamente trivial (s\'olo deber\'ia cambiarse 
+el tama\~no de la matr\'iz en caso de ser estrictamente necesario). La soluci\'on menos general para estos ``problemas de
+eficiencia" ser\'ia \keyword{hardcodear} los valores de la matr\'iz y quitar las multiplicaciones por cero, 
+invirtiendo el n\'umero en el caso de las multiplicaciones por $-1$, no multiplicando en el caso de ser $1$, 
+haciendo un \keyword{shift} a derecha en multiplicaciones por $2$, sabiendo que no es posible crear un operador 
+distinto de forma inmediata.
+
 \subsection{Versi\'on C}
 
 El c\'odigo sigue la misma estructura que el c\'odigo assembler final: una funci\'on por cada operador ( \code{cRoberts}, 
 \code{cPrewitt}, \code{cSobel} ) que toman como par\'ametros los punteros a la imagen fuente y destino, el alto y 
 ancho de la imagen y dos variables para indicar si se debe derivar respecto a $x$ o respecto a $y$ y la funci\'on 
-\code{apply\_mask} que toma un puntero a un p\'ixel, el tamaño de la imagen original incluyendo el relleno requerido 
-por \keyword{OpenCv} para alinear la imagen, un puntero a la mascara a aplicar y el tamaño de esa mascara y devuelve 
-el p\'ixel transformado. Los encabezados a modo de ejemplo son:
+\code{apply\_mask} que toma un puntero a un p\'ixel, el tama\~no de la imagen original incluyendo el relleno requerido 
+por \keyword{OpenCv} para alinear la imagen, un puntero a la m\'ascara a aplicar y el tama\~no de esa m\'ascara y devuelve 
+el p\'ixel transformado. Los encabezados a modo de ejemplo son:\\
 
-\noindent\code{\small void cPrewitt(const char* src,char *dst,int width, int height,int xorder,int yorder)}\\
-\noindent\code{\small int apply\_mask(const char* src, int line, const char* mask, int mask\_sz)}
+\noindent\code{\small void cPrewitt(const char* src,char *dst,int width, int height,int xorder,int yorder)}\\*
+\noindent\code{\small int apply\_mask(const char* src, int line, const char* mask, int mask\_sz)}\\
 
 El c\'odigo incluye matrices de \code{char} definiendo cada operador y un macro para la saturaci\'on. En cuanto al 
 c\'odigo en s\'i, fue escrito pensando en como ser\'ia mas parecido a lo que se llegar\'ia a escribir en ensamblador, por 
 ejemplo se opt\'o por:\\
 
-\noindent\code{\small for( x = 1 ; x<width-1 ; x++ ) \{ }\\
-\code{\small\indent k=0;} \\
-\code{\small\indent if( xorder != 0 ) }\\
-\code{\small\indent\indent k =apply\_mask(\&src[line*(y-1)+x-1], line, OPERADOR\_PREWITT\_X, 3); }\\
-\code{\small\indent if( yorder != 0 ) }\\
-\code{\small\indent\indent k+=apply\_mask(\&src[line*(y-1)+x-1], line, OPERADOR\_PREWITT\_Y, 3); }\\
-\code{\small\indent ... } \\
+\begin{samepage}
+\noindent\code{\small for( x = 1 ; x<width-1 ; x++ ) \{ }\\*
+\code{\small\indent k=0;} \\*
+\code{\small\indent if( xorder != 0 ) }\\*
+\code{\small\indent\indent k =apply\_mask(\&src[line*(y-1)+x-1], line, OPERADOR\_PREWITT\_X, 3); }\\*
+\code{\small\indent if( yorder != 0 ) }\\*
+\code{\small\indent\indent k+=apply\_mask(\&src[line*(y-1)+x-1], line, OPERADOR\_PREWITT\_Y, 3); }\\*
+\code{\small\indent ... } \\*
 \code{\small \} } \\
-
+\end{samepage}
 \noindent en lugar de:\\
-\noindent\code{\small for( x = 1 ; x<width-1 ; x++ ) \{ }\\
-\code{\small\indent k =xorder*apply\_mask(\&src[line*(y-1)+x-1], line, OPERADOR\_PREWITT\_X, 3); }\\
-\code{\small\indent k+=yorder*apply\_mask(\&src[line*(y-1)+x-1], line, OPERADOR\_PREWITT\_Y, 3); }\\
-\code{\small\indent ... } \\
+\begin{samepage}
+\noindent\code{\small for( x = 1 ; x<width-1 ; x++ ) \{ }\\*
+\code{\small\indent k =xorder*apply\_mask(\&src[line*(y-1)+x-1], line, OPERADOR\_PREWITT\_X, 3); }\\*
+\code{\small\indent k+=yorder*apply\_mask(\&src[line*(y-1)+x-1], line, OPERADOR\_PREWITT\_Y, 3); }\\*
+\code{\small\indent ... } \\*
 \code{\small \} } \\
-
-o tambi\'en en la decisi\'on de aplicar, en los operadores de \keyword{Roberts} y Prewitt, las dos m\'ascaras correspondientes 
-por separado, como se har\'ia con el operador de \keyword{Sobel}, aunque no fuera necesario dado que en esos operadores se 
-aplican ambas mascaras necesariamente.
+\end{samepage}
+\noindent o tambi\'en en la decisi\'on de aplicar, en los operadores de \keyword{Roberts} y Prewitt, las dos 
+m\'ascaras correspondientes por separado, como se har\'ia con el operador de \keyword{Sobel}, aunque no fuera 
+necesario dado que en esos operadores se aplican ambas m\'ascaras necesariamente.
 
 \vspace{1cm}
 \subsection{Versi\'on asm}
 Pasaremos a detallar el c\'odigo para la funci\'on \code{apply\_mask} y luego el c\'odigo de la implementaci\'on de los 
 operadores, en todos los archivos se usa una macro para la convenci\'on C.
-
-\pagebreak
 
 \subsubsection{apply\_mask}
 La funci\'on recibe los siguientes par\'ametros:
@@ -49,16 +63,16 @@ La funci\'on recibe los siguientes par\'ametros:
 	\item El puntero a la imagen a transformar que se define como \code{imgSrc}.
 	\item El ancho de la imagen incluyendo los bytes de alineamiento que se define como \code{line}.
 	\item El puntero a la m\'ascara a aplicar que se define como \code{ptr\_mask}.
-	\item El tamaño de esa m\'ascara que se define como \code{mask\_size}.
+	\item El tama\~no de esa m\'ascara que se define como \code{mask\_size}.
 \end{itemize}
 
 Resumen de los registros utilizados:
 \begin{itemize}
 	\item\code{eax}: S\'olo utilizado como resultado de las multiplicaciones y como valor de retorno.
-	\item\code{ebx}: Se utiliza como contador tanto como para filas como para columnas. Se asume que la mascara a 
-aplicar es de tamaño menor a 255x255, con lo cual utilizamos \code{bl} para las columnas y \code{bh} para las filas, 
+	\item\code{ebx}: Se utiliza como contador tanto como para filas como para columnas. Se asume que la m\'ascara a 
+aplicar es de tama\~no menor a 255x255, con lo cual utilizamos \code{bl} para las columnas y \code{bh} para las filas, 
 ahorrando as\'i el uso de otro registro para contador.
-	\item\code{ecx}: Contiene el puntero a la mascara, \code{ptr\_mask}
+	\item\code{ecx}: Contiene el puntero a la m\'ascara, \code{ptr\_mask}
 	\item\code{edx}: No utilizado.
 	\item\code{esi}: Contiene el puntero a los p\'ixeles a transformar avanzando sobre \code{imgSrc}.
 	\item\code{edi}: Guarda los resultados parciales de las operaciones que realiza el algoritmo.
@@ -75,7 +89,7 @@ ahorrar registros, especialmente en el problema de c\'omo no usar dos registros 
 propuestas fueron: tener ambos contadores en memoria, tener un contador en memoria y el otro en un registro, 
 tener un solo registro que guarde el valor del contador exterior (el de las filas) en el \keyword{stack}, luego se use 
 para el contador interior (el de columnas) y finalmente se recupere del \keyword{stack} el valor guardado 
-anteriormente, y la variante que fue elegida: asumir que la mascara no podr\'ia ser muy grande y entonces usar 
+anteriormente, y la variante que fue elegida: asumir que la m\'ascara no podr\'ia ser muy grande y entonces usar 
 dos partes de un mismo registro.\\
 
 Otro problema que surgi\'o estuvo relacionado con la multiplicaci\'on de bytes que se realizaba. Se necesita 
@@ -86,7 +100,7 @@ una imagen totalmente distorsionada (ver \code{imgs/errores/error1.png}).
 
 La idea de la soluci\'on es extender el signo de la m\'ascara y realizar una multiplicaci\'on signada. Al principio 
 se us\'o: \\
-\indent\code{mov al,[ecx]	;extensi\'on de signo de mascara}\\
+\indent\code{mov al,[ecx]	;extensi\'on de signo de m\'ascara}\\
 \indent\code{cbw}\\
 \indent\code{mov edx,eax} \\
 Pero luego se cambi\'o por una instrucci\'on que hace exactamente lo que necesit\'abamos:\\
@@ -141,8 +155,8 @@ resultado de cada llamada a \code{apply\_mask}. Luego esos resultados se suman y
 la transformaci\'on buscada.\\
 
 Respecto a las macros definidas, la funci\'on \code{getLineSize} toma el ancho real de la imagen 
-(\code{width}) y la cantidad a alinear (\code{align}, generalmente 4, para alinear a dword) y computa line de la 
-siguiente manera:\\
+(\code{width}) y la cantidad a alinear (\code{align}, generalmente 4, para alinear a dword) y computa \code{line} 
+de la siguiente manera:\\
 
 \code{line = width - (witdh mod align) + align}\\
 
@@ -201,14 +215,15 @@ cambiar s\'olamente las matrices a utilizar y, en el caso de \keyword{Roberts}, 
 \texttt{\small Ejemplo del filtro Sobel negado}\\
 \vspace{1.0cm}
 \includegraphics[scale=0.5]{imgs/cameraman.jpg}
-\includegraphics[scale=0.5]{imgs/cameraman-roberts-neg.jpg} \\
+\includegraphics[scale=0.5]{imgs/cameraman-roberts-neg.jpg} \\*
 \texttt{\small Ejemplo del filtro Roberts negado}\\
+\vspace{1.0cm}
 \includegraphics[scale=0.5]{imgs/steam-engine.jpg}
-\includegraphics[scale=0.5]{imgs/steam-engine-prewitt-neg.jpg} \\
+\includegraphics[scale=0.5]{imgs/steam-engine-prewitt-neg.jpg} \\*
 \texttt{\small Ejemplo del filtro Prewitt negado} \\
 \end{center}
 \vspace{1cm}
-
+\pagebreak
 \subsection{Medici\'on de performance}
 Dado por enunciado, adem\'as de la implementaci\'on de las funciones previamente explicadas, fue necesario realizar 
 \keyword{tests de performance} sobre nuestro trabajo, para estos resultados ser comparados con los m\'etodos dados por 
