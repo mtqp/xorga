@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2009.8.23)  6 OCT 2009 12:10
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2009.8.23)  6 OCT 2009 12:20
 entering extended mode
  %&-line parsing enabled.
 **informe.tex
@@ -259,6 +259,12 @@ Overfull \hbox (9.37088pt too wide) in paragraph at lines 226--228
 a ahorrar tinta
  []
 
+
+Overfull \hbox (14.09583pt too wide) in paragraph at lines 226--228
+\OT1/cmtt/m/n/9 al momento de imprimir. La versi^^Son digital contiene las im^^
+Sagenes originales.
+ []
+
 [10 <./imgs/cameraman.jpg> <./imgs/cameraman-roberts-neg.jpg> <./imgs/steam-eng
 ine.jpg> <./imgs/steam-engine-prewitt-neg.jpg>]) [11]
 (./conclusiones/conclusiones.tex
@@ -317,7 +323,7 @@ Here is how much of TeX's memory you used:
  4416 multiletter control sequences out of 10000+50000
  6700 words of font info for 25 fonts, out of 1200000 for 2000
  54 hyphenation exceptions out of 8191
- 25i,9n,25p,219b,223s stack positions out of 5000i,500n,6000p,200000b,5000s
+ 25i,9n,25p,247b,223s stack positions out of 5000i,500n,6000p,200000b,5000s
 </usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmbx10
 .pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmbx12.pfb></usr/share/te
 xmf-texlive/fonts/type1/bluesky/cm/cmmi10.pfb></usr/share/texmf-texlive/fonts/t
@@ -326,7 +332,7 @@ ype1/bluesky/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmr1
 exmf-texlive/fonts/type1/bluesky/cm/cmsy9.pfb></usr/share/texmf-texlive/fonts/t
 ype1/bluesky/cm/cmti10.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmt
 t10.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmtt9.pfb>
-Output written on informe.pdf (14 pages, 215998 bytes).
+Output written on informe.pdf (14 pages, 216154 bytes).
 PDF statistics:
  94 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 131072)
