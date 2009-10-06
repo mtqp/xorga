@@ -1,0 +1,256 @@
+\section{Discusi\'on}
+
+\subsection{Versi\'on C}
+
+El c\'odigo sigue la misma estructura que el c\'odigo assembler final: una funci\'on por cada operador ( \code{cRoberts}, 
+\code{cPrewitt}, \code{cSobel} ) que toman como par\'ametros los punteros a la imagen fuente y destino, el alto y 
+ancho de la imagen y dos variables para indicar si se debe derivar respecto a $x$ o respecto a $y$ y la funci\'on 
+\code{apply\_mask} que toma un puntero a un p\'ixel, el tamaño de la imagen original incluyendo el relleno requerido 
+por \keyword{OpenCv} para alinear la imagen, un puntero a la mascara a aplicar y el tamaño de esa mascara y devuelve 
+el p\'ixel transformado. Los encabezados a modo de ejemplo son:
+
+\noindent\code{\small void cPrewitt(const char* src,char *dst,int width, int height,int xorder,int yorder)}\\
+\noindent\code{\small int apply\_mask(const char* src, int line, const char* mask, int mask\_sz)}
+
+El c\'odigo incluye matrices de \code{char} definiendo cada operador y un macro para la saturaci\'on. En cuanto al 
+c\'odigo en s\'i, fue escrito pensando en como ser\'ia mas parecido a lo que se llegar\'ia a escribir en ensamblador, por 
+ejemplo se opt\'o por:\\
+
+\noindent\code{\small for( x = 1 ; x<width-1 ; x++ ) \{ }\\
+\code{\small\indent k=0;} \\
+\code{\small\indent if( xorder != 0 ) }\\
+\code{\small\indent\indent k =apply\_mask(\&src[line*(y-1)+x-1], line, OPERADOR\_PREWITT\_X, 3); }\\
+\code{\small\indent if( yorder != 0 ) }\\
+\code{\small\indent\indent k+=apply\_mask(\&src[line*(y-1)+x-1], line, OPERADOR\_PREWITT\_Y, 3); }\\
+\code{\small\indent ... } \\
+\code{\small \} } \\
+
+\noindent en lugar de:\\
+\noindent\code{\small for( x = 1 ; x<width-1 ; x++ ) \{ }\\
+\code{\small\indent k =xorder*apply\_mask(\&src[line*(y-1)+x-1], line, OPERADOR\_PREWITT\_X, 3); }\\
+\code{\small\indent k+=yorder*apply\_mask(\&src[line*(y-1)+x-1], line, OPERADOR\_PREWITT\_Y, 3); }\\
+\code{\small\indent ... } \\
+\code{\small \} } \\
+
+o tambi\'en en la decisi\'on de aplicar, en los operadores de \keyword{Roberts} y Prewitt, las dos m\'ascaras correspondientes 
+por separado, como se har\'ia con el operador de \keyword{Sobel}, aunque no fuera necesario dado que en esos operadores se 
+aplican ambas mascaras necesariamente.
+
+\vspace{1cm}
+\subsection{Versi\'on asm}
+Pasaremos a detallar el c\'odigo para la funci\'on \code{apply\_mask} y luego el c\'odigo de la implementaci\'on de los 
+operadores, en todos los archivos se usa una macro para la convenci\'on C.
+
+\pagebreak
+
+\subsubsection{apply\_mask}
+La funci\'on recibe los siguientes par\'ametros:
+\begin{itemize}
+	\item El puntero a la imagen a transformar que se define como \code{imgSrc}.
+	\item El ancho de la imagen incluyendo los bytes de alineamiento que se define como \code{line}.
+	\item El puntero a la m\'ascara a aplicar que se define como \code{ptr\_mask}.
+	\item El tamaño de esa m\'ascara que se define como \code{mask\_size}.
+\end{itemize}
+
+Resumen de los registros utilizados:
+\begin{itemize}
+	\item\code{eax}: S\'olo utilizado como resultado de las multiplicaciones y como valor de retorno.
+	\item\code{ebx}: Se utiliza como contador tanto como para filas como para columnas. Se asume que la mascara a 
+aplicar es de tamaño menor a 255x255, con lo cual utilizamos \code{bl} para las columnas y \code{bh} para las filas, 
+ahorrando as\'i el uso de otro registro para contador.
+	\item\code{ecx}: Contiene el puntero a la mascara, \code{ptr\_mask}
+	\item\code{edx}: No utilizado.
+	\item\code{esi}: Contiene el puntero a los p\'ixeles a transformar avanzando sobre \code{imgSrc}.
+	\item\code{edi}: Guarda los resultados parciales de las operaciones que realiza el algoritmo.
+\end{itemize}
+
+El algoritmo simplemente recorre la m\'ascara sobre los p\'ixeles alrededor del p\'ixel pasado como par\'ametro 
+(\code{imgSrc}) multiplicando y sumando y guardando el resultado intermedio en \code{edi}, para finalmente, devolver 
+ese resultado en \code{eax}. Se requiere asumir siempre que la m\'ascara es aplicable (esto es, que no intente 
+calcular sobre valores fuera del rango de la imagen) pero esto se cumple como se ver\'a en la discusi\'on de las 
+funciones de los operadores. \\
+
+Al momento de escribir el algoritmo, surgieron algunas complicaciones y obst\'aculos. Se pens\'o en un principio 
+ahorrar registros, especialmente en el problema de c\'omo no usar dos registros para dos contadores. Las ideas 
+propuestas fueron: tener ambos contadores en memoria, tener un contador en memoria y el otro en un registro, 
+tener un solo registro que guarde el valor del contador exterior (el de las filas) en el \keyword{stack}, luego se use 
+para el contador interior (el de columnas) y finalmente se recupere del \keyword{stack} el valor guardado 
+anteriormente, y la variante que fue elegida: asumir que la mascara no podr\'ia ser muy grande y entonces usar 
+dos partes de un mismo registro.\\
+
+Otro problema que surgi\'o estuvo relacionado con la multiplicaci\'on de bytes que se realizaba. Se necesita 
+multiplicar un byte no signado guardado en memoria (\code{[esi]}) por un byte signado perteneciente a la m\'ascara 
+a aplicar. Si se usaba directamente la instrucci\'on \code{mul}, no se tenia en cuenta el byte signado de la m\'ascara, 
+en cambio si se usaba la operaci\'on \code{imul}, se esta leyendo el byte en memoria como signado dando como resultado
+una imagen totalmente distorsionada (ver \code{imgs/errores/error1.png}).
+
+La idea de la soluci\'on es extender el signo de la m\'ascara y realizar una multiplicaci\'on signada. Al principio 
+se us\'o: \\
+\indent\code{mov al,[ecx]	;extensi\'on de signo de mascara}\\
+\indent\code{cbw}\\
+\indent\code{mov edx,eax} \\
+Pero luego se cambi\'o por una instrucci\'on que hace exactamente lo que necesit\'abamos:\\
+\indent\code{movsx dx,[ecx]}\\
+La \'ultima complicaci\'on con la funci\'on fue que se demoraba algunos segundos en procesar y la imagen devuelta era
+err\'onea (ver \code{imgs/errores/error2.jpg}). El problema estaba en que el contandor de columnas no volv\'ia a 0 al final de cada ciclo, por lo cual cada 
+aplicaci\'on de la m\'ascara se realizaba 256 veces por vuelta. Bast\'o s\'olo con limpiar el registro al final del
+ciclo (\code{xor bl,bl}).
+
+\vspace{1cm}
+\subsubsection{Operadores: asmSobel, asmRoberts y asmPrewitt}
+Al comienzo se program\'o la funci\'on para el operador de \keyword{Sobel} ya que pod\'iamos comparar los resultados con el 
+m\'etodo \code{cvSobel} de la librer\'ia. Una vez programado, se aprovech\'o lo escrito para implementar los otros 
+operadores, realizando cambios m\'inimos al c\'odigo. Pasaremos entonces a detallar lo trabajado sobre el archivo 
+\code{asmSobel.asm} y luego los cambios hechos para llegar a la implementaci\'on de los otros archivos.\\
+
+La funci\'on recibe los siguientes par\'ametros:
+\begin{itemize}
+		\item El puntero a la imagen a transformar que se define como \code{ptr\_src}.
+		\item El puntero a la imagen destino que se define como \code{ptr\_dst}.
+		\item El ancho real de la imagen, sin bytes de alineamiento, que se define como \code{width}.
+		\item La altura de la imagen que se define como \code{height}.
+		\item Dos par\'ametros que indican si se aplicar\'a el operador derivando respecto a $x$ o a $y$ y que se definen 
+respectivamente como \code{xorder} e \code{yorder}.
+\end{itemize}
+
+Se definen macros para la convenci\'on C, para el manejo de la saturaci\'on (\code{eax\_to\_char\_sat}), y para conseguir 
+el ancho de la imagen con los bytes de alineamiento (\code{getLineSize}).\\
+
+\noindent Resumen de los registros utilizados:
+\begin{itemize}
+		\item \code{eax}: Se usa dentro de las macros y para guardar el p\'ixel que luego sera saturado y escrito 
+en la imagen de destino.
+		\item \code{ebx}: Guarda el puntero a la imagen fuente y avanza sobre \'el para obtener todos los p\'ixeles 
+de la imagen. 
+		\item \code{ecx}: Tiene el puntero a la imagen destino que avanza junto con el \code{ebx}, y tambi\'en es usado 
+para pasar la posici\'on de un p\'ixel de la imagen original a la funci\'on \code{apply\_mask}.
+		\item \code{edx}: Contiene temporalmente el resultado de la aplicar la m\'ascara en $x$.
+		\item \code{esi}: Guarda el puntero al inicio de la imagen de destino que luego avanzar\'a junto con ebx y sirve para definir a ecx.
+		\item \code{edi}: Contador de columnas.
+\end{itemize}
+
+Tambi\'en se definieron dos variables locales:
+\begin{itemize}
+	\item \code{line}: Guarda el ancho de la linea con los bytes de alineamiento.
+	\item \code{yindex}: Contador para las filas.
+\end{itemize}
+
+La operaci\'on consiste en recorrer toda la imagen, menos los bordes, aplicando en cada p\'ixel la matr\'iz de 
+\keyword{Sobel} respecto a $x$ o a $y$ seg\'un lo indiquen las variables \code{xorder} e \code{yorder} y saturando el 
+resultado de cada llamada a \code{apply\_mask}. Luego esos resultados se suman y saturan otra vez obteniendo 
+la transformaci\'on buscada.\\
+
+Respecto a las macros definidas, la funci\'on \code{getLineSize} toma el ancho real de la imagen 
+(\code{width}) y la cantidad a alinear (\code{align}, generalmente 4, para alinear a dword) y computa line de la 
+siguiente manera:\\
+
+\code{line = width - (witdh mod align) + align}\\
+
+Por \'ultimo, la macro \code{eax\_to\_char\_sat} simplemente satura eax entre 0 y 255.
+En las primeras implementaciones de \code{asmSobel}, nos encontramos con el mismo problema de como manejar la 
+poca cantidad de registros que apareci\'o cuando se trabaja en \code{apply\_mask}, pero esta vez se opt\'o por guardar 
+uno de los contadores en memoria. Se tuvo especial cuidado en asegurarnos de guardar cada registro necesario antes 
+de las llamadas a \code{apply\_mask} ya que \'esta modifica la mayor\'ia de los registros. Antes de la primer llamada
+a \code{apply\_mask} se reserva un lugar (\code{push dword 0}) en el \keyword{stack} donde luego se almacenar\'a
+el resultado de aplicar la m\'ascara en $x$.\\
+
+El programa llama a \code{apply\_mask} a lo sumo dos veces por p\'ixel, pero le pasa los par\'ametros al \keyword{stack} 
+una s\'ola vez. Esto funciona porque al derivar respecto a $y$, se modifica directamente sobre la pila el par\'ametro 
+del puntero a la matr\'iz a usar, dejando el resto intacto, como se puede ver en el siguiente esquema del estado 
+del \keyword{stack} justo antes de llamar a \code{apply\_mask} por primera vez:\\
+\begin{center}
+\texttt{
+\begin{tabular}{rc|c|l}
+\cline{3-3}
+esp&$\rightarrow$&src*& \\
+\cline{3-3}
+ebp-36&&line& \\
+\cline{3-3}
+ebp-32&&SobelX*& \\
+\cline{3-3}
+ebp-28&&mask\_size& \\
+\cline{3-3}
+ebp-24&&resultado $x$& \\ 
+\cline{3-3}
+ebp-20&&ebx& \\
+\cline{3-3}
+ebp-16&&esi& \\
+\cline{3-3}
+ebp-12&&edi& \\ 
+\cline{3-3}
+ebp-8&&yindex& \\
+\cline{3-3}
+ebp-4&&line& \\
+\cline{3-3}
+ebp&$\rightarrow$&ebp anterior  \\
+\cline{3-3}
+ &&...& 
+\end{tabular}
+}
+\end{center}
+
+\noindent Lo \'unico reemplazado si se quiere derivar respecto a $y$, es el dato en \code{ebp-32}. De esta manera 
+ahorramos instrucciones y movimiento de datos en memoria.
+
+Para los operadores de \keyword{Prewitt} y \keyword{Roberts} se reutiliz\'o el mismo c\'odigo, teniendo que 
+cambiar s\'olamente las matrices a utilizar y, en el caso de \keyword{Roberts}, el \code{mask\_size}.\\
+\vspace{1.0cm}
+\begin{center}
+\includegraphics[scale=0.5]{imgs/BoatsColor.jpg}
+\includegraphics[scale=0.5]{imgs/BoatsColor-sobel-neg.jpg}\\
+\texttt{\small Ejemplo del filtro Sobel negado}\\
+\vspace{1.0cm}
+\includegraphics[scale=0.5]{imgs/cameraman.jpg}
+\includegraphics[scale=0.5]{imgs/cameraman-roberts-neg.jpg} \\
+\texttt{\small Ejemplo del filtro Roberts negado}\\
+\includegraphics[scale=0.5]{imgs/steam-engine.jpg}
+\includegraphics[scale=0.5]{imgs/steam-engine-prewitt-neg.jpg} \\
+\texttt{\small Ejemplo del filtro Prewitt negado} \\
+\end{center}
+\vspace{1cm}
+
+\subsection{Medici\'on de performance}
+Dado por enunciado, adem\'as de la implementaci\'on de las funciones previamente explicadas, fue necesario realizar 
+\keyword{tests de performance} sobre nuestro trabajo, para estos resultados ser comparados con los m\'etodos dados por 
+la librer\'ia \keyword{OpenCv} (funci\'on \code{cvSobel}). Tambi\'en nos pareci\'o importante saber qu\'e tan grande era la 
+diferencia de \keyword{performance} entre las implementaciones en \keyword{assembler} y C. Al tener todas las 
+funciones ya implementadas en ambos lenguajes, vimos interesante la idea de compararlas entre s\'i. La siguiente tabla
+muestra la cantidad de ciclos m\'inima y promedio de cada implementaci\'on de los filtros, obtenidos de una muestra de
+1000 ejecuciones de cada uno sobre la imagen de prueba \code{lena.bmp}:
+\begin{center}
+\begin{tabular}{|l|r|r|}
+\hline
+\multirow{2}{*}{Implementaci\'on}&\multicolumn{2}{|c|}{Ciclos de reloj} \\
+\cline{2-3}
+&M\'inimo	&	Promedio \\
+\hline
+\multicolumn{3}{|c|}{Sobel}\\
+\hline
+Assembler	&	58.720.540	&	60.010.675 \\
+\hline
+C			&	393.586.848	&	416.838.429 \\
+\hline
+OpenCv		&	9.338.589	& 	9.797.886 \\
+\hline
+\multicolumn{3}{|c|}{Roberts}\\
+\hline
+Assembler	&	34.714.238	&	42.746.947 \\
+\hline
+C			&	320.676.453	&	336.808.912 \\
+\hline
+\multicolumn{3}{|c|}{Prewitt}\\
+\hline
+Assembler	&	60.428.397	&	63.629.648 \\
+\hline
+C			&	634.337.521	&	664.132.063 \\
+\hline
+\end{tabular}
+\end{center}
+
+Dado a que los algoritmos no fueron pensados para optimizar al m\'aximo en velocidad, se puede ver que \code{cvSobel} 
+realiza aproximadamente 6 veces menos de ciclos, obteniendo un mayor rendimiento que la versi\'on en 
+\keyword{assembler}. Por otra parte, al comparar los resultados entre las implementaciones de \keyword{assembler} 
+y C, las diferencias son estremecedoras: la \keyword{performance} de la versi\'on en \keyword{assembler} es 
+aproximadamente 8 veces mejor que la versi\'on en C.
+
+\pagebreak
