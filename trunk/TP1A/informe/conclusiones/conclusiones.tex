@@ -1,0 +1,22 @@
+\section{Conclusiones}
+
+Con el presente trabajo se muestra que existen formas efectivas, eficientes y simples para el problema de aplicaci\'on 
+de filtros espec\'ificos en el marco del procesamiento de im\'agenes. Dichas t\'ecnicas se resumen en un algoritmo simple, 
+mas all\'a de que la teor\'ia detr\'as sea m\'as compleja. \\
+
+En cuanto a lo implementado en el trabajo, se infiere directamente una mejora de rendimiento reemplazando el c\'odigo 
+escrito en C, por el nuestro escrito en lenguaje ensamblador. M\'as all\'a de cuestiones  y decisiones tomadas que 
+afectaron la velocidad final del algoritmo, la diferencia de tiempos entre el lenguaje de alto nivel y el de bajo 
+nivel es notable. \\
+
+A\'un as\'i la existencia de un algoritmo m\'as r\'apido y eficaz es evidente como demostr\'o la comparaci\'on de tiempos de 
+nuestra implementaci\'on con la funci\'on propia de la librer\'ia. Dicho algoritmo posiblemente est\'e implementado de tal 
+manera que aprovecha de mejor forma los registros del procesador, ahorra ciclos con otras instrucciones, o quiz\'a, 
+procesando datos en paralelo mediante \code{MMX} o \code{SSE}. Pero implementar un algoritmo de ese estilo resultar\'ia en un c\'odigo m\'as 
+complicado y dif\'icil de seguir, perdiendo el sentido original del trabajo. \\
+
+Para finalizar cabe destacar que lo escrito fue diseñado para cambiar o agregar f\'acilmente el tipo de operador a 
+utilizar en el futuro, respetando a su vez el prototipo de funci\'on dado en el enunciado y que se logr\'o crear una 
+herramienta de realce de bordes en im\'agenes que sea general, veloz y efectiva  que al mismo tiempo puede llegar a 
+ser \'util en la pr\'actica.
+\pagebreak

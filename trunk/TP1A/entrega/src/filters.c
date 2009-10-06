@@ -34,10 +34,12 @@ const char OPERADOR_PREWITT_Y[9] = {
 	 1,  1,  1
 };
 
+//#define abs(x) x>0?x:-x
+
 /**
  * cX - procesa la imagen con el operador X
- *		src	array de pixels ordenados (grayscale)
- *		dst	array de pixels final
+ *		src		array de pixels ordenados (grayscale)
+ *		dst		array de pixels final
  *		width	ancho (en pixels) de la imagen
  *		height	alto (en pixels) de la imagen
  *		xorder	orden de la derivada x
@@ -49,11 +51,8 @@ void cSobel( const unsigned char* src, unsigned char *dst, int width, int height
 
 	for( y = 1 ; y < height-1 ; y++ )
 		for( x = 1 ; x < width-1 ; x++ ) {
-			k=0;
-			if( xorder != 0 )
-				k =toCharS(apply_mask( &src[line*(y-1)+x-1], line, OPERADOR_SOBEL_X, 3 ));
-			if( yorder != 0 )
-				k+=toCharS(apply_mask( &src[line*(y-1)+x-1], line, OPERADOR_SOBEL_Y, 3 ));
+			k =xorder * apply_mask( &src[line*(y-1)+x-1], line, OPERADOR_SOBEL_X, 3 );
+			k+=yorder * apply_mask( &src[line*(y-1)+x-1], line, OPERADOR_SOBEL_Y, 3 );
 			dst[line*y+x]=toCharS(k);
 		}
 }
@@ -64,11 +63,8 @@ void cRoberts( const unsigned char* src, unsigned char *dst, int width, int heig
 
 	for( y = 0 ; y < height-1 ; y++ )
 		for( x = 0 ; x < width-1 ; x++ ) {
-			k=0;
-			if( xorder != 0 )
-				k =toCharS(abs(apply_mask( &src[line*y+x], line, OPERADOR_ROBERTS_X, 2 )));
-			if( yorder != 0 )
-				k+=toCharS(abs(apply_mask( &src[line*y+x], line, OPERADOR_ROBERTS_Y, 2 )));
+			k =xorder * apply_mask( &src[line*(y-1)+x-1], line, OPERADOR_ROBERTS_X, 2 );
+			k+=yorder * apply_mask( &src[line*(y-1)+x-1], line, OPERADOR_ROBERTS_Y, 2 );
 			dst[line*y+x]=toCharS(k);
 		}
 }
@@ -79,22 +75,19 @@ void cPrewitt( const unsigned char* src, unsigned char *dst, int width, int heig
 
 	for( y = 1 ; y < height-1 ; y++ )
 		for( x = 1 ; x < width-1 ; x++ ) {
-			k=0;
-			if( xorder != 0 )
-				k =toCharS(abs(apply_mask( &src[line*(y-1)+x-1], line, OPERADOR_PREWITT_X, 3 )));
-			if( yorder != 0 )
-				k+=toCharS(abs(apply_mask( &src[line*(y-1)+x-1], line, OPERADOR_PREWITT_Y, 3 )));
+			k =xorder * apply_mask( &src[line*(y-1)+x-1], line, OPERADOR_PREWITT_X, 3 );
+			k+=yorder * apply_mask( &src[line*(y-1)+x-1], line, OPERADOR_PREWITT_Y, 3 );
 			dst[line*y+x]=toCharS(k);
 		}
 }
 
 /**
  * apply_mask - aplica la máscara y devuelve el resultado
- *		src		array de pixels ordenados (grayscale)
+ *		src			array de pixels ordenados (grayscale)
  *		line		tamaño de línea del array (incluyendo el fill)
  *		mask		máscara a aplicar
  *		mask_sz		tamaño del lado de la máscara
- */
+ *
 int apply_mask( const unsigned char* src, unsigned int line, const char* mask, unsigned int mask_sz ) {
 	int i,j,k=0;
 	for( i = 0 ; i < mask_sz ; i++ )
@@ -102,4 +95,4 @@ int apply_mask( const unsigned char* src, unsigned int line, const char* mask, u
 			k += mask[mask_sz*i+j] * src[line*i+j];
 	return k;
 }
-
+*/

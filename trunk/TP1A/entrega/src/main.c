@@ -12,29 +12,29 @@ int apply_filter( char filter, IplImage *src, IplImage *dst ) {
 		case '1':
 			// Aplico el filtro (Roberts con derivada x en este caso)
 			//asmRoberts(src->imageData, dst->imageData,src->width,src->height, 1,1);
-			f=&cRoberts;
+			f=&asmRoberts;
 			break;
 		case '2':
 			// Aplico el filtro (Roberts con derivada x en este caso)
 			//asmPrewitt(src->imageData, dst->imageData,src->width,src->height, 1,1);
-			f=&cPrewitt;
+			f=&asmPrewitt;
 			break;
 		case '3':
 			// Aplico el filtro (Sobel con derivada x en este caso)
 			//asmSobel(src->imageData, dst->imageData,src->width,src->height, 1,0);
-			f=&cSobel;
+			f=&asmSobel;
 			yorder=0;
 			break;
 		case '4':
 			// Aplico el filtro (Sobel con derivada y en este caso)
 			//asmSobel(src->imageData, dst->imageData,src->width,src->height, 0,1);
-			f=&cSobel;
+			f=&asmSobel;
 			xorder=0;
 			break;
 		case '5':
 			// Aplico el filtro (Sobel con derivada x e y en esta caso)
 			//asmSobel(src->imageData, dst->imageData,src->width,src->height, 1,1);
-			f=&cSobel;
+			f=&asmSobel;
 			break;
 	}
 	if( f != NULL ) {

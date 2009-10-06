@@ -1,0 +1,41 @@
+\section{Desarrollo}
+El desarrollo de este trabajo se dividi\'o en 3 partes: una implementaci\'on preliminar en lenguaje C, 
+la implementaci\'on en lenguaje ensamblador cuyo desarrollo se bas\'o en la versi\'on de C, y la versi\'on definitiva 
+que contiene agregados y arreglos diversos. Esta separaci\'on de etapas fue importante, ya que nos permiti\'o 
+apoyarnos sobre un c\'odigo completamente funcional en C,  al momento de escribir las funciones en ensamblador.
+A continuaci\'on detallamos las etapas del trabajo.
+
+
+\subsection{Implementaci\'on preliminar en lenguaje C}
+Al comienzo del trabajo se realiz\'o una versi\'on del mismo en C que act\'ue adecuadamente de acuerdo a lo pedido. 
+Esta versi\'on buscaba implementar todas las funciones requeridas en lenguaje de alto nivel para luego utilizarla 
+como gu\'ia para escribir el c\'odigo en \keyword{assembler}. \\
+
+Una vez escrito el c\'odigo en C, \'este se aprovech\'o para ir reemplazando funci\'on a funci\'on con c\'odigo ensamblador, 
+porque se pod\'ia asumir que el c\'odigo de alto nivel era correcto. Esto nos permiti\'o probar que las funciones 
+reemplazantes se comportaban adecuadamente ya que deb\'ian igualar el comportamiento de las funciones reemplazadas.\\
+
+Finalmente, todo el c\'odigo en C fue cambiado por sus respectivas versiones en \keyword{assembler} a excepci\'on del 
+\code{main.c} el cual contiene todas las llamadas y la interfaz con el usuario que ser\'a detallada m\'as adelante. 
+El c\'odigo C reemplazado esta incluido en los archivos \code{filters.c} y \code{filters.h}.
+
+
+\subsection{Implementaci\'on en lenguaje ensamblador}
+Se decidi\'o separar la implementaci\'on \keyword{assembler} en varios archivos espec\'ificos: uno por cada operador a 
+implementar y otro (\code{apply\_mask.asm}) que aplica una mascara dada a la imagen a procesar. La idea es 
+abstraerse de esa funci\'on en particular que es com\'un a todos los operadores y programarla aparte, para facilitar el 
+testeo del c\'odigo.\\
+
+Primero se escribi\'o la funci\'on \code{apply\_mask}, luego el c\'odigo general que comparten los tres operadores a 
+implementar y por \'ultimo se utiliz\'o para generar los tres archivos fuente finales de los operadores.
+
+
+\subsection{Versi\'on definitiva}
+Finalmente, una vez terminado y testeado todos los archivos fuente, se agreg\'o una interfaz con el usuario por 
+consola. La interfaz permite abrir una imagen, aplicarle un algoritmo a elecci\'on y guardarla en un archivo 
+separado o bien abrir la imagen a procesar en una ventana y aplicar los operadores en tiempo real con la 
+posibilidad de guardar el resultado en un archivo separado. \\
+\indent Se tuvo especial cuidado en el manejo de los par\'ametros del programa para evitar errores y los errores 
+correspondientes a problemas con la carga o guardado de la imagen tambi\'en fueron considerados.
+
+\pagebreak
