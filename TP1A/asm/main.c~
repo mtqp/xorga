@@ -40,8 +40,8 @@ int apply_filter( char filter, IplImage *src, IplImage *dst ) {
 	if( f != NULL ) {
 		// Tomar estado del TSC antes de iniciar el procesamiento de bordes.
 		 __asm__ __volatile__ ("rdtsc;mov %%eax,%0" : : "g" (tscl));
-		//f( src->imageData, dst->imageData, src->width, src->height, xorder, yorder );
-		cvSobel(src, dst, xorder,yorder,3);
+		f( src->imageData, dst->imageData, src->width, src->height, xorder, yorder );
+		//cvSobel(src, dst, xorder,yorder,3);
 		// Cantidad de clocks insumidos por el algoritmo.
 	 	__asm__ __volatile__ ("rdtsc;sub %0,%%eax;mov %%eax,%0" : : "g" (tscl));
 	}
@@ -140,6 +140,10 @@ void showMsg( char filter, char window_mode ) {
 		printf( "    q: Salir\n\n");
 	}
 
+}
+
+void negative( char* grayScaleImg, unsigned int width, unsigned int height ) {
+	
 }
 
 int main( int argc, char** argv )

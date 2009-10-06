@@ -1,8 +1,8 @@
 \section{Discusi\'on}
 
 Antes de entrar en las cuestiones propias de cada versi\'on, es importante denotar algunas consideraciones sobre la 
-implementaci\'on de la funci\'on \code{apply\_mask}. Como ya fue mencionado, esta matr\'iz recorre un vector de $n$ x $n$ 
-($n<=255$) posiciones sin importar su contenido. Es decir, si encuentra un cero, multiplicar\'a el debido p\'ixel por 
+implementaci\'on de la funci\'on \code{apply\_mask}. Recorre un vector de $n$ x $n$ ($n<=255$) posiciones sin 
+importar su contenido, es decir, si encuentra un cero, multiplicar\'a el debido p\'ixel por 
 cero, si es $-1$ realizar\'a tambi\'en la multiplicaci\'on en vez de invertir el signo del n\'umero, as\'i como en el caso 
 del $1$. Dejar estas multiplicaciones que van en detrimento de la \keyword{performance} fue una decisi\'on grupal 
 tras larga discusi\'on. La raz\'on fue que si modific\'abamos la matr\'iz, o de ahora en m\'as ten\'iamos un nuevo operador 
