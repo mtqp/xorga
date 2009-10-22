@@ -78,6 +78,105 @@ asmSobel:
 	////HABRIA Q HACER LO MISMO PARA LA PARTE ALTA/////
 	////ESTO ES SOLO UNA LINEA, MEDIO Q ES UN TOQUE INEFICIENTE///
 	///FALTAN HACER LAS DOS LINEAS SIGUIENTES DE LA MATRIZ///
-	
-	
+for(¬termineImagen?(ptr_src)){
+	for(i=0;i<tam_linea&&¬(ultimaLevantadaLinea);i+=14){
+		levantarLinea1(ptr_src+i)
+		procesarLinea1(ptr_src+i,ordenDeriv),
+		acumularenXMM7/XMM6
+		levantarLinea2(ptr_src+i)
+		procesarLinea2(ptr_src+i,ordenDeriv),
+		acumularenXMM7/XMM6
+		levantarLinea3(ptr_src+i),
+		procesarLinea3(ptr_src+i,ordenDeriv),
+		acumularenXMM7/XMM6
+		enviarAMemoria(registroAcumulado,ptr_dst)
+	}
+}
+		
+bool termineImagen(ptr_src){
+	return apuntaFinDeImagen?(ptr_src)
+}
+		
+levantarLineaX(ptr_src){
+	if x==1 then
+		movdqu xmm0,[ptr_src]
+	if x==2 then
+		movdqu xmm0,[ptr_src+line]
+	if x==3 then
+		movdqu xmm0,[ptr_src+2*line]
+
+	desempacar xmm0			;parte baja en xmm0 y parte alta en xmm1
+}
+		
+bool ultimaLevantadaLinea(ptr_src,ptr_dst,line,i,ordenDeDeriv){
+	int res = (line-i<14);
+	if (res){
+		mov eax,ptr_src
+		add eax,line
+		sub eax,16
+		while(j=0,j<=3,j+=1{
+			levantarLineaJ(eax)
+			procesarLineaJ(eax,ordenDeDeriv)
+			acumularEnXMM7/XMM6
+		}
+	}
+	ptr_src = ptr_src+line
+	return res;
+}
+		
+procesarLineaX(ptr_src,ordenDeDeriv){
+	if X==1 then {
+		if(ordenDeDeriv==x){	;ojo q si es X e Y hay q refrescar xmm0 y xmm1
+			levantarMatriz -1,0,1
+			while(!procese8?){
+				pmullw xmm0,matriz
+				sumar-101entreSi
+				acomodarDosPxProcesados
+				acumularEnXMM7
+				shiftearMatriz
+			}
+			levantarMatriz -1,0,1
+			while(!procese6PAlta??){
+				pmullw xmm1,matriz
+				sumar-101entreSi
+				acomodarDosPxProcesados
+				acumularEnXMM6
+				shiftearMatriz
+			}
+			saturarAByte xmm7
+			saturarAByte xmm6
+			merge xmm6,xmm7
+		}
+		if(ordenDeDeriv==y){
+			levantarMatriz -1-2-1
+			while(!procese8?){
+				pmullw xmm0,matriz
+				sumar-1-2-1entreSi
+				acomodarDosPxProcesados
+				acumularEnXMM5
+				shiftearMatriz
+			}
+			levantarMatriz -1-2-1
+			while(!procese6PAlta?){
+				pmullw xmm1,matriz
+				sumar-1-2-1entreSi
+				acomodarDosPxProcesados
+				acumularEnXMM4
+				shiftearMatriz
+			}
+			saturarAByte xmm5
+			saturarAByte xmm4
+			merge xmm4,xmm5
+		}
+		if(ordenDeDeriv == x + y){
+			merge xmm4,xmm6
+		}
+		acumular en un registro q no se use
+	}
+	if X==2 then
+		lo mismo con la segunda linea de la matriz X e Y
+	if X==3 then
+		lo mismo con la tercer linea de la matriz X e Y
+}
+			
 	convencion_C_fin
