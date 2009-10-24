@@ -1,15 +1,13 @@
 CC=gcc
 CFLAGS=-c
-OBJECTS = main.o filters.o apply_mask.o asmSobel.o asmRoberts.o asmPrewitt.o
+OBJECTS = main.o asmSobel.o apply_line.o
+#asmRoberts.o asmPrewitt.o
 
 bordes: $(OBJECTS)
 	$(CC) $(OBJECTS) -o bordes `pkg-config --cflags --libs opencv`
 
 main.o: main.c
 	$(CC) $(CFLAGS) main.c `pkg-config --cflags opencv`
-
-filters.o: filters.c filters.h
-	$(CC) $(CFLAGS) filters.c
 
 %.o: %.asm
 	nasm -g -f elf $<
