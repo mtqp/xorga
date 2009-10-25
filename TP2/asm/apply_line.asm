@@ -155,7 +155,7 @@ continuarH:
 
 fin_apply_line:
 
-	packuswb xmm7,xmm6
+;	packuswb xmm7,xmm6
 	;movdqu [edi],xmm7
 	;convencion_C_fin
 	popad
