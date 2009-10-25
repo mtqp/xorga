@@ -4,7 +4,8 @@ extern apply_lineX	;///void apply_lineX(*src,int selector_linea);	DEJA EN XMM7 r
 
 	
 section .data
-	acum_lineas : DQ 0,0
+	acum_lineaBaja : DQ 0,0
+	acum_lineaAlta : DQ 0,0
 	acum_filas : DD 0
 
 section .text
@@ -38,28 +39,41 @@ ciclo_xorder:
 	push 0			; "parámetro" de apply_line (para q procese con -1 0 1 -1 0 1)
 	call apply_lineX	; procesa la línea
 	add esp,8		; avanza el tope de la pila
-	mov ebx,acum_lineas	; copia la parte baja del resultado parcial [instrucción que no hace falta]
-	movdqu [ebx],xmm7	; acumula linea uno
+	mov ebx,acum_lineaBaja	; copia la parte baja del resultado parcial [instrucción que no hace falta]
+	movdqu [ebx],xmm7	; acumula linea baja
+	mov edx,acum_lineaAlta
+	movdqu [edx],xmm6
 ;////////			procesa segunda linea
-;	mov eax,esi
-;	add eax,width
-;	push eax
-;	push 1			;para q procese con -202-202
-;	call apply_lineX
-;	add esp,8
-;	movdqu xmm1,[ebx]
-;	paddsb xmm1,xmm7	;acumulo linea1+linea2
-;	movdqu [ebx],xmm1
+	mov eax,esi
+	add eax,width
+	push eax
+	push 1			;para q procese con -202-202
+	call apply_lineX
+	add esp,8
+	movdqu xmm1,[ebx]
+	paddw xmm1,xmm7		;acumulo parte_baja(linea1+linea2)
+	movdqu [ebx],xmm1
+	;mov edx,acum_lineaAlta
+	movdqu xmm1,[edx]
+	paddw xmm1,xmm6		;acumulo parte_alta(linea1+linea2)
+	movdqu [edx],xmm1
 ;////////			procesa tercer linea
-;	shl eax,1
-;	push eax
-;	push 0
-;	call apply_lineX
-;	add esp,8
-;	movdqu xmm1,[ebx]
-;	paddsb xmm1,xmm7	;ya tengo los 14 bytes procesados
+	mov eax,esi		;////no deberian ser necesarias estas 2 lineas pero
+	add eax,width		;////ponerlas no le ahce mal a nadie
+	shl eax,1		;apunta a la tercer linea
+	push eax
+	push 0
+	call apply_lineX
+	add esp,8
+	movdqu xmm1,[ebx]
+	paddw xmm1,xmm7
+	;mov edx,acum_lineAlta
+	movdqu xmm2,[edx]
+	paddw xmm2,xmm6
+	packuswb xmm1,xmm2
+				;ya tengo los 14 bytes procesados
 				;debo mandar a memoria ahora
-;	movdqu [edi],xmm1	;primera tira YA en dst!!!!!
+	movdqu [edi],xmm1	;primera tira YA en dst!!!!!
 	
 	add ecx,14		; avanza 14 columnas
 	cmp ecx,width		; compara la columna actual con el ancho de la imágen
