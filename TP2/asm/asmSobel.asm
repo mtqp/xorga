@@ -3,19 +3,27 @@
 ; procesarFragmentoX input, acumulador, shuf1, shuf2, máscara_px_procesados
 ; 	aplica la línea de la matríz para 2px del input y los suma en el
 ;	acumulador. Los px procesados son seleccionados mediante las máscaras.
-%macro procesarFragmentoX 5
+%macro procesarFragmentoX 3
 	movdqu xmm2, %1			; copio el input original
 	pmullw xmm2,xmm5		; xmm2 = [8px]*[línea de la matríz]
 					; [a,B,c,d,E,f,o,o]
 					; b<-a+b+c,E<-d+e+f (b y e son ceros!)
+	psrldq xmm2, (%3-1)*2		; xmm2 = [x1,-,y1,x2,-,y2,-,-]
+	movdqu xmm3, xmm2
+	psrldq xmm3, 4			; xmm3 = [y1,-,- ,y2,-,- ,-,-]
+	;pshuflw xmm3, xmm3, 00110000b	; xmm3 = [y1,-,y2,- ,-,- ,-,-]
+	paddw xmm2, xmm3		; xmm2 = [x1+y1,-,-,x2+y2,-.-.-.-]
+	movdqu xmm4, [mask_limpiar]
+	andps xmm2, xmm4		; xmm2 = [x1+y1,0,0,x2+y2,0,0,0,0] 
+	
+	;pshufd xmm3, xmm2, %3		; 
+	;pshuflw xmm3,xmm3, %4
 
-	pshufd xmm3, xmm2, %3		;? [E,F,C,D,Z,Z,Z,Z]
-	pshuflw xmm3,xmm3, %4
-
-	paddw xmm2,xmm3			; xmm2 == [a+c,-,-,d+f,-,-,-,-]
-	pslldq xmm2,2			; xmm2 == [-,a+c,-,-,d+f,-,-,-]
-	movdqu xmm4,[%5]
-	andps xmm2, xmm4		; xmm2 == [0,a+c,0,0,d+f,0,0,0]
+	;paddw xmm2,xmm3			; xmm2 == [a+c,-,-,d+f,-,-,-,-]
+	;pslldq xmm2,2			; xmm2 == [-,a+c,-,-,d+f,-,-,-]
+	;movdqu xmm4,[%5]
+	;andps xmm2, xmm4		; xmm2 == [0,a+c,0,0,d+f,0,0,0]
+	pslldq xmm2,%3*2
 	paddw %2, xmm2			; xmm7 += xmm2
 %endmacro
 
@@ -26,13 +34,15 @@
 %macro procesarLineaX 3
 	movdqu xmm5, [%3]		; xmm5 = línea de la matríz a aplicar
 
-	procesarFragmentoX %1, %2, 00000110b, 01000010b, mask_borrar_px1
+	;procesarFragmentoX %1, %2, 00001001b, 11100100b, mask_borrar_px1
+	procesarFragmentoX %1, %2, 1
 
 	pslldq xmm5,2			; xmm5 == [0,-1,0,1,-1,0,1,-1]
-	procesarFragmentoX %1, %2, 00001100b, 00000010b, mask_borrar_px2
+	;procesarFragmentoX %1, %2, 00001100b, 00000010b, mask_borrar_px2
+	procesarFragmentoX %1, %2, 2
 
 	pslldq xmm5,2			; xmm5 == [0,0,-1,0,1,-1,0,1]
-	procesarFragmentoX %1, %2, 00111000b, 11100100b, mask_borrar_px3
+	procesarFragmentoX %1, %2, 3
 %endmacro
 
 %macro aplicarLineaX 2			; parámetros: puntero a src, línea de la matriz | resultado en xmm7
@@ -50,11 +60,49 @@
 	procesarLineaX xmm0, xmm7, %2
 
 ; proceso los pixeles del medio
-	movdqu xmm4,[mask_2words_masSig]	; xmm4 = máscara para dejar las 2 words más significativas
-	andps xmm0, xmm4			; xmm0 == [0,0,0,0,0,0,g,h]
-	movdqu xmm3,xmm1			; xmm3 == [i,j,k,l,m,n,o,p]
-	movdqu xmm4,[mask_2words_menSig]	; xmm4 = máscara para dejar las 2 words menos significativas
-	andps xmm3, xmm4			; xmm3 == [i,j,0,0,0,0,0,0]
+	movdqu xmm5, [%2]			; xmm5 = [m1,m2,m3,m1,m2,m3,m1,m2] (línea de la matríz)
+	movdqu xmm2, xmm0			; xmm2 = [a,b,c,d,e,f,g,h] (primeros 8 px)
+	pmullw xmm2, xmm5			; xmm2 = primeros 8 px multiplicados por la matríz
+	movdqu xmm4, xmm5			; xmm4 = línea de la matríz
+	psrldq xmm4, 4				; xmm4 = [m3,m1,m2,m3,m1,m2,0,0]
+	movdqu xmm3, xmm1			; xmm3 = [i,j,k,l,m,n,o,p] (segundos 8 px)
+	pmullw xmm3, xmm4			; xmm3 = segundos 8 px multiplicados por la máscara corrida
+	pshufd xmm3, xmm3, 00000000b		; xmm3 = [x,x,x,x,x,x,i*m3,x]
+	movdqu xmm4, [mask_2words_masSig]	; xmm4 = 0xFFFF0...0
+	andps xmm3, xmm4			; xmm3 = [0,0,0,0,0,0,i*m3,x]
+	andps xmm2, xmm4			; xmm2 = [0,0,0,0,0,0,g*m1,h*m2]
+	paddw xmm3, xmm2			; xmm3 = [0,0,0,0,0,0,i*m3+g*m1,x]
+	pshufhw xmm2, xmm2, 11000000b
+	pshufhw xmm3, xmm3, 10000000b		; xmm3 = [0,0,0,0,0,0,0,i*m3+g*m1]
+	paddw xmm3, xmm2			; xmm3 = [0,0,0,0,0,0,0,i*m3+g*m1+h*m2]
+	paddw xmm7, xmm3			; acumulo en xmm7 el resultado
+
+	movdqu xmm2, xmm0			; xmm2 = [a,b,c,d,e,f,g,h] (primeros 8px)
+	movdqu xmm3, xmm1			; xmm1 = [i,j,k,l,m,n,o,p] (segundos 8px)
+	movdqu xmm4, xmm5			; xmm4 = línea de la matríz
+	psrldq xmm4, 1				; xmm4 = [0,m1,m2,m3,m1,m2,m3,m1]
+	pmullw xmm2, xmm4			; xmm2 = [0,x ,x ,x ,x ,x ,x ,h*m1]
+	pslldq xmm4, 2				; xmm4 = [m2,m3,m1,m2,m3,m1,0,0]
+	pmullw xmm3, xmm4			; xmm3 = [i*m2,j*m3,x,x,x,x,x,x]
+	movdqu xmm4, [mask_2words_menSig]	; xmm4 = 0x0...0FFFF
+	andps xmm3, xmm4			; xmm3 = [i*m2,j*m3,0,0,0,0,0,0]
+	movdqu xmm4, [mask_2words_masSig]	; xmm4 = 0xFFFF0...0
+	andps xmm2, xmm4			; xmm2 = [0,0,0,0,0,0,x,h*m1]
+	pshufd xmm2, xmm2, 00000011b		; xmm2 = [x,h*m1,0,0,0,0,0,0]
+	pshuflw xmm2, xmm2, 11111101b		; xmm2 = [h*m1,0,0,0,0,0,0,0]
+	paddw xmm3, xmm2			; xmm3 = [i*m2+h*m1,j*m3,0,0,0,0,0,0]
+	pshuflw xmm2, xmm3, 11111101b		; xmm2 = [j*m3,0,0,0,0,0,0,0]
+	paddw xmm3, xmm2			; xmm3 = [i*m2+h*m1+j*m3,0,0,0,0,0,0]
+	;paddw xmm6, xmm3			; acumulo en xmm6 el resultado
+	
+
+	;movdqu xmm4,[mask_2words_masSig]	; xmm4 = máscara para dejar las 2 words más significativas
+	;andps xmm0, xmm4			; xmm0 == [0,0,0,0,0,0,g,h]
+	;movdqu xmm3,xmm1			; xmm3 == [i,j,k,l,m,n,o,p]
+	;movdqu xmm4,[mask_2words_menSig]	; xmm4 = máscara para dejar las 2 words menos significativas
+	;andps xmm3, xmm4			; xmm3 == [i,j,0,0,0,0,0,0]
+
+
 	;pshuflw xmm3, xmm3, 01001100b		; xmm3 == [i,0,i,j,0,0,0,0]
 	;pshufd xmm3, xmm3, 01110011b		; xmm3 == [0,0,i,0,0,0,i,j]
 	;pshufhw xmm3, xmm3, 00111000b		; xmm3 == [0,0,i,0,0,i,j,0]
@@ -73,23 +121,23 @@
 	;paddw xmm7, xmm3
 	
 
-	paddw xmm0,xmm3				; xmm0 == [i,j,0,0,0,0,g,h]
-	pshufd xmm0,xmm0,00111100b		; xmm0 == [i,j,g,h,g,h,i,j]
-	pshuflw xmm3,xmm0,00001100b		; xmm3 == [++,-h,+,+,+,+,-g,++]
-	pshufhw xmm3,xmm3,00000000b
-	movdqu xmm4,[neg_1]
-	pmullw xmm3,xmm4
-	paddw xmm0,xmm3			;xmm0 == [- ,AH,-,-,--,-,HH, -]
-	pshuflw xmm0,xmm0,00000001b
-	pshufhw xmm0,xmm0,10000000b
-	movdqu xmm4,[mask_primYult]
-	andps xmm0,xmm4			;xmm0 == [AH,-,-,-,-,-,-,-,HH]
-	movdqu xmm5,xmm0
-	movdqu xmm4,[mask_2words_menSig]
-	andps xmm5,xmm4			;xmm6 == [aH,0,0,0,0,0,0,0]
-	movdqu xmm4,[mask_2words_masSig]
-	andps xmm0,xmm4			;xmm0 == [0,0,0,0,0,0,0,h]
-	paddw xmm7,xmm0			;xmm7 == [0,b,c,d,e,f,g,h]
+	;paddw xmm0,xmm3				; xmm0 == [i,j,0,0,0,0,g,h]
+	;pshufd xmm0,xmm0,00111100b		; xmm0 == [i,j,g,h,g,h,i,j]
+	;pshuflw xmm3,xmm0,00001100b		; xmm3 == [++,-h,+,+,+,+,-g,++]
+	;pshufhw xmm3,xmm3,00000000b
+	;movdqu xmm4,[neg_1]
+	;pmullw xmm3,xmm4
+	;paddw xmm0,xmm3			;xmm0 == [- ,AH,-,-,--,-,HH, -]
+	;pshuflw xmm0,xmm0,00000001b
+	;pshufhw xmm0,xmm0,10000000b
+	;movdqu xmm4,[mask_primYult]
+	;andps xmm0,xmm4			;xmm0 == [AH,-,-,-,-,-,-,-,HH]
+	;movdqu xmm5,xmm0
+	;movdqu xmm4,[mask_2words_menSig]
+	;andps xmm5,xmm4			;xmm6 == [aH,0,0,0,0,0,0,0]
+	;movdqu xmm4,[mask_2words_masSig]
+	;andps xmm0,xmm4			;xmm0 == [0,0,0,0,0,0,0,h]
+	;paddw xmm7,xmm0			;xmm7 == [0,b,c,d,e,f,g,h]
 
 ; proceso la parte alta
 	procesarLineaX xmm1, xmm6, %2
@@ -106,6 +154,7 @@ section .data
 	mask_borrar_px1: DQ 0x00000000ffff0000, 0x000000000000ffff
 	mask_borrar_px2: DQ 0x0000ffff00000000, 0x00000000ffff0000
 	mask_borrar_px3: DQ 0xffff000000000000, 0x0000ffff00000000
+	mask_limpiar: 	 DQ 0xFFFF00000000FFFF, 0x0000000000000000
 	neg_1: DQ -1,-1
 	mask_2words_masSig: DQ 0, 0xffffffff00000000
 	mask_2words_menSig: DQ 0x00000000ffffffff, 0
@@ -144,6 +193,7 @@ ciclo_xorder:
 
 	lea edx, [esi+ecx]
 	aplicarLineaX edx, sobel_X_linea1	; calcula en xmm6:xmm7 la primer línea
+db:
 	add edx, width
 	aplicarLineaX edx, sobel_X_linea2
 	add edx, width
