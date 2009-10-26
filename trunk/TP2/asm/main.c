@@ -17,7 +17,7 @@ int apply_filter( char filter, IplImage *src, IplImage *dst ) {
 		case '2':
 			// Aplico el filtro (Roberts con derivada x en este caso)
 			//asmPrewitt(src->imageData, dst->imageData,src->width,src->height, 1,1);
-			//f=&asmPrewitt;
+			f=&asmPrewitt;
 			break;
 		case '3':
 			// Aplico el filtro (Sobel con derivada x en este caso)

@@ -32,22 +32,6 @@
 	ret
 %endmacro
 
-%macro getLineSize 2		; getLineSize(width, align)
-	mov eax, %1		;eax = width
-	mov esi, %2		;esi = 4
-	xor edx, edx		;edx = 0		
-	div esi			;eax = width/align , edx = width%align
-
-	mov eax, %1		;eax = width	
-	cmp edx, 0		;el ancho era múltiplo de 4?
-	je  .return		;si ya era, entonces devuelve el line
-
-	sub eax, edx		;eax = width - width%align
-	add eax, esi		;eax = width - witdh%align + align
-.return:
-	mov line, eax
-%endmacro
-
 ; procesarFragmentoX input, acumulador, shuf1, shuf2, máscara_px_procesados
 ; 	aplica la línea de la matríz para 2px del input y los suma en el
 ;	acumulador. Los px procesados son seleccionados mediante las máscaras.
@@ -141,5 +125,14 @@
 	procesarLineaX xmm1, xmm6, %2
 	
 	popad				; vuelvo todos los registros a como estaban antes de llamar a la macro
+%endmacro
+
+; abs xmm
+;	calcula el valor absoluto del registro (packed words)
+%macro abs 1
+	pxor xmm3,xmm3
+	pcmpgtw xmm3,%1
+	pxor %1,xmm3
+	psubw %1,xmm3
 %endmacro
 
