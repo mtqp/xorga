@@ -33,9 +33,9 @@
 
 %macro aplicarLineaX 2			; parámetros: puntero a src, línea de la matriz | resultado en xmm7
 	pushad				; guardo todos los registros de propósito general
-	mov esi, %1			; esi = puntero a src
+;	mov esi, %1			; esi = puntero a src ///
 
-	movdqu xmm0,[esi]		; xmm0 = 16 pixels de src
+	movdqu xmm0,[edx]		; xmm0 = 16 pixels de src
 	movdqu xmm1, xmm0
 
 	pxor xmm5, xmm5			; xmm5 = 0
@@ -74,12 +74,16 @@
 ; proceso la parte alta
 	procesarLineaX xmm1, xmm6, %2
 	
-	;movdqu xmm7, [test_mask]
+	paddw xmm6,[acum_lineasHigh]		;necesito tener acumulado las otras dos lineas lo q valieron
+	paddw xmm7,[acum_lineasLow]			; para despues mandar a [edi] saturar(suma de las tres) 
+	movdqu [acum_lineasHigh],xmm6		;tuve q usar un paddw mas un movdqu xq me tiraba invalid operand &opcode
+	movdqu [acum_lineasLow],xmm7	
 	popad				; vuelvo todos los registros a como estaban antes de llamar a la macro
 %endmacro
 
 section .data
-	acum_lineas : DQ 0,0,0,0
+	acum_lineasHigh : DQ 0,0
+	acum_lineasLow: DQ 0,0
 	acum_filas : DD 0
 	sobel_X_linea1: DW -1,0,1,-1,0,1,-1,0
 	sobel_X_linea2: DW -2,0,2,-2,0,2,-2,0
@@ -112,7 +116,7 @@ asmSobel:
 	dec dword height
 	add edi,width			; avanza edi una línea xq la 1er línea va en negro
 	mov eax,xorder			; eax = xorder (nunca ambos tienen q ser cero!)
-	mov ebx,yorder			; eax = yorder (xq x implement haria el deriv_xy)
+	mov ebx,yorder			; ebx = yorder (xq x implement haria el deriv_xy)
 	cmp eax,ebx			; compara xorder con yorder
 ;	je deriv_xy			; si son iguales, entonces es porque se usan ambas derivadas (nunca deberia pasarse como param 0, 0)
 ;	jg deriv_y			; sino, si sólo tiene yorder, salta la parte de xorder
@@ -129,9 +133,13 @@ ciclo_xorder:
 	add edx, width
 	aplicarLineaX edx, sobel_X_linea1
 
+	movdqu xmm7,[acum_lineasLow]
+	movdqu xmm6,[acum_lineasHigh]
 	packuswb xmm7, xmm6		; convierte de word a byte saturado ambos resultados y los deja en xmm7
 	movdqu [edi+ecx], xmm7		; copia el resultado a memoria
-
+	pxor xmm0,xmm0
+	movdqu [acum_lineasLow],xmm0		;se setean en cero para preparse para trabajar con la sig linea!
+	movdqu [acum_lineasHigh],xmm0
 ;//////////////////////////////////////////
 	add ecx,14			; avanza 14 columnas
 					; verifica si está cerca del final de la línea
@@ -144,9 +152,29 @@ ciclo_xorder:
 	je avanzar_linea		; si son iguales avanza a la siguiente fila
 					; sino reposiciona la columna para terminar de procesar
 	mov edx, width			; edx = ancho
-	sub edx, 14			; edx = ancho - 14 [posible segfault! lo dejo porque anda por ahora]
+	sub edx, 16			; edx = ancho - 16 Y PROCESO LA ULTIMA LINEA!
 	mov ecx, edx			; columna actual = ancho - 14
-	jmp ciclo_xorder		; procesa el último ciclo de la fila
+	
+	
+procesar_ultimaLinea:
+	pxor xmm7,xmm7			; xmm7 = 0 [acumulador parte baja]
+	pxor xmm6,xmm6			; xmm6 = 0 [acumulador parte alta]
+
+	lea edx, [esi+ecx]
+	aplicarLineaX edx, sobel_X_linea1	; calcula en xmm6:xmm7 la primer línea
+	add edx, width
+	aplicarLineaX edx, sobel_X_linea2
+	add edx, width
+	aplicarLineaX edx, sobel_X_linea1
+
+	movdqu xmm7,[acum_lineasLow]
+	movdqu xmm6,[acum_lineasHigh]
+	packuswb xmm7, xmm6		; convierte de word a byte saturado ambos resultados y los deja en xmm7
+	movdqu [edi+ecx], xmm7		; copia el resultado a memoria
+	pxor xmm0,xmm0
+	movdqu [acum_lineasLow],xmm0		;se setean en cero para preparse para trabajar con la sig linea!
+	movdqu [acum_lineasHigh],xmm0
+
 
 avanzar_linea:
 	xor ecx, ecx			; resetea el contador de columnas
@@ -156,7 +184,7 @@ avanzar_linea:
 	cmp ebx, height			; compara el contador de filas con la altura
 	jne ciclo_xorder		; mientras no llegue a la última línea, sigo procesando
 	convencion_C_fin
-
+;	ret
 
 ;/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
