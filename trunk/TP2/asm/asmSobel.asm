@@ -1,41 +1,45 @@
 %include "macros.asm"
 
+; procesarFragmentoX input, acumulador, shuf1, shuf2, máscara_px_procesados
+; 	aplica la línea de la matríz para 2px del input y los suma en el
+;	acumulador. Los px procesados son seleccionados mediante las máscaras.
 %macro procesarFragmentoX 5
-	pmullw %1,xmm5			; xmm0 = [8px]*[línea de la matríz]
+	movdqu xmm2, %1			; copio el input original
+	pmullw xmm2,xmm5		; xmm2 = [8px]*[línea de la matríz]
 					; [a,B,c,d,E,f,o,o]
 					; b<-a+b+c,E<-d+e+f (b y e son ceros!)
 
-	pshufd xmm3,%1, %3		;? [E,F,C,D,Z,Z,Z,Z]
-	pshuflw xmm3,xmm3,%4
+	pshufd xmm3, xmm2, %3		;? [E,F,C,D,Z,Z,Z,Z]
+	pshuflw xmm3,xmm3, %4
 
-	paddw %1,xmm3			; xmm0 == [a+c,-,-,d+f,-,-,-,-]
-	pslldq %1,2			; xmm0 == [-,a+c,-,-,d+f,-,-,-]
+	paddw xmm2,xmm3			; xmm2 == [a+c,-,-,d+f,-,-,-,-]
+	pslldq xmm2,2			; xmm2 == [-,a+c,-,-,d+f,-,-,-]
 	movdqu xmm4,[%5]
-	andps %1,xmm4			; xmm0 == [0,a+c,0,0,d+f,0,0,0]
-	paddw %2,%1			; xmm7 += xmm0
-
+	andps xmm2, xmm4		; xmm2 == [0,a+c,0,0,d+f,0,0,0]
+	paddw %2, xmm2			; xmm7 += xmm2
 %endmacro
 
+; procesarLineaX input, output, línea_matríz
+;	aplica la línea de la matríz a los 6 px centrales del input
+;	El resultado se acumula en output. Tanto input como output
+;	deben ser 8 words.
 %macro procesarLineaX 3
-	movdqu xmm2, %1			; duplico xmm0 en xmm2 para futuro uso
 	movdqu xmm5, [%3]		; xmm5 = línea de la matríz a aplicar
 
 	procesarFragmentoX %1, %2, 00000110b, 01000010b, mask_borrar_px1
 
-	movdqu %1, xmm2
 	pslldq xmm5,2			; xmm5 == [0,-1,0,1,-1,0,1,-1]
 	procesarFragmentoX %1, %2, 00001100b, 00000010b, mask_borrar_px2
 
-	movdqu %1, xmm2
 	pslldq xmm5,2			; xmm5 == [0,0,-1,0,1,-1,0,1]
 	procesarFragmentoX %1, %2, 00111000b, 11100100b, mask_borrar_px3
 %endmacro
 
 %macro aplicarLineaX 2			; parámetros: puntero a src, línea de la matriz | resultado en xmm7
 	pushad				; guardo todos los registros de propósito general
-;	mov esi, %1			; esi = puntero a src ///
+	mov esi, %1			; esi = puntero a src
 
-	movdqu xmm0,[edx]		; xmm0 = 16 pixels de src
+	movdqu xmm0,[esi]		; xmm0 = 16 pixels de src
 	movdqu xmm1, xmm0
 
 	pxor xmm5, xmm5			; xmm5 = 0
@@ -46,27 +50,43 @@
 	procesarLineaX xmm0, xmm7, %2
 
 ; proceso los pixeles del medio
-	movdqu xmm0,xmm2
-	movdqu xmm4,[mask_2words_masSig]
-	andps xmm0,xmm4			;xmm0 == [0,0,0,0,0,0,g,h]
-	movdqu xmm3,xmm1		;xmm3 == parteALTA
-	movdqu xmm4,[mask_2words_menSig]
-	andps xmm3,xmm4			;xmm3 == [aH,bH,0,0,0,0,0,0]
-	paddw xmm0,xmm3			;xmm0 == [aH,bH,0,0,0,0,g,h]
-	pshufd xmm0,xmm0,00111100b	;xmm0 == [aH,bH,g,h,g,h,aH,bH]
-	pshuflw xmm3,xmm0,00001100b	;xmm3 == [++,-h,+,+,+,+,-g,++]
+	movdqu xmm4,[mask_2words_masSig]	; xmm4 = máscara para dejar las 2 words más significativas
+	andps xmm0, xmm4			; xmm0 == [0,0,0,0,0,0,g,h]
+	movdqu xmm3,xmm1			; xmm3 == [i,j,k,l,m,n,o,p]
+	movdqu xmm4,[mask_2words_menSig]	; xmm4 = máscara para dejar las 2 words menos significativas
+	andps xmm3, xmm4			; xmm3 == [i,j,0,0,0,0,0,0]
+	;pshuflw xmm3, xmm3, 01001100b		; xmm3 == [i,0,i,j,0,0,0,0]
+	;pshufd xmm3, xmm3, 01110011b		; xmm3 == [0,0,i,0,0,0,i,j]
+	;pshufhw xmm3, xmm3, 00111000b		; xmm3 == [0,0,i,0,0,i,j,0]
+	;pshufd xmm0, xmm0, 00110011b		; xmm0 == [g,h,0,0,g,h,0,0]
+	;pshufhw xmm0, xmm0, 11101001b		; xmm0 == [g,h,0,0,h,0,0,0]
+	;paddw xmm0, xmm3			; xmm0 == [g,h,i,0,h,i,j,0]
+	;movdqu xmm4,[sobel_X_medio]		; xmm4 == mascara del medio
+	;pmaddwd xmm0, xmm4			; xmm0 == [g*m1+h*m2,i*m3,h*m5+i*m6,j*m7]
+	;pshufd xmm5, xmm0, 00110001b		; xmm5 == [i*m3,X,j*m7,X]
+	;paddw xmm0, xmm5			; xmm0 == [g*m1+h*m2+i*m3, X, h*m5+i*m6+j*m7, X]
+	;packusdw xmm5, xmm5			; xmm5 == [res1,X,res2,X,res1,X,res2,X]
+	;pxor xmm3, xmm3	
+	;pshufhw xmm3, xmm5, 00000000b		; xmm3 == [0,0,0,0,res1,res1,res1,res1]
+	;pshufd xmm3, xmm3, 11000000b		; xmm3 == [0,0,0,0,0,0,res1,res1]
+	;pshufhw xmm3, xmm3, 11000000b		; xmm3 == [0,0,0,0,0,0,0,res1]
+	;paddw xmm7, xmm3
+	
+
+	paddw xmm0,xmm3				; xmm0 == [i,j,0,0,0,0,g,h]
+	pshufd xmm0,xmm0,00111100b		; xmm0 == [i,j,g,h,g,h,i,j]
+	pshuflw xmm3,xmm0,00001100b		; xmm3 == [++,-h,+,+,+,+,-g,++]
 	pshufhw xmm3,xmm3,00000000b
 	movdqu xmm4,[neg_1]
 	pmullw xmm3,xmm4
-	
 	paddw xmm0,xmm3			;xmm0 == [- ,AH,-,-,--,-,HH, -]
 	pshuflw xmm0,xmm0,00000001b
 	pshufhw xmm0,xmm0,10000000b
 	movdqu xmm4,[mask_primYult]
 	andps xmm0,xmm4			;xmm0 == [AH,-,-,-,-,-,-,-,HH]
-	movdqu xmm6,xmm0
+	movdqu xmm5,xmm0
 	movdqu xmm4,[mask_2words_menSig]
-	andps xmm6,xmm4			;xmm6 == [aH,0,0,0,0,0,0,0]
+	andps xmm5,xmm4			;xmm6 == [aH,0,0,0,0,0,0,0]
 	movdqu xmm4,[mask_2words_masSig]
 	andps xmm0,xmm4			;xmm0 == [0,0,0,0,0,0,0,h]
 	paddw xmm7,xmm0			;xmm7 == [0,b,c,d,e,f,g,h]
@@ -74,19 +94,15 @@
 ; proceso la parte alta
 	procesarLineaX xmm1, xmm6, %2
 	
-	paddw xmm6,[acum_lineasHigh]		;necesito tener acumulado las otras dos lineas lo q valieron
-	paddw xmm7,[acum_lineasLow]			; para despues mandar a [edi] saturar(suma de las tres) 
-	movdqu [acum_lineasHigh],xmm6		;tuve q usar un paddw mas un movdqu xq me tiraba invalid operand &opcode
-	movdqu [acum_lineasLow],xmm7	
 	popad				; vuelvo todos los registros a como estaban antes de llamar a la macro
 %endmacro
 
 section .data
-	acum_lineasHigh : DQ 0,0
-	acum_lineasLow: DQ 0,0
+	acum_lineas : DQ 0,0,0,0
 	acum_filas : DD 0
 	sobel_X_linea1: DW -1,0,1,-1,0,1,-1,0
 	sobel_X_linea2: DW -2,0,2,-2,0,2,-2,0
+	sobel_X_medio: DW -1,0,1,-1,0,1,0
 	mask_borrar_px1: DQ 0x00000000ffff0000, 0x000000000000ffff
 	mask_borrar_px2: DQ 0x0000ffff00000000, 0x00000000ffff0000
 	mask_borrar_px3: DQ 0xffff000000000000, 0x0000ffff00000000
@@ -116,7 +132,7 @@ asmSobel:
 	dec dword height
 	add edi,width			; avanza edi una línea xq la 1er línea va en negro
 	mov eax,xorder			; eax = xorder (nunca ambos tienen q ser cero!)
-	mov ebx,yorder			; ebx = yorder (xq x implement haria el deriv_xy)
+	mov ebx,yorder			; eax = yorder (xq x implement haria el deriv_xy)
 	cmp eax,ebx			; compara xorder con yorder
 ;	je deriv_xy			; si son iguales, entonces es porque se usan ambas derivadas (nunca deberia pasarse como param 0, 0)
 ;	jg deriv_y			; sino, si sólo tiene yorder, salta la parte de xorder
@@ -133,13 +149,9 @@ ciclo_xorder:
 	add edx, width
 	aplicarLineaX edx, sobel_X_linea1
 
-	movdqu xmm7,[acum_lineasLow]
-	movdqu xmm6,[acum_lineasHigh]
 	packuswb xmm7, xmm6		; convierte de word a byte saturado ambos resultados y los deja en xmm7
 	movdqu [edi+ecx], xmm7		; copia el resultado a memoria
-	pxor xmm0,xmm0
-	movdqu [acum_lineasLow],xmm0		;se setean en cero para preparse para trabajar con la sig linea!
-	movdqu [acum_lineasHigh],xmm0
+
 ;//////////////////////////////////////////
 	add ecx,14			; avanza 14 columnas
 					; verifica si está cerca del final de la línea
@@ -152,29 +164,9 @@ ciclo_xorder:
 	je avanzar_linea		; si son iguales avanza a la siguiente fila
 					; sino reposiciona la columna para terminar de procesar
 	mov edx, width			; edx = ancho
-	sub edx, 16			; edx = ancho - 16 Y PROCESO LA ULTIMA LINEA!
+	sub edx, 14			; edx = ancho - 14 [posible segfault! lo dejo porque anda por ahora]
 	mov ecx, edx			; columna actual = ancho - 14
-	
-	
-procesar_ultimaLinea:
-	pxor xmm7,xmm7			; xmm7 = 0 [acumulador parte baja]
-	pxor xmm6,xmm6			; xmm6 = 0 [acumulador parte alta]
-
-	lea edx, [esi+ecx]
-	aplicarLineaX edx, sobel_X_linea1	; calcula en xmm6:xmm7 la primer línea
-	add edx, width
-	aplicarLineaX edx, sobel_X_linea2
-	add edx, width
-	aplicarLineaX edx, sobel_X_linea1
-
-	movdqu xmm7,[acum_lineasLow]
-	movdqu xmm6,[acum_lineasHigh]
-	packuswb xmm7, xmm6		; convierte de word a byte saturado ambos resultados y los deja en xmm7
-	movdqu [edi+ecx], xmm7		; copia el resultado a memoria
-	pxor xmm0,xmm0
-	movdqu [acum_lineasLow],xmm0		;se setean en cero para preparse para trabajar con la sig linea!
-	movdqu [acum_lineasHigh],xmm0
-
+	jmp ciclo_xorder		; procesa el último ciclo de la fila
 
 avanzar_linea:
 	xor ecx, ecx			; resetea el contador de columnas
@@ -184,7 +176,7 @@ avanzar_linea:
 	cmp ebx, height			; compara el contador de filas con la altura
 	jne ciclo_xorder		; mientras no llegue a la última línea, sigo procesando
 	convencion_C_fin
-;	ret
+
 
 ;/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
