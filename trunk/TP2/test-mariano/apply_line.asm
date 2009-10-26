@@ -13,6 +13,20 @@ section .data
 section .text
 	global apply_lineX		;debo pasar *src y *dst
 					;procesar 14 elementos!
+	
+	global save_mem			;pasa a mem
+	
+save_mem:
+	%define ptr_mem [ebp+8]
+	pushad
+	
+	mov edi,ptr_mem
+	packuswb xmm7,xmm6
+	movdqu [edi],xmm7
+	
+	popad
+	ret
+	
 apply_lineX:
 	;convencion_C
 	pushad				;conviene para poder usar todos los reg
@@ -155,7 +169,7 @@ continuarH:
 
 fin_apply_line:
 
-	packuswb xmm7,xmm6
+;	packuswb xmm7,xmm6
 	;movdqu [edi],xmm7
 	;convencion_C_fin
 	popad
