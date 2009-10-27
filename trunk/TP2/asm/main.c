@@ -36,6 +36,9 @@ int apply_filter( char filter, IplImage *src, IplImage *dst ) {
 			//asmSobel(src->imageData, dst->imageData,src->width,src->height, 1,1);
 			f=&asmSobel;
 			break;
+		case '6':
+			f=&asmFreiChen;
+			break;
 	}
 	if( f != NULL ) {
 		// Tomar estado del TSC antes de iniciar el procesamiento de bordes.
@@ -59,6 +62,7 @@ void save_image( char *filename, IplImage *dst, char filter ) {
 	else if( filter == '3' ) filterName = (char*)"-sobel-x";
 	else if( filter == '4' ) filterName = (char*)"-sobel-y";
 	else if( filter == '5' ) filterName = (char*)"-sobel";
+	else if( filter == '6' ) filterName = (char*)"-frei-chenl";
 	// Compone el nombre del archivo final con la forma nombre_original-filtro.extension_original
 	finalName = (char*)malloc( len + strlen(filterName)+1 );
 	strncpy( finalName, filename, len-4 );
@@ -110,6 +114,9 @@ void showMsg( char filter, char window_mode ) {
 		case '5':
 			printf( "Usando el operador de Sobel para realzar bordes\nDerivando en X e Y\n"); 
 			break;
+		case '6':
+			printf( "Usando el operador de Frei-Chen para realzar bordes\n");
+			break;
 		case '0':
 			break;
 		default:
@@ -122,7 +129,8 @@ void showMsg( char filter, char window_mode ) {
 			printf( "    2: Operador de Prewitt\n");
 			printf( "    3: Operador de Sobel derivando por X\n");
 			printf( "    4: Operador de Sobel derivando por Y\n");
-			printf( "    5: Operador de Sobel derivando por X e Y\n\n");
+			printf( "    5: Operador de Sobel derivando por X e Y\n");
+			printf( "    6: Operador de Frei-Chen\n");
 			printf( "Si no se especifica un archivo de entrada, se usará 'lena.bmp'\n\n");
 			return;
 	}
@@ -135,6 +143,7 @@ void showMsg( char filter, char window_mode ) {
 		printf( "    3: Operador de Sobel derivando por X\n");
 		printf( "    4: Operador de Sobel derivando por Y\n");
 		printf( "    5: Operador de Sobel derivando por X e Y\n");
+		printf( "    6: Operador de Frei-Chen\n");
 		printf( "    0: Escala de grises\n");
 		printf( "    s: Guardar\n");
 		printf( "    q: Salir\n\n");
