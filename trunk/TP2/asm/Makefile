@@ -1,6 +1,6 @@
 CC=gcc
 CFLAGS=-c
-OBJECTS = main.o asmSobel.o asmPrewitt.o asmFreiChen.o
+OBJECTS = main.o asmSobel.o asmPrewitt.o asmFreiChen.o apply_lineFC.o
 #asmRoberts.o asmPrewitt.o
 
 bordes: $(OBJECTS)
