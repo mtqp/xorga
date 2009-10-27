@@ -88,7 +88,7 @@ void show_window( char* wndTitle, char* filename, IplImage *src, IplImage *dst, 
 		if( key == '0' ) cvShowImage( wndTitle, src);
 		else if( key == 's' ) save_image( filename, filter=='0'? src : dst, filter );
 		else if( key == 'q' || key=='\e' ) return;
-		else if( key > '0' && key <= '5' ) {
+		else if( key > '0' && key <= '6' ) {
 			apply_filter( key, src, dst );
 			cvShowImage( wndTitle, dst );
 			filter = key;
@@ -172,7 +172,7 @@ int main( int argc, char** argv )
 				break;
 			case 'r':
 				// Filtro = 0 si es inválido, de '1' a '5' si es válido
-				filter = (argv[i][2]>'0' && argv[i][2]<'6' && argv[i][3]=='\0' ) * argv[i][2];
+				filter = (argv[i][2]>'0' && argv[i][2]<='6' && argv[i][3]=='\0' ) * argv[i][2];
 				break;
 			case 'i':
 				iter = atoi(argv[++i]);
