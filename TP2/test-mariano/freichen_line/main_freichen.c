@@ -34,7 +34,7 @@ int main(){
 	printf("10.000 iteraciones cmp q en C y ASM FREICH -101 funcionasen bien\n");
 	printf("si no hay algun printf de error todas las cmp fueron exitosas\n");
 	printf("test sin saturacion \n");
-	for(j=0;j<10000;j+=1){				///menudo chequeo random para q ande!
+//	for(j=0;j<10000;j+=1){				///menudo chequeo random para q ande!
 		for(i=0;i<width;i+=1){
 			ptr_src[i]=(char) (rand()%30); 
 		}
@@ -48,7 +48,7 @@ int main(){
 				}
 			//}
 		}
-	}
+//	}
 	
 		/*for(i=0;i<width;i+=1){
 			ptr_src[i]=(char) (rand()%30); 
