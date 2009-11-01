@@ -1,0 +1,43 @@
+%macro convencion_C_mem 1
+	push ebp
+	mov ebp,esp
+	sub esp,%1
+	push edi
+	push esi
+	push ebx
+%endmacro
+
+%macro convencion_C_fin_mem 1
+	pop ebx
+	pop esi
+	pop edi
+	add esp,%1
+	pop ebp
+	ret
+%endmacro
+
+%macro convencion_C 0
+	push ebp
+	mov ebp,esp
+	push edi
+	push esi
+	push ebx
+%endmacro
+
+%macro convencion_C_fin 0
+	pop ebx
+	pop esi
+	pop edi
+	pop ebp
+	ret
+%endmacro
+
+; abs xmm
+;	calcula el valor absoluto del registro (packed words)
+%macro abs 1
+	pxor xmm7,xmm7
+	pcmpgtw xmm7,%1
+	pxor %1,xmm7
+	psubw %1,xmm7
+%endmacro
+

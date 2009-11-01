@@ -1,0 +1,84 @@
+srcl = a|b|c|d|e|f|g|h
+srch = i|j|k|l|m|n|o|p
+acul = A|B|C|D|E|F|G|H
+acuh = I|J|K|L|M|N|O|P
+tmp1
+tmp2
+tmp3
+tmp4
+
+B = c-a + (sig) 2*(c-a) + (2sig) c-a
+C = d-b
+D = e-c
+E = f-d
+F = g-e
+G = h-f
+H = i-g
+I = j-h
+J = k-i
+K = l-j
+L = m-k
+M = n-l
+N = o-m
+O = p-n
+
+
+ALGORITMO X [-1,0,1]
+
+tmp1 = a|b|c|d|e|f|g|h				; tmp1 = srcl
+tmp1 = c|d|e|f|g|h|0|0				; tmp1 >> 2*2
+tmp1 = c-a|d-b|e-c|f-d|g-e|h-f|-g|-h		; tmp1 -= srcl
+tmp2 = tmp1					; tmp2 = tmp1
+tmp1 = 0|0|c-a|d-b|e-c|f-d|g-e|h-f		; tmp1 << 2*2
+tmp1 = 0|c-a|d-b|e-c|f-d|g-e|h-f|0		; tmp1 >> 1*2
+acul += tmp1					; acul += tmp1
+
+tmp1 = i|j|k|l|m|n|o|p				; tmp1 = srch
+tmp1 = k|l|m|n|o|p|0|0				; tmp1 >> 2*2
+tmp1 = k-i|l-j|m-k|n-l|o-m|p-n|-o|-p		; tmp1 -= srch
+tmp1 = 0|0|k-i|l-j|m-k|n-l|o-m|p-n		; tmp1 << 2*2
+tmp1 = 0|k-i|l-j|m-k|n-l|o-m|p-n|0		; tmp1 >> 1*2
+acuh += tmp1					; acuh += tmp1
+
+tmp1 = i|j|k|l|m|n|o|p				; tmp1 = srch
+tmp1 = 0|0|0|0|0|0|i|j				; tmp1 << 6*2
+tmp2 = -|-|-|-|-|-|i-g|j-h			; tmp2 += tmp1
+tmp2 = i-g|j-h|0|0|0|0|0|0			; tmp2 >> 6*2
+tmp1 = tmp2					; tmp1 = tmp2
+tmp2 = 0|0|0|0|0|0|0|i-g			; tmp2 << 7*2
+tmp1 = j-h|0|0|0|0|0|0|0			; tmp1 >> 1*2
+acul += tmp2					; acul += tmp2
+acuh += tmp1					; acuh += tmp1
+
+
+ALGORITMO Y [1,2,1]
+tmp1 = a|b|c|d|e|f|g|h					; tmp1 = srcl
+tmp1 = b|c|d|e|f|g|h|0					; tmp1 >> 1*2
+tmp1 = 2b|2c|2d|2e|2f|2g|2h|0				; tmp1 += tmp1
+tmp1 = a+2b|b+2c|c+2d|d+2e|e+2f|f+2g|g+2h|h		; tmp1 += srcl
+tmp2 = a|b|¢|d|e|f|g|h					; tmp2 = srcl
+tmp2 = c|d|e|f|g|h|0|0					; tmp2 >> 2*2
+tmp1 = a+2b+c|b+2c+d|c+2d+e|d+2e+f|e+2f+g|f+2g+h|g+2h|h	; tmp1 += tmp2
+tmp3 = tmp1						; tmp3 = tmp1
+tmp1 = 0|0|a+2b+c|b+2c+d|c+2d+e|d+2e+f|e+2f+g|f+2g+h	; tmp1 << 2*2
+tmp1 = 0|a+2b+c|b+2c+d|c+2d+e|d+2e+f|e+2f+g|f+2g+h|0	; tmp1 >> 1*2
+acuh += tmp1						; acuh += tmp1
+
+tmp1 = i|j|k|l|m|n|o|p				; tmp1 = srch
+tmp2 = tmp1					; tmp2 = srch
+tmp1 = 0|0|0|0|0|0|i|j				; tmp1 << 6*2
+tmp2 = j|k|l|m|n|o|p|0				; tmp2 >> 1*2
+tmp2 = 0|0|0|0|0|0|0|j				; tmp2 << 7*2
+tmp1 = 0|0|0|0|0|0|i|2j				; tmp1 += tmp2
+tmp2 = tmp1					; tmp2 = tmp1
+tmp2 = 0|0|0|0|0|0|0|i				; tmp2 << 1*2
+tmp1 = 0|0|0|0|0|0|i|2j+i			; tmp1 += tmp2
+tmp3 = -|-|-|-|-|-|g+2h+i|h+2j+i		; tmp3 += tmp1
+tmp3 = g+2h+i|h+2j+i|0|0|0|0|0|0		; tmp3 >> 6*2
+tmp1 = tmp3					; tmp1 = tmp3
+tmp3 = 0|0|0|0|0|0|0|g+2h+i			; tmp3 << 7*2
+tmp1 = h+2j+i|0|0|0|0|0|0|0			; tmp1 >> 1*2
+acul += tmp3					; acul += tmp3
+acuh += tmp1					; acuh += tmp1
+
+

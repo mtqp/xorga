@@ -1,0 +1,196 @@
+%include "macros.asm"
+%define srcl xmm0
+%define srch xmm1
+%define line xmm2
+%define acul xmm3
+%define acuh xmm4
+%define mask xmm5
+%define tmp1 xmm6
+%define tmp2 xmm7
+
+; calcular
+%macro calcular 0
+	pmullw tmp1, line
+	movdqu tmp2, tmp1
+	psrldq tmp2, 1*2
+	paddw tmp1, tmp2
+	psrldq tmp2, 1*2
+	paddw tmp1, tmp2
+	andps tmp1, mask
+%endmacro
+
+%macro procesarFragmento 2
+	movdqu tmp1, %1
+	calcular
+	%ifdef CALCULAR_HIGH
+		pslldq tmp1, 2*2
+		psrldq tmp1, 1*2
+	%else		
+		pslldq tmp1, 1*2
+	%endif
+	paddw %2, tmp1
+
+	movdqu tmp1, %1
+	psrldq tmp1, 1*2
+	calcular
+	pslldq tmp1, 2*2
+	paddw %2, tmp1
+
+	movdqu tmp1, %1
+	psrldq tmp1, 2*2
+	calcular
+	pslldq tmp1, 3*2
+	paddw %2, tmp1
+%endmacro
+
+%macro procesarLinea 0
+	pxor tmp1, tmp1
+	movdqu srcl, [esi+ecx]
+	movdqu srch, srcl
+	punpcklbw srcl, tmp1
+	punpckhbw srch, tmp1
+
+	procesarFragmento srcl, acul
+
+	movdqu tmp1, srch
+	pslldq tmp1, 5*2
+	pmullw tmp1, line
+	pslldq tmp1, 2*2
+	paddw acul, tmp1
+
+	movdqu tmp2, line	; tmp2 = x|y|z|x|y|z|x|y
+	psrldq tmp2, 1*2	; tmp2 = y|z|x|y|z|x|y|0
+	movdqu tmp1, srch	; tmp1 = i|j|k|l|m|n|o|p
+	pmullw tmp1, tmp2	; tmp1 = iy|jz|--|--|--|--|--|--
+	movdqu tmp2, tmp1	; tmp2 = iy|jz|--|--|--|--|--|--
+	psrldq tmp2, 1*2	; tmp2 = jz|--|--|--|--|--|--|--
+	paddw tmp1, tmp2	; tmp1 = iy+jz|--|--|--|--|--|--|--
+	movdqu tmp2, srcl	; tmp2 = a|b|c|d|r|f|g|h
+	psrldq tmp2, 7*2	; 
+	pmullw tmp2, line
+	paddw tmp1, tmp2
+	pslldq tmp1, 7*2
+	psrldq tmp1, 7*2
+	paddw acuh, tmp1
+
+	%define CALCULAR_HIGH
+	procesarFragmento srch, acuh
+	%undef CALCULAR_HIGH
+
+%endmacro
+
+%macro SobelX
+
+	pxor acul,acul			; acul = 0 [acumulador parte baja]
+	pxor acuh,acuh			; acuh = 0 [acumulador parte alta]
+
+	procesarLinea
+	lea esi, [esi+edx]
+	paddw line, line
+	procesarLinea
+	
+	lea esi, [esi+edx]
+	psraw line, 1
+	procesarLinea
+
+	sub esi, edx
+	sub esi, edx
+	packuswb acul, acuh
+	psrldq acul, 1
+	movdqu [edi+ecx], acul
+
+%endmacro
+
+%macro SobelY
+
+	pxor acul,acul			; acul = 0 [acumulador parte baja]
+	pxor acuh,acuh			; acuh = 0 [acumulador parte alta]
+
+	procesarLinea
+	lea esi, [esi+edx]
+	movdqu line, [yline2]
+	procesarLinea
+	
+	lea esi, [esi+edx]
+	psraw line, 1
+	procesarLinea
+
+	sub esi, edx
+	sub esi, edx
+	packuswb acul, acuh
+	psrldq acul, 1
+	movdqu [edi+ecx], acul
+
+%endmacro
+
+
+
+section .data
+	xline: DW -1,0,1,-1,0,1,-1,0
+	mask_clean: DW 0xFFFF,0,0,0xFFFF,0,0,0xFFFF,0
+	yline1: DW -1,-2,-1,-1,-2,-1,-1,-2
+	yline2: DW 1,2,1,1,2,1,1,2
+
+section .text
+	global asmSobel
+
+; COSAS A TENER EN CUENTA:
+; 	- no hay alineamiento xq es múltiplo de 4 el ancho de la imágen
+asmSobel:
+	convencion_C		
+	%define ptr_src		[ebp+8]
+	%define ptr_dst		[ebp+12]
+	%define width		[ebp+16]
+	%define height		[ebp+20]
+	%define xorder		[ebp+24]
+	%define yorder 		[ebp+28]
+	
+	xor ecx, ecx			; ecx = 0 [contador de columnas]
+	xor ebx, ebx			; ebx = 0 [contador de filas]
+	mov esi, ptr_src		; esi = puntero al inicio de línea src
+	mov edi, ptr_dst		; edi = puntero al inicio de línea dst
+	mov edx, width
+
+	sub dword height, 3
+	add edi,width			; avanza edi una línea xq la 1er línea va en negro
+	mov al,xorder			; eax = xorder
+	mov ah,yorder			; eax = yorder
+
+	movdqu line, [xline]		; carga la línea de la matríz en line
+	movdqu mask, [mask_clean]	; carga la máscara en el registro correspondiente
+
+procesar:
+	SobelX
+	SobelY
+	;cmp al, 0
+	;je derivada_y
+
+	;pxor acul,acul			; acul = 0 [acumulador parte baja]
+	;pxor acuh,acuh			; acuh = 0 [acumulador parte alta]
+
+	;cmp ah, 0
+	;je proximos_pixels
+
+	;add ecx,14			; avanza 14 columnas
+					; verifica si está cerca del final de la línea
+	lea ecx, [ecx+2*16-2*2]		; avanzo 28 columnas
+	cmp ecx, edx			; verifica si al procesar 14 bytes se pasa o no del ancho
+	lea ecx, [ecx-14]		; columna actual = columna del ciclo anterior + 14
+	jl procesar			; si no se pasa continúa procesando
+					; si se pasa..
+
+	cmp ecx, edx			; compara la columna actual con el ancho de la imágen
+	je avanzar_linea		; si son iguales avanza a la siguiente fila
+					; sino reposiciona la columna para terminar de procesar
+	lea ecx, [edx-14]		; columna actual = ancho - 14
+	jmp procesar			; procesa el último ciclo de la fila
+
+avanzar_linea:
+	xor ecx, ecx			; resetea el contador de columnas
+	lea edi, [edi+edx]		; avanza la fila correspondiente
+	lea esi, [esi+edx]
+	inc ebx				; incrementa el contador de filas
+	cmp ebx, height			; compara el contador de filas con la altura
+	jne procesar	 		; mientras no llegue a la última línea, sigo procesando
+	convencion_C_fin
+
