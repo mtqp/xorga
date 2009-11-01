@@ -1,0 +1,78 @@
+NUEVO ALGORITMO
+
+srcl = a|b|c|d|e|f|g|h
+srch = i|j|k|l|m|n|o|p
+line = x|y|z|x|y|z|x|y
+acul = A|B|C|D|E|F|G|H
+acuh = I|J|K|L|M|N|O|P
+mask = 1|0|0|1|0|0|0|0
+tmp1
+tmp2
+
+B = ax+by+cz
+E = dx+ey+fc
+H = gx+hy+iz
+K = jx+ky+lz
+N = mx+ny+oz
+
+MACROS:
+
+macro procesarFragmento src, acu
+
+tmp1 = a |b |c |d |e |f |g |h				; copio src
+
+macro calcular						;primera vez, calculo B, E, H, K, N
+tmp1 = ax|by|cz|dx|ey|fz|gx|hy				; tmp1 *= line
+tmp2 = ax|by|cz|dx|ey|fz|gx|hy				; tmp2 = tmp1
+tmp2 = by|cz|dx|ey|fz|gx|hy|00				; tmp2 >> 1*2
+tmp1 = ax+by|--|--|dx+ey|--|--|gx+hy|--			; tmp1 += tmp2
+tmp2 = cz|dx|ey|fz|gx|hy|00|00				; tmp2 >> 1*2
+tmp1 = ax+by+cz|--|--|dx+ey+fz|--|--|gx+hy|--		; tmp1 += tmp2
+tmp1 = ax+by+cz|00|00|dx+ey+fz|00|00|gx+hy|00		; tmp1 &= mask
+endmacro
+
+tmp1 = 00|ax+by+cz|00|00|dx+ey+fz|00|00|gx+hy		; tmp1 << 1*2
+acu += tmp1
+
+tmp1 = a |b |c |d |e |f |g |h				; copio src
+tmp1 = b |c |d |e |f |g |h |0				; tmp1 >> 1*2
+tmp1 = bx+cy+dz|00|00|ex+fy+gz|00|00|hx|00		; calcular
+tmp1 = 00|00|bx+cy+dz|00|00|ex+fy+gz|00|00		; tmp1 << 2*2
+acu += tmp1
+
+tmp1 = a |b |c |d |e |f |g |h				; copio src
+tmp1 = c |d |e |f |g |h |0 |0				; tmp1 >> 2
+tmp1 = cx+dy+ez|00|00|fx+gy+hz|00|00|00|00		; calcular
+tmp1 = 00|00|00|cx+dy+ez|00|00|fx+gy+hz|00		; tmp1 << 3
+acu += tmp1
+
+endmacro
+
+ALGORITMO:
+acuh = 0
+acul = 0
+acul = 00|ax+by+cz|bx+cy+dz|cx+dy+ez|dx+ey+fz|ex+fy+gz|fx+gy+hz|gx+hy 	; procesarFragmento srcl, acul
+tmp1 = i |j |k |l |m |n |o |p				; copio srch
+tmp1 = 00|00|00|00|00|i |--|--				; tmp1 << 5*2
+tmp1 = 00|00|00|00|00|iz|--|--				; tmp1 *= line
+tmp1 = 00|00|00|00|00|00|00|iz				; tmp1 << 2*2
+acul = 00|ax+by+cz|bx+cy+dz|cx+dy+ez|dx+ey+fz|ex+fy+gz|fx+gy+hz|gx+hy+iz ; acul += tmp1
+
+tmp2 = x|y|z|x|y|z|x|y					; tmp2 = line
+tmp2 = y|z|x|y|z|x|y|0					; tmp2 >> 1*2
+tmp1 = i |j |k |l |m |n |o |p				; tmp1 = srch
+tmp1 = iy|jz|--|--|--|--|--|--				; tmp1 *= tmp2
+tmp2 = tmp1
+tmp2 = jz|--|--|--|--|--|--|--				; tmp2 >> 1*2
+tmp1 = iy+jz|--|--|--|--|--|--|--			; tmp1 += tmp2
+tmp2 = a |b |c |d |e |f |g |h				; tmp2 = srcl
+tmp2 = h |00|00|00|00|00|00|00				; tmp2 >> 7*2
+tmp2 = hx|00|00|00|00|00|00|00				; tmp2 *= line
+tmp1 = hx+iy+jz|--|--|--|--|--|--|--			; tmp1 += tmp2
+tmp1 = 00|00|00|00|00|00|00|hx+iy+jz			; tmp1 << 7*2
+tmp1 = hx+iy+jz|00|00|00|00|00|00|00			; tmp1 >> 7*2
+acuh += tmp1
+
+%define CALCULAR_HIGH
+acuh = hx+iy+jz|ix+jy+kz|jx+ky+lz|kx+ly+mz|lx+my+nz|mx+ny+oz|nx+oy+pz|00 ; procesarFragmento srcl, acuh
+%undef CALCULAR_HIGH

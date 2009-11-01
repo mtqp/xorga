@@ -1,0 +1,65 @@
+src = a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p
+lin = x|y|z|x|y|z|x|y|z|x|y|z|x|y|z|x
+ac1 = B  |C  |D  |E  |F  |G  |H  |I
+ac2 = J  |K  |L  |M  |N  |O  
+tmp1
+tmp2
+msk1
+msk2
+
+A = ax+by+cz
+B = dx+ey+fc
+C = gx+hy+iz
+D = jx+ky+lz
+E = mx+ny+oz
+
+primera vez, calculo B, E, H, K, N
+	 mask = a |b |c |d |e |f |g |h |i |j |k |l |m |n |o |p
+	+msk1 = FF|FF|00|FF|FF|FF|FF|FF|FF|00|FF|FF|FF|FF|FF|00
+	tmp1 = a|b|0|d|e|f|g|h|i|0|k|l|m|n|o|0
+
+	tmp1 = tmp1 *+ lin
+
+	tmp1 = ax+by|0z+dx|ey+fz|gx+hy|iz+0x|ky+lz|mx+ny|oz+0x
+
+	+msk1 = neg msk1
+	tmp2 = 0|0|c|0|0|0|0|0|0|j|0|0|0|0|0|p
+	tmp2 = 000|cz |000|000|jx |000|000|px
+	tmp2 = cz |000|000|000|000|jx |000|000
+
+	tmp1 = tmp1 + tmp2
+
+	tmp2 = -----|-----|0z+dx|iz+0x|-----|-----|oz+0x|-----
+
+	tmp1 = tmp1 + tmp2
+
+	+msk2 = FFFF|0000|FFFF|FFFF|0000|FFFF|FFFF|0000
+	tmp1 = ax+by+cz|00000000|dx+ey+fz|gx+hy+iz|00000000|jx+ky+lz|mx+ny+oz|00000000
+----------
+	tmp2 = 000|K  |000|000|N  |000|000|000
+	tmp1 = B  |000|000|E  |000|000|H  |000
+	acu1 += tmp1
+	acu2 += tmp2
+
+segunda vez, calculo C, F, I, L, O
+	tmp1 = b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|0
+	vuelvo a calcular
+	tmp2 = 000|000|L  |000|000|O  |000|000
+	tmp1 = 000|C  |000|000|F  |000|000|I
+	acu1 += tmp1
+	acu2 += tmp2
+
+tercera vez, calculo D, G, J, M
+	tmp1 = b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|0
+	vuelvo a calcular
+	tmp2 = J  |000|000|M  |000|000|000|000
+	tmp1 = 000|000|D  |000|000|G  |000|000
+	acu1 += tmp1
+	acu2 += tmp2
+
+cambio msk
+vuelvo a calcular todo
+cambio msk
+vuelvo a calcular todo
+empaqueto saturando a byte
+muevo a memoria
