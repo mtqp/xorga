@@ -36,6 +36,8 @@ int apply_filter( char filter, IplImage *src, IplImage *dst ) {
 			//asmSobel(src->imageData, dst->imageData,src->width,src->height, 1,1);
 			f=&asmSobel;
 			break;
+		case '6':
+			f=&asmFreiChen;
 	}
 	if( f != NULL ) {
 		// Tomar estado del TSC antes de iniciar el procesamiento de bordes.
@@ -59,6 +61,7 @@ void save_image( char *filename, IplImage *dst, char filter ) {
 	else if( filter == '3' ) filterName = (char*)"-sobel-x";
 	else if( filter == '4' ) filterName = (char*)"-sobel-y";
 	else if( filter == '5' ) filterName = (char*)"-sobel";
+	else if( filter == '6' ) filterName = (char*)"-frei-chen";
 	// Compone el nombre del archivo final con la forma nombre_original-filtro.extension_original
 	finalName = (char*)malloc( len + strlen(filterName)+1 );
 	strncpy( finalName, filename, len-4 );
@@ -84,7 +87,7 @@ void show_window( char* wndTitle, char* filename, IplImage *src, IplImage *dst, 
 		if( key == '0' ) cvShowImage( wndTitle, src);
 		else if( key == 's' ) save_image( filename, filter=='0'? src : dst, filter );
 		else if( key == 'q' || key=='\e' ) return;
-		else if( key > '0' && key <= '5' ) {
+		else if( key > '0' && key <= '6' ) {
 			apply_filter( key, src, dst );
 			cvShowImage( wndTitle, dst );
 			filter = key;
@@ -109,6 +112,9 @@ void showMsg( char filter, char window_mode ) {
 			break;
 		case '5':
 			printf( "Usando el operador de Sobel para realzar bordes\nDerivando en X e Y\n"); 
+			break;
+		case '6':
+			printf( "Usando el operador de Frei-Chen para realzar bordes\nDerivando en X e Y\n"); 
 			break;
 		case '0':
 			break;
@@ -135,6 +141,7 @@ void showMsg( char filter, char window_mode ) {
 		printf( "    3: Operador de Sobel derivando por X\n");
 		printf( "    4: Operador de Sobel derivando por Y\n");
 		printf( "    5: Operador de Sobel derivando por X e Y\n");
+		printf( "    6: Operador de Frei-Chen\n");
 		printf( "    0: Escala de grises\n");
 		printf( "    s: Guardar\n");
 		printf( "    q: Salir\n\n");
@@ -163,7 +170,7 @@ int main( int argc, char** argv )
 				break;
 			case 'r':
 				// Filtro = 0 si es inválido, de '1' a '5' si es válido
-				filter = (argv[i][2]>'0' && argv[i][2]<'6' && argv[i][3]=='\0' ) * argv[i][2];
+				filter = (argv[i][2]>'0' && argv[i][2]<='6' && argv[i][3]=='\0' ) * argv[i][2];
 				break;
 			case 'i':
 				iter = atoi(argv[++i]);
