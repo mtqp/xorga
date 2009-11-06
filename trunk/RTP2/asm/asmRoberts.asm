@@ -13,16 +13,16 @@
 
 	movdqu srcl, [esi+ecx]		; srcl = 16px
 	movdqu srch, srcl		; srch = srcl
-	punpcklbw srcl, tmp3		; srcl = a|b|c|d|e|f|g|h
-	punpckhbw srch, tmp3		; srch = i|j|k|l|m|n|o|p
+	punpcklbw srcl, tmp4		; srcl = a|b|c|d|e|f|g|h
+	punpckhbw srch, tmp4		; srch = i|j|k|l|m|n|o|p
 	paddw acul, srcl
 	paddw acuh, srch
 	
 	lea esi, [esi+edx]		; avanza a la siguiente línea
 	movdqu srcl, [esi+ecx]		; srcl = 16px
 	movdqu srch, srcl		; srch = srcl
-	punpcklbw srcl, tmp3		; srcl = a|b|c|d|e|f|g|h
-	punpckhbw srch, tmp3		; srch = i|j|k|l|m|n|o|p
+	punpcklbw srcl, tmp4		; srcl = a|b|c|d|e|f|g|h
+	punpckhbw srch, tmp4		; srch = i|j|k|l|m|n|o|p
 	
 	movdqu tmp1, srcl		; tmp1 = a|b|c|d|e|f|g|h
 	psrldq tmp1, 1*2		; tmp1 = b|c|d|e|f|g|h|0
@@ -41,8 +41,8 @@
 
 	movdqu srcl, [esi+ecx]		; srcl = 16px
 	movdqu srch, srcl		; srch = srcl
-	punpcklbw srcl, tmp3		; srcl = a|b|c|d|e|f|g|h
-	punpckhbw srch, tmp3		; srch = i|j|k|l|m|n|o|p
+	punpcklbw srcl, tmp4		; srcl = a|b|c|d|e|f|g|h
+	punpckhbw srch, tmp4		; srch = i|j|k|l|m|n|o|p
 	movdqu tmp1, srcl		; tmp1 = a|b|c|d|e|f|g|h
 	psrldq tmp1, 1*2		; tmp1 = b|c|d|e|f|g|h|0
 	paddw acul, tmp1		; acul = b|c|d|e|f|g|h|0
@@ -56,8 +56,8 @@
 	lea esi, [esi+edx]		; avanza a la siguiente línea
 	movdqu srcl, [esi+ecx]		; srcl = 16px
 	movdqu srch, srcl		; srch = srcl
-	punpcklbw srcl, tmp3		; srcl = a|b|c|d|e|f|g|h
-	punpckhbw srch, tmp3		; srch = i|j|k|l|m|n|o|p
+	punpcklbw srcl, tmp4		; srcl = a|b|c|d|e|f|g|h
+	punpckhbw srch, tmp4		; srch = i|j|k|l|m|n|o|p
 	psubw acul, srcl
 	psubw acuh, srch
 
@@ -89,7 +89,7 @@ asmRoberts:
 	mov al,xorder			; eax = xorder
 	mov ah,yorder			; eax = yorder
 	
-	pxor tmp3, tmp3
+	pxor tmp4, tmp4
 
 procesar:
 	pxor acul,acul			; acul = 0 [acumulador parte baja]
