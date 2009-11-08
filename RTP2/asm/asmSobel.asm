@@ -72,42 +72,39 @@
 %endmacro
 
 %macro procesarLineaY 0
-	pxor tmp1, tmp1			;
-	movdqu srcl, [esi+ecx]		;
-	movdqu srch, srcl		;
-	punpcklbw srcl, tmp1		;
-	punpckhbw srch, tmp1		;
+	pxor tmp1, tmp1			; tmp1 = 0
+	movdqu srcl, [esi+ecx]		; srcl = 16px de src
+	movdqu srch, srcl		; srch = srcl
+	punpcklbw srcl, tmp1		; srcl = primeros 8px desempaquetados a word
+	punpckhbw srch, tmp1		; srch = segundos 8px desempaquetados a word
 
 	%define SAVE_RESULT
-	calcularY srcl			;
+	calcularY srcl			; tmp1 = resultado de calcular los primeros 8px
 	%undef SAVE_RESULT
 	%ifndef Y_LINE_3
-		psubw acul, tmp1	;
+		psubw acul, tmp1	; si es la línea 1 resta el resultado al acumulador
 	%else
-		paddw acul, tmp1	;
+		paddw acul, tmp1	; si es la línea 3 suma el resultado al acumulador
 	%endif
 	
-	calcularY srch			;
+	calcularY srch			; tmp1 = resultado de calcular los segundos 8px
 	%ifndef Y_LINE_3
-		psubw acuh, tmp1	;
+		psubw acuh, tmp1	; si es la línea 1 resta el resultado al acumulador
 	%else
-		paddw acuh, tmp1	;
+		paddw acuh, tmp1	; si es la línea 3 suma el resultado al acumulador
 	%endif
 
 	movdqu tmp1, srch		;tmp1 = i|j|k|l|m|n|o|p
 	movdqu tmp2, srch		;tmp2 = tmp1
-	pslldq tmp1, 6*2		;tmp1 = 0|0|0|0|0|0|i|j
-	psrldq tmp2, 1*2		;tmp2 = j|k|l|m|n|o|p|0
-	pslldq tmp2, 7*2		;tmp2 = 0|0|0|0|0|0|0|j
-	paddw tmp1, tmp2		;tmp1 = 0|0|0|0|0|0|i|2j
-	movdqu tmp2, tmp1		;tmp2 = tmp1
-	pslldq tmp2, 1*2		;tmp2 = 0|0|0|0|0|0|0|i
-	paddw tmp1, tmp2		;tmp1 = 0|0|0|0|0|0|i|2j+i
-	paddw tmp3, tmp1		;tmp3 = -|-|-|-|-|-|g+2h+i|h+2j+i
-	psrldq tmp3, 6*2		;tmp3 = g+2h+i|h+2j+i|0|0|0|0|0|0
+	paddw tmp2, tmp2		;tmp2 = 2i|-|-|-|-|-|-|-
+	pslldq tmp2, 1*2		;tmp2 = 0|2i|-|-|-|-|-|-
+	paddw tmp2, tmp1		;tmp2 = i|2i+j|-|-|-|-|-|-
+	psrldq tmp3, 6*2		;tmp3 = g+2h|h|-|-|-|-|-|-
+	paddw tmp3, tmp2		;tmp3 = g+2h+i|h+2i+j|-|-|-|-|-|-
+	pslldq tmp3, 6*2		;tmp3 = 0|0|0|0|0|0|g+2h+i|h+2i+j
 	movdqu tmp1, tmp3		;tmp1 = tmp3
-	pslldq tmp3, 7*2		;tmp3 = 0|0|0|0|0|0|0|g+2h+i
-	psrldq tmp1, 1*2		;tmp1 = h+2j+i|0|0|0|0|0|0|0
+	pslldq tmp3, 1*2		;tmp3 = 0|0|0|0|0|0|0|g+2h+i
+	psrldq tmp1, 7*2		;tmp1 = h+2i+j|0|0|0|0|0|0|0
 	%ifndef Y_LINE_3
 		psubw acul, tmp3	;acul -= tmp3
 		psubw acuh, tmp1	;acuh -= tmp1

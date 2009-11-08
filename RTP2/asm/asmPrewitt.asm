@@ -61,41 +61,38 @@
 %endmacro
 
 %macro procesarLineaY 0
-	pxor tmp1, tmp1			
-	movdqu srcl, [esi+ecx]		
-	movdqu srch, srcl		
-	punpcklbw srcl, tmp1		
-	punpckhbw srch, tmp1		
+	pxor tmp1, tmp1			; tmp1 = 0
+	movdqu srcl, [esi+ecx]		; scrl = 16px de src
+	movdqu srch, srcl		; srch = srcl
+	punpcklbw srcl, tmp1		; srcl = primeros 8px desempaquetados a word
+	punpckhbw srch, tmp1		; srch = segundos 8px desempaquetados a word
 
 	%define SAVE_RESULT
-	calcularY srcl			
+	calcularY srcl			; tmp1 = resultado de calcular los primeros 8px
 	%undef SAVE_RESULT
 	%ifndef Y_LINE_3
-		psubw acul, tmp1	
+		psubw acul, tmp1	; si es la línea 1 resta el resultado al acumulador
 	%else
-		paddw acul, tmp1	
+		paddw acul, tmp1	; si es la línea 3 suma el resultado al acumulador
 	%endif
 	
-	calcularY srch			
+	calcularY srch			; tmp1 = resultado de calcular los segundos 8px
 	%ifndef Y_LINE_3
-		psubw acuh, tmp1	
+		psubw acuh, tmp1	; si es la línea 1 resta el resultado al acumulador
 	%else
-		paddw acuh, tmp1	
+		paddw acuh, tmp1	; si es la línea 3 suma el resultado al acumulador
 	%endif
 
 	movdqu tmp1, srch		;tmp1 = i|j|k|l|m|n|o|p
 	movdqu tmp2, srch		;tmp2 = tmp1
-	pslldq tmp1, 7*2		;tmp1 = 0|0|0|0|0|0|0|i
-	psrldq tmp2, 1*2		;tmp2 = j|k|l|m|n|o|p|0
-	pslldq tmp2, 7*2		;tmp2 = 0|0|0|0|0|0|0|j
-	paddw tmp2, tmp1		;tmp2 = 0|0|0|0|0|0|0|i+j
-	psrldq tmp1, 1*2		;tmp1 = 0|0|0|0|0|0|i|0
-	paddw tmp3, tmp1		;tmp3 = -|-|-|-|-|-|g+h+i|h
-	paddw tmp3, tmp2		;tmp3 = -|-|-|-|-|-|g+h+i|h+i+j
+	pslldq tmp2, 1*2		;tmp2 = 0|i|-|-|-|-|-|-
+	paddw tmp2, tmp1		;tmp2 = i|i+j|-|-|-|-|-|-
+	psrldq tmp3, 6*2		;tmp3 = g+h|h|-|-|-|-|-|-
+	paddw tmp3, tmp2		;tmp3 = g+h+i|h+i+j|-|-|-|-|-|-
+	pslldq tmp3, 6*2		;tmp3 = 0|0|0|0|0|0|g+h+i|h+i+j
 	movdqu tmp1, tmp3		;tmp1 = tmp3
-	pslldq tmp1, 7*2		;tmp1 = h+i+j|0|0|0|0|0|0|0
-	psrldq tmp3, 6*2		;tmp3 = g+h+i|h+i+j|0|0|0|0|0|0
-	pslldq tmp3, 7*2		;tmp3 = 0|0|0|0|0|0|0|g+h+i
+	pslldq tmp3, 1*2		;tmp3 = 0|0|0|0|0|0|0|g+h+i
+	psrldq tmp1, 7*2		;tmp1 = h+i+j|0|0|0|0|0|0|0
 	%ifndef Y_LINE_3
 		psubw acul, tmp3	;acul -= tmp3
 		psubw acuh, tmp1	;acuh -= tmp1
@@ -123,15 +120,15 @@
 %endmacro
 
 %macro PrewittY 0
-	procesarLineaY
+	procesarLineaY			; procesa la primer línea
 
-	lea esi, [esi+2*edx]
+	lea esi, [esi+2*edx]		; avanza dos líneas
 	%define Y_LINE_3
-	procesarLineaY
+	procesarLineaY			; procesa la tercer línea
 	%undef Y_LINE_3
 
-	sub esi, edx			; retrocedo una línea
-	sub esi, edx			; vuelvo src a la posición original
+	sub esi, edx			; retrocede una línea
+	sub esi, edx			; vuelve src a la posición original
 %endmacro
 
 section .text

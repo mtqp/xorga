@@ -167,9 +167,9 @@
 	psrldq tmp4, 6*2		;tmp4 = g+R*h|h|-|-|-|-|-|-
 	paddw tmp4, tmp2		;tmp4 = g+R*h+i|h+R*i+j|-|-|-|-|-|-
 	pslldq tmp4, 6*2		;tmp4 = 0|0|0|0|0|0|g+R*h+i|h+R*i+j
-	movdqu tmp3, tmp4		;tmp1 = tmp4
+	movdqu tmp3, tmp4		;tmp3 = tmp4
 	pslldq tmp4, 1*2		;tmp4 = 0|0|0|0|0|0|0|g+R*h+i
-	psrldq tmp3, 7*2		;tmp1 = h+R*i+j|0|0|0|0|0|0|0
+	psrldq tmp3, 7*2		;tmp3 = h+R*i+j|0|0|0|0|0|0|0
 	%ifndef Y_LINE_3
 		psubw acul, tmp4	;acul -= tmp4
 		psubw acuh, tmp3	;acuh -= tmp3
