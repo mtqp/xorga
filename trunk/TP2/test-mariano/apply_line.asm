@@ -18,14 +18,16 @@ section .text
 	
 save_mem:
 	%define ptr_mem [ebp+8]
-	pushad
-	
+	;pushad
+	convencion_C
+debug:	
 	mov edi,ptr_mem
 	packuswb xmm7,xmm6
 	movdqu [edi],xmm7
 	
-	popad
-	ret
+	convencion_C_fin
+	;popad
+	;ret
 	
 apply_lineX:
 	;convencion_C

@@ -1,7 +1,6 @@
 CC=gcc
 CFLAGS=-c
-OBJECTS = main.o asmSobel.o asmPrewitt.o asmFreiChen.o apply_lineFC.o
-#asmRoberts.o asmPrewitt.o
+OBJECTS = main.o asmSobel.o asmPrewitt.o asmRoberts.o
 
 bordes: $(OBJECTS)
 	$(CC) $(OBJECTS) -o bordes `pkg-config --cflags --libs opencv`

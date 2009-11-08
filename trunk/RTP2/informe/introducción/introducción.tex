@@ -1,0 +1,13 @@
+\section{Introducci\'on}
+
+	En el presente trabajo, nos proponemos mejorar el programa de procesamiento de bordes realizado en el trabajo pr\'actico anterior. La mejora sustancial consiste en utilizar el modelo de instrucciones SIMD con instrucciones SSE y diversas optimizaciones en el algoritmo para lograr un mejor rendimiento del programa. \\
+
+	A los algoritmos de Roberts, Prewitt y Sobel, que ya implementamos en el trabajo anterior, se le sumara el algoritmo de Frei-Chen. Para ello, asumiendo un ancho de imagen m\'ultiplo de 16 p\'ixeles,  se procesaran en paralelo 14 p\'ixeles en cada ciclo del programa logrando una considerable mejora en la performance. \\
+
+	
+	El trabajo est\'a orientado fuertemente a lograr velocidad, sacrificando necesariamente legibilidad del c\'odigo, modularización y simpleza para cumplir el objetivo. Luego el resultado será comparado con previas implementaciones para mostrar las diferencias de rendimiento de cada uno. \\
+
+
+	La interfaz con el usuario, escrita en lenguaje C, ser\'a similar a la del trabajo anterior y se detallará la nueva implementaci\'on en ensamblador en las siguientes secciones. \\
+
+\pagebreak

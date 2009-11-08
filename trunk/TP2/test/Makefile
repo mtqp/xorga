@@ -5,3 +5,6 @@ test: $(OBJS)
 
 %.o: %.asm
 	nasm -f elf $<
+
+clean:
+	rm $(OBJS)

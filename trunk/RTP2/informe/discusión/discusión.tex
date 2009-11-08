@@ -1,0 +1,163 @@
+\section{Discusi\'on}
+
+El c\'odigo de este trabajo utiliza las funciones en lenguaje \code{C} del trabajo anterior y nuevas funciones en \keyword{assembler}. El trabajo en \keyword{assembler} esta separado en un archivo por filtro a aplicar y un  archivo para las macros en com\'un, utilizadas por los filtros.
+	
+A continuaci\'on se detallar\'a lo escrito y pensado para el algoritmo de Sobel, que es an\'alogo para el resto de los operadores, ya que con cambios m\'inimos se logr\'o implementarlos, salvo el Frei-Chen que ser\'a descripto mas adelante. \\
+
+\subsection{Operadores}
+
+Al comienzo se program\'o la funci\'on para el operador de Sobel ya que pod\'iamos comparar los resultados con el m\'etodo \code{cvSobel} de la librer\'ia. Una vez programado, se aprovech\'o lo escrito para implementar los otros operadores, realizando cambios m\'inimos al c\'odigo. Pasaremos entonces a detallar lo trabajado sobre el archivo asmSobel y luego los cambios hechos para llegar a la implementaci\'on de los otros archivos. \\
+
+\noindent La operaci\'on consiste en un ciclo que comienza levantando los primeros 16 p\'ixels de la imagen. Para poder operar las 3 l\'ineas de la matr\'iz sin saturar antes de tiempo, se convierten los bytes (p\'ixeles) en words y las dos partes de 8 p\'ixels son almacenadas en registros distintos. Luego se procede a procesar cada parte. Para poder aplicar las l\'ineas a todos los p\'ixels obtenidos, la matr\'iz de Sobel fue extendida a 8 words, quedando cada l\'inea definida de la siguiente manera: \\
+
+\code{
+\begin{tabular}{r r r r r r r r r}
+	Sobel X l\'inea 1&-1&0&1&-1&0&1&-1&0 \\
+	Sobel X l\'inea 2&-2&0&2&-2&0&2&-2&0 \\ \\
+	Sobel Y l\'inea 1&-1&-2&-1&-1&-2&-1&-1&-2 \\
+	Sobel Y l\'inea 3&1&2&1&1&2&1&1&2 \\
+\end{tabular}
+} 
+
+\vspace{0.5cm}
+
+Para facilitar la comprensi\'on del algoritmo se utilizar\'an las siguientes representaciones: \\
+\code{
+\begin{tabular}{r c}
+	L\'inea de la matr\'iz	&\reg{x}{y}{z}{x}{y}{z}{x}{y} \\ \\
+	Primeros 8px de src	&\reg{a}{b}{c}{d}{e}{f}{g}{h} \\ \\
+	\'Ultimos 8px de src	&\reg{i}{j}{k}{l}{m}{n}{o}{p} \\
+\end{tabular} \\
+} \\
+
+
+Para procesar cada parte, se utiliz\'o el siguiente algoritmo:
+\begin{itemize}
+
+\item Desplaza el registro que contiene los p\'ixeles las veces necesarias para dejar el primer p\'ixel a calcular al principio. Por ejemplo, para procesar \code{a} y \code{d} no hace falta desplazar, pero para procesar \code{b} y \code{e} desplaza una vez hacia la derecha.
+
+\item Multiplica los 8 p\'ixels correspondientes con la l\'inea de la matr\'iz que est\'a siendo procesada.\\*
+
+\code{
+\begin{center}
+	\reg{a$*$x}{b$*$y}{c$*$z}{d$*$x}{e$*$y}{f$*$z}{g$*$x}{h$*$y}
+\end{center}
+}
+
+\item Copia el resultado a un registro auxiliar y luego se al\'inean los p\'ixeles que ser\'an operados en breve.\\*
+
+\code{
+\begin{tabular}{r c}
+	Temporal (1ro)	&\reg{a$*$x}{b$*$y}{c$*$z}{d$*$x}{e$*$y}{f$*$z}{g$*$x}{h$*$y} \\ \\
+	Temporal (2do)	&\reg{b$*$y}{c$*$z}{d$*$x}{e$*$y}{f$*$z}{g$*$x}{h$*$y}{0} \\
+\end{tabular} \\
+}
+
+\item Hace la suma entre los dos registros.\\*
+
+\code{
+\begin{tabular}{r c}
+	Resultado Parcial &\reg{a$*$x+b$*$y}{-}{-}{d$*$x+e$*$z}{-}{-}{-}{-} \\ \\
+\end{tabular} \\
+}
+
+\item Alinea al principio del registro temporal el tercer pixel. \\*
+
+\code{
+\begin{tabular}{r c}
+	Temporal 	&\reg{c$*$z}{d$*$x}{e$*$y}{f$*$z}{g$*$x}{h$*$y}{0}{0} \\
+\end{tabular} \\
+}
+
+\item Hace la suma entre los dos registros.\\*
+
+\code{
+\begin{tabular}{r c}
+	Resultado Parcial &\reg{a$*$x+b$*$y+c$*$z}{-}{-}{d$*$x+e$*$z+f$*$z}{-}{-}{-}{-} \\ \\
+\end{tabular} \\
+}
+
+\item Pone en 0 todas los bytes que contienen informaci\'on no \'util. \\*
+
+\code{
+\begin{tabular}{r c}
+	Resultado Parcial &\reg{a$*$x+b$*$y+c$*$z}{0}{0}{d$*$x+e$*$z+f$*$z}{0}{0}{0}{0} \\ \\
+\end{tabular} \\
+}
+
+\item Desplaza el resultado parcial a la ubicaci\'on del destino donde se tiene que acumular. Por ejemplo, si se procesaron \code{a} y \code{d}, desplaza una vez hacia la izquierda. \\
+
+\item Suma el resultado parcial en el acumulador correspondiente. \\
+
+\item Repite el procedimiento hasta calcular los 6 p\'ixeles centrales. \\*
+
+\code{
+\begin{tabular}{c}
+\small
+\reg{0}{a$*$x+b$*$y+c$*$z}{b$*$x+c$*$y+d$*$z}{c$*$x+d$*$y+e$*$z}{d$*$x+e$*$z+f$*$z}{e$*$x+f$*$y+g$*$z}{f$*$x+g$*$y+h$*$z}{0} \\ \\
+\end{tabular} \\
+}
+
+\item Calcula por separado \code{g$*$x+h$*$y+i$*$z}, que hab\'ia quedado sin procesar
+
+\item Calcula por separado \code{h$*$x+i$*$y+j$*$z}
+
+\item Repite el procesamiento (que se hizo con la parte baja) con la parte alta
+
+\item Repite el procesamiento de la l\'inea con las 2 siguientes l\'ineas, cambiando a las l\'ineas de matr\'iz correspondientes
+
+\item Empaqueta a bytes los acumuladores
+
+\item Copia el resultado al destino
+
+\item Avanza 14 p\'ixels
+
+\item Repite todo el procedimiento hasta terminar la imagen
+
+\end{itemize}
+
+
+\subsection{Medici\'on de Performance}
+
+La siguiente tabla muestra la cantidad de ciclos m\'inima y promedio de cada implementaci\'on de los filtros, obtenidos de una muestra de
+1000 ejecuciones de cada uno sobre la imagen de prueba \code{lena.bmp}:
+\begin{center}
+\begin{tabular}{|l|r|r|}
+\hline
+\multirow{2}{*}{Implementaci\'on}&\multicolumn{2}{|c|}{Ciclos de reloj} \\
+\cline{2-3}
+&M\'inimo	&	Promedio \\
+\hline
+\multicolumn{3}{|c|}{Sobel}\\
+\hline
+Assembler	&	58.720.540	&	60.010.675 \\
+\hline
+C		&	393.586.848	&	416.838.429 \\
+\hline
+OpenCv		&	9.338.589	& 	9.797.886 \\
+\hline
+SSE		&	7.845.504 	&	7.991.641 \\
+\hline
+\multicolumn{3}{|c|}{Roberts}\\
+\hline
+Assembler	&	34.714.238	&	42.746.947 \\
+\hline
+C		&	320.676.453	&	336.808.912 \\
+\hline
+SSE		&	1.749.548	&	1.915.205 \\
+\hline
+\multicolumn{3}{|c|}{Prewitt}\\
+\hline
+Assembler	&	60.428.397	&	63.629.648 \\
+\hline
+C		&	634.337.521	&	664.132.063 \\
+\hline
+SSE		&	8.024.988		&	8.276.912 \\
+\hline
+
+\end{tabular}
+\end{center}
+
+
+
+\pagebreak

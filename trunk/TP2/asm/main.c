@@ -12,7 +12,7 @@ int apply_filter( char filter, IplImage *src, IplImage *dst ) {
 		case '1':
 			// Aplico el filtro (Roberts con derivada x en este caso)
 			//asmRoberts(src->imageData, dst->imageData,src->width,src->height, 1,1);
-			//f=&asmRoberts;
+			f=&asmRoberts;
 			break;
 		case '2':
 			// Aplico el filtro (Roberts con derivada x en este caso)
@@ -37,7 +37,7 @@ int apply_filter( char filter, IplImage *src, IplImage *dst ) {
 			f=&asmSobel;
 			break;
 		case '6':
-			f=&asmFreiChen;
+			//f=&asmFreiChen;
 			break;
 	}
 	if( f != NULL ) {

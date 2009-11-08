@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-extern void asmSobel(char* ptr_src, char* ptr_dst);
+extern void asmSobel(char* ptr_src, short* ptr_dst);
 //extern void save_mem(char* ptr_dst);
 
 int main(){
@@ -40,7 +40,7 @@ int main(){
 		}
 	}
 */
-	char * ptr_dst = (char*) malloc(16);
+	short * ptr_dst = (short*) malloc(32);
 	printf("malloqueo ptr_dst y llamo a asmSobel... \n");
 	asmSobel(ptr_src,ptr_dst);
 	printf("paso el apply \n");
