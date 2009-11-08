@@ -1,0 +1,34 @@
+\section{Desarrollo}
+
+El desarrollo de este trabajo se bas\'o en modificar la implementaci\'on anterior con el fin de alcanzar los objetivos. Para lograr una mejor performance usando instrucciones del set SSE se propusieron diversos algoritmos posibles, siendo el \'ultimo de los que describimos a continuaci\'on el elegido para la versi\'on final. En todo momento se asumi\'o un ancho de imagen m\'ultiplo de 16 p\'ixeles y cada algoritmo fue pensado independientemente de la matr\'iz a usar.\\
+
+El primer algoritmo pensado agarraba 16 p\'ixeles, los 16 p\'ixeles por encima y los 16 p\'ixeles por debajo de esos de la siguiente manera: \\
+
+\code{
+\begin{tabular}{r c c c c c c c c c c c c c c c c}
+	xmm0&x&x&x&x&x&x&x&x&x&x&x&x&x&x&x&x \\
+	xmm1&x&p&p&p&p&p&p&p&p&p&p&p&p&p&p&x \\
+	xmm2&x&x&x&x&x&x&x&x&x&x&x&x&x&x&x&x \\
+\end{tabular}
+}
+
+\vspace{0.5cm}
+
+S\'olo los p\'ixeles indicados con una \code{p} se procesaban, usando como informaci\'on adicional los que est\'an marcados con una \code{x}. \\
+
+Luego la matr\'iz correspondiente se cargaba varias veces en otros registros \code{xmm}, de tal forma que pudieran ser procesados los 14 p\'ixeles buscados en un solo ciclo del bucle principal. Luego, como la imagen es m\'ultiplo de 16 p\'ixeles, se avanzaba esa cantidad para seguir procesando.
+Esto cre\'o un problema insalvable en el algoritmo: el \'ultimo p\'ixel de un ciclo y el primero del siguiente ciclo no se procesaban. Se pens\'o en salvar este problema manipulando esos dos p\'ixeles con registros generales, pero la complejidad del algoritmo aumentar\'ia y se opt\'o por pensar un m\'etodo m\'as eficaz. \\
+
+
+Un segundo algoritmo se basaba en cargar 16 p\'ixeles a procesar,
+siendo 8 pertenecientes a una fila y los 8 restantes a la fila siguiente, cargando a su vez toda la informaci\'on necesaria para procesar los dos conjuntos de 8 p\'ixeles. La ventaja de este m\'etodo est\'a en la simplificaci\'on de c\'alculos, ya que al tratarse de \keyword{bytes} sin signo que tienen que ser multiplicados por alg\'un posible valor signado en la matr\'iz del operador, se tiene que extender el \keyword{byte} a \keyword{word}. Entonces entrando 8 \keyword{words} en cada registro \code{xmm}, tiene sentido procesar de a 8 p\'ixeles.
+El problema de este m\'etodo era la ineficiencia en accesos a memoria, y que al tener que procesar de a dos filas al mismo tiempo, el alto de la imagen tenia que ser m\'ultiplo de dos, o manejar el caso impar de otra forma, y esto no era conveniente. \\
+
+El tercer algoritmo volvi\'o a la idea del primero, procesar de a 14 p\'ixeles. La diferencia est\'a en que procesaba 14 p\'ixeles del principio de la fila y a la vez, 14 del final de la fila y en vez de avanzar de a 16 p\'ixeles, avanzaba de a 14 tanto desde el comienzo hacia el final de la fila como del final hacia el comienzo y cuando llegaba a la mitad de la fila, pasaba a la siguiente.
+La principal ventaja es que nos libr\'abamos del problema de saber cuando termin\'o una fila, ya que, recorriendo de ambos lados a la vez, a lo sumo se procesari\'an dos veces algunos p\'ixeles del medio. El problema fue que este algoritmo necesitaba una mayor cantidad de registros e implicaba un dif\'icil manejo de punteros. \\
+
+El algoritmo final es una modificaci\'on del anterior: se procesan 14 p\'ixeles y se avanza de a 14 p\'ixeles de izquierda a derecha solamente, y cuando el ancho restante de la imagen es menor que 14 p\'ixeles, se procesan 14 de derecha a izquierda. Otra vez, a lo sumo se procesar\'an dos veces algunos p\'ixeles del final, pero se justifica, ya que cuesta mas ciclos revisar el ancho y procesar esos p\'ixeles restantes de alguna otra forma. \\
+
+En la siguiente secci\'on se detalla el funcionamiento del algoritmo junto con diferentes problemas que surgieron al programarlo. \\
+
+\pagebreak

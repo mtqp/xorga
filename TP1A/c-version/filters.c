@@ -1,9 +1,9 @@
 #include "filters.h"
 
 const char OPERADOR_SOBEL_X[9] = {
-	-1, 0, 1,
+	-0, 0, 0,
 	-2, 0, 2,
-	-1, 0, 1
+	-0, 0, 0
 };
 
 const char OPERADOR_SOBEL_Y[9] = {

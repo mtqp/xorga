@@ -115,9 +115,10 @@ ciclo_xorder:
 ;	add edx, width
 ;	aplicarLineaX edx, sobel_X_linea1
 
-	packuswb xmm7, xmm6		; convierte de word a byte saturado ambos resultados y los deja en xmm7
+	;packuswb xmm7, xmm6		; convierte de word a byte saturado ambos resultados y los deja en xmm7
 	mov edi,ptr_dst
 	movdqu [edi], xmm7		; copia el resultado a memoria
+	movdqu [edi+16],xmm6
 	convencion_C_fin
 	ret
 
