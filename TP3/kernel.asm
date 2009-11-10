@@ -24,27 +24,44 @@ bienvenida:
 	IMPRIMIR_MODO_REAL iniciando, iniciando_len, 0x07, 0, 0
 	; Ejercicios AQUI
 
-		
-
 		;Habilitar A20
-		call	disable_A20
-		call	check_A20
 		call 	enable_A20
 		call	check_A20
 		cli
 		
 	; Ejercicio 1
 		
-		; TODO: Cargar el registro GDTR
+		; Cargar el registro GDTR
 		lgdt 	[GDT_DESC]
-		; TODO: Pasar a modo protegido
-		mov eax, cr0
-		or eax, 1
-		mov cr0, eax
-		jmp 0x08:modo_protegido	
+		; Pasar a modo protegido
+		mov eax, cr0		;cargo el registro de control cr0
+		or eax, 1		;seteo el bit para habilitar modo protegido
+		mov cr0, eax		;guardo el registro cr0
+		jmp 0x08:modo_protegido	;salto al segmento de codigo
 
+BITS 32
 modo_protegido:
+	
+	mov 	ax, 0x10	;acomodo los registros al segmento de datos
+	mov 	ds, ax		
+	mov 	es, ax		
+	mov 	fs, ax		
+	mov 	gs, ax		
+	mov 	ss, ax	
 
+	mov 	ax, 0x18	;acomodo el es al segmento de video
+	mov 	es, ax
+	xor edi,edi		;necesito al edi como offset para el es
+		
+
+	;limpio la pantalla
+
+	mov ecx, (25 * 80) << 1	;para el loop..
+	mov ax, 0x1212 		;ax es el par de bytes a escribir en video
+	limpiarPantalla:
+		stosw		;Escribe ax en es:edi e incrementa solo el edi
+		loop limpiarPantalla
+	
 	; Ejercicio 2
 		
 		; TODO: Habilitar paginacion

@@ -30,13 +30,13 @@
 00000000000i[     ]   SB16 support: no
 00000000000i[     ]   USB support: no
 00000000000i[     ]   VGA extension support: vbe 
-00000000000i[MEM0 ] allocated memory at 0xb4d1a008. after alignment, vector=0xb4d1b000
-00000000000i[MEM0 ] 32.00MB
-00000000000i[MEM0 ] rom at 0xfffe0000/131072 ('/usr/local/share/bochs/BIOS-bochs-latest')
-00000000000i[MEM0 ] rom at 0xc0000/40448 ('/usr/local/share/bochs/VGABIOS-lgpl-latest')
+00000000000i[MEM0 ] allocated memory at 0xb4b6d008. after alignment, vector=0xb4b6e000
+00000000000i[MEM0 ] 32,00MB
+00000000000i[MEM0 ] rom at 0xfffe0000/131072 ('/home/nvaraschin/bochs2.4/share/bochs/BIOS-bochs-latest')
+00000000000i[MEM0 ] rom at 0xc0000/40448 ('/home/nvaraschin/bochs2.4/share/bochs/VGABIOS-lgpl-latest')
 00000000000e[DEV  ] Bochs is not compiled with PCI support
 00000000000i[CMOS ] Using local time for initial clock
-00000000000i[CMOS ] Setting initial clock to: Thu Oct 29 13:24:58 2009 (time0=1256833498)
+00000000000i[CMOS ] Setting initial clock to: Tue Nov 10 19:07:32 2009 (time0=1257890852)
 00000000000i[DMA  ] channel 4 used by cascade
 00000000000i[DMA  ] channel 2 used by Floppy Drive
 00000000000i[FDD  ] fd0: './diskette.img' ro=0, h=2,t=80,spt=18
@@ -49,7 +49,7 @@
 00000000000i[     ] init_dev of 'unmapped' plugin device by virtual method
 00000000000i[     ] init_dev of 'biosdev' plugin device by virtual method
 00000000000i[     ] init_dev of 'speaker' plugin device by virtual method
-00000000000i[SPEAK] Failed to open /dev/console: Resource temporarily unavailable
+00000000000i[SPEAK] Failed to open /dev/console: Recurso no disponible temporalmente
 00000000000i[SPEAK] Deactivating beep on console
 00000000000i[     ] init_dev of 'extfpuirq' plugin device by virtual method
 00000000000i[     ] init_dev of 'keyboard' plugin device by virtual method
@@ -82,40 +82,41 @@
 00000000000i[XGUI ] [x] Mouse off
 00000000000i[     ] set SIGINT handler to bx_debug_ctrlc_handler
 00000003305i[BIOS ] $Revision: 1.232 $ $Date: 2009/05/10 08:25:58 $
-00000375075i[KBD  ] reset-disable command received
-00000524785i[VBIOS] VGABios $Id: vgabios.c,v 1.69 2009/04/07 18:18:20 vruppert Exp $
-00000524856i[VGA  ] VBE known Display Interface b0c0
-00000524888i[VGA  ] VBE known Display Interface b0c5
-00000527813i[VBIOS] VBE Bios $Id: vbe.c,v 1.62 2009/01/25 15:46:25 vruppert Exp $
-00000834374i[BIOS ] Starting rombios32
-00000834871i[BIOS ] Shutdown flag 0
-00000835552i[BIOS ] ram_size=0x02000000
-00000836030i[BIOS ] ram_end=32MB
-00000836548i[BIOS ] Found 1 cpu(s)
-00000855667i[BIOS ] bios_table_addr: 0x000fba88 end=0x000fcc00
-00000871035i[BIOS ] MP table addr=0x000fbb60 MPC table addr=0x000fba90 size=0xd0
-00000872879i[BIOS ] SMBIOS table addr=0x000fbb70
-00000873762i[BIOS ] bios_table_cur_addr: 0x000fbc74
+00000387554i[KBD  ] reset-disable command received
+00000537302i[VBIOS] VGABios $Id: vgabios.c,v 1.69 2009/04/07 18:18:20 vruppert Exp $
+00000537373i[VGA  ] VBE known Display Interface b0c0
+00000537405i[VGA  ] VBE known Display Interface b0c5
+00000540330i[VBIOS] VBE Bios $Id: vbe.c,v 1.62 2009/01/25 15:46:25 vruppert Exp $
+00000846891i[BIOS ] Starting rombios32
+00000847388i[BIOS ] Shutdown flag 0
+00000848069i[BIOS ] ram_size=0x02000000
+00000848547i[BIOS ] ram_end=32MB
+00000849065i[BIOS ] Found 1 cpu(s)
+00000868184i[BIOS ] bios_table_addr: 0x000fba88 end=0x000fcc00
+00000883552i[BIOS ] MP table addr=0x000fbb60 MPC table addr=0x000fba90 size=0xd0
+00000885396i[BIOS ] SMBIOS table addr=0x000fbb70
+00000886279i[BIOS ] bios_table_cur_addr: 0x000fbc74
 00002500000i[XGUI ] charmap update. Font Height is 16
 00153228420i[BIOS ] Booting from 0000:7c00
-00775800000p[XGUI ] >>PANIC<< POWER button turned off.
-00775800000i[CPU0 ] CPU is in real mode (active)
-00775800000i[CPU0 ] CS.d_b = 16 bit
-00775800000i[CPU0 ] SS.d_b = 16 bit
-00775800000i[CPU0 ] | EAX=00000fff  EBX=00000078  ECX=00000000  EDX=00000000
-00775800000i[CPU0 ] | ESP=00004ffc  EBP=00000014  ESI=000e10e1  EDI=00000b00
-00775800000i[CPU0 ] | IOPL=0 id vip vif ac vm rf nt of df if tf sf zf af pf cf
-00775800000i[CPU0 ] | SEG selector     base    limit G D
-00775800000i[CPU0 ] | SEG sltr(index|ti|rpl)     base    limit G D
-00775800000i[CPU0 ] |  CS:0000( 0004| 0|  0) 00000000 0000ffff 0 0
-00775800000i[CPU0 ] |  DS:0000( 0005| 0|  0) 00000000 0000ffff 0 0
-00775800000i[CPU0 ] |  SS:9b00( 0005| 0|  0) 0009b000 0000ffff 0 0
-00775800000i[CPU0 ] |  ES:0b00( 0005| 0|  0) 0000b000 0000ffff 0 0
-00775800000i[CPU0 ] |  FS:0000( 0005| 0|  0) 00000000 0000ffff 0 0
-00775800000i[CPU0 ] |  GS:0000( 0005| 0|  0) 00000000 0000ffff 0 0
-00775800000i[CPU0 ] | EIP=0000126e (0000126e)
-00775800000i[CPU0 ] | CR0=0x60000010 CR2=0x00000000
-00775800000i[CPU0 ] | CR3=0x00000000 CR4=0x00000000
-00775800000i[CMOS ] Last time is 1256833513 (Thu Oct 29 13:25:13 2009)
-00775800000i[XGUI ] Exit
-00775800000i[CTRL ] quit_sim called with exit code 1
+00215078638i[CPU0 ] [215078638] Stopped on MAGIC BREAKPOINT
+00215078638i[     ] dbg: Quit
+00215078638i[CPU0 ] CPU is in protected mode (active)
+00215078638i[CPU0 ] CS.d_b = 32 bit
+00215078638i[CPU0 ] SS.d_b = 16 bit
+00215078638i[CPU0 ] | EAX=60000018  EBX=00000078  ECX=00000000  EDX=00000000
+00215078638i[CPU0 ] | ESP=00004ffc  EBP=00000014  ESI=000e10e1  EDI=00000b00
+00215078638i[CPU0 ] | IOPL=0 id vip vif ac vm rf nt of df if tf sf zf af PF cf
+00215078638i[CPU0 ] | SEG selector     base    limit G D
+00215078638i[CPU0 ] | SEG sltr(index|ti|rpl)     base    limit G D
+00215078638i[CPU0 ] |  CS:0008( 0001| 0|  0) 00000000 ffffffff 1 1
+00215078638i[CPU0 ] |  DS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+00215078638i[CPU0 ] |  SS:9b00( 0005| 0|  0) 0009b000 0000ffff 0 0
+00215078638i[CPU0 ] |  ES:0018( 0003| 0|  0) 000b8000 00000001 0 1
+00215078638i[CPU0 ] |  FS:0018( 0003| 0|  0) 000b8000 00000001 0 1
+00215078638i[CPU0 ] |  GS:0018( 0003| 0|  0) 000b8000 00000001 0 1
+00215078638i[CPU0 ] | EIP=0000129e (0000129e)
+00215078638i[CPU0 ] | CR0=0x60000011 CR2=0x00000000
+00215078638i[CPU0 ] | CR3=0x00000000 CR4=0x00000000
+00215078638i[CMOS ] Last time is 1257890856 (Tue Nov 10 19:07:36 2009)
+00215078638i[XGUI ] Exit
+00215078638i[CTRL ] quit_sim called with exit code 0
