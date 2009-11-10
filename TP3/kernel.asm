@@ -57,11 +57,11 @@ modo_protegido:
 	;limpio la pantalla
 
 	mov ecx, (25 * 80) << 1	;para el loop..
-	mov ax, 0x1212 		;ax es el par de bytes a escribir en video
+	mov ax, 0x5151 		;ax es el par de bytes a escribir en video
 	limpiarPantalla:
 		stosw		;Escribe ax en es:edi e incrementa solo el edi
 		loop limpiarPantalla
-	
+	xchg bx,bx
 	; Ejercicio 2
 		
 		; TODO: Habilitar paginacion

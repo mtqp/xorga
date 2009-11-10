@@ -70,7 +70,7 @@ gdt_entry gdt[GDT_COUNT] = {
 		(unsigned char) 0,  		// avl
 		(unsigned char) 0,  		// 
 		(unsigned char) 1,  		//
-		(unsigned char) 0, 		//POSIBLE ERROR
+		(unsigned char) 1, 		//g
 		(unsigned char) 0x00 		// base 31-24
 	}
 
