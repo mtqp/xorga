@@ -56,15 +56,67 @@ modo_protegido:
 
 	;limpio la pantalla
 
-	mov ecx, (25 * 80) << 1	;para el loop..
-	mov ax, 0x5151 		;ax es el par de bytes a escribir en video
+	mov ecx, (25 * 80) 	;para el loop..
+	mov ax, 0x0000		;ax es el par de bytes a escribir en video
 	limpiarPantalla:
 		stosw		;Escribe ax en es:edi e incrementa solo el edi
 		loop limpiarPantalla
-	xchg bx,bx
+	
+	xor edi,edi	;restarteo el edi para empezar a hacer el marco
+	mov ax,0xee00	;preparo el marco a dibujar
+
+	mov ecx,80      ;80 es el tamanio de cada fila
+	marcoSuperior:
+		stosw
+		loop marcoSuperior
+	
+	mov ecx, 23	;para las siguientes 23 filas, solo marco en las puntas
+	marcoDeCostado:
+		stosw	;dibujo la punta izquierda
+		add edi,78*2 ;salteo todo el medio
+		stosw 	
+		loop marcoDeCostado
+	
+	mov ecx,80      ;80 es el tamanio de cada fila
+	marcoInferior:
+		stosw
+		loop marcoInferior	
+
 	; Ejercicio 2
 		
 		; TODO: Habilitar paginacion
+	
+
+	;;; INTS!!!!
+	;Pic 1
+	mov al, 0x11
+	out 0x20,al
+	mov al,0x8
+	out 0x21,al
+	mov al,0x04
+	out 0x21,al
+	mov al, 0x01
+	out 0x21,al
+	mov al,0xFF
+	out 0x21,al
+
+	;Pic 2
+	mov al,0x11
+	out 0xa0,al
+	mov al,0x70
+	out 0xa1,al
+	mov al,0x02
+	out 0xa1,al
+	mov al, 0x01
+	out 0xa1,al
+	
+	lidt [IDT_DESC]
+
+	xor eax,eax
+	div eax
+	;;; INTS!!!!
+
+	jmp $
 	
 	; Ejercicio 3
 	

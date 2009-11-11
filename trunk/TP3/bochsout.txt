@@ -30,13 +30,13 @@
 00000000000i[     ]   SB16 support: no
 00000000000i[     ]   USB support: no
 00000000000i[     ]   VGA extension support: vbe 
-00000000000i[MEM0 ] allocated memory at 0xb4b61008. after alignment, vector=0xb4b62000
+00000000000i[MEM0 ] allocated memory at 0xb4bac008. after alignment, vector=0xb4bad000
 00000000000i[MEM0 ] 32,00MB
 00000000000i[MEM0 ] rom at 0xfffe0000/131072 ('/home/nvaraschin/bochs2.4/share/bochs/BIOS-bochs-latest')
 00000000000i[MEM0 ] rom at 0xc0000/40448 ('/home/nvaraschin/bochs2.4/share/bochs/VGABIOS-lgpl-latest')
 00000000000e[DEV  ] Bochs is not compiled with PCI support
 00000000000i[CMOS ] Using local time for initial clock
-00000000000i[CMOS ] Setting initial clock to: Tue Nov 10 19:45:57 2009 (time0=1257893157)
+00000000000i[CMOS ] Setting initial clock to: Tue Nov 10 21:16:03 2009 (time0=1257898563)
 00000000000i[DMA  ] channel 4 used by cascade
 00000000000i[DMA  ] channel 2 used by Floppy Drive
 00000000000i[FDD  ] fd0: './diskette.img' ro=0, h=2,t=80,spt=18
@@ -98,25 +98,43 @@
 00000873762i[BIOS ] bios_table_cur_addr: 0x000fbc74
 00002500000i[XGUI ] charmap update. Font Height is 16
 00153228420i[BIOS ] Booting from 0000:7c00
-00215086643i[CPU0 ] [215086643] Stopped on MAGIC BREAKPOINT
-00215086643i[     ] dbg: Quit
-00215086643i[CPU0 ] CPU is in protected mode (active)
-00215086643i[CPU0 ] CS.d_b = 32 bit
-00215086643i[CPU0 ] SS.d_b = 32 bit
-00215086643i[CPU0 ] | EAX=60005151  EBX=00000078  ECX=00000000  EDX=00000000
-00215086643i[CPU0 ] | ESP=00004ffc  EBP=00000014  ESI=000e10e1  EDI=00001f40
-00215086643i[CPU0 ] | IOPL=0 id vip vif ac vm rf nt of df if tf sf ZF af PF cf
-00215086643i[CPU0 ] | SEG selector     base    limit G D
-00215086643i[CPU0 ] | SEG sltr(index|ti|rpl)     base    limit G D
-00215086643i[CPU0 ] |  CS:0008( 0001| 0|  0) 00000000 ffffffff 1 1
-00215086643i[CPU0 ] |  DS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-00215086643i[CPU0 ] |  SS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-00215086643i[CPU0 ] |  ES:0018( 0003| 0|  0) 000b8000 00001fff 1 1
-00215086643i[CPU0 ] |  FS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-00215086643i[CPU0 ] |  GS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-00215086643i[CPU0 ] | EIP=000012b1 (000012b1)
-00215086643i[CPU0 ] | CR0=0x60000011 CR2=0x00000000
-00215086643i[CPU0 ] | CR3=0x00000000 CR4=0x00000000
-00215086643i[CMOS ] Last time is 1257893161 (Tue Nov 10 19:46:01 2009)
-00215086643i[XGUI ] Exit
-00215086643i[CTRL ] quit_sim called with exit code 0
+00215083079e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x00)
+00215083079e[CPU0 ] interrupt(): gate descriptor is not valid sys seg (vector=0x08)
+00215083079i[CPU0 ] CPU is in protected mode (active)
+00215083079i[CPU0 ] CS.d_b = 32 bit
+00215083079i[CPU0 ] SS.d_b = 32 bit
+00215083079i[CPU0 ] | EAX=00000000  EBX=00000078  ECX=00000000  EDX=00000000
+00215083079i[CPU0 ] | ESP=00004ffc  EBP=00000014  ESI=000e10e1  EDI=00000fa0
+00215083079i[CPU0 ] | IOPL=0 id vip vif ac vm RF nt of df if tf sf ZF af PF cf
+00215083079i[CPU0 ] | SEG selector     base    limit G D
+00215083079i[CPU0 ] | SEG sltr(index|ti|rpl)     base    limit G D
+00215083079i[CPU0 ] |  CS:0008( 0001| 0|  0) 00000000 ffffffff 1 1
+00215083079i[CPU0 ] |  DS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+00215083079i[CPU0 ] |  SS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+00215083079i[CPU0 ] |  ES:0018( 0003| 0|  0) 000b8000 00001fff 1 1
+00215083079i[CPU0 ] |  FS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+00215083079i[CPU0 ] |  GS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+00215083079i[CPU0 ] | EIP=00001304 (00001304)
+00215083079i[CPU0 ] | CR0=0x60000011 CR2=0x00000000
+00215083079i[CPU0 ] | CR3=0x00000000 CR4=0x00000000
+00215083079p[CPU0 ] >>PANIC<< exception(): 3rd (13) exception with no resolution
+00215083079i[CPU0 ] CPU is in protected mode (active)
+00215083079i[CPU0 ] CS.d_b = 32 bit
+00215083079i[CPU0 ] SS.d_b = 32 bit
+00215083079i[CPU0 ] | EAX=00000000  EBX=00000078  ECX=00000000  EDX=00000000
+00215083079i[CPU0 ] | ESP=00004ffc  EBP=00000014  ESI=000e10e1  EDI=00000fa0
+00215083079i[CPU0 ] | IOPL=0 id vip vif ac vm RF nt of df if tf sf ZF af PF cf
+00215083079i[CPU0 ] | SEG selector     base    limit G D
+00215083079i[CPU0 ] | SEG sltr(index|ti|rpl)     base    limit G D
+00215083079i[CPU0 ] |  CS:0008( 0001| 0|  0) 00000000 ffffffff 1 1
+00215083079i[CPU0 ] |  DS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+00215083079i[CPU0 ] |  SS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+00215083079i[CPU0 ] |  ES:0018( 0003| 0|  0) 000b8000 00001fff 1 1
+00215083079i[CPU0 ] |  FS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+00215083079i[CPU0 ] |  GS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+00215083079i[CPU0 ] | EIP=00001304 (00001304)
+00215083079i[CPU0 ] | CR0=0x60000011 CR2=0x00000000
+00215083079i[CPU0 ] | CR3=0x00000000 CR4=0x00000000
+00215083079i[CMOS ] Last time is 1257898567 (Tue Nov 10 21:16:07 2009)
+00215083079i[XGUI ] Exit
+00215083079i[CTRL ] quit_sim called with exit code 1
