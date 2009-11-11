@@ -16,6 +16,26 @@ _isr0:
 	IMPRIMIR_TEXTO edx, msgisr0_len, 0x0C, 0, 0, 0x13000
 	jmp $
 	
+global _isr32
+_isr32:
+	cli
+	pushad
+	mov al,0x20
+	out 0x20,al
+	popad
+	sti
+	iret
+
+global _isr33
+_isr33:
+	cli
+	pushad
+	mov al,0x20
+	out 0x20,al
+	popad
+	sti
+	iret
+
 
 
 
