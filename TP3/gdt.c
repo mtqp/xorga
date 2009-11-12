@@ -25,19 +25,19 @@ gdt_entry gdt[GDT_COUNT] = {
 
 	/** CODIGO BASE=0x00000000 LIMIT=0xFFFFFFFF **/
 	(gdt_entry){ 
-		(unsigned short) 0xFFFF, //limit 0 15
-		(unsigned short) 0x0000, // base 0 15
-		(unsigned char) 0x00,   // base 23 16
-		(unsigned char) 0xA,    //type
-		(unsigned char) 1, 	//s -> 1=code/data 0=system
-		(unsigned char) 0, 	//dpl -> privilegio
-		(unsigned char) 1, 	//p ->presente
-		(unsigned char) 0xF,//limit 16 19
-		(unsigned char) 0,  	//avl
-		(unsigned char) 0,  	//l ->64bit
-		(unsigned char) 1,  	//db
-		(unsigned char) 1, 	//g
-		(unsigned char) 0x00 	//base 31 24
+		(unsigned short) 0xFFFF,	 //limit 0 15
+		(unsigned short) 0x0000, 	 // base 0 15
+		(unsigned char) 0x00,   	 // base 23 16
+		(unsigned char) 0xA,    	 //type
+		(unsigned char) 1, 			 //s -> 1=code/data 0=system
+		(unsigned char) 0, 			 //dpl -> privilegio
+		(unsigned char) 1, 			 //p ->presente
+		(unsigned char) 0xF,		 //limit 16 19
+		(unsigned char) 0,  		 //avl
+		(unsigned char) 0,  		 //l ->64bit
+		(unsigned char) 1,  		 //db
+		(unsigned char) 1, 		     //g
+		(unsigned char) 0x00 		 //base 31 24
 	},
 
 	/** DATOS BASE=0x00000000 LIMIT=0xFFFFFFFF **/
@@ -46,14 +46,14 @@ gdt_entry gdt[GDT_COUNT] = {
 		(unsigned short) 0x0000,	// base 0 15
 		(unsigned char) 0x00,		// base 23 16
 		(unsigned char) 0x2,		// type
-		(unsigned char) 1,		// s -> 1=code/data 0=system
-		(unsigned char) 0, 		// dpl -> privilegio
-		(unsigned char) 1, 		// p -> presente
+		(unsigned char) 1,			// s -> 1=code/data 0=system
+		(unsigned char) 0, 			// dpl -> privilegio
+		(unsigned char) 1, 			// p -> presente
 		(unsigned char) 0xF,		// limit 16 19
 		(unsigned char) 0,  		// avl
 		(unsigned char) 0,  		// l -> 64bit
 		(unsigned char) 1,  		// db
-		(unsigned char) 1, 		// g
+		(unsigned char) 1, 			// g
 		(unsigned char) 0x00 		// base 31 24
 	},	
 
@@ -63,14 +63,14 @@ gdt_entry gdt[GDT_COUNT] = {
 		(unsigned short) 0x8000,	// base 0-15
 		(unsigned char) 0x0B,		// base 23-16
 		(unsigned char) 0x2, 		// type
-		(unsigned char) 1, 		// s-> 1=code/data 0=system
-		(unsigned char) 0,		// privilegio de kernel
-		(unsigned char) 1, 		// presente
+		(unsigned char) 1, 			// s-> 1=code/data 0=system
+		(unsigned char) 0,			// privilegio de kernel
+		(unsigned char) 1, 			// presente
 		(unsigned char) 0x0,		// limit 16-19
 		(unsigned char) 0,  		// avl
 		(unsigned char) 0,  		// 
 		(unsigned char) 1,  		//
-		(unsigned char) 1, 		//g
+		(unsigned char) 1, 			//g
 		(unsigned char) 0x00 		// base 31-24
 	}
 
