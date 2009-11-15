@@ -188,7 +188,6 @@ procesar_y:
 
 proximos_pixels:
 	packuswb acul, acuh
-	;paddusb acul, tmp4
 	psrldq acul, 1
 	movdqu [edi+ecx+1], acul
 

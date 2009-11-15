@@ -21,4 +21,9 @@ extern FILTERFN asmRoberts;
 extern FILTERFN asmPrewitt;
 extern FILTERFN asmFreiChen;
 
+// NO SSE
+extern FILTERFN nosse_asmSobel;
+extern FILTERFN nosse_asmRoberts;
+extern FILTERFN nosse_asmPrewitt;
+
 #endif // __FILTERS_H__

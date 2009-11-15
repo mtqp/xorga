@@ -5,36 +5,37 @@
 #include <string.h>
 #include "filters.h"
 
-int apply_filter( char filter, IplImage *src, IplImage *dst ) {
+int apply_filter( char filter, char nosse, IplImage *src, IplImage *dst ) {
 	int tscl=0, xorder=1, yorder=1;
 	FILTERFN* f=NULL;
 	switch(filter) {
 		case '1':
 			// Aplico el filtro (Roberts con derivada x en este caso)
-			//asmRoberts(src->imageData, dst->imageData,src->width,src->height, 1,1);
-			f=&asmRoberts;
+			if( nosse ) f=&nosse_asmRoberts;
+			else f=&asmRoberts;
+			
 			break;
 		case '2':
 			// Aplico el filtro (Roberts con derivada x en este caso)
-			//asmPrewitt(src->imageData, dst->imageData,src->width,src->height, 1,1);
-			f=&asmPrewitt;
+			if( nosse ) f=&nosse_asmPrewitt;
+			else f=&asmPrewitt;
 			break;
 		case '3':
 			// Aplico el filtro (Sobel con derivada x en este caso)
-			//asmSobel(src->imageData, dst->imageData,src->width,src->height, 1,0);
-			f=&asmSobel;
+			if( nosse ) f=&nosse_asmSobel;
+			else f=&asmSobel;
 			yorder=0;
 			break;
 		case '4':
 			// Aplico el filtro (Sobel con derivada y en este caso)
-			//asmSobel(src->imageData, dst->imageData,src->width,src->height, 0,1);
-			f=&asmSobel;
+			if( nosse ) f=&nosse_asmSobel;
+			else f=&asmSobel;
 			xorder=0;
 			break;
 		case '5':
 			// Aplico el filtro (Sobel con derivada x e y en esta caso)
-			//asmSobel(src->imageData, dst->imageData,src->width,src->height, 1,1);
-			f=&asmSobel;
+			if( nosse ) f=&nosse_asmSobel;
+			else f=&asmSobel;
 			break;
 		case '6':
 			f=&asmFreiChen;
@@ -74,7 +75,7 @@ void save_image( char *filename, IplImage *dst, char filter ) {
 	free( finalName );
 }
 
-void show_window( char* wndTitle, char* filename, IplImage *src, IplImage *dst, char filter ) {
+void show_window( char* wndTitle, char* filename, IplImage *src, IplImage *dst, char filter, char nosse ) {
 	char key;
 	// Crea la ventana y muestra la imagen correspondiente al filtro seleccionado
 	cvNamedWindow( wndTitle, CV_WINDOW_AUTOSIZE);
@@ -87,8 +88,9 @@ void show_window( char* wndTitle, char* filename, IplImage *src, IplImage *dst, 
 		if( key == '0' ) cvShowImage( wndTitle, src);
 		else if( key == 's' ) save_image( filename, filter=='0'? src : dst, filter );
 		else if( key == 'q' || key=='\e' ) return;
+		else if( key == 'o' ) nosse=(nosse?0:1);
 		else if( key > '0' && key <= '6' ) {
-			apply_filter( key, src, dst );
+			apply_filter( key, nosse, src, dst );
 			cvShowImage( wndTitle, dst );
 			filter = key;
 		}
@@ -96,7 +98,7 @@ void show_window( char* wndTitle, char* filename, IplImage *src, IplImage *dst, 
 }
 
 void showMsg( char filter, char window_mode ) {
-	printf( "\nRealzador de Bordes TP1 OrgaII Grupo XOR \n\n");
+	printf( "\nRealzador de Bordes TP2 OrgaII Grupo XOR \n\n");
 	switch(filter){
 		case '1':
 			printf( "Usando el operador de Roberts para realzar bordes\n");
@@ -122,7 +124,8 @@ void showMsg( char filter, char window_mode ) {
 			printf( "Uso:\n     ./bordes {-r# | -g} [filename] \n\n");
 			printf( "Opciones:\n");
 			printf( "    -r#\t\tAplica el operador # \n");
-			printf( "    -g\t\tModo Gráfico \n\n");
+			printf( "    -g\t\tModo Gráfico \n");
+			printf( "    --nosse\tDeshabilitar optimizaciones (SSE)\n\n");
 			printf( "Operadores posibles:\n");
 			printf( "    1: Operador de Roberts \n");
 			printf( "    2: Operador de Prewitt\n");
@@ -144,6 +147,7 @@ void showMsg( char filter, char window_mode ) {
 		printf( "    6: Operador de Frei-Chen\n");
 		printf( "    0: Escala de grises\n");
 		printf( "    s: Guardar\n");
+		printf( "    o: Deshabilitar/Habilitar optimizaciones (SSE)\n");
 		printf( "    q: Salir\n\n");
 	}
 
@@ -152,7 +156,7 @@ void showMsg( char filter, char window_mode ) {
 int main( int argc, char** argv )
 {
 	char* filename = (char*)"lena.bmp";
-	char filter=0, window_mode = 0, show_info=0;
+	char filter=0, window_mode = 0, nosse=0, show_info=0;
 	unsigned int i, t, iter=1;
 	unsigned long long int info_avg=0, info_min=0;
 
@@ -176,6 +180,9 @@ int main( int argc, char** argv )
 				iter = atoi(argv[++i]);
 				show_info = 1;
 				break;
+			case '-':
+				if( strcmp((char*)(argv[i]+2),"nosse") == 0 )
+					nosse = 1;
 		}
 		else
 			filename = argv[i];
@@ -199,7 +206,7 @@ int main( int argc, char** argv )
 
 	// Aplica el filtro correspondiente a las opciones
 	for( i = 0 ; i < iter ; i++ ) {
-		t = apply_filter( filter, src, dst );
+		t = apply_filter( filter, nosse, src, dst );
 		if( t < info_min || info_min==0 ) info_min = t;
 		info_avg += t;
 	}
@@ -207,7 +214,7 @@ int main( int argc, char** argv )
 
 	// Si está en modo ventana, abre la ventana. Sino guarda la imagen.
 	if(window_mode)
-		show_window( "Grupo XOR - Detección de bordes", filename, src, dst, filter );
+		show_window( "Grupo XOR - Detección de bordes", filename, src, dst, filter, nosse );
 	else {
 		save_image( filename, dst, filter );
 		if( show_info ) {
