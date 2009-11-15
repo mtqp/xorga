@@ -1,9 +1,10 @@
 CC=gcc
 CFLAGS=-c
 OBJECTS = main.o asmSobel.o asmPrewitt.o asmRoberts.o asmFreiChen.o
+NOSSEOBJS = nosse/asmSobel.o nosse/asmPrewitt.o nosse/asmRoberts.o nosse/apply_mask.o
 
-bordes: $(OBJECTS)
-	$(CC) $(OBJECTS) -o bordes `pkg-config --cflags --libs opencv`
+bordes: $(OBJECTS) $(NOSSEOBJS)
+	$(CC) $(OBJECTS) $(NOSSEOBJS) -o bordes `pkg-config --cflags --libs opencv`
 
 main.o: main.c
 	$(CC) $(CFLAGS) main.c `pkg-config --cflags opencv`
@@ -12,4 +13,4 @@ main.o: main.c
 	nasm -g -f elf $<
 
 clean:
-	rm -f $(OBJECTS)
+	rm -f $(OBJECTS) $(NOSSEOBJS)
