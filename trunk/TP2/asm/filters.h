@@ -19,5 +19,5 @@ typedef void(FILTERFN)( const unsigned char* src, unsigned char* dst, int width,
 extern FILTERFN asmSobel;
 extern FILTERFN asmRoberts;
 extern FILTERFN asmPrewitt;
-extern FILTERFN asmFreiChen;
+extern FILTERFN asmFreiChenWert;
 #endif // __FILTERS_H__
