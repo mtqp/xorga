@@ -136,3 +136,113 @@
 	psubw %1,xmm3
 %endmacro
 
+%macro ProcesarFreiY 0
+				cvtdq2ps  xmm3,xmm3  ;Convierto los dwords en floats
+				movdqu xmm2,xmm3  ;copio el xmm3 que tiene los datos en floats
+				mulps  xmm2,xmm7  ;multiplico por raiz de 2 los valores del medio
+				
+				;tengo xmm2 = 1 2* 3* 4 
+				haddps xmm2,xmm2 			;ahora los tengo sumados de a pares: 1+2* | 3*+4 |
+				shufps xmm3,xmm3,01100110b  ;shufleo el xmm3 para q en los primeros lugares tenga el 3 y 2 para completar la suma
+				addps xmm2,xmm3  			;tengo en el primer y segundo lugar de xmm2 dos pixeles ya procesados				
+				cvtps2dq xmm2,xmm2          ;convierto todo a ints
+				abs xmm2  					;la macro usa el xmm3 q ya no lo necesito
+				packssdw xmm2,xmm2
+				packuswb xmm2,xmm2
+				movd 	 eax,xmm2
+				mov word [edi],ax			
+				add edi,2
+%endmacro
+
+
+
+;;;///*** FreiChen en Y ***///;;;
+%macro FreiChenY 0
+
+				;;Idea: Con restar la linea superior e inferior y multiplicar adecuadamente por raiz de 2, ya voy a tener los pixeles que quiero ;;
+
+
+
+
+
+				;cargo linea de arriba y abajo, ebx es el width y edx el offset
+
+				mov eax,esi	 					;uso esta direccion temporal porque no tengo modo de direccionamiento para lo q quiero
+				lea eax,[eax+edx]				;sumo offset
+				movdqu xmm1, [eax]	
+				movdqu xmm0, [eax+2*ebx]	
+
+				;las resto, xmm0 = xmm0-xmm1 (linea inferior - superior) (unsigned)
+				psubusb xmm0,xmm1
+			
+
+				;hago una mascara para saber q bytes son negativos 
+				pxor xmm2,xmm2
+				pcmpgtb xmm2, xmm0				;si un byte de xmm0 era negativo, en xmm2 hay 0xFF, sino 0x00
+
+
+				;desenpaqueto la parte baja y alta, extendiendo el signo con la mascara del paso anterior
+				movdqu xmm1,xmm0				;copio temporalmente el xmm0, en xmm1 que ya no lo necesito
+				punpckhbw xmm0,xmm2 			;xmm0 = parte alta		(puedo sobreescribir xmm0 porq no lo voy a necesitar mas)
+				punpcklbw xmm1,xmm2 			;xmm1 = parte baja
+
+
+
+
+				;;Tengo, en este punto, en xmm0 y xmm1 dos sets de 8 pixeles a los que llamo: 
+					;xmm0 = 12345678
+					;xmm1 = abcdefgh
+				 ;Para laburar en punto flotante voy a tener que agarrar de a 4 datos (32b c/u)
+		
+
+
+				pcmpgtw xmm4,xmm1   			;voy creando la nueva mascara para abcdefgh
+				movdqu  xmm3,xmm1 
+				punpcklwd xmm3,xmm4 			;Ahora con efgh
+				ProcesarFreiY
+
+				movdqu  xmm3,xmm1 
+				movdqu  xmm5,xmm1   			;tambien lo copio aca temporalmente
+				punpckhwd xmm5,xmm4 			;Agarro otra vez el abcd
+				punpcklwd xmm3,xmm4 			;Ahora con efgh
+				shufps  xmm3,xmm5,00011011b 	;shuffleo y tengo cdef
+				ProcesarFreiY	
+
+				movdqu  xmm3,xmm1
+				punpckhwd xmm3,xmm4 			;tengo abcd
+				ProcesarFreiY
+
+
+				movdqu  xmm3,xmm0				;agarro 12345678 
+				movdqu  xmm5,xmm1				;agarro abcdefgh
+				punpckhwd xmm5,xmm4 			;agarro abcd
+				pcmpgtw xmm4,xmm0   			;voy creando la nueva mascara para abcdefgh
+				punpcklwd xmm3,xmm4 			;agarro 5678
+				shufps xmm3,xmm5,11100100b 		;shuffleo y tengo 78ab
+				shufps xmm3,xmm3,00011011b		;Doy vuelta el registro con otro shuffle para facilitarme la vida..
+				ProcesarFreiY
+
+
+
+				movdqu  xmm3,xmm0 
+				punpcklwd xmm3,xmm4 			;Ahora con 5678
+				ProcesarFreiY	
+		
+
+				movdqu  xmm3,xmm0 
+				movdqu  xmm5,xmm0   			;tambien lo copio aca temporalmente
+				punpckhwd xmm5,xmm4 			;Agarro otra vez el 1234
+				punpcklwd xmm3,xmm4 			;Ahora con 5678
+				shufps  xmm3,xmm5,00011011b 	;shuffleo y tengo 3456 10110001b
+				ProcesarFreiY			
+				
+
+
+				;Proceso el 1234 de xmm0, y tengo en xmm3 el 1234 en floats
+				pxor    xmm4,xmm4
+				pcmpgtw xmm4,xmm0 				;desde este punto en xmm4 tengo la mascara para la parte baja (12345678)
+				movdqu  xmm3,xmm0 				;(copio xmm0 temporalmente)
+				punpckhwd xmm3,xmm4  			;mezclo parte alta de xmm3 (1234) con la mascara q me da la extension del signo
+				ProcesarFreiY							;requiere el xmm2 libre, el xmm7 con las raices de 2, y el xmm3 con la parte a procesar y guardar
+
+%endmacro
