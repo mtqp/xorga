@@ -18,6 +18,8 @@ start:
 ;aca ponemos todos los mensajes		
 iniciando: db 'Iniciando el kernel mas inutil del mundo'
 iniciando_len equ $ - iniciando		
+xorga db "Grupo XORGA", 0
+xorga_len equ $-xorga
 
 
 bienvenida:
@@ -28,9 +30,9 @@ bienvenida:
 		call 	enable_A20
 		call	check_A20
 		cli
-		
-	; Ejercicio 1
-		
+	;////////////////////////////////////////////////////////////////		
+	;/////////////////////// Ejercicio 1/////////////////////////////
+	;////////////////////////////////////////////////////////////////		
 		; Cargar el registro GDTR
 		lgdt 	[GDT_DESC]
 		; Pasar a modo protegido
@@ -81,53 +83,47 @@ modo_protegido:
 	marcoInferior:
 		stosw
 		loop marcoInferior	
-
-	; Ejercicio 2
-		
+	;////////////////////////////////////////////////////////////////
+	;///////////////////// Ejercicio 2///////////////////////////////
+	;////////////////////////////////////////////////////////////////		
 		; TODO: Habilitar paginacion
 	
-
-	;;; INTS!!!!
-	;Pic 1
-	mov al, 0x11
-	out 0x20,al
-	mov al,0x8
-	out 0x21,al
-	mov al,0x04
-	out 0x21,al
-	mov al, 0x01
-	out 0x21,al
-	mov al,0xFF
-	out 0x21,al
-
-	;Pic 2
-	mov al,0x11
-	out 0xa0,al
-	mov al,0x70
-	out 0xa1,al
-	mov al,0x02
-	out 0xa1,al
-	mov al, 0x01
-	out 0xa1,al
+ 		mov esp, 0x7FFC			;El stack pointer para poder hacer el call debe estar situado en una direccion valida
+								;son los ultimos 32 bytes del kernel, PREGUNTAR SI SE PUEDE PONER CUALQUIER COSA Q ENTRE EN EL KERNEL
+		call page_init			;esto me inicializa el directorio    OJO Q ESTA SOLO EL DIRECTORIO DEL TRADUCTOR/KERNEL
+		mov eax, page_dir		;cargo la direccion del directorio en cr3
+		mov cr3, eax
 	
-	lidt [IDT_DESC]
+		mov eax, cr0				
+		or  eax, 0x80000000		;habilito paginacion
+		mov cr0, eax
+		
+		
+		mov ax, 0x18 		; Entramos por el segmento de video, con base
+		mov es, ax			; en 0xB8000
+		mov ecx, xorga_len
+		mov ah, 0x0c		; GILADA RANDOM pongo el color del mensaje a mostrar
+		mov esi, xorga
+		xor edi, edi
+		add edi, 81 * 3		; ubicamos el texto en la pantalla
+		.ciclo:
+			lodsb 			; usa ds:esi
+			stosw 			; usa es:edi
+			loop .ciclo
 
-	xor eax,eax
-	div eax
-	;;; INTS!!!!
 
 	jmp $
-	
-	; Ejercicio 3
-	
+	;////////////////////////////////////////////////////////////////
+	;///////////////////// Ejercicio 3///////////////////////////////
+	;////////////////////////////////////////////////////////////////	
 		; TODO: Inicializar la IDT
 		
 		; TODO: Resetear la pic
 		
 		; TODO: Cargar el registro IDTR
-				
-	; Ejercicio 4
-	
+	;////////////////////////////////////////////////////////////////				
+	;///////////////////// Ejercicio 4///////////////////////////////
+	;////////////////////////////////////////////////////////////////	
 		; TODO: Inicializar las TSS
 		
 		; TODO: Inicializar correctamente los descriptores de TSS en la GDT
@@ -142,6 +138,7 @@ modo_protegido:
 		
 		
 %include "a20.asm"
+%include "kernel-traductor_paging.asm"
 
 %define TASK1INIT 0x8000
 %define TASK2INIT 0x9000
