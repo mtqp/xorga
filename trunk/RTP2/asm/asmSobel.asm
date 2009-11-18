@@ -11,7 +11,7 @@
 %macro calcularX 1
 	movdqu tmp1, %1			; tmp1 = a|b|c|d|e|f|g|h
 	psrldq tmp1, 2*2		; tmp1 = c|d|e|f|g|h|0|0
-	psubw tmp1, %1			; tmp1 = c-a|d-b|e-c|f-d|g-e|h-f|-g|-h
+	psubw  tmp1, %1			; tmp1 = c-a|d-b|e-c|f-d|g-e|h-f|-g|-h
 	%ifdef SAVE_RESULT		;
 		movdqu tmp2, tmp1	; tmp2 = tmp1
 	%endif
