@@ -1,0 +1,25 @@
+;  Este macro se utiliza para ubicar los descriptores de interrupciones asociados a Intel desde la 0x00 hasta la 0x1f en la IDT  
+
+%macro llenarTablaInt 1
+	mov dword [eax], _isr%1
+	mov dword [eax + 4], _isr%1
+	mov word [eax + 2], 0x08
+	mov word [eax + 4], 0x8e00
+	add eax, 8
+%endmacro
+
+%macro importarHandler 1
+	extern _isr%1
+%endmacro
+
+%macro exportarHandler 1
+	global _isr%1
+%endmacro
+
+%macro rutinaAtencionInterrupcionBasica 3
+_isr%1:
+	mov edx, %2
+	IMPRIMIR_TEXTO edx, %3, 0x0C, 0, 0, 0x13000
+	jmp $
+%endmacro
+	

@@ -1,18 +1,13 @@
 BITS 32
-%include "macroInterrupciones.mac"
 %include "macrosmodoprotegido.mac"
+%include "macroInterrupciones.mac"
 extern pic1_intr_end
-
+msgisr0: db 'EXCEPCION: Division por cero'
+msgisr0_len equ $-msgisr0
 
 ; ----------------------------------------------------------------
 ; Interrupt Service Routines
-; TODO: Definir el resto de las ISR
 ; ----------------------------------------------------------------
-
-msgisr0: db 'EXCEPCION: Division por cero'
-msgisr0_len equ $-msgisr0
-msgisr13: db 'EXCEPCION: 13 T_T'
-msgisr13_len equ $-msgisr13
 
 %assign i 0
 %rep 33
@@ -33,50 +28,28 @@ rutinaAtencionInterrupcionBasica 9, msgisr0, msgisr0_len
 rutinaAtencionInterrupcionBasica 10, msgisr0, msgisr0_len
 rutinaAtencionInterrupcionBasica 11, msgisr0, msgisr0_len
 rutinaAtencionInterrupcionBasica 12, msgisr0, msgisr0_len
-rutinaAtencionInterrupcionBasica 13, msgisr13, msgisr13_len
+rutinaAtencionInterrupcionBasica 13, msgisr0, msgisr0_len
 rutinaAtencionInterrupcionBasica 14, msgisr0, msgisr0_len
 rutinaAtencionInterrupcionBasica 15, msgisr0, msgisr0_len
 rutinaAtencionInterrupcionBasica 16, msgisr0, msgisr0_len
 rutinaAtencionInterrupcionBasica 17, msgisr0, msgisr0_len
 rutinaAtencionInterrupcionBasica 18, msgisr0, msgisr0_len
 rutinaAtencionInterrupcionBasica 19, msgisr0, msgisr0_len
+rutinaAtencionInterrupcionBasica 20, msgisr0, msgisr0_len
+rutinaAtencionInterrupcionBasica 21, msgisr0, msgisr0_len
+rutinaAtencionInterrupcionBasica 22, msgisr0, msgisr0_len
+rutinaAtencionInterrupcionBasica 23, msgisr0, msgisr0_len
+rutinaAtencionInterrupcionBasica 24, msgisr0, msgisr0_len
+rutinaAtencionInterrupcionBasica 25, msgisr0, msgisr0_len
+rutinaAtencionInterrupcionBasica 26, msgisr0, msgisr0_len
+rutinaAtencionInterrupcionBasica 27, msgisr0, msgisr0_len
+rutinaAtencionInterrupcionBasica 28, msgisr0, msgisr0_len
+rutinaAtencionInterrupcionBasica 29, msgisr0, msgisr0_len
+rutinaAtencionInterrupcionBasica 30, msgisr0, msgisr0_len
+rutinaAtencionInterrupcionBasica 31, msgisr0, msgisr0_len
 
 ; Rutina de atencion de interrupcion para el clock
 _isr32:
-	pushad
-	call next_clock	
-	mov al, 0x20
-	out 0x20, al
-	mov al, 0x20
-	out 0x20, al
-	popad
-	iret
-
-
-;_isr32:
-;	cli
-;	pushad
-;	;call next_clock
-;	mov al,0x20
-;	out 0x20,al
-;	popad
-;	sti
-;	iret
-
-
-;_isr33:
-;	cli
-;	pushad
-;	mov al,0x20
-;	out 0x20,al
-;	popad
-;	sti
-;	iret
-
-
-; Funcion para dibujar el reloj.
-; void next_clock(void)
-next_clock:
 	pushad
 	inc DWORD [isrnumero]
 	mov ebx, [isrnumero]
@@ -90,7 +63,13 @@ next_clock:
 		IMPRIMIR_TEXTO edx, 6, 0x0A, 23, 1, 0x13000
 		IMPRIMIR_TEXTO ebx, 1, 0x0A, 23, 8, 0x13000
 	popad
-	ret
+	
+	mov al, 0x20
+	out 0x20, al
+	mov al, 0x20
+	out 0x20, al
+
+	iret
 
 isrmessage: db 'Clock:'
 isrnumero: dd 0x00000000

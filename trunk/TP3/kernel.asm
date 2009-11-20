@@ -1,15 +1,23 @@
 BITS 16
 
 %include "macrosmodoreal.mac"
+%include "macroInterrupciones.mac"
 
 global start
 extern GDT_DESC
 extern gdt;
+extern idt
 extern IDT_DESC
 extern idtFill
 extern tsss;
 
+%assign i 0
+%rep 33
+  importarHandler i 					;macro que importa los handlers de las interrupciones de la 0x00 hasta la 0x20
+  %assign i i + 1 
+%endrep
 
+	 
 ;Aca arranca todo, en el primer byte.
 start:
 		cli					;no me interrumpan por ahora, estoy ocupado
@@ -20,7 +28,8 @@ iniciando: db 'Iniciando el kernel mas inutil del mundo'
 iniciando_len equ $ - iniciando		
 xorga db "Grupo XORGA", 0
 xorga_len equ $-xorga
-
+wtf: db'estas son GILADAS RANDOM para ver si magicamente anda xq no esta funcando, magic dani solution '
+wtf_len equ $-wtf
 
 bienvenida:
 	IMPRIMIR_MODO_REAL iniciando, iniciando_len, 0x07, 0, 0
@@ -89,20 +98,20 @@ modo_protegido:
 		; TODO: Habilitar paginacion
 	
  		mov esp, 0x7FFC			;El stack pointer para poder hacer el call debe estar situado en una direccion valida
-								;son los ultimos 32 bytes del kernel, PREGUNTAR SI SE PUEDE PONER CUALQUIER COSA Q ENTRE EN EL KERNEL
-		call page_init			;esto me inicializa el directorio    OJO Q ESTA SOLO EL DIRECTORIO DEL TRADUCTOR/KERNEL
-		mov eax, page_dir		;cargo la direccion del directorio en cr3
-		mov cr3, eax
+		mov ebp, esp			;son los ultimos 32 bytes del kernel, PREGUNTAR SI SE PUEDE PONER CUALQUIER COSA Q ENTRE EN EL KERNEL
+		
+		call page_init			;esto me inicializa los directorios
+		mov eax, page_dir_kernel		;cargo la direccion del directorio del kernel en cr3
+		mov cr3, eax	
 	
 		mov eax, cr0				
 		or  eax, 0x80000000		;habilito paginacion
 		mov cr0, eax
-		
-		
+				
 		mov ax, 0x18 		; Entramos por el segmento de video, con base
 		mov es, ax			; en 0xB8000
-		mov ecx, xorga_len
-		mov ah, 0x0c		; GILADA RANDOM pongo el color del mensaje a mostrar
+		mov ecx, xorga_len	;ARREGLAR FRANCO DE COLORES, FIJARSE SI SE PUEDE USAR MACRO SINO, HACER UN FOR
+		mov al, 0x0A		; GILADA RANDOM pongo el color del mensaje a mostrar
 		mov esi, xorga
 		xor edi, edi
 		add edi, 81 * 3		; ubicamos el texto en la pantalla
@@ -111,8 +120,6 @@ modo_protegido:
 			stosw 			; usa es:edi
 			loop .ciclo
 
-
-	jmp $
 	;////////////////////////////////////////////////////////////////
 	;///////////////////// Ejercicio 3///////////////////////////////
 	;////////////////////////////////////////////////////////////////	
@@ -121,6 +128,49 @@ modo_protegido:
 		; TODO: Resetear la pic
 		
 		; TODO: Cargar el registro IDTR
+
+		;Inicializacion PIC1
+ 		mov al, 0x11 		;ICW1: IRQs activas por flanco, Modo cascada, ICW4 Si.
+ 		out 20h, al
+		mov al, 20h			;ICW2: INT base para el PIC1 Tipo 8.
+		out 21h, al
+		mov al, 04h 		;ICW3: PIC1 Master, tiene un Slave conectado a IRQ2
+		out 21h ,al
+		mov al, 01h 		;ICW4: Modo No Buffered, Fin de Interrupci´n Normal		
+		out 21h, al 
+		
+		;Deshabilitamos las Interrupciones del PIC1
+		mov al, 0xFF 		;OCW1: Set o Clearel IMR
+		out 21h, al
+		
+		;Inicializacion PIC2
+		mov al, 0x11 		;ICW1: IRQs activas por flanco, Modo cascada, ICW4 Si.
+		out 0xA0, al
+		mov al, 0x28		;ICW2: INT base para el PIC1 Tipo 070h.
+		out 0xA1, al
+		mov al, 0x02 		;ICW3: PIC2 Slave, IRQ2 es la linea que envia al Master
+		out 0xA1, al
+		mov al, 0x01 		;ICW4: Modo No Buffered, Fin de Interrupcion Normal
+		out 0xA1, al
+
+		mov al, 0xFF
+		out 0xA1,al
+		mov al, 0x00
+		out 0x21, al
+		mov al, 0x00
+		out 0xA1, al
+
+		mov eax, idt	 	;eax es mi puntero a la IDT tabla de descriptores de interrupcion
+
+;inicializa solo las interrupciones q soportamos x el momento, va a TENER Q SOPORTAR TODAS LAS DE INTEL
+		call idtFill		
+ 		lidt [IDT_DESC] 	;cargo en el IR la direccion a la tabla de descriptores de interrupciones
+ 		xchg bx, bx
+		sti			;inicializo las interrupciones
+				
+		jmp $
+
+
 	;////////////////////////////////////////////////////////////////				
 	;///////////////////// Ejercicio 4///////////////////////////////
 	;////////////////////////////////////////////////////////////////	
@@ -135,10 +185,18 @@ modo_protegido:
 		; TODO: Habilitar Interrupciones
 		
 		; TODO: Saltar a la primer tarea
-		
+
+page_init:	;inicializo la primer entrada del directorio con la direccion de la tabla
+	mov eax, page_table_0
+	or 	eax, 0x3		;supervisor, read/write, present
+	mov [page_dir_kernel], eax
+;page_init_pintor:	;inicializo la primer entrada del directorio con la direccion de la tabla	
+	mov eax, page_table_0_pintor
+	or 	eax, 0x3		;supervisor, read/write, present
+	mov [page_dir_pintor], eax
+	ret
 		
 %include "a20.asm"
-%include "kernel-traductor_paging.asm"
 
 %define TASK1INIT 0x8000
 %define TASK2INIT 0x9000
@@ -147,3 +205,25 @@ modo_protegido:
 TIMES TASK1INIT - KORG - ($ - $$) db 0x00
 incbin "pintor.tsk"
 incbin "traductor.tsk"
+
+TIMES 0xA000 - KORG - ($ - $$) db 0x00
+page_dir_pintor:
+	dd 	0x00000000
+	
+%rep	0x400 - 1
+	dd	0x00000002		;supervisor, read/write, not present
+%endrep
+
+TIMES 0xB000 - KORG - ($ - $$) db 0x00
+page_dir_kernel:
+	dd 	0x00000000
+	
+%rep	0x400 - 1
+	dd	0x00000002		;supervisor, read/write, not present
+%endrep
+
+TIMES 0xC000 - KORG - ($ - $$) db 0x00
+%include "pintor_paging.asm"
+TIMES 0xD000 - KORG - ($ - $$) db 0x00
+%include "kernel-traductor_paging.asm"
+
