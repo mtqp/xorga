@@ -28,8 +28,8 @@ iniciando: db 'Iniciando el kernel mas inutil del mundo'
 iniciando_len equ $ - iniciando		
 xorga db "Grupo XORGA", 0
 xorga_len equ $-xorga
-wtf: db'estas son GILADAS RANDOM para ver si magicamente anda xq no esta funcando, magic dani solution '
-wtf_len equ $-wtf
+;wtf: db'estas son GILADAS RANDOM para ver si magicamente anda xq no esta funcando, magic dani solution '
+;wtf_len equ $-wtf
 
 bienvenida:
 	IMPRIMIR_MODO_REAL iniciando, iniciando_len, 0x07, 0, 0
@@ -65,7 +65,7 @@ modo_protegido:
 	xor edi,edi		;necesito al edi como offset para el es
 		
 
-	;limpio la pantalla
+	;limpio la pantalla 
 
 	mov ecx, (25 * 80) 	;para el loop..
 	mov ax, 0x0000		;ax es el par de bytes a escribir en video
@@ -110,16 +110,21 @@ modo_protegido:
 				
 		mov ax, 0x18 		; Entramos por el segmento de video, con base
 		mov es, ax			; en 0xB8000
-		mov ecx, xorga_len	;ARREGLAR FRANCO DE COLORES, FIJARSE SI SE PUEDE USAR MACRO SINO, HACER UN FOR
-		mov al, 0x0A		; GILADA RANDOM pongo el color del mensaje a mostrar
+		mov ecx, xorga_len	
+		mov ah, 0x0A		; el numero ese ES UN COLOR RANDOM, probar algunos mas lindos si quieren
 		mov esi, xorga
 		xor edi, edi
-		add edi, 81 * 3		; ubicamos el texto en la pantalla
+		add edi, 81 * 2		; ubicamos el texto en la pantalla
 		.ciclo:
 			lodsb 			; usa ds:esi
 			stosw 			; usa es:edi
 			loop .ciclo
-
+	
+	
+		;jmp $ ;///////LO CUELGO XQ QUIERO VER SI ME IMPRIME EL NOMBRE DEL GRUPO!!!
+		
+		
+		
 	;////////////////////////////////////////////////////////////////
 	;///////////////////// Ejercicio 3///////////////////////////////
 	;////////////////////////////////////////////////////////////////	
