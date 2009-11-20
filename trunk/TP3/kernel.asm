@@ -18,7 +18,7 @@ start:
 ;aca ponemos todos los mensajes		
 iniciando: db 'Iniciando el kernel mas inutil del mundo'
 iniciando_len equ $ - iniciando		
-xorga db "Grupo XOR", 0
+xorga db "xorOs - el sistema operativo del grupo XOR"
 xorga_len equ $-xorga
 
 bienvenida:
