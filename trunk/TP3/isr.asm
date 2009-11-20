@@ -11,11 +11,11 @@ extern pic1_intr_end
 
 msgisr0: db 'EXCEPCION: Division por cero'
 msgisr0_len equ $-msgisr0
-msgisr13: db 'EXCEPCION: 13 T_T'
+msgisr13: db 'EXCEPCION: General Protection Fault'
 msgisr13_len equ $-msgisr13
 
 %assign i 0
-%rep 33
+%rep 34
   exportarHandler i
   %assign i i + 1
 %endrep
@@ -52,26 +52,14 @@ _isr32:
 	popad
 	iret
 
-
-;_isr32:
-;	cli
-;	pushad
-;	;call next_clock
-;	mov al,0x20
-;	out 0x20,al
-;	popad
-;	sti
-;	iret
-
-
-;_isr33:
-;	cli
-;	pushad
-;	mov al,0x20
-;	out 0x20,al
-;	popad
-;	sti
-;	iret
+_isr33:
+	cli
+	pushad
+	mov al,0x20
+	out 0x20,al
+	popad
+	sti
+	iret
 
 
 ; Funcion para dibujar el reloj.

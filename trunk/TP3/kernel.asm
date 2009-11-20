@@ -26,10 +26,8 @@ start:
 ;aca ponemos todos los mensajes		
 iniciando: db 'Iniciando el kernel mas inutil del mundo'
 iniciando_len equ $ - iniciando		
-xorga db "Grupo XORGA", 0
+xorga db "Grupo XOR", 0
 xorga_len equ $-xorga
-;wtf: db'estas son GILADAS RANDOM para ver si magicamente anda xq no esta funcando, magic dani solution '
-;wtf_len equ $-wtf
 
 bienvenida:
 	IMPRIMIR_MODO_REAL iniciando, iniciando_len, 0x07, 0, 0
@@ -137,7 +135,7 @@ modo_protegido:
 		;Inicializacion PIC1
  		mov al, 0x11 		;ICW1: IRQs activas por flanco, Modo cascada, ICW4 Si.
  		out 20h, al
-		mov al, 20h			;ICW2: INT base para el PIC1 Tipo 8.
+		mov al, 20h		;ICW2: INT base para el PIC1 Tipo 8.
 		out 21h, al
 		mov al, 04h 		;ICW3: PIC1 Master, tiene un Slave conectado a IRQ2
 		out 21h ,al
@@ -165,11 +163,10 @@ modo_protegido:
 		mov al, 0x00
 		out 0xA1, al
 
-		mov eax, idt	 	;eax es mi puntero a la IDT tabla de descriptores de interrupcion
+		mov eax, idt
 
-;inicializa solo las interrupciones q soportamos x el momento, va a TENER Q SOPORTAR TODAS LAS DE INTEL
-		call idtFill		
- 		lidt [IDT_DESC] 	;cargo en el IR la direccion a la tabla de descriptores de interrupciones
+		call idtFill	
+ 		lidt [IDT_DESC] 	;cargo la IDT
  		xchg bx, bx
 		sti			;inicializo las interrupciones
 				
@@ -215,20 +212,14 @@ TIMES 0xA000 - KORG - ($ - $$) db 0x00
 page_dir_pintor:
 	dd 	0x00000000
 	
-%rep	0x400 - 1
-	dd	0x00000002		;supervisor, read/write, not present
-%endrep
+TIMES (0xB000 - KORG - ($ - $$))/4 dd 0x00000002 ;rellena el directorio con supervisor, read/write, not present
 
-TIMES 0xB000 - KORG - ($ - $$) db 0x00
 page_dir_kernel:
 	dd 	0x00000000
-	
-%rep	0x400 - 1
-	dd	0x00000002		;supervisor, read/write, not present
-%endrep
 
-TIMES 0xC000 - KORG - ($ - $$) db 0x00
+TIMES (0xC000 - KORG - ($ - $$))/4 dd 0x00000002 ;rellena el directorio con supervisor, read/write, not present
+
 %include "pintor_paging.asm"
-TIMES 0xD000 - KORG - ($ - $$) db 0x00
+TIMES 0xD000 - KORG - ($ - $$) db 0x00	; rellena la tabla de páginas del pintor
 %include "kernel-traductor_paging.asm"
 
