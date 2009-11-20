@@ -1,7 +1,6 @@
 BITS 16
 
 %include "macrosmodoreal.mac"
-%include "macroInterrupciones.mac"
 
 global start
 extern GDT_DESC
@@ -11,13 +10,6 @@ extern IDT_DESC
 extern idtFill
 extern tsss;
 
-%assign i 0
-%rep 33
-  importarHandler i 					;macro que importa los handlers de las interrupciones de la 0x00 hasta la 0x20
-  %assign i i + 1 
-%endrep
-
-	 
 ;Aca arranca todo, en el primer byte.
 start:
 		cli					;no me interrumpan por ahora, estoy ocupado
@@ -106,13 +98,13 @@ modo_protegido:
 		or  eax, 0x80000000		;habilito paginacion
 		mov cr0, eax
 				
-		mov ax, 0x18 		; Entramos por el segmento de video, con base
+		mov ax, 0x18 			; Entramos por el segmento de video, con base
 		mov es, ax			; en 0xB8000
-		mov ecx, xorga_len	
-		mov ah, 0x0A		; el numero ese ES UN COLOR RANDOM, probar algunos mas lindos si quieren
+		mov ecx, xorga_len
+		mov ah, 0x0A 
 		mov esi, xorga
 		xor edi, edi
-		add edi, 81 * 2		; ubicamos el texto en la pantalla
+		add edi, 81 * 2			; ubicamos el texto en la pantalla
 		.ciclo:
 			lodsb 			; usa ds:esi
 			stosw 			; usa es:edi
