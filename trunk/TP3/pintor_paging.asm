@@ -8,8 +8,8 @@ page_table_0_pintor:
 %assign i i+4096 
 %endrep
 ;/////////////////////////
-%assign i 0x9000			; cada pag es supervisor, read/write, present
-%rep    0x004
+%assign i 0x9000			
+%rep    0x005				;TEORICAMENTE TENDRIA Q LLENAR HASTA DFFF CON CEROS, NO ESTAMOS SEGUROSSSSSSSSSSSSSSSSSSSSS
 	
     dd 	0 | 0
 				

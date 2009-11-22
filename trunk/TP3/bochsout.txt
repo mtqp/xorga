@@ -30,13 +30,13 @@
 00000000000i[     ]   SB16 support: no
 00000000000i[     ]   USB support: no
 00000000000i[     ]   VGA extension support: vbe 
-00000000000i[MEM0 ] allocated memory at 0xb52fb008. after alignment, vector=0xb52fc000
+00000000000i[MEM0 ] allocated memory at 0xb512d008. after alignment, vector=0xb512e000
 00000000000i[MEM0 ] 32.00MB
 00000000000i[MEM0 ] rom at 0xfffe0000/131072 ('/usr/local/share/bochs/BIOS-bochs-latest')
 00000000000i[MEM0 ] rom at 0xc0000/40448 ('/usr/local/share/bochs/VGABIOS-lgpl-latest')
 00000000000e[DEV  ] Bochs is not compiled with PCI support
 00000000000i[CMOS ] Using local time for initial clock
-00000000000i[CMOS ] Setting initial clock to: Fri Nov 20 13:42:21 2009 (time0=1258735341)
+00000000000i[CMOS ] Setting initial clock to: Sun Nov 22 13:16:34 2009 (time0=1258906594)
 00000000000i[DMA  ] channel 4 used by cascade
 00000000000i[DMA  ] channel 2 used by Floppy Drive
 00000000000i[FDD  ] fd0: './diskette.img' ro=0, h=2,t=80,spt=18
@@ -82,41 +82,41 @@
 00000000000i[XGUI ] [x] Mouse off
 00000000000i[     ] set SIGINT handler to bx_debug_ctrlc_handler
 00000003305i[BIOS ] $Revision: 1.232 $ $Date: 2009/05/10 08:25:58 $
-00000400071i[KBD  ] reset-disable command received
-00000549781i[VBIOS] VGABios $Id: vgabios.c,v 1.69 2009/04/07 18:18:20 vruppert Exp $
-00000549852i[VGA  ] VBE known Display Interface b0c0
-00000549884i[VGA  ] VBE known Display Interface b0c5
-00000552809i[VBIOS] VBE Bios $Id: vbe.c,v 1.62 2009/01/25 15:46:25 vruppert Exp $
-00000859370i[BIOS ] Starting rombios32
-00000859867i[BIOS ] Shutdown flag 0
-00000860548i[BIOS ] ram_size=0x02000000
-00000861026i[BIOS ] ram_end=32MB
-00000861544i[BIOS ] Found 1 cpu(s)
-00000880663i[BIOS ] bios_table_addr: 0x000fba88 end=0x000fcc00
-00000896031i[BIOS ] MP table addr=0x000fbb60 MPC table addr=0x000fba90 size=0xd0
-00000897875i[BIOS ] SMBIOS table addr=0x000fbb70
-00000898758i[BIOS ] bios_table_cur_addr: 0x000fbc74
+00000387554i[KBD  ] reset-disable command received
+00000537302i[VBIOS] VGABios $Id: vgabios.c,v 1.69 2009/04/07 18:18:20 vruppert Exp $
+00000537373i[VGA  ] VBE known Display Interface b0c0
+00000537405i[VGA  ] VBE known Display Interface b0c5
+00000540330i[VBIOS] VBE Bios $Id: vbe.c,v 1.62 2009/01/25 15:46:25 vruppert Exp $
+00000846891i[BIOS ] Starting rombios32
+00000847388i[BIOS ] Shutdown flag 0
+00000848069i[BIOS ] ram_size=0x02000000
+00000848547i[BIOS ] ram_end=32MB
+00000849065i[BIOS ] Found 1 cpu(s)
+00000868184i[BIOS ] bios_table_addr: 0x000fba88 end=0x000fcc00
+00000883552i[BIOS ] MP table addr=0x000fbb60 MPC table addr=0x000fba90 size=0xd0
+00000885396i[BIOS ] SMBIOS table addr=0x000fbb70
+00000886279i[BIOS ] bios_table_cur_addr: 0x000fbc74
 00002500000i[XGUI ] charmap update. Font Height is 16
 00153228420i[BIOS ] Booting from 0000:7c00
 00236818740i[CPU0 ] [236818740] Stopped on MAGIC BREAKPOINT
-00610250000p[XGUI ] >>PANIC<< POWER button turned off.
-00610250000i[CPU0 ] CPU is in protected mode (active)
-00610250000i[CPU0 ] CS.d_b = 32 bit
-00610250000i[CPU0 ] SS.d_b = 32 bit
-00610250000i[CPU0 ] | EAX=00000000  EBX=00000129  ECX=00000000  EDX=00000000
-00610250000i[CPU0 ] | ESP=00007ffc  EBP=00007ffc  ESI=0000125b  EDI=000000f6
-00610250000i[CPU0 ] | IOPL=0 id vip vif ac vm rf nt of df IF tf sf ZF af PF CF
-00610250000i[CPU0 ] | SEG selector     base    limit G D
-00610250000i[CPU0 ] | SEG sltr(index|ti|rpl)     base    limit G D
-00610250000i[CPU0 ] |  CS:0008( 0001| 0|  0) 00000000 ffffffff 1 1
-00610250000i[CPU0 ] |  DS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-00610250000i[CPU0 ] |  SS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-00610250000i[CPU0 ] |  ES:0018( 0003| 0|  0) 000b8000 00001fff 1 1
-00610250000i[CPU0 ] |  FS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-00610250000i[CPU0 ] |  GS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
-00610250000i[CPU0 ] | EIP=00001384 (00001384)
-00610250000i[CPU0 ] | CR0=0xe0000011 CR2=0x00000000
-00610250000i[CPU0 ] | CR3=0x0000b000 CR4=0x00000000
-00610250000i[CMOS ] Last time is 1258735353 (Fri Nov 20 13:42:33 2009)
-00610250000i[XGUI ] Exit
-00610250000i[CTRL ] quit_sim called with exit code 1
+48792600000p[XGUI ] >>PANIC<< POWER button turned off.
+48792600000i[CPU0 ] CPU is in protected mode (active)
+48792600000i[CPU0 ] CS.d_b = 32 bit
+48792600000i[CPU0 ] SS.d_b = 32 bit
+48792600000i[CPU0 ] | EAX=00008b0e  EBX=000088a6  ECX=0000044f  EDX=00000000
+48792600000i[CPU0 ] | ESP=00015ffc  EBP=00015ffc  ESI=000b842f  EDI=00008240
+48792600000i[CPU0 ] | IOPL=0 id vip vif ac vm rf nt of df IF tf sf zf af pf cf
+48792600000i[CPU0 ] | SEG selector     base    limit G D
+48792600000i[CPU0 ] | SEG sltr(index|ti|rpl)     base    limit G D
+48792600000i[CPU0 ] |  CS:0008( 0001| 0|  0) 00000000 ffffffff 1 1
+48792600000i[CPU0 ] |  DS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+48792600000i[CPU0 ] |  SS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+48792600000i[CPU0 ] |  ES:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+48792600000i[CPU0 ] |  FS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+48792600000i[CPU0 ] |  GS:0010( 0002| 0|  0) 00000000 ffffffff 1 1
+48792600000i[CPU0 ] | EIP=0000801f (0000801f)
+48792600000i[CPU0 ] | CR0=0xe0000019 CR2=0x00000000
+48792600000i[CPU0 ] | CR3=0x0000a000 CR4=0x00000000
+48792600000i[CMOS ] Last time is 1258907569 (Sun Nov 22 13:32:49 2009)
+48792600000i[XGUI ] Exit
+48792600000i[CTRL ] quit_sim called with exit code 1

@@ -10,6 +10,8 @@ extern IDT_DESC
 extern idtFill
 extern tsss;
 
+%define TSS_SIZE 104
+
 ;Aca arranca todo, en el primer byte.
 start:
 		cli					;no me interrumpan por ahora, estoy ocupado
@@ -92,6 +94,7 @@ modo_protegido:
 		
 		call page_init			;esto me inicializa los directorios
 		mov eax, page_dir_kernel		;cargo la direccion del directorio del kernel en cr3
+		;mov eax, page_dir_pintor
 		mov cr3, eax	
 	
 		mov eax, cr0				
@@ -118,12 +121,6 @@ modo_protegido:
 	;////////////////////////////////////////////////////////////////
 	;///////////////////// Ejercicio 3///////////////////////////////
 	;////////////////////////////////////////////////////////////////	
-		; TODO: Inicializar la IDT
-		
-		; TODO: Resetear la pic
-		
-		; TODO: Cargar el registro IDTR
-
 		;Inicializacion PIC1
  		mov al, 0x11 		;ICW1: IRQs activas por flanco, Modo cascada, ICW4 Si.
  		out 20h, al
@@ -160,31 +157,139 @@ modo_protegido:
 		call idtFill	
  		lidt [IDT_DESC] 	;cargo la IDT
  		xchg bx, bx
-		sti			;inicializo las interrupciones
+		;sti			;inicializo las interrupciones
 				
-		jmp $
+		;jmp $
 
 
 	;////////////////////////////////////////////////////////////////				
 	;///////////////////// Ejercicio 4///////////////////////////////
 	;////////////////////////////////////////////////////////////////	
 		; TODO: Inicializar las TSS
-		
 		; TODO: Inicializar correctamente los descriptores de TSS en la GDT
-		
 		; TODO: Cargar el registro TR con el descriptor de la GDT de la TSS actual
-		
 		; TODO: Habilitar la PIC
-		
 		; TODO: Habilitar Interrupciones
-		
 		; TODO: Saltar a la primer tarea
+		
+;/////TSS DEL PINTOR!
+
+		mov edi,tsss					;edi apunta al tss[0] ->tss vacia, solo para inicializar
+		add edi,TSS_SIZE ;104			;edi apunta al tss[1] ->task pintor
+		
+		add edi,4			;comienzo a salvar la 1er tss
+		mov [edi],esp		;guardo esp0
+		add edi,4
+		mov [edi],ss		;guardo stack segment correspondiente a esp0
+		
+		add edi,20			;apunto a cr3 de tss
+		mov dword [edi],0xA000	;guardamos el dir de paginas del pintor en tss
+
+		add edi,4
+		mov dword [edi],0x8000	;eip
+		add edi,4
+		mov dword [edi],0x0202		;con 0x0202 HABILITAS INTERRUPCIONES, EN EL TP HAY HACERLO				
+		add edi,20
+		mov dword [edi],0x15ffc	;esp (pila)
+		add edi,4
+		mov dword [edi],0x15ffc	;ebp (pila) ////chequear si podemos poner 16000
+		
+		add edi,12
+		mov word [edi],0x10	;guardo es    descriptor de datos del kernel.
+		add edi,4
+		mov word [edi],0x8	;guardo cs
+		add edi,4			
+		mov word [edi],0x10 ;guardo ss
+		add edi,4
+		mov word [edi],0x10 ;guardo ds
+		add edi,4
+		mov word [edi],0x10 ;guardo fs
+		add edi,4
+		mov word [edi],0x10 ;guardo gs
+		
+;//////TSS DEL TRADUCTOR-KERNEL!
+
+		mov edi,tsss					;edi apunta al tss[0] ->tss vacia, solo para inicializar
+		add edi,2*TSS_SIZE ;2*104			;edi apunta al tss[2] ->task pintor
+		
+		add edi,4			;comienzo a salvar la 1er tss
+		mov [edi],esp		;guardo esp0
+		add edi,4
+		mov [edi],ss		;guardo stack segment correspondiente a esp0
+		
+		add edi,20			;apunto a cr3 de tss
+		mov eax,cr3
+		mov [edi],eax		;guardamos cr3 en tss
+		
+
+		add edi,4
+		mov dword [edi],0x9000	;eip
+		add edi,4
+		mov dword [edi],0x0202		;con 0x0202 HABILITAS INTERRUPCIONES, EN EL TP HAY HACERLO				
+		add edi,20
+		mov dword [edi],0x16ffc	;esp (pila)
+		add edi,4
+		mov dword [edi],0x16ffc	;ebp (pila) ////chequear si podemos poner 17000
+		
+		add edi,12
+		mov word [edi],0x10	;guardo es    descriptor de datos del kernel.
+		add edi,4
+		mov word [edi],0x8	;guardo cs
+		add edi,4			
+		mov word [edi],0x10 ;guardo ss
+		add edi,4
+		mov word [edi],0x10 ;guardo ds
+		add edi,4
+		mov word [edi],0x10 ;guardo fs
+		add edi,4
+		mov word [edi],0x10 ;guardo gs
+
+
+;gdt
+
+		mov edi,gdt
+		add edi,0x28			;nos paramos en el offset de la gdt para apuntar a la task1 (PINTOR)		
+								;armo la gdt del task 1
+		mov eax,tsss
+		add eax,TSS_SIZE
+		mov word [edi+2],ax		;armo solo la parte base address y limit, el resto lo armo en el gdt.c
+		shr eax,16
+		mov byte [edi+4],al
+		mov byte [edi+7],ah
+		
+		mov eax,tsss			;pasa al task KERNEL-TRADCUTOR
+		add eax, 2*TSS_SIZE
+		add edi,8				;edi = 0x30
+
+		mov word [edi+2],ax		;armo solo la parte base address y limit, el resto lo armo en el gdt.c
+		shr eax,16
+		mov byte [edi+4],al
+		mov byte [edi+7],ah		
+
+		
+	mov ax,0x20			;task0: INICIALIZA EL MULTI TASKING. COMO VAMOS A USAR EL TIC DE RELOJ PARA DOS COSAS AL MISMO TIEMPO?
+	ltr ax
+	sti
+	jmp 0x28:0
+	
+	;aca hace el switcheo de tareas     aca van las interrupciones y los jmps
+	
+;	jmp $
+
+
+
+
+
+
+
 
 page_init:	;inicializo la primer entrada del directorio con la direccion de la tabla
 	mov eax, page_table_0
 	or 	eax, 0x3		;supervisor, read/write, present
 	mov [page_dir_kernel], eax
+
 ;page_init_pintor:	;inicializo la primer entrada del directorio con la direccion de la tabla	
+
 	mov eax, page_table_0_pintor
 	or 	eax, 0x3		;supervisor, read/write, present
 	mov [page_dir_pintor], eax
