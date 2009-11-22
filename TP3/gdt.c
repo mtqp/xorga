@@ -72,8 +72,64 @@ gdt_entry gdt[GDT_COUNT] = {
 		(unsigned char) 1,  		//
 		(unsigned char) 1, 			//g
 		(unsigned char) 0x00 		// base 31-24
-	}
+	},
+	
+	
+	
+	///////////////////////////////////////////////////////////
+	/////hipotesis: los parametros q le mando a los task son piolas
+	
+	
+		/* TASK para iniciar multitasking*/
+	(gdt_entry){ 
+		(unsigned short) 0x6c, 
+		(unsigned short) 0x0000,
+		(unsigned char) 0x00, 
+		(unsigned char) 9, 
+		(unsigned char) 0, 
+		(unsigned char) 0, 
+		(unsigned char) 1, 
+		(unsigned char) 0,
+		(unsigned char) 0,  
+		(unsigned char) 0,  
+		(unsigned char) 0,  
+		(unsigned char) 0, 
+		(unsigned char) 0 
+	},
+	
+		/* task pintor */
+	(gdt_entry){ 
+		(unsigned short) 0x6c, 
+		(unsigned short) 0x0000,
+		(unsigned char) 0x00, 
+		(unsigned char) 9, 
+		(unsigned char) 0, 
+		(unsigned char) 0, 
+		(unsigned char) 1, 
+		(unsigned char) 0,
+		(unsigned char) 0,  
+		(unsigned char) 0,  
+		(unsigned char) 0,  
+		(unsigned char) 0, 
+		(unsigned char) 0 
+	},
 
+		/* task traductor-kernel */
+	(gdt_entry){ 
+		(unsigned short) 0x6c, 
+		(unsigned short) 0x0000,
+		(unsigned char) 0x00, 
+		(unsigned char) 9, 
+		(unsigned char) 0, 
+		(unsigned char) 0, 
+		(unsigned char) 1, 
+		(unsigned char) 0,
+		(unsigned char) 0,  
+		(unsigned char) 0,  
+		(unsigned char) 0,  
+		(unsigned char) 0, 
+		(unsigned char) 0 
+	}
 
 };
 

@@ -84,13 +84,23 @@ msgisr19_len equ $-msgisr19
 ; Rutina de atencion de interrupcion para el clock
 global _isr32
 _isr32:
+	cli
 	pushad
-	call next_clock	
+	call next_clock
 	mov al, 0x20
 	out 0x20, al
-	mov al, 0x20
-	out 0x20, al
+	mov eax, cr3
+	cmp eax, 0xB000
+	;xchg bx,bx
 	popad
+	je task_switch_pintor
+task_switch_kernel:
+	jmp 0x30:0
+	jmp end_scheduler
+task_switch_pintor:
+	jmp 0x28:0
+end_scheduler:
+	sti
 	iret
 
 global _isr33
