@@ -1,10 +1,7 @@
 \select@language {spanish}
-\contentsline {section}{\numberline {1}Introducci\'on}{3}
-\contentsline {section}{\numberline {2}Desarrollo}{4}
-\contentsline {section}{\numberline {3}Discusi\'on}{6}
-\contentsline {subsection}{\numberline {3.1}Operadores}{6}
-\contentsline {subsection}{\numberline {3.2}Medici\'on de Performance}{8}
-\contentsline {section}{\numberline {4}Manual de usuario}{9}
-\contentsline {subsection}{\numberline {4.1}Ayuda r\'apida}{9}
-\contentsline {subsection}{\numberline {4.2}Descripci\'on}{9}
-\contentsline {subsection}{\numberline {4.3}Instrucciones de compilaci\'on}{9}
+\contentsline {section}{\numberline {1}Desarrollo}{3}
+\contentsline {section}{\numberline {2}Discusi\IeC {\'o}n}{5}
+\contentsline {section}{\numberline {3}Manual de usuario}{7}
+\contentsline {subsection}{\numberline {3.1}Ayuda r\'apida}{7}
+\contentsline {subsection}{\numberline {3.2}Descripci\'on}{7}
+\contentsline {subsection}{\numberline {3.3}Instrucciones de compilaci\'on}{7}
