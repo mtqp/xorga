@@ -1,7 +1,7 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2009.10.30)  25 NOV 2009 02:43
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2009.10.30)  25 NOV 2009 16:49
 entering extended mode
  %&-line parsing enabled.
-**informe.tex [A
+**informe.tex
 (./informe.tex
 LaTeX2e <2005/12/01>
 Babel <v3.8h> and hyphenation patterns for english, usenglishmax, dumylang, noh
@@ -302,22 +302,22 @@ Writing index file informe.idx
 (./informe.aux)
 \openout1 = `informe.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 40.
+LaTeX Font Info:    ... okay on input line 40.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 47.
+(Font)              <7> on input line 54.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 47.
+(Font)              <5> on input line 54.
  [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
@@ -385,12 +385,17 @@ Overfull \hbox (7.95529pt too wide) in paragraph at lines 144--145
  [] 
  []
 
-[6]
-Overfull \hbox (4.90231pt too wide) in paragraph at lines 170--171
-[] []  
+[6] [7]
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <9> on input line 218.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 218.
+
+Overfull \hbox (126.57465pt too wide) in paragraph at lines 218--219
+ [] 
  []
 
-[7] [8]) (./manual.tex
+[8]) (./manual.tex
 Underfull \hbox (badness 10000) in paragraph at lines 5--7
 
  []
@@ -422,24 +427,28 @@ Underfull \hbox (badness 10000) in paragraph at lines 35--37
 
 ) [9] (./informe.aux) ) 
 Here is how much of TeX's memory you used:
- 1374 strings out of 95037
- 15763 string characters out of 1182323
+ 1392 strings out of 95037
+ 15939 string characters out of 1182323
  82328 words of memory out of 1500000
- 4558 multiletter control sequences out of 10000+50000
- 6973 words of font info for 26 fonts, out of 1200000 for 2000
+ 4569 multiletter control sequences out of 10000+50000
+ 9131 words of font info for 34 fonts, out of 1200000 for 2000
  54 hyphenation exceptions out of 8191
- 25i,14n,25p,619b,260s stack positions out of 5000i,500n,6000p,200000b,5000s
+ 25i,14n,25p,616b,295s stack positions out of 5000i,500n,6000p,200000b,5000s
 </usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmbx10.
 pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmbx12.pfb></usr/share/tex
 mf-texlive/fonts/type1/bluesky/cm/cmbxti10.pfb></usr/share/texmf-texlive/fonts/
 type1/bluesky/cm/cmitt10.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/c
 mr10.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmr12.pfb></usr/share
-/texmf-texlive/fonts/type1/bluesky/cm/cmsy10.pfb></usr/share/texmf-texlive/font
-s/type1/bluesky/cm/cmti10.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/
-cmtt10.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmtt8.pfb>
-Output written on informe.pdf (9 pages, 100685 bytes).
+/texmf-texlive/fonts/type1/bluesky/cm/cmr5.pfb></usr/share/texmf-texlive/fonts/
+type1/bluesky/cm/cmr9.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmsy
+10.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmsy5.pfb></usr/share/t
+exmf-texlive/fonts/type1/bluesky/cm/cmsy9.pfb></usr/share/texmf-texlive/fonts/t
+ype1/bluesky/cm/cmti10.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmt
+t10.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmtt8.pfb></usr/share/
+texmf-texlive/fonts/type1/bluesky/cm/cmtt9.pfb>
+Output written on informe.pdf (9 pages, 122717 bytes).
 PDF statistics:
- 72 PDF objects out of 1000 (max. 8388607)
+ 92 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 131072)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

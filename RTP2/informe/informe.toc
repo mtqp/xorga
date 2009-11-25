@@ -9,7 +9,7 @@
 \contentsline {subsubsection}{\numberline {2.3.1}Procesamiento en \texttt {x}}{7}
 \contentsline {subsubsection}{\numberline {2.3.2}Procesamiento en \texttt {y}}{7}
 \contentsline {subsection}{\numberline {2.4}Frei-Chen}{7}
-\contentsline {subsubsection}{\numberline {2.4.1}Procesamiento en \texttt {x}}{7}
+\contentsline {subsubsection}{\numberline {2.4.1}Procesamiento en \texttt {x}}{8}
 \contentsline {subsubsection}{\numberline {2.4.2}Procesamiento en \texttt {y}}{8}
 \contentsline {section}{\numberline {3}Manual de usuario}{9}
 \contentsline {subsection}{\numberline {3.1}Ayuda r\'apida}{9}
