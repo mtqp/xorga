@@ -1,0 +1,80 @@
+\section{Discusión}
+El código de este trabajo utiliza las funciones en lenguaje \code{C} del trabajo anterior 
+y nuevas funciones en assembler. El trabajo en assembler está separado en un 
+archivo por filtro a aplicar y un archivo para las \keyword{macros} en común, utilizadas 
+por los filtros.
+		
+A continuación se detallara lo escrito y pensado para los diferentes algoritmos,
+que fueron ajustados para mejor rendimiento según la matríz utilizada. Antes de 
+empezar se definen nombres específicos (\keyword{macros}) para cada registro \code{xmm}, para facilitar la 
+lectura del código. Los nombres definidos son: \code{srcl}, \code{srch} que contendrán las 
+líneas leídas de la imagen original; \code{acul}, \code{acuh} que acumularán los resultados 
+parciales del cálculo; y cuatro registros temporales \code{tmp1}, \code{tmp2}, \code{tmp3} y \code{tmp4} 
+(en el caso del \keyword{Frei-Chen} el cuarto registro temporal se renombra a \code{sqrt2}).
+
+Los algoritmos siguen una línea general, empiezan y terminan con lo definido en la convención C, 
+se definen nombres de variables para los parámetros y se usan los registros generales de la siguiente manera:
+\vspace{5mm}
+
+\begin{tabular}{l p{10cm}}
+	\code{eax}:&Almacena las variables \code{xOrder} e \code{yOrder} que indican sobre qué derivada realizar el procesamiento. \\
+	\code{ebx}:&Contador para las filas. \\
+	\code{ecx}:&Contador para las columnas. \\
+	\code{edx}:&Ancho de la imagen. \\
+	\code{esi}:&Puntero a la imagen fuente. \\
+	\code{edi}:&Puntero a la imagen destino.
+\end{tabular}
+
+\vspace{5mm}
+	Luego para cada fila de la imagen se realiza el procesamiento sobre la derivada de \code{x} o de \code{y} según sea necesario 
+procesando de a 14 píxeles, y antes de terminar la fila se revisa si se pueden calcular exactamente 14 píxeles, sino se retroceden los 
+punteros para poder lograrlo y se pasa a la siguiente fila.
+
+\vspace{1cm}
+
+\subsection{Estructura básica para \keyword{Sobel}, \keyword{Prewitt} y \keyword{Frei-Chen}}
+	Los algoritmos de \keyword{Sobel}, \keyword{Prewitt} y \keyword{Frei-Chen} están estructurados de la misma manera. Cada uno tiene definidas sus 
+propias \keyword{macros} denominadas \code{procesarLineaX}, \code{procesarLineaY}, \code{calcularX} y \code{calcularY}. De esta manera, el código de los tres 
+filtros es bastante similar y para comprenderlos basta con entender la estructura básica de uno de ellos y luego los detalles particulares. La idea general 
+del procesamiento se basa en las \keyword{macros} \code{procesarLineaX/Y}. Cada \keyword{macro} se encarga de leer 16 píxeles, hacer el procesamiento de los
+14 píxeles procesables según la línea correspondiente de la matríz, y sumar el resultado de la operación en dos acumuladores.
+
+\subsection{Sobel}
+
+\subsubsection{Procesamiento en \code{x}}
+	En Sobel en \code{x} la idea general es llamar a la \keyword{macro} \code{procesarLineaX}, luego avanzar el puntero fuente a la siguiente línea 
+para llamar otra vez a la \keyword{macro} y de nuevo avanzar una línea y llamar a la \keyword{macro}. La \keyword{macro} se encargará de aplicar 
+respectivamente la primer, segunda y tercer fila de la matríz de Sobel en \code{x}, en cada llamado, acumulando el resultado adecuadamente. Luego del 
+proceso, se devuelve el puntero fuente a su posición original para poder continuar el procesamiento en \code{y}.
+
+	La \keyword{macro} \code{procesarLineaX} comienza cargando en los registros \code{srcl} y \code{srch} 16 píxeles de la imagen original, luego desempaqueta 
+a ocho \keyword{words} adecuadamente con las instrucciones \code{punpcklbw} (\keyword{Unpack Low Bytes to Words}) y \code{punpckhbw} (\keyword{Unpack High Bytes to 
+Words}). Luego se trabajan los ocho píxeles menos significativos, que son los que contiene el registro \code{srcl}, usando la \keyword{macro} \code{calcularX} y un 
+\keyword{define} \code{SAVE\_RESULT} que actuará como condicional dentro de la \keyword{macro}. 
+
+	Esta \keyword{macro} recibe como parámetro ocho píxeles a procesar, los guarda en el registro \code{tmp1}, que luego es \keyword{shifteado} 4 
+\keyword{bytes} a la izquierda, eliminando los dos primeros píxeles. A continuación se resta con la línea de píxeles originales (los recibidos como 
+parámetro de la \keyword{macro}) logrando seis píxeles correctamente procesados y dos datos no significativos en los 4 bytes inferiores. Estos se 
+eliminarán \keyword{shifteando} 4 \keyword{bytes} a la derecha, y luego 2 \keyword{bytes} a la izquierda para que el registro \code{tmp1} termine 
+teniendo seis píxeles procesados y ceros en los 2 \keyword{bytes} del principio y del final. El condicional \code{SAVE\_RESULT} se utiliza solo cuando 
+es procesado el registro srcl, y guarda en tmp2 un resultado que luego será utilizado para calcular los píxeles centrales de los 14 originales.
+
+Después de ejecutar la \keyword{macro} \code{calcularX}, se usa otro condicional (\code{X\_LINE\_2}) para duplicar el resultado obtenido sólo en el caso de 
+estar procesando la segunda línea de la matríz Sobel en \code{x}. La idea es que, en la matríz Sobel en \code{x}, la primer y tercer líneas son iguales, 
+mientras que la línea central tiene los mismos valores multiplicados por 2.
+   	
+	Los valores intermedios se acumulan en \code{acul} y \code{acuh}, y al final de la \keyword{macro} se procesan los dos píxeles centrales de los 14 píxeles 
+originales que debían ser procesados. Esto se logra \keyword{shifteando} y acumulando adecuadamente sobre los registros \code{tmp1} y \code{tmp2}, luego 
+el resultado se suma a los ya obtenidos en \code{acul} y \code{acuh}.
+
+\subsubsection{Procesamiento en \code{y}}
+	La idea detrás del procesamiento de Sobel en \code{y} es básicamente la misma al procesamiento en \code{x}, sólo que la línea central no se procesa, ya que 
+la matríz contiene sólo ceros. En cuanto a la implementación de la \keyword{macro} \code{procesarLineaY} se acumula el resultado de \code{calcularY} restando si se 
+trata del proceso de la primer línea, o sumando si se trata de la tercera. Esto es porque la matríz es igual en la primer y tercer línea, salvo por el hecho de que la primer línea es negativa. En \code{calcularY} lo significativo es que se usa un registro para tener la línea a procesar multiplicada por dos, para lograr el 
+patrón que necesita Sobel en \code{y}, y se usa el \code{tmp3} dentro del condicional \code{SAVE\_RESULT} para tener una copia de \code{tmp1} que se usará en el 
+procesamiento de los píxeles centrales.
+
+	Por último se empaquetan los datos y se guardan en la imagen resultante, repitiendo el algoritmo si es necesario, para los últimos píxeles de la fila. 
+
+\pagebreak
+
