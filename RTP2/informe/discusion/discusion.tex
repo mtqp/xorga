@@ -191,8 +191,8 @@ muestra en el siguiente ejemplo:
 \end{center}
 
 \subsubsection{Procesamiento en \code{x}}
-	El algoritmo realizado para \keyword{Frei-Chen} en \code{x} nuevamente es similar al de \keyword{Sobel}. En este caso, la diferencia reside únicamente
-en el cálculo de la segunda línea de la matríz (
+	El algoritmo realizado para \keyword{Frei-Chen} en \code{x} es similar al de \keyword{Prewitt}. En este caso, la diferencia reside 
+únicamente en el cálculo de la segunda línea de la matríz (
 \code{
 \begin{tabular}{|c|c|c|}
 	\hline
@@ -218,12 +218,13 @@ de \keyword{float} a \keyword{dword}, para finalmente convertirlo a \keyword{wor
 }
 \end{center}
 
-Luego el algoritmo continúa igual que el algoritmo de \keyword{Sobel}, salvando los cálculos individuales de los píxeles centrales que vuelve a realizar 
+Luego el algoritmo continúa igual que el algoritmo de \keyword{Prewitt}, salvando los cálculos individuales de los píxeles centrales que vuelve a realizar 
 un procedimiento similar al ya mostrado.
 
 
 \subsubsection{Procesamiento en \code{y}}
-
+	En este caso, la única diferencia entre la matríz de \keyword{Prewitt} y \keyword{Frei-Chen} es en la columna central, la cuál está multiplicada 
+por $\sqrt{2}$. 
 
 \pagebreak
 
