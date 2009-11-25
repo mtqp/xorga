@@ -160,21 +160,68 @@ paso, es decir, no se duplica el registro temporal.
 
 \vspace{5mm}
 \subsection{Frei-Chen}
-	Para poder calcular eficientemente el algoritmo, primero se calcula repetidamente $\sqrt{2}$ en un registro temporal (\code{sqrt2}).
+	La matríz de \keyword{Frei-Chen} contiene números reales además de números enteros. Para hacer de forma más eficiente el algoritmo, 
+primero se precalcula $\sqrt{2}$ en un registro temporal (\code{sqrt2}) mediante la instrucción \code{sqrtps} (\keyword{Square Root Parallel 
+Single}) ya que es el único número real presente en la matríz.
 
 \vspace{5mm}
+\begin{center}
 \code{
 \begin{tabular}{r c l}
-	sqrt2	&\reg{$\sqrt{2}$}{$\sqrt{2}$}{$\sqrt{2}$}{$\sqrt{2}$}{$\sqrt{2}$}{$\sqrt{2}$}{$\sqrt{2}$}{$\sqrt{2}$}&	\keyword{raíces de 2}	\\ \\
+	sqrt2	&\sreg{$\sqrt{2}$}{$\sqrt{2}$}{$\sqrt{2}$}{$\sqrt{2}$}&	\keyword{raíces de 2}	\\ \\
 \end{tabular}
 }
+\end{center}
+
+Al tener que multiplicar por un número real, los cálculos intermedios son convertidos a \keyword{float}. Por limitaciones del set de instrucciones
+\code{IA-32}, a la hora de realizar la conversión, se extienden los enteros de 16 \keyword{bits} a 32 \keyword{bits}. Para realizar la extensión signada,
+se utilizó la instrucción \code{pcmpgtw} junto con \code{punpckhwd} y \code{punpcklwd} comparando el registro a extender con un registro en 0 como se 
+muestra en el siguiente ejemplo:
+\begin{center}
+\code{
+\begin{tabular}{r c l}
+	tmp3	&\reg{0}{0}{0}{0}{0}{0}{0}{0}& \keyword{tmp3 = 0} \\ \\
+	tmp1	&{\tiny\reg{-5}{123}{-145}{100}{66}{-93}{80}{3}} & \keyword{tmp1 en words} \\ \\
+	tmp2	&{\tiny\reg{-5}{123}{-145}{100}{66}{-93}{80}{3}} & \keyword{tmp2 = tmp1} \\ \\
+	tmp3	&{\tiny\reg{0xFFFF}{0}{0xFFFF}{0}{0}{0xFFFF}{0}{0}} & pcmpgtw \keyword{tmp2, tmp3} \\ \\
+	tmp1	&\sreg{-5}{123}{-145}{100}& punpcklwd \keyword{tmp1, tmp3} \\ \\
+	tmp2	&\sreg{66}{-93}{80}{3}& punpckhwd \keyword{tmp2, tmp3} \\ \\
+\end{tabular}
+}
+\end{center}
 
 \subsubsection{Procesamiento en \code{x}}
-	El algoritmo realizado para \keyword{Frei-Chen} nuevamente es similar al de \keyword{Sobel}. En este caso, la diferencia reside únicamente
-en la segunda línea, en la cuál se convierte el resultado intermedio a \keyword{float} para luego poder multiplicar por $\sqrt{2}$ (mediante el
-registro \code{sqrt2} precalculado) y finalmente convertir el resultado a enteros y sumarlo al acumulador correspondiente.
+	El algoritmo realizado para \keyword{Frei-Chen} en \code{x} nuevamente es similar al de \keyword{Sobel}. En este caso, la diferencia reside únicamente
+en el cálculo de la segunda línea de la matríz (
+\code{
+\begin{tabular}{|c|c|c|}
+	\hline
+	$-\sqrt{2}$ & 0 & $\sqrt{2}$ \\
+	\hline
+\end{tabular} 
+}
+). Para calcular esta línea, se aprovecha la propiedad distributiva de la multiplicación respecto de la suma y la resta, calculando primero la resta 
+en enteros, luego convirtiendo a \keyword{float} y multiplicando el resultado por $\sqrt{2}$. Una vez hechas las operaciones, se convierte el resultado 
+de \keyword{float} a \keyword{dword}, para finalmente convertirlo a \keyword{word}.
 
-\begin{center}[ FALTA EXPLICACION DE COMO SE HACE TODO ESO ]\end{center}
+\begin{center}
+\code{\small
+\begin{tabular}{r c l}
+	src	&\reg{a}{b}{c}{d}{e}{f}{g}{h} &	\keyword{parámetro}	\\ \\
+	tmp1	&{\tiny\reg{c-a}{d-b}{e-c}{f-d}{g-e}{h-f}{-g}{-h}} & \keyword{resta src a tmp1} \\ \\
+	tmp2	&\sreg{g-e}{h-f}{-g}{-h} & \keyword{tmp2 = (float)tmp1[4..7]} \\ \\
+	tmp1	&\sreg{c-a}{d-b}{e-c}{f-d} & \keyword{tmp1 = (float)tmp1[0..3]} \\ \\
+	tmp1	&\sreg{(c-a)$\sqrt{2}$}{(d-b)$\sqrt{2}$}{(e-c)$\sqrt{2}$}{(f-d)$\sqrt{2}$} & \keyword{tmp1 = (dword) (tmp1 * sqrt2) } \\ \\
+	tmp2	&\sreg{(g-e)$\sqrt{2}$}{(h-f)$\sqrt{2}$}{(-g)$\sqrt{2}$}{(-h)$\sqrt{2}$} & \keyword{tmp2 = (dword) (tmp2 * sqrt2) } \\ \\
+	tmp1	&{\tiny\reg{(c-a)$\sqrt{2}$}{(d-b)$\sqrt{2}$}{(e-c)$\sqrt{2}$}{(f-d)$\sqrt{2}$}{(g-e)$\sqrt{2}$}{(h-f)$\sqrt{2}$}{(-g)$\sqrt{2}$}{(-h)$\sqrt{2}$}} & \keyword{tmp1 = (word)tmp1, (word)tmp2 } \\ \\
+	\end{tabular}
+}
+\end{center}
+
+Luego el algoritmo continúa igual que el algoritmo de \keyword{Sobel}, salvando los cálculos individuales de los píxeles centrales que vuelve a realizar 
+un procedimiento similar al ya mostrado.
+
+
 \subsubsection{Procesamiento en \code{y}}
 
 
