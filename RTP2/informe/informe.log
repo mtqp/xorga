@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2009.10.30)  26 NOV 2009 12:17
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2009.10.30)  26 NOV 2009 16:54
 entering extended mode
  %&-line parsing enabled.
 **informe.tex
@@ -418,22 +418,53 @@ Overfull \hbox (35.70515pt too wide) in paragraph at lines 147--148
  [] 
  []
 
-[7] [8]
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <9> on input line 227.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 227.
+[7] <../imgs/steam-engine.jpg, id=34, 256.96pt x 256.96pt>
+File: ../imgs/steam-engine.jpg Graphic file (type jpg)
 
-Overfull \hbox (126.57465pt too wide) in paragraph at lines 227--228
+<use ../imgs/steam-engine.jpg>
+<../imgs/steam-engine-sobel.jpg, id=35, 256.96pt x 256.96pt>
+File: ../imgs/steam-engine-sobel.jpg Graphic file (type jpg)
+
+<use ../imgs/steam-engine-sobel.jpg> [8 <../imgs/steam-engine.jpg> <../imgs/ste
+am-engine-sobel.jpg>] <imgs/steam-engine.jpg, id=40, 256.96pt x 256.96pt>
+File: imgs/steam-engine.jpg Graphic file (type jpg)
+
+<use imgs/steam-engine.jpg>
+<imgs/steam-engine-prewitt-neg.jpg, id=41, 256.96pt x 256.96pt>
+File: imgs/steam-engine-prewitt-neg.jpg Graphic file (type jpg)
+
+<use imgs/steam-engine-prewitt-neg.jpg> [9 <./imgs/steam-engine.jpg> <./imgs/st
+eam-engine-prewitt-neg.jpg>]
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <9> on input line 241.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 241.
+
+Overfull \hbox (126.57465pt too wide) in paragraph at lines 241--242
  [] 
  []
 
-[9]
-Overfull \hbox (68.51631pt too wide) in paragraph at lines 278--279
+<../imgs/cln1.jpg, id=45, 256.96pt x 256.96pt>
+File: ../imgs/cln1.jpg Graphic file (type jpg)
+ <use ../imgs/cln1.jpg>
+<../imgs/cln1-frei-chen.jpg, id=46, 256.96pt x 256.96pt>
+File: ../imgs/cln1-frei-chen.jpg Graphic file (type jpg)
+
+<use ../imgs/cln1-frei-chen.jpg> [10]
+Overfull \hbox (68.51631pt too wide) in paragraph at lines 298--299
  [] 
  []
 
-[10] [11]) (./conclusiones/conclusiones.tex [12]) (./manual.tex
+[11 <../imgs/cln1.jpg> <../imgs/cln1-frei-chen.jpg>]
+<imgs/cameraman.jpg, id=60, 256.96pt x 256.96pt>
+File: imgs/cameraman.jpg Graphic file (type jpg)
+ <use imgs/cameraman.jpg>
+<imgs/cameraman-roberts-neg.jpg, id=61, 256.96pt x 256.96pt>
+File: imgs/cameraman-roberts-neg.jpg Graphic file (type jpg)
+
+<use imgs/cameraman-roberts-neg.jpg> [12 <./imgs/cameraman.jpg> <./imgs/cameram
+an-roberts-neg.jpg>] [13]) (./conclusiones/conclusiones.tex [14]) (./manual.tex
+
 Underfull \hbox (badness 10000) in paragraph at lines 5--7
 
  []
@@ -453,15 +484,15 @@ Underfull \hbox (badness 10000) in paragraph at lines 30--36
 
  []
 
-) [13] (./informe.aux) ) 
+) [15] (./informe.aux) ) 
 Here is how much of TeX's memory you used:
- 1403 strings out of 95086
- 16143 string characters out of 1183254
+ 1445 strings out of 95086
+ 17238 string characters out of 1183254
  83274 words of memory out of 1500000
- 4565 multiletter control sequences out of 10000+50000
+ 4597 multiletter control sequences out of 10000+50000
  9131 words of font info for 34 fonts, out of 1200000 for 2000
  28 hyphenation exceptions out of 8191
- 25i,14n,25p,627b,295s stack positions out of 5000i,500n,6000p,200000b,5000s
+ 25i,14n,25p,627b,294s stack positions out of 5000i,500n,6000p,200000b,5000s
 </usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmbx10
 .pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmbx12.pfb></usr/share/te
 xmf-texlive/fonts/type1/bluesky/cm/cmbxti10.pfb></usr/share/texmf-texlive/fonts
@@ -476,9 +507,9 @@ y5.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmsy9.pfb></usr/share/t
 exmf-texlive/fonts/type1/bluesky/cm/cmti10.pfb></usr/share/texmf-texlive/fonts/
 type1/bluesky/cm/cmtt10.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cm
 tt8.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmtt9.pfb>
-Output written on informe.pdf (13 pages, 145644 bytes).
+Output written on informe.pdf (15 pages, 328971 bytes).
 PDF statistics:
- 117 PDF objects out of 1000 (max. 8388607)
+ 131 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 131072)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 41 words of extra memory for PDF output out of 10000 (max. 10000000)
 
