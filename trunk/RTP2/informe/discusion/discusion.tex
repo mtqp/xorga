@@ -153,6 +153,13 @@ negativa. Como la matríz contiene sólo ceros en la segunda línea, no es neces
 
 Al igual que para \keyword{Sobel} en \code{x}, después de calcular los resultados intermedios, se procesan individualmente los 2 píxeles faltantes.
 
+\begin{center}
+\includegraphics[scale=0.5]{../imgs/steam-engine.jpg}
+\includegraphics[scale=0.5]{../imgs/steam-engine-sobel.jpg}\\
+\texttt{\small Ejemplo del filtro Sobel negado}\\
+\end{center}
+
+
 \vspace{5mm}
 \subsection{Prewitt}
 	Este algoritmo es casi idéntico al anterior. El único cambio general es que, luego de procesar las líneas pero antes
@@ -164,6 +171,13 @@ los mismos pasos para obtener el resultado correcto.
 \subsubsection{Procesamiento en \code{y}}
 	El cálculo de \keyword{Prewitt} en \code{y} es similar al de \keyword{Sobel}. El único cambio en el algoritmo es que no se efectúa el paso (3). 
 es decir, no se duplica el valor de la segunda columna de \code{src} sino que se suma directamente.
+
+\begin{center}
+\vspace{1.0cm}
+\includegraphics[scale=0.5]{imgs/steam-engine.jpg}
+\includegraphics[scale=0.5]{imgs/steam-engine-prewitt-neg.jpg} \\*
+\texttt{\small Ejemplo del filtro Prewitt negado } \\
+\end{center}
 
 \vspace{5mm}
 \subsection{Frei-Chen}
@@ -238,6 +252,12 @@ necesita realizar la multiplicación en punto flotante en cada llamada a la macr
 de \keyword{Sobel} por la conversión a punto flotante y la multiplicación por $\sqrt{2}$. La forma de multiplicar es igual a la utilizada para
 \keyword{Frei-Chen} en \code{x} y descripta anteriormente.
 
+\begin{center}
+\vspace{1.0cm}
+\includegraphics[scale=0.5]{../imgs/cln1.jpg}
+\includegraphics[scale=0.5]{../imgs/cln1-frei-chen.jpg} \\*
+\texttt{\small Ejemplo del filtro Frei-Chen negado } \\
+\end{center}
 
 \subsection{Roberts}
 La implementación del operador de \keyword{Roberts}, se basa en la explicada anteriormente para \keyword{Sobel}, pero es más simple y concisa, 
@@ -283,7 +303,15 @@ logrando así el procesamiento de la segunda línea de la matríz buscada(
 \code{RobertsX} para la primer línea, ahora se hace para la segunda y viceversa. Jústamente, esto se debe a que la matríz de \keyword{Roberts} en
 \code{y} es exactamente espejada en filas que la matríz de \keyword{Roberts} en \code{x}.
 
-\vspace{10mm}
+\vspace{1.0cm}
+\begin{center}
+\includegraphics[scale=0.5]{imgs/cameraman.jpg}
+\includegraphics[scale=0.5]{imgs/cameraman-roberts-neg.jpg} \\*
+\texttt{\small Ejemplo del filtro Roberts negado }\\
+\end{center}
+
+\pagebreak
+%\vspace{10mm}
 \subsection{Medición de Performance}
 
 La siguiente tabla muestra la cantidad de ciclos mínima y promedio de cada implementación de los filtros, obtenidos de una muestra de

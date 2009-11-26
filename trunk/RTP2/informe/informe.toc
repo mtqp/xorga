@@ -8,16 +8,16 @@
 \contentsline {subsubsection}{\numberline {3.2.2}Procesamiento en \texttt {y}}{7}
 \contentsline {subsection}{\numberline {3.3}Prewitt}{8}
 \contentsline {subsubsection}{\numberline {3.3.1}Procesamiento en \texttt {x}}{8}
-\contentsline {subsubsection}{\numberline {3.3.2}Procesamiento en \texttt {y}}{8}
-\contentsline {subsection}{\numberline {3.4}Frei-Chen}{8}
-\contentsline {subsubsection}{\numberline {3.4.1}Procesamiento en \texttt {x}}{9}
+\contentsline {subsubsection}{\numberline {3.3.2}Procesamiento en \texttt {y}}{9}
+\contentsline {subsection}{\numberline {3.4}Frei-Chen}{9}
+\contentsline {subsubsection}{\numberline {3.4.1}Procesamiento en \texttt {x}}{10}
 \contentsline {subsubsection}{\numberline {3.4.2}Procesamiento en \texttt {y}}{10}
-\contentsline {subsection}{\numberline {3.5}Roberts}{10}
-\contentsline {subsubsection}{\numberline {3.5.1}Procesamiento en \texttt {x}}{10}
-\contentsline {subsubsection}{\numberline {3.5.2}Procesamiento en \texttt {y}}{11}
-\contentsline {subsection}{\numberline {3.6}Medici\IeC {\'o}n de Performance}{11}
-\contentsline {section}{\numberline {4}Conclusiones}{12}
-\contentsline {section}{\numberline {5}Manual de usuario}{13}
-\contentsline {subsection}{\numberline {5.1}Ayuda r\'apida}{13}
-\contentsline {subsection}{\numberline {5.2}Descripci\'on}{13}
-\contentsline {subsection}{\numberline {5.3}Instrucciones de compilaci\'on}{13}
+\contentsline {subsection}{\numberline {3.5}Roberts}{11}
+\contentsline {subsubsection}{\numberline {3.5.1}Procesamiento en \texttt {x}}{11}
+\contentsline {subsubsection}{\numberline {3.5.2}Procesamiento en \texttt {y}}{12}
+\contentsline {subsection}{\numberline {3.6}Medici\IeC {\'o}n de Performance}{13}
+\contentsline {section}{\numberline {4}Conclusiones}{14}
+\contentsline {section}{\numberline {5}Manual de usuario}{15}
+\contentsline {subsection}{\numberline {5.1}Ayuda r\'apida}{15}
+\contentsline {subsection}{\numberline {5.2}Descripci\'on}{15}
+\contentsline {subsection}{\numberline {5.3}Instrucciones de compilaci\'on}{15}
