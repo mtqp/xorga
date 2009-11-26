@@ -175,14 +175,14 @@ int main( int argc, char** argv )
 			case 'r':
 				// Filtro = 0 si es inválido, de '1' a '5' si es válido
 				filter = (argv[i][2]>'0' && argv[i][2]<='6' && argv[i][3]=='\0' ) * argv[i][2];
-				break;
-			case 'i':
-				iter = atoi(argv[++i]);
-				show_info = 1;
-				break;
+				break;	
 			case '-':
 				if( strcmp((char*)(argv[i]+2),"nosse") == 0 )
 					nosse = 1;
+				else if( strcmp((char*)(argv[i]+2),"time")==0 ) {
+					iter = atoi(argv[++i]);
+					show_info = 1;
+				}
 		}
 		else
 			filename = argv[i];

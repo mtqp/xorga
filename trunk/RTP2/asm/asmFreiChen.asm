@@ -227,15 +227,22 @@ procesar:
 	pxor acuh,acuh			; acuh = 0 [acumulador parte alta]
 
 	FreiChenX
-	abs acul
-	abs acuh
+	abs acul,tmp3
+	abs acuh,tmp3
+	packuswb acul, acuh
+	psrldq acul, 1
+	movdqu [edi+ecx+1], acul
 
+	pxor acul, acul
+	pxor acuh, acuh
 	FreiChenY
-	abs acul
-	abs acuh
+	abs acul,tmp3
+	abs acuh,tmp3
+	packuswb acul, acuh
+	psrldq acul, 1
+	movdqu tmp3, [edi+ecx+1]
+	paddusb acul, tmp3
 
-	packuswb acul, acuh		; acul = 0|B|C|D|E|F|G|H|I|J|K|L|M|N|O|0
-	psrldq acul, 1			; acul = B|C|D|E|F|G|H|I|J|K|L|M|N|O|0|0
 	movdqu [edi+ecx+1], acul	; copia el resultado a memoria
 
 	lea ecx, [ecx+2*16-2*2]		; avanzo 28 columnas

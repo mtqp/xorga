@@ -169,7 +169,7 @@ asmSobel:
 	add edi,width			; avanza edi una línea xq la 1er línea va en negro
 	mov al,xorder			; eax = xorder
 	mov ah,yorder			; eax = yorder
-	
+
 	pxor tmp4, tmp4
 
 procesar:
@@ -179,18 +179,25 @@ procesar:
 	cmp al, 0
 	je procesar_y
 	SobelX
+	packuswb acul, acuh
+	psrldq acul, 1
+	movdqu tmp4, acul
 
 	cmp ah, 0
 	je proximos_pixels
 
 procesar_y:
+	pxor acul, acul
+	pxor acuh, acuh
 	SobelY
-
-proximos_pixels:
 	packuswb acul, acuh
 	psrldq acul, 1
-	movdqu [edi+ecx+1], acul
 
+	paddusb acul, tmp4
+
+proximos_pixels:
+
+	movdqu [edi+ecx+1], acul
 	lea ecx, [ecx+2*16-2*2]		; avanzo 28 columnas
 	cmp ecx, edx			; verifica si al procesar 14 bytes se pasa o no del ancho
 	lea ecx, [ecx-14]		; columna actual = columna del ciclo anterior + 14

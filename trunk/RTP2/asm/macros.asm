@@ -34,10 +34,10 @@
 
 ; abs xmm
 ;	calcula el valor absoluto del registro (packed words)
-%macro abs 1
-	pxor xmm6,xmm6
-	pcmpgtw xmm6,%1
-	pxor %1,xmm6
-	psubw %1,xmm6
+%macro abs 2
+	pxor %2,%2
+	pcmpgtw %2,%1
+	pxor %1,%2
+	psubw %1,%2
 %endmacro
 
