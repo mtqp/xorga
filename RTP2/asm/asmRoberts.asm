@@ -96,19 +96,25 @@ procesar:
 	pxor acuh,acuh			; acuh = 0 [acumulador parte alta]
 
 	RobertsX
-	abs acul
-	abs acuh
-
-procesar_y:
-	RobertsY
-	abs acul
-	abs acuh
-
-proximos_pixels:
+	abs acul,tmp1
+	abs acuh,tmp1
 	packuswb acul, acuh
 	psrldq acul, 1
-	movdqu [edi+ecx+1], acul
+	movdqu tmp3, acul
 
+procesar_y:
+	pxor acul,acul
+	pxor acuh,acuh
+	RobertsY
+	abs acul,tmp1
+	abs acuh,tmp1
+	packuswb acul, acuh
+	psrldq acul, 1
+	paddusb acul, tmp3
+
+proximos_pixels:
+
+	movdqu [edi+ecx+1], acul
 	lea ecx, [ecx+2*16-2*2]		; avanzo 28 columnas
 	cmp ecx, edx			; verifica si al procesar 14 bytes se pasa o no del ancho
 	lea ecx, [ecx-14]		; columna actual = columna del ciclo anterior + 14
