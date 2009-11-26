@@ -37,7 +37,7 @@ punteros para poder lograrlo y se pasa a la siguiente fila.
 definidas sus propias \keyword{macros} denominadas \code{procesarLineaX}, \code{procesarLineaY}, \code{calcularX} y \code{calcularY}. 
 De esta manera, el código de los tres filtros es bastante similar y para comprenderlos basta con entender la estructura básica de uno de 
 ellos y luego los detalles particulares. La idea general del procesamiento se basa en las \keyword{macros} \code{procesarLineaX/Y}. Cada 
-\keyword{macro} se encarga de leer 16 píxeles, hacer el procesamiento de los 14 píxeles procesables según la línea correspondiente de la 
+\keyword{macro} se encarga de leer 16 píxeles, desempaquetarlos, hacer el procesamiento de los 14 píxeles procesables según la línea correspondiente de la 
 matríz, y sumar el resultado de la operación en dos acumuladores. Las macros \code{calcularX} y \code{calcularY} son las encargadas de 
 efectuar el procesamiento en paralelo de 6 píxeles convertidos a \keyword{word}. Cada algoritmo tiene sus versiones de ambas \keyword{macros}.
  Como estas \keyword{macros} no procesan todos los píxeles necesarios por limitaciones del método, cada algoritmo calcula individualmente 
@@ -131,15 +131,15 @@ entre la primer línea de la matríz (
 }. Para obtener este resultado, se realiza el siguiente procedimiento:
 \begin{center}
 \code{
-\begin{tabular}{r c l}
-	src	&\reg{a}{b}{c}{d}{e}{f}{g}{h} &	\keyword{parámetro}	\\ \\
-	tmp1	&\reg{a}{b}{c}{d}{e}{f}{g}{h} &	\keyword{copia src a tmp1}		\\ \\
-	tmp1	&\reg{b}{c}{d}{e}{f}{g}{h}{0} &	\keyword{shift 1 word $\leftarrow$}	\\ \\
-	tmp1	&\reg{2b}{2c}{2d}{2e}{2f}{2g}{2h}{0} &	\keyword{duplica tmp1}		\\ \\
-	tmp1	&\tiny\reg{a+2b}{b+2c}{c+2d}{d+2e}{e+2f}{f+2g}{g+2h}{h} & \keyword{suma src a tmp1} \\ \\
-	tmp2	&\reg{a}{b}{c}{d}{e}{f}{g}{h} &	\keyword{copia src a tmp2}		\\ \\
-	tmp2	&\reg{c}{d}{e}{f}{g}{h}{0}{0} & \keyword{shift 2 words $\leftarrow$}	\\ \\
-	tmp1	&\tiny\reg{a+2b+c}{b+2c+d}{c+2d+e}{d+2e+f}{e+2f+g}{f+2g+h}{g+2h}{h} & \keyword{suma tmp2 a tmp1} \\ \\
+\begin{tabular}{c r c l}
+	&src	&\reg{a}{b}{c}{d}{e}{f}{g}{h} &	\keyword{parámetro}	\\ \\
+	(1)&tmp1	&\reg{a}{b}{c}{d}{e}{f}{g}{h} &	\keyword{copia src a tmp1}		\\ \\
+	(2)&tmp1	&\reg{b}{c}{d}{e}{f}{g}{h}{0} &	\keyword{shift 1 word $\leftarrow$}	\\ \\
+	(3)&tmp1	&\reg{2b}{2c}{2d}{2e}{2f}{2g}{2h}{0} &	\keyword{duplica tmp1}		\\ \\
+	(4)&tmp1	&\tiny\reg{a+2b}{b+2c}{c+2d}{d+2e}{e+2f}{f+2g}{g+2h}{h} & \keyword{suma src a tmp1} \\ \\
+	(5)&tmp2	&\reg{a}{b}{c}{d}{e}{f}{g}{h} &	\keyword{copia src a tmp2}		\\ \\
+	(6)&tmp2	&\reg{c}{d}{e}{f}{g}{h}{0}{0} & \keyword{shift 2 words $\leftarrow$}	\\ \\
+	(7)&tmp1	&\tiny\reg{a+2b+c}{b+2c+d}{c+2d+e}{d+2e+f}{e+2f+g}{f+2g+h}{g+2h}{h} & \keyword{suma tmp2 a tmp1} \\ \\
 \end{tabular}
 }
 \end{center}
@@ -155,8 +155,8 @@ negativa. Como la matríz contiene sólo ceros en la segunda línea, no es neces
 procedimiento.
 
 \subsubsection{Procesamiento en \code{y}}
-	El cálculo de \keyword{Prewitt} en \code{y} es similar al de \keyword{Sobel}. El único cambio en el algoritmo es que no se efectúa el 3er
-paso, es decir, no se duplica el registro temporal.
+	El cálculo de \keyword{Prewitt} en \code{y} es similar al de \keyword{Sobel}. El único cambio en el algoritmo es que no se efectúa el paso (3). 
+es decir, no se duplica el valor de la segunda columna de \code{src} sino que se suma directamente.
 
 \vspace{5mm}
 \subsection{Frei-Chen}
@@ -191,7 +191,7 @@ muestra en el siguiente ejemplo:
 \end{center}
 
 \subsubsection{Procesamiento en \code{x}}
-	El algoritmo realizado para \keyword{Frei-Chen} en \code{x} es similar al de \keyword{Prewitt}. En este caso, la diferencia reside 
+	El algoritmo realizado para \keyword{Frei-Chen} en \code{x} es similar al de \keyword{Sobel}. En este caso, la diferencia reside 
 únicamente en el cálculo de la segunda línea de la matríz (
 \code{
 \begin{tabular}{|c|c|c|}
@@ -218,13 +218,80 @@ de \keyword{float} a \keyword{dword}, para finalmente convertirlo a \keyword{wor
 }
 \end{center}
 
-Luego el algoritmo continúa igual que el algoritmo de \keyword{Prewitt}, salvando los cálculos individuales de los píxeles centrales que vuelve a realizar 
+Luego el algoritmo continúa igual que el algoritmo de \keyword{Sobel}, salvando los cálculos individuales de los píxeles centrales que vuelve a realizar 
 un procedimiento similar al ya mostrado.
 
 
 \subsubsection{Procesamiento en \code{y}}
-	En este caso, la única diferencia entre la matríz de \keyword{Prewitt} y \keyword{Frei-Chen} es en la columna central, la cuál está multiplicada 
-por $\sqrt{2}$. 
+	Siguiendo la idea de la implementación de \keyword{Sobel}, el algoritmo para \keyword{Frei-Chen} en \code{y}, se diferencia en la segunda 
+columna de la matríz, que está multiplicada por $\sqrt{2}$ en lugar de por 2. La única diferencia con \keyword{Sobel} se va a encontrar en que se 
+necesita realizar la multiplicación en punto flotante en cada llamada a la macro \code{calcularY}. Es decir, se reemplaza el paso (3) del algoritmo
+de \keyword{Sobel} por la conversión a punto flotante y la multiplicación por $\sqrt{2}$. La forma de multiplicar es igual a la utilizada para
+\keyword{Frei-Chen} en \code{x} y descripta más arriba.
+
+
+\subsection{Roberts}
+La implementación del operador de \keyword{Roberts}, se basa en la explicada anteriormente para \keyword{Sobel}, pero es más simple y concisa, 
+ya que la matríz es de 2x2.
+
+\subsubsection{Procesamiento en \code{x}}	
+	La macro \code{RobertsX} obtiene 16 píxeles, los desempaqueta a \keyword{words} y los suma a los acumuladores directamente, ya que la
+primer línea de la matríz de \keyword{Roberts} es 
+\code{
+\begin{tabular}{|c|c|}
+	\hline
+	1 & 0 \\
+	\hline
+\end{tabular} 
+}. Luego avanza una linea, desempaqueta los 16 nuevos píxeles , shiftea un byte a la izquierda y se restan a los ya acumulados, logrando así la matriz buscada. 
+
+\subsubsection{Procesamiento en \code{y}}
+	La macro \code{RobertsY} funciona de igual manera, sólo que los primeros píxeles son los que se shiftean 1 byte a la derecha y la segunda linea se 
+resta a la primera sin el shift.
+
+
+
+\subsection{Medición de Performance}
+
+La siguiente tabla muestra la cantidad de ciclos mínima y promedio de cada implementaciçon de los filtros, obtenidos de una muestra de
+1000 ejecuciones de cada uno sobre la imagen de prueba \code{lena.bmp}:
+\begin{center}
+\begin{tabular}{|l|r|r|}
+\hline
+\multirow{2}{*}{Implementación}&\multicolumn{2}{|c|}{Ciclos de reloj} \\
+\cline{2-3}
+&Mínimo	&	Promedio \\
+\hline
+\multicolumn{3}{|c|}{Sobel}\\
+\hline
+Assembler	&	58.720.540	&	60.010.675 \\
+\hline
+C		&	393.586.848	&	416.838.429 \\
+\hline
+OpenCv		&	9.338.589	& 	9.797.886 \\
+\hline
+SSE		&	7.845.504 	&	7.991.641 \\
+\hline
+\multicolumn{3}{|c|}{Roberts}\\
+\hline
+Assembler	&	34.714.238	&	42.746.947 \\
+\hline
+C		&	320.676.453	&	336.808.912 \\
+\hline
+SSE		&	1.749.548	&	1.915.205 \\
+\hline
+\multicolumn{3}{|c|}{Prewitt}\\
+\hline
+Assembler	&	60.428.397	&	63.629.648 \\
+\hline
+C		&	634.337.521	&	664.132.063 \\
+\hline
+SSE		&	8.024.988	&	8.276.912 \\
+\hline
+
+\end{tabular}
+\end{center}
+
 
 \pagebreak
 
