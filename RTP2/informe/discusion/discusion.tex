@@ -41,15 +41,18 @@ ellos y luego los detalles particulares. La idea general del procesamiento se ba
 matríz, y sumar el resultado de la operación en dos acumuladores. Las macros \code{calcularX} y \code{calcularY} son las encargadas de 
 efectuar el procesamiento en paralelo de 6 píxeles convertidos a \keyword{word}. Cada algoritmo tiene sus versiones de ambas \keyword{macros}.
  Como estas \keyword{macros} no procesan todos los píxeles necesarios por limitaciones del método, cada algoritmo calcula individualmente 
-los 2 píxeles centrales de los 16 levantados. Por último se empaquetan los datos y se guardan en la imagen resultante. 
+los 2 píxeles centrales de los 16 levantados. Por último, se empaquetan los datos a \keyword{bytes}, se guardan en la imagen resultante y
+se avanza en la imagen hasta completar el procesamiento. A continuación serán explicados los diferentes algoritmos de paralelización utilizados 
+en cada caso.
 
 \subsection{Sobel}
 
 \subsubsection{Procesamiento en \code{x}}
 	La \keyword{macro} \code{procesarLineaX} comienza cargando en los registros \code{srcl} y \code{srch} 16 píxeles de la imagen original, 
 luego desempaqueta a ocho \keyword{words} adecuadamente con las instrucciones \code{punpcklbw} (\keyword{Unpack Low Bytes to Words}) y \code{punpckhbw} 
-(\keyword{Unpack High Bytes to Words}). Mediante la \keyword{macro} \code{calcularX} se trabajan los ocho píxeles menos significativos contienidos en 
-el registro \code{srcl}. Al aplicar convolución entre la primer línea de la matríz de \keyword{Sobel} ( 
+(\keyword{Unpack High Bytes to Words}). Mediante la \keyword{macro} \code{calcularX} se trabajan ocho píxeles, que serán primero los menos significativos 
+(contienidos en el registro \code{srcl}) y después los más significativos (contenidos en el registro \code{srch}). Al aplicar convolución entre la primer 
+línea de la matríz de \keyword{Sobel} ( 
 \code{
 \begin{tabular}{|c|c|c|}
 	\hline
@@ -59,9 +62,9 @@ el registro \code{srcl}. Al aplicar convolución entre la primer línea de la ma
 }
 ) y una línea genérica 
 \code{
-\begin{tabular}{|c|c|c|}
+\begin{tabular}{|c|c|c|c}
 	\hline
-	a & b & c \\
+	a & b & c & ... \\
 	\hline
 \end{tabular}
 }
@@ -72,8 +75,8 @@ el registro \code{srcl}. Al aplicar convolución entre la primer línea de la ma
 	c-a & d-b & e-c \\
 	\hline
 \end{tabular}
-}
-La \keyword{macro} \code{calcularX} obtiene el resultado esperado de 6 píxeles para \keyword{Sobel} en \code{x} de la siguiente manera:
+}.
+La \keyword{macro} \code{calcularX} obtiene el resultado esperado de 6 píxeles en paralelo para \keyword{Sobel} en \code{x} de la siguiente manera:
 
 \begin{center}
 \code{
@@ -89,8 +92,8 @@ La \keyword{macro} \code{calcularX} obtiene el resultado esperado de 6 píxeles 
 \end{center}
 
 Luego de obtener el resultado mostrado en el esquema, se suman los 6 resultados válidos al acumulador correspondiente. 
-Como la primer y tercer líneas son iguales y la segunda es el doble de la primera, se procesan todas las líneas con la misma \keyword{macro}. 
-En el caso de estar procesando la segunda línea de la matríz (
+Como la primer y tercer líneas de la matríz de \keyword{Sobel} son iguales y la segunda es el doble de la primera, se procesan todas las líneas 
+con la misma \keyword{macro}. En el caso de estar procesando la segunda línea de la matríz (
 \code{
 \begin{tabular}{|c|c|c|}
 	\hline
@@ -100,8 +103,8 @@ En el caso de estar procesando la segunda línea de la matríz (
 }
 ), después de ejecutar la \keyword{macro} \code{calcularX}, se duplica el resultado obtenido.
 
-	Los valores intermedios se acumulan en \code{acul} y \code{acuh} y, una vez calculados, se procesan los dos píxeles centrales de los 14 píxeles 
-originales que debían ser procesados.
+	Los valores intermedios se acumulan en \code{acul} y \code{acuh}. Una vez calculados, se procesan individualmente y aprovechando los resultados
+intermedios obtenidos, los dos píxeles centrales de los 14 píxeles originales que debían ser procesados ya que este método impide procesarlos en paralelo.
 
 \subsubsection{Procesamiento en \code{y}}
 	La idea detrás del procesamiento de Sobel en \code{y} es básicamente la misma al procesamiento en \code{x}. En este caso, al aplicar convolución 
@@ -115,9 +118,9 @@ entre la primer línea de la matríz (
 }
 ) y una línea genérica (
 \code{
-\begin{tabular}{|c|c|c|}
+\begin{tabular}{|c|c|c|c}
 	\hline
-	a & b & c \\
+	a & b & c & ... \\
 	\hline
 \end{tabular} 
 }
@@ -146,13 +149,17 @@ entre la primer línea de la matríz (
 
 Luego de obtener el resultado mostrado en el esquema, se acumula el resultado de \code{calcularY} restando (en caso de estar calculando la primer 
 línea de la matríz) o sumando (si se trata de la tercera). Esto se debe a que la matríz es igual en ambas líneas, salvo porque la primer línea es 
-negativa. Como la matríz contiene sólo ceros en la segunda línea, no es necesario realizar los cálculos. 
+negativa. Como la matríz contiene sólo ceros en la segunda línea, no es necesario realizar los cálculos.
+
+Al igual que para \keyword{Sobel} en \code{x}, después de calcular los resultados intermedios, se procesan individualmente los 2 píxeles faltantes.
 
 \vspace{5mm}
 \subsection{Prewitt}
+	Este algoritmo es casi idéntico al anterior. El único cambio general es que, luego de procesar las líneas pero antes
+de empaquetar a \keyword{bytes}, se calcula el valor absoluto de los acumuladores.
 \subsubsection{Procesamiento en \code{x}}
-	El cálculo de \keyword{Prewitt} en \code{x} es idéntico al de la primer línea de \keyword{Sobel}. Basta con repetir 3 veces el mismo
-procedimiento.
+	El cálculo de \keyword{Prewitt} en \code{x} es idéntico al de la primer línea de \keyword{Sobel}. Basta con no cambiar de línea y realizar
+los mismos pasos para obtener el resultado correcto.
 
 \subsubsection{Procesamiento en \code{y}}
 	El cálculo de \keyword{Prewitt} en \code{y} es similar al de \keyword{Sobel}. El único cambio en el algoritmo es que no se efectúa el paso (3). 
@@ -189,6 +196,8 @@ muestra en el siguiente ejemplo:
 \end{tabular}
 }
 \end{center}
+Al igual que en \keyword{Prewitt}, luego de procesar las líneas pero antes de empaquetar a \keyword{bytes}, se calcula el valor absoluto de 
+los acumuladores.
 
 \subsubsection{Procesamiento en \code{x}}
 	El algoritmo realizado para \keyword{Frei-Chen} en \code{x} es similar al de \keyword{Sobel}. En este caso, la diferencia reside 
@@ -227,12 +236,14 @@ un procedimiento similar al ya mostrado.
 columna de la matríz, que está multiplicada por $\sqrt{2}$ en lugar de por 2. La única diferencia con \keyword{Sobel} se va a encontrar en que se 
 necesita realizar la multiplicación en punto flotante en cada llamada a la macro \code{calcularY}. Es decir, se reemplaza el paso (3) del algoritmo
 de \keyword{Sobel} por la conversión a punto flotante y la multiplicación por $\sqrt{2}$. La forma de multiplicar es igual a la utilizada para
-\keyword{Frei-Chen} en \code{x} y descripta más arriba.
+\keyword{Frei-Chen} en \code{x} y descripta anteriormente.
 
 
 \subsection{Roberts}
 La implementación del operador de \keyword{Roberts}, se basa en la explicada anteriormente para \keyword{Sobel}, pero es más simple y concisa, 
-ya que la matríz es de 2x2.
+ya que la matríz es de 2x2. La principal ventaja de este tamaño de matríz es que permite calcular de a 15 píxeles. Al igual que en el algoritmo 
+de \keyword{Prewitt} y \keyword{Frei-Chen}, luego de procesar las líneas pero antes de empaquetar a \keyword{bytes}, se calcula el valor absoluto 
+de los acumuladores.
 
 \subsubsection{Procesamiento en \code{x}}	
 	La macro \code{RobertsX} obtiene 16 píxeles, los desempaqueta a \keyword{words} y los suma a los acumuladores directamente, ya que la
@@ -243,17 +254,39 @@ primer línea de la matríz de \keyword{Roberts} es
 	1 & 0 \\
 	\hline
 \end{tabular} 
-}. Luego avanza una linea, desempaqueta los 16 nuevos píxeles , shiftea un byte a la izquierda y se restan a los ya acumulados, logrando así la matriz buscada. 
+}. Luego avanza una linea, desempaqueta los 16 nuevos píxeles, \keyword{shiftea} una \keyword{word} a la derecha y se restan a los ya acumulados, 
+logrando así el procesamiento de la segunda línea de la matríz buscada(
+\code{
+\begin{tabular}{|c|c|}
+	\hline
+	0 & -1 \\
+	\hline
+\end{tabular}
+}). El siguiente esquema muestra el procesamiento de un fragmento de Roberts suponiendo el acumulador vacío al iniciar:
+
+\begin{center}
+\code{
+\begin{tabular}{r c l}
+	src	&\reg{$a_1$}{$b_1$}{$c_1$}{$d_1$}{$e_1$}{$f_1$}{$g_1$}{$h_1$}& \keyword{source} \\ \\
+	acu	&\reg{0}{0}{0}{0}{0}{0}{0}{0}& \keyword{acumulador} \\ \\
+	acu	&\reg{$a_1$}{$b_1$}{$c_1$}{$d_1$}{$e_1$}{$f_1$}{$g_1$}{$h_1$}& \keyword{acumulador += source} \\ \\
+	src	&\reg{$a_2$}{$b_2$}{$c_2$}{$d_2$}{$e_2$}{$f_2$}{$g_2$}{$h_2$}& \keyword{source = línea siguiente} \\ \\
+	tmp1	&\reg{$a_2$}{$b_2$}{$c_2$}{$d_2$}{$e_2$}{$f_2$}{$g_2$}{$h_2$}& \keyword{tmp1 = src} \\ \\
+	tmp1	&\reg{$b_2$}{$c_2$}{$d_2$}{$e_2$}{$f_2$}{$g_2$}{$h_2$}{0}& \keyword{shift tmp1 1 word $\leftarrow$} \\ \\
+	acu	&{\tiny\reg{$a_1$-$b_2$}{$b_1$-$c_2$}{$c_1$-$d_2$}{$d_1$-$e_2$}{$e_1$-$f_2$}{$f_1$-$g_2$}{$g_1$-$h_2$}{$h_1$}}& \keyword{acu -= tmp1} \\ \\
+\end{tabular}
+}
+\end{center}
 
 \subsubsection{Procesamiento en \code{y}}
-	La macro \code{RobertsY} funciona de igual manera, sólo que los primeros píxeles son los que se shiftean 1 byte a la derecha y la segunda linea se 
-resta a la primera sin el shift.
+	La macro \code{RobertsY} funciona de igual manera, sólo que se invierte el órden del procesamiento, es decir, el cálculo que se hacía en 
+\code{RobertsX} para la primer línea, ahora se hace para la segunda y viceversa. Jústamente, esto se debe a que la matríz de \keyword{Roberts} en
+\code{y} es exactamente espejada en filas que la matríz de \keyword{Roberts} en \code{x}.
 
-
-
+\vspace{10mm}
 \subsection{Medición de Performance}
 
-La siguiente tabla muestra la cantidad de ciclos mínima y promedio de cada implementaciçon de los filtros, obtenidos de una muestra de
+La siguiente tabla muestra la cantidad de ciclos mínima y promedio de cada implementación de los filtros, obtenidos de una muestra de
 1000 ejecuciones de cada uno sobre la imagen de prueba \code{lena.bmp}:
 \begin{center}
 \begin{tabular}{|l|r|r|}

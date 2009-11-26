@@ -1,21 +1,23 @@
 \select@language {spanish}
-\contentsline {section}{\numberline {1}Desarrollo}{3}
-\contentsline {section}{\numberline {2}Discusi\IeC {\'o}n}{5}
-\contentsline {subsection}{\numberline {2.1}Estructura b\IeC {\'a}sica para \textit {Sobel}, \textit {Prewitt} y \textit {Frei-Chen}}{5}
-\contentsline {subsection}{\numberline {2.2}Sobel}{6}
-\contentsline {subsubsection}{\numberline {2.2.1}Procesamiento en \texttt {x}}{6}
-\contentsline {subsubsection}{\numberline {2.2.2}Procesamiento en \texttt {y}}{6}
-\contentsline {subsection}{\numberline {2.3}Prewitt}{7}
-\contentsline {subsubsection}{\numberline {2.3.1}Procesamiento en \texttt {x}}{7}
-\contentsline {subsubsection}{\numberline {2.3.2}Procesamiento en \texttt {y}}{7}
-\contentsline {subsection}{\numberline {2.4}Frei-Chen}{7}
-\contentsline {subsubsection}{\numberline {2.4.1}Procesamiento en \texttt {x}}{8}
-\contentsline {subsubsection}{\numberline {2.4.2}Procesamiento en \texttt {y}}{8}
-\contentsline {subsection}{\numberline {2.5}Roberts}{9}
-\contentsline {subsubsection}{\numberline {2.5.1}Procesamiento en \texttt {x}}{9}
-\contentsline {subsubsection}{\numberline {2.5.2}Procesamiento en \texttt {y}}{9}
-\contentsline {subsection}{\numberline {2.6}Medici\IeC {\'o}n de Performance}{9}
-\contentsline {section}{\numberline {3}Manual de usuario}{10}
-\contentsline {subsection}{\numberline {3.1}Ayuda r\'apida}{10}
-\contentsline {subsection}{\numberline {3.2}Descripci\'on}{10}
-\contentsline {subsection}{\numberline {3.3}Instrucciones de compilaci\'on}{10}
+\contentsline {section}{\numberline {1}Introducci\'on}{3}
+\contentsline {section}{\numberline {2}Desarrollo}{4}
+\contentsline {section}{\numberline {3}Discusi\IeC {\'o}n}{6}
+\contentsline {subsection}{\numberline {3.1}Estructura b\IeC {\'a}sica para \textit {Sobel}, \textit {Prewitt} y \textit {Frei-Chen}}{6}
+\contentsline {subsection}{\numberline {3.2}Sobel}{7}
+\contentsline {subsubsection}{\numberline {3.2.1}Procesamiento en \texttt {x}}{7}
+\contentsline {subsubsection}{\numberline {3.2.2}Procesamiento en \texttt {y}}{7}
+\contentsline {subsection}{\numberline {3.3}Prewitt}{8}
+\contentsline {subsubsection}{\numberline {3.3.1}Procesamiento en \texttt {x}}{8}
+\contentsline {subsubsection}{\numberline {3.3.2}Procesamiento en \texttt {y}}{8}
+\contentsline {subsection}{\numberline {3.4}Frei-Chen}{8}
+\contentsline {subsubsection}{\numberline {3.4.1}Procesamiento en \texttt {x}}{9}
+\contentsline {subsubsection}{\numberline {3.4.2}Procesamiento en \texttt {y}}{10}
+\contentsline {subsection}{\numberline {3.5}Roberts}{10}
+\contentsline {subsubsection}{\numberline {3.5.1}Procesamiento en \texttt {x}}{10}
+\contentsline {subsubsection}{\numberline {3.5.2}Procesamiento en \texttt {y}}{11}
+\contentsline {subsection}{\numberline {3.6}Medici\IeC {\'o}n de Performance}{11}
+\contentsline {section}{\numberline {4}Conclusiones}{12}
+\contentsline {section}{\numberline {5}Manual de usuario}{13}
+\contentsline {subsection}{\numberline {5.1}Ayuda r\'apida}{13}
+\contentsline {subsection}{\numberline {5.2}Descripci\'on}{13}
+\contentsline {subsection}{\numberline {5.3}Instrucciones de compilaci\'on}{13}
