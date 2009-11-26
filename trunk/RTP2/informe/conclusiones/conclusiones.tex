@@ -4,13 +4,9 @@
 Con respecto al trabajo actual, se present\'o un m\'etodo efectivo aun m\'as  eficiente que el expuesto en el trabajo anterior, ya que el trabajo mediante SSE permiti\'o procesar gran cantidad de datos en paralelo, crucial para este tipo de aplicaciones.
 
 
-	Es notable la diferencia entre las diferentes implementaciones surgida al comparar los tiempos. Ya en previo trabajo puede verse que la implmentaci\'on en lenguaje C es la m\'as lenta de todas, seguida de la implementaci\'on en ensamblador y, siendo mucho mas r\'apida, esta la implementaci\'on de la librer\'ia openCv. Pero este nuevo algoritmo es varias veces m\'as r\'apido que el de la librer\'ia, demostrando que el costo de tener un algoritmo mas complejo que usa instrucciones SIMD para lograr velocidad, esta perfectamente justificado. 
+	Es notable la diferencia entre las diferentes implementaciones surgida al comparar los tiempos. Ya en previo trabajo puede verse que la implmentaci\'on en lenguaje C es la m\'as lenta de todas, seguida de la implementaci\'on en ensamblador y, siendo mucho mas r\'apida, está la implementaci\'on de la librer\'ia openCv. Pero este nuevo algoritmo es varias veces m\'as r\'apido que el de la librer\'ia, demostrando que el trabajo de hacer un algoritmo más complejo que usa instrucciones SIMD para lograr mejoras en la performance, está perfectamente justificado. 
 
-	
-	De todas formas, es posible lograr mejor a\'un mejor rendimiento. Una implementaci\'on mejor puede incluir menos accesos a memoria u otra forma de trabajar cada matriz en particular, por ejemplo, usando shifts l\'ogicos en vez de multiplicaciones por potencias de dos. Pero el c\'odigo se volver\'ia innecesariamente complicado, perdiendo el foco del trabajo. Tambi\'en un algoritmo general tiene que poder controlar im\'agenes con un ancho no m\'ultiplo de 16.
-
-
-	Para concluir, con el presente trabajo se muestra una herramienta de muy alto rendimiento de realce de bordes en im\'agenes, la cual puede ser \'util a gran escala por sus prestaciones, o bien formar parte de otro tipo de proyecto, por ejemplo realce de bordes en video en tiempo real.
+	Para concluir, con el presente trabajo se muestra una herramienta de muy alto rendimiento de realce de bordes en im\'agenes, la cual puede ser \'util a gran escala por sus prestaciones o bien formar parte de otro tipo de proyecto, por ejemplo, realce de bordes en video en tiempo real.
 
 \pagebreak	
 

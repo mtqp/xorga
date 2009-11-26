@@ -9,7 +9,9 @@
 \texttt{
 \begin{tabular}{ll}
 -r\#	&	Aplica el operador \#\\
--g		&	Modo gr\'afico \\
+-g	&	Modo gr\'afico \\
+--nosse	&	Deshabilita las optimizaciones de SSE \\
+--time \# &	Realiza \# repeticiones del operador y muestra información de performance \\
 \end{tabular}
 }\\
 
@@ -19,21 +21,18 @@
 \indent 3: Operador de Sobel derivando por X \\
 \indent 4: Operador de Sobel derivando por Y \\
 \indent 5: Operador de Sobel derivando por X e Y \\
+\indent 6: Operador de Frei-Chen
 
-Si no se especifica un archivo de entrada, se usar\'a 'lena.bmp' 
+\noindent Si no se especifica un archivo de entrada, se usar\'a \code{lena.bmp} 
 
 \subsection{Descripci\'on}
 
 El programa se puede invocar en modo gr\'afico (\code{-g}) o directo (\code{-r\#}) y opcionalmente una imagen. En modo directo, 
 se leer\'a una imagen pasada como par\'ametro o la imagen por defecto (\code{lena.bmp}), se le aplicar\'a el filtro seleccionado 
-y se guardar\'a con el nombre original mas un postfijo que indica que filtro fue aplicado y con la extensi\'on original. \\
-
-En modo gr\'afico, se puede abrir una imagen y aplicar los filtros en tiempo real, con las teclas del \code{1} al \code{5}, 
-restaurar la imagen en escala de grises con la tecla \code{0}, y guardar el resultado actual con la tecla \code{s}. Se puede 
-salir de este modo con la tecla \code{ESCAPE}. \\
-
-El orden de los par\'ametros no importa, puede pasarse primero la direcci\'on de la imagen seguida por el modo a 
-usar o viceversa. \\
+y se guardar\'a con el nombre original mas un postfijo que indica que filtro fue aplicado y con la extensi\'on original. En modo gr\'afico, 
+se puede abrir una imagen y aplicar los filtros, con las teclas del \code{1} al \code{6}, restaurar la imagen en escala de grises 
+con la tecla \code{0}, guardar el resultado actual con la tecla \code{s} y deshabilitar las optimizaciones con la tecla \code{o}. 
+Se puede salir de este modo con la tecla \code{ESCAPE}. \\
 
 \noindent Tipos de im\'agenes soportados:
 \texttt{
