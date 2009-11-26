@@ -114,6 +114,8 @@
 		cvtps2dq tmp1, tmp1	; tmp1 = (int)tmp1
 		cvtps2dq tmp2, tmp2	; tmp2 = (int)tmp2
 		packssdw tmp1, tmp2	; tmp1 = (short)tmp1|(short)tmp2
+
+
 ; sigue
 	paddw tmp1, %1			; tmp1 = a+R*b|b+R*c|c+R*d|d+R*e|e+R*f|f+R*g|g+R*h|h
 	movdqu tmp2, %1			; tmp2 = a|b|c|d|e|f|g|h
