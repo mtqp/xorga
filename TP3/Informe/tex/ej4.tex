@@ -29,7 +29,7 @@ descriptores de tares de la \code{GDT} con la base de cada \code{TSS}.
 
 \begin{verbatim}
 		mov eax,tsss 
-		add eax,TSS_SIZE 	;(2da TSS para pintor y 3ra TSS para el traductor)
+		add eax,TSS_SIZE	;(TSS de pintor, la siguiente es la del traductor) 
 		mov word [edi+2],ax		
 		shr eax,16 
 		mov byte [edi+4],al 
@@ -51,8 +51,16 @@ nuestro caso es el pintor. La instrucción \code{ltr} carga el registro pasado p
 En el archivo \code{isr.asm} fue modificada la interrupción de clock (\code{isr32}), para que además de imprimir en pantalla lo necesario para completar 
 el ejercicio 3, también realice el cambio de tareas, es decir, actúe como \keyword{scheduler}. Comparando el \code{CR3} actual de la tarea en curso pudimos 
 constatar si lo que se estaba ejecutando era el pintor o el traductor, haciendo un \code{jump far} seleccionando el descriptor de la tarea opuesta a la 
-actual, y así generando automáticamente un intercambio de tareas por parte del procesador. Es importante mencionar que las interrupciones se deshabilitan 
-durante el tiempo que la rutina del \keyword{clock} se ejecuta.
+actual, y así generando automáticamente un intercambio de tareas por parte del procesador.
 
-Decidimos utilizar una puerta de interrupción para realizar este switch.
+Decidimos utilizar una puerta de interrupción para realizar el \keyword{scheduler} porque, al tener que intercambiar únicamente entre dos tareas, era el
+esquema más sencillo de implementar. La rutina comienza comparando el registro \code{CR3} con la dirección \code{0xB000} (directorio de páginas del traductor 
+y \keyword{kernel}), para saber qué tarea se está ejecutando actualmente. En el caso de estar en la tarea Pintor la comparación da falsa, y se pasa a 
+ejecutar la tarea Traductor mediante un \code{jump far} que carga el 5to descriptor de la \code{GDT}, que le corresponde a la tarea. Si se está ejecutando el 
+Traductor y vuelve a suceder la interrupción entonces la comparación va a resultar verdadera y se realizará el cambio a la tarea Pintor. Algo a tener en cuenta
+es que al ejecutarse la rutina de atención de la interrupción, el \code{eip} de la tarea que se estaba ejecutando pasa a apuntar a la rutina de atención. Esto
+hace que al saltar a la tarea correspondiente, el \code{eip} que se guarda en la \code{TSS} de la tarea que estaba en ejecución se deja en la instrucción siguiente
+al salto. Cuando se vuelve a ejecutar la tarea, lo primero que hace es habilitar las interrupciones (que habían sido deshabilitadas al principio de la rutina) 
+y luego ejecuta la instrucción \code{iret} que vuelve el \code{eip} al lugar donde estaba en el momento que fue interrumpida la tarea.
+
 

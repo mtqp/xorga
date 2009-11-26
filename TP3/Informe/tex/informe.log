@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2009.10.30)  26 NOV 2009 15:21
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2009.10.30)  26 NOV 2009 16:05
 entering extended mode
  %&-line parsing enabled.
 **informe.tex
@@ -370,12 +370,12 @@ Overfull \hbox (8.19388pt too wide) in paragraph at lines 9--13
  []
 
 ) (./ej4.tex [9]
-Overfull \hbox (11.99689pt too wide) in paragraph at lines 32--32
-[]\OT1/cmtt/m/n/10 add eax,TSS_SIZE  ;(2da TSS para pintor y 3ra TSS para el tr
-aductor)[] 
+Overfull \hbox (6.74693pt too wide) in paragraph at lines 32--32
+[]\OT1/cmtt/m/n/10 add eax,TSS_SIZE ;(TSS de pintor, la siguiente es la del tra
+ductor)[] 
  []
 
-)) [10] (./informe.aux)
+[10])) [11] (./informe.aux)
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
@@ -383,7 +383,7 @@ LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 Here is how much of TeX's memory you used:
  1418 strings out of 95086
  16349 string characters out of 1183254
- 74274 words of memory out of 1500000
+ 75274 words of memory out of 1500000
  4583 multiletter control sequences out of 10000+50000
  6278 words of font info for 23 fonts, out of 1200000 for 2000
  28 hyphenation exceptions out of 8191
@@ -395,9 +395,9 @@ pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmr12.pfb></usr/share/texm
 f-texlive/fonts/type1/bluesky/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/typ
 e1/bluesky/cm/cmti10.pfb></usr/share/texmf-texlive/fonts/type1/bluesky/cm/cmtt1
 0.pfb>
-Output written on informe.pdf (10 pages, 89613 bytes).
+Output written on informe.pdf (11 pages, 91100 bytes).
 PDF statistics:
- 67 PDF objects out of 1000 (max. 8388607)
+ 70 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 131072)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
