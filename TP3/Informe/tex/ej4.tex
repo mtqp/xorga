@@ -14,7 +14,9 @@ breve, pasará a explicarse.
 ubicarlos. Se generan en el \code{gdt.c} tres descriptores de \code{TSS} entonces, uno para cada una de las recientemente mencionadas. A continuación, 
 un gráfico con las componentes del descriptor. 
 
-	[MANDAR FOTITO DEL DESCRIPTOR DE TSS]
+\begin{center}
+\includegraphics[scale=0.4]{tss_descriptor.png}
+\end{center}
 
 Al conocer su tamaño (\code{0x6c} \keyword{bytes}), pudo definirse el límite de los descriptores, tanto como sus atributos. Se dejó para el \code{kernel.asm} 
 el trabajo de setear la base.

@@ -13,17 +13,20 @@ programa debe conocer la dirección a la cual regresar para continuar la ejecuci
 
 Ya dentro de la subrutina, se les agregan los \keyword{flags} de \code{supervisor}, \code{read/write} y \code{present} a las primeras entradas de cada 
 directorio, junto con la dirección correspondiente a su primer tabla. 
-%La estructura de un descriptor de directorio de página es el siguiente:
-%					[nice drawing]
+La estructura de un descriptor de directorio de página es el siguiente:
+
+\begin{center}
+\includegraphics[scale=0.5]{descriptorpagina.jpg}
+\end{center}
 
 \begin{itemize}
 	\item\code{Dirección}: se toman los \keyword{bits} 31 al 12 inclusive (20 \keyword{bits}) de la dirección de memoria recibida por el módulo 
 de segmentación (dirección lineal) y esto servirá para localizar la tabla de página correspondiente.
-	\item\code{Bit S}: es el \keyword{bit} 7 y determina el tamaño de la pagina, que puede ser de 4Kb o 4Mb, pero para esto último se necesita que 
+	\item\code{Bit PS}: es el \keyword{bit} 7 y determina el tamaño de la pagina, que puede ser de 4Kb o 4Mb, pero para esto último se necesita que 
 el modo \code{PSE} de paginación extendida esté activado (no requerido en el trabajo actual).
 	\item\code{Bit A}: \code{Accessed}, determina si se escribió o leyó de una página o no. Es el \keyword{bit} 5.
-	\item\code{Bit D}: este \keyword{bit} deshabilita el caché, por lo que permanecerá en 0. Es el \keyword{bit} 4.
-	\item\code{Bit W}: es para habilitar el modo \code{Write-through} de la \keyword{caché}, no lo utilizamos.
+	\item\code{Bit PCD}: este \keyword{bit} deshabilita el caché, por lo que permanecerá en 0. Es el \keyword{bit} 4.
+	\item\code{Bit PWT}: es para habilitar el modo \code{Write-through} de la \keyword{caché}, no lo utilizamos.
 	\item\code{Bit U}: determina el nivel de privilegio, si no esta \keyword{seteado}, el privilegio es de \code{Supervisor} (el mas alto). 
 	\item\code{Bit R/W}: habilita la lectura y escritura en las páginas, lo requerimos en el trabajo.
 	\item\code{Bit P}: dice si la pagina esta presente en la memoria. Lo habilitamos para no producir una \code{Page Fault}.
