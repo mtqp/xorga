@@ -1,0 +1,17 @@
+\subsection{Ejercicio 3}
+	En este ejercicio, el objetivo era asociar rutinas para controlar todas las excepciones del procesador, definiendo correctamente las entradas de 
+la \code{IDT}. Luego se debía asociar la interrupción del reloj con una rutina \verb=next_clock= dada por la cátedra. Para lograr esto, se utilizaron 
+varias macros que serán descriptas más adelante. 
+	Antes de realizar el manejo de interrupciones, hay que inicializar los \code{PIC} que mapean cada interrupción recibida con su correspondiente 
+dirección para ser atendida. En modo protegido la configuración inicial de los dos \code{PIC}, esta \keyword{mapeada} a interrupciones reservadas por Intel. Por 
+lo cual, hay que remapear los vectores de interrupción a un espacio no reservado.
+
+	Una vez reinicializados los \code{PIC} con nuevos valores, se procede a llamar a la función \code{idtFill}, la cual está definida en \code{idt.c}. 
+Esta función llama sucesivamente a un define (\verb=IDT_ENTRY=) el cual se encarga de inicializar una entrada del array \code{idt}. Dicha entrada 
+apunta a la dirección definida dentro del archivo \code{isr.asm}, que imprime un mensaje de excepción, usando la macro \verb=IMPRIMIR_TEXTO= dada por la 
+cátedra.
+
+	También se define la \code{isr32} que tiene el código que se ejecuta cuando se produce una interrupción por el \keyword{timer}. Este código llama 
+a la función \verb=next_clock= y salta entre las tareas (esto último será explicado en la siguiente sección). 
+
+	Por último, volviendo al código principal, luego de la llamada a \code{idtFill}, se carga la tabla \code{IDT} con la instrucción \code{lidt}.

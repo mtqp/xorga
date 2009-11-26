@@ -1,0 +1,70 @@
+\documentclass[a4paper,spanish]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[pdftex]{graphicx}
+\usepackage[spanish]{babel}
+\usepackage{makeidx}
+\usepackage{multirow}
+\usepackage{verbatim}
+\usepackage{caratula}
+
+\newcommand\keyword[1]{\textit{#1}}
+\newcommand\code[1]{\texttt{#1}}
+
+\newcommand\sreg[4]{
+	\begin{tabular}{|c|c|c|c|} 
+		\cline{1-4}
+		#1&#2&#3&#4 \\ 
+		\cline{1-4}
+	\end{tabular}
+}
+\newcommand\reg[8]{
+	\begin{tabular}{|c|c|c|c|c|c|c|c|} 
+		\cline{1-8}
+		#1&#2&#3&#4&#5&#6&#7&#8 \\ 
+		\cline{1-8}
+	\end{tabular}
+}
+
+\newcommand\treg[8] {
+	\cline{1-8} #1&#2&#3&#4&#5&#6&#7&#8\\\cline{1-8}
+}
+
+\newcommand\tablereg[1] {
+	\begin{tabular}{|c|c|c|c|c|c|c|c|} 
+		#1
+	\end{tabular}
+}
+
+
+\makeindex
+
+\begin{document}
+
+%=======================
+% CARATULA
+%=======================
+\materia{Organizaci\'on del Computador II}
+\submateria{Segundo Cuatrimestre de 2009}
+\titulo{Trabajo Pr\'actico 3}
+\subtitulo{ }
+\grupo{Grupo XOR}
+\integrante{Daniel Grosso}{694/08}{dgrosso@gmail.com}
+\integrante{Nicol\'as Varaschin}{187/08}{nicovaras22@gmail.com}
+\integrante{Mariano De Sousa}{389/08}{marian\_sabianaa@hotmail.com}
+
+\maketitle
+
+\tableofcontents
+\pagebreak
+
+%=======================
+% SECCIONES
+%=======================
+\input{introduccion.tex}
+\input{desarrollo.tex}
+\input{discusion.tex}
+%\input{conclusiones.tex}
+%\input{manual.tex}
+%\input{archivos.tex}
+
+\end{document}

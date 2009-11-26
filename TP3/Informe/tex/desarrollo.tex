@@ -1,0 +1,46 @@
+\section{Desarrollo}
+
+	El desarrollo del trabajo se realizó en forma gradual, separando en cada ejercicio propuesto: Segmentación inicial, Paginación, Interrupciones 
+y Manejo de Tareas. También se apoyó fuertemente sobre los archivos dados por la cátedra, que definían la estructura general del sistema, las dos tareas 
+ya implementadas, macros y un archivo adicional para habilitar la \code{Gate A20}, necesaria para el correcto funcionamiento del trabajo.
+
+	El archivo principal, que contiene la lógica más relevante del sistema, es el \code{kernel.asm}. Éste importará y usará los siguientes archivos:
+
+\begin{itemize}
+\item Segmentación y Paginación
+	\code{
+	\begin{itemize}
+		\item gdt.c
+		\item gdt.h 
+		\item kernel-traductor\_paging.asm
+		\item pintor\_paging.asm
+	\end{itemize}
+	}
+\item Interrupciones
+	\code{
+	\begin{itemize}
+		\item idt.c
+		\item idt.h
+		\item isr.asm
+		\item isr.h
+	\end{itemize}
+	}
+\item Tareas
+	\code{
+	\begin{itemize}
+		\item tss.c
+		\item tss.h
+		\item pintor.tsk
+		\item traductor.tsk
+	\end{itemize}
+	}
+\end{itemize}
+
+	Se crearon segmentos de código y datos de 4GB de tamaño, y se mapeo la memoria de vídeo. Luego se creó toda la paginación como fue definida 
+en el enunciado del trabajo práctico. El manejo de interrupciones se basa en mostrar un mensaje cuando ocurre una excepción, indicando de que excepción 
+se trata, y detener el proceso del sistema. 
+
+	Después son agregadas mas entradas en la tabla de descriptores globales (\code{GDT}) para manejar el switching y ejecución de las tareas dadas, y se 
+definen las \code{TSS} cuyo propósito es guardar el estado de ejecución de cada tarea. 
+
+\pagebreak
