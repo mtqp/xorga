@@ -56,7 +56,7 @@ actual, y así generando automáticamente un intercambio de tareas por parte del
 Decidimos utilizar una puerta de interrupción para realizar el \keyword{scheduler} porque, al tener que intercambiar únicamente entre dos tareas, era el
 esquema más sencillo de implementar. La rutina comienza comparando el registro \code{CR3} con la dirección \code{0xB000} (directorio de páginas del traductor 
 y \keyword{kernel}), para saber qué tarea se está ejecutando actualmente. En el caso de estar en la tarea Pintor la comparación da falsa, y se pasa a 
-ejecutar la tarea Traductor mediante un \code{jump far} que carga el 5to descriptor de la \code{GDT}, que le corresponde a la tarea. Si se está ejecutando el 
+ejecutar la tarea Traductor mediante un \code{jump far} que carga el 7mo descriptor de la \code{GDT}, que le corresponde a la tarea. Si se está ejecutando el 
 Traductor y vuelve a suceder la interrupción entonces la comparación va a resultar verdadera y se realizará el cambio a la tarea Pintor. Algo a tener en cuenta
 es que al ejecutarse la rutina de atención de la interrupción, el \code{eip} de la tarea que se estaba ejecutando pasa a apuntar a la rutina de atención. Esto
 hace que al saltar a la tarea correspondiente, el \code{eip} que se guarda en la \code{TSS} de la tarea que estaba en ejecución se deja en la instrucción siguiente
