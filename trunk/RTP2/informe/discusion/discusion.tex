@@ -303,7 +303,7 @@ C		&	393.586.848	&	416.838.429 \\
 \hline
 OpenCv		&	9.338.589	& 	9.797.886 \\
 \hline
-SSE		&	7.845.504 	&	7.991.641 \\
+SSE		&	2.055.594 	&	2.078.737 \\
 \hline
 \multicolumn{3}{|c|}{Roberts}\\
 \hline
@@ -311,7 +311,7 @@ Assembler	&	34.714.238	&	42.746.947 \\
 \hline
 C		&	320.676.453	&	336.808.912 \\
 \hline
-SSE		&	1.749.548	&	1.915.205 \\
+SSE		&	863.490		&	879.187 \\
 \hline
 \multicolumn{3}{|c|}{Prewitt}\\
 \hline
@@ -319,12 +319,18 @@ Assembler	&	60.428.397	&	63.629.648 \\
 \hline
 C		&	634.337.521	&	664.132.063 \\
 \hline
-SSE		&	8.024.988	&	8.276.912 \\
+SSE		&	2.077.712	&	2.090.116 \\
 \hline
-
+\multicolumn{3}{|c|}{Frei-Chen}\\
+\hline
+SSE		&	4.005.108	&	4.038.886 \\
+\hline
 \end{tabular}
 \end{center}
 
+El rendimiento logrado con SSE es notable, las nuevas implementaciones son aproximadamente 30 veces más rápidas que las implementaciones sin SSE y en el 
+caso de \keyword{Sobel}, es alrededor de 4 veces más rápida que la implementación original de la librería. Esto demuestra definitivamente el poder de 
+trabajo de SSE para aplicaciones multimedia.
 
 \pagebreak
 
