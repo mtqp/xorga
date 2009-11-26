@@ -1,0 +1,10 @@
+\select@language {spanish}
+\contentsline {section}{\numberline {1}Introducci\IeC {\'o}n}{3}
+\contentsline {section}{\numberline {2}Desarrollo}{4}
+\contentsline {section}{\numberline {3}Discusi\IeC {\'o}n}{5}
+\contentsline {subsection}{\numberline {3.1}Ejercicio 1}{5}
+\contentsline {subsubsection}{\numberline {3.1.1}\texttt {gdt.c}}{5}
+\contentsline {subsubsection}{\numberline {3.1.2}\texttt {kernel.asm}}{6}
+\contentsline {subsection}{\numberline {3.2}Ejercicio 2}{7}
+\contentsline {subsubsection}{\numberline {3.2.1}Tablas de p\IeC {\'a}gina}{8}
+\contentsline {subsection}{\numberline {3.3}Ejercicio 3}{9}
