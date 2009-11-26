@@ -21,10 +21,10 @@
 
 %macro procesarLineaX 0
 	pxor tmp1, tmp1			; tmp1 = 0
-	movdqu srcl, [esi+ecx]		; srcl = 16px
+	movdqu srcl, [esi+ecx]	; srcl = 16px
 	movdqu srch, srcl		; srch = srcl
-	punpcklbw srcl, tmp1		; srcl = a|b|c|d|e|f|g|h
-	punpckhbw srch, tmp1		; srch = i|j|k|l|m|n|o|p
+	punpcklbw srcl, tmp1	; srcl = a|b|c|d|e|f|g|h
+	punpckhbw srch, tmp1	; srch = i|j|k|l|m|n|o|p
 
 	%define SAVE_RESULT
 	calcularX srcl			; tmp1 = resultado de calcular la línea con los 8px menos significativos
@@ -73,10 +73,10 @@
 
 %macro procesarLineaY 0
 	pxor tmp1, tmp1			; tmp1 = 0
-	movdqu srcl, [esi+ecx]		; srcl = 16px de src
+	movdqu srcl, [esi+ecx]	; srcl = 16px de src
 	movdqu srch, srcl		; srch = srcl
-	punpcklbw srcl, tmp1		; srcl = primeros 8px desempaquetados a word
-	punpckhbw srch, tmp1		; srch = segundos 8px desempaquetados a word
+	punpcklbw srcl, tmp1	; srcl = primeros 8px desempaquetados a word
+	punpckhbw srch, tmp1	; srch = segundos 8px desempaquetados a word
 
 	%define SAVE_RESULT
 	calcularY srcl			; tmp1 = resultado de calcular los primeros 8px

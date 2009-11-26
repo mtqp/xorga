@@ -91,7 +91,7 @@ _isr32:
 	out 0x20, al
 	mov eax, cr3
 	cmp eax, 0xB000
-	;xchg bx,bx
+
 	popad
 	je task_switch_pintor
 task_switch_kernel:

@@ -9,7 +9,7 @@ page_table_0_pintor:
 %endrep
 ;/////////////////////////
 %assign i 0x9000			
-%rep    0x005				;TEORICAMENTE TENDRIA Q LLENAR HASTA DFFF CON CEROS, NO ESTAMOS SEGUROSSSSSSSSSSSSSSSSSSSSS
+%rep    0x005			
 	
     dd 	0 | 0
 				

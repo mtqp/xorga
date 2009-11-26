@@ -11,7 +11,7 @@
  * Metodo para inicializar los descriptores de la IDT 
  */
 void idtFill() {
-	//for (int i=0; i<32; i++) 	IDT_ENTRY(i);
+
 	
 	IDT_ENTRY(0);
 	IDT_ENTRY(1);

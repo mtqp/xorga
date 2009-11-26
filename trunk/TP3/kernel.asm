@@ -31,14 +31,18 @@ bienvenida:
 		call 	enable_A20
 		call	check_A20
 		cli
+	
+
 	;////////////////////////////////////////////////////////////////		
 	;/////////////////////// Ejercicio 1/////////////////////////////
 	;////////////////////////////////////////////////////////////////		
+
+
 		; Cargar el registro GDTR
 		lgdt 	[GDT_DESC]
 		; Pasar a modo protegido
 		mov eax, cr0		;cargo el registro de control cr0
-		or eax, 1		;seteo el bit para habilitar modo protegido
+		or eax, 1			;seteo el bit para habilitar modo protegido
 		mov cr0, eax		;guardo el registro cr0
 		jmp 0x08:modo_protegido	;salto al segmento de codigo
 
@@ -54,7 +58,7 @@ modo_protegido:
 
 	mov 	ax, 0x18	;acomodo el es al segmento de video
 	mov 	es, ax
-	xor edi,edi		;necesito al edi como offset para el es
+	xor edi,edi			;necesito al edi como offset para el es
 		
 
 	;limpio la pantalla 
@@ -62,39 +66,41 @@ modo_protegido:
 	mov ecx, (25 * 80) 	;para el loop..
 	mov ax, 0x0000		;ax es el par de bytes a escribir en video
 	limpiarPantalla:
-		stosw		;Escribe ax en es:edi e incrementa solo el edi
+		stosw			;Escribe ax en es:edi e incrementa solo el edi
 		loop limpiarPantalla
 	
-	xor edi,edi	;restarteo el edi para empezar a hacer el marco
-	mov ax,0xee00	;preparo el marco a dibujar
+	xor edi,edi			;restarteo el edi para empezar a hacer el marco
+	mov ax,0xee00		;preparo el marco a dibujar
 
-	mov ecx,80      ;80 es el tamanio de cada fila
+	mov ecx,80      	;80 es el tamanio de cada fila
 	marcoSuperior:
 		stosw
 		loop marcoSuperior
 	
-	mov ecx, 23	;para las siguientes 23 filas, solo marco en las puntas
+	mov ecx, 23			;para las siguientes 23 filas, solo marco en las puntas
 	marcoDeCostado:
-		stosw	;dibujo la punta izquierda
-		add edi,78*2 ;salteo todo el medio
+		stosw			;dibujo la punta izquierda
+		add edi,78*2 	;salteo todo el medio
 		stosw 	
 		loop marcoDeCostado
 	
-	mov ecx,80      ;80 es el tamanio de cada fila
+	mov ecx,80    		;80 es el tamanio de cada fila
 	marcoInferior:
 		stosw
 		loop marcoInferior	
+
+
 	;////////////////////////////////////////////////////////////////
 	;///////////////////// Ejercicio 2///////////////////////////////
 	;////////////////////////////////////////////////////////////////		
-		; TODO: Habilitar paginacion
+
 	
  		mov esp, 0x7FFC			;El stack pointer para poder hacer el call debe estar situado en una direccion valida
-		mov ebp, esp			;son los ultimos 32 bytes del kernel, PREGUNTAR SI SE PUEDE PONER CUALQUIER COSA Q ENTRE EN EL KERNEL
+		mov ebp, esp			;son los ultimos 32 bytes del kernel
 		
 		call page_init			;esto me inicializa los directorios
-		mov eax, page_dir_kernel		;cargo la direccion del directorio del kernel en cr3
-		;mov eax, page_dir_pintor
+		mov eax, page_dir_kernel;cargo la direccion del directorio del kernel en cr3
+
 		mov cr3, eax	
 	
 		mov eax, cr0				
@@ -102,7 +108,7 @@ modo_protegido:
 		mov cr0, eax
 				
 		mov ax, 0x18 			; Entramos por el segmento de video, con base
-		mov es, ax			; en 0xB8000
+		mov es, ax				; en 0xB8000
 		mov ecx, xorga_len
 		mov ah, 0x0A 
 		mov esi, xorga
@@ -114,13 +120,13 @@ modo_protegido:
 			loop .ciclo
 	
 	
-		;jmp $ ;///////LO CUELGO XQ QUIERO VER SI ME IMPRIME EL NOMBRE DEL GRUPO!!!
-		
 		
 		
 	;////////////////////////////////////////////////////////////////
 	;///////////////////// Ejercicio 3///////////////////////////////
 	;////////////////////////////////////////////////////////////////	
+
+
 		;Inicializacion PIC1
  		mov al, 0x11 		;ICW1: IRQs activas por flanco, Modo cascada, ICW4 Si.
  		out 20h, al
@@ -156,21 +162,15 @@ modo_protegido:
 
 		call idtFill	
  		lidt [IDT_DESC] 	;cargo la IDT
- 		xchg bx, bx
-		;sti			;inicializo las interrupciones
-				
-		;jmp $
+			
+
 
 
 	;////////////////////////////////////////////////////////////////				
 	;///////////////////// Ejercicio 4///////////////////////////////
 	;////////////////////////////////////////////////////////////////	
-		; TODO: Inicializar las TSS
-		; TODO: Inicializar correctamente los descriptores de TSS en la GDT
-		; TODO: Cargar el registro TR con el descriptor de la GDT de la TSS actual
-		; TODO: Habilitar la PIC
-		; TODO: Habilitar Interrupciones
-		; TODO: Saltar a la primer tarea
+
+
 		
 ;/////TSS DEL PINTOR!
 
@@ -188,11 +188,11 @@ modo_protegido:
 		add edi,4
 		mov dword [edi],0x8000	;eip
 		add edi,4
-		mov dword [edi],0x0202		;con 0x0202 HABILITAS INTERRUPCIONES, EN EL TP HAY HACERLO				
+		mov dword [edi],0x0202	;con 0x0202 HABILITAS INTERRUPCIONES
 		add edi,20
 		mov dword [edi],0x15ffc	;esp (pila)
 		add edi,4
-		mov dword [edi],0x15ffc	;ebp (pila) ////chequear si podemos poner 16000
+		mov dword [edi],0x15ffc	;ebp (pila) 
 		
 		add edi,12
 		mov word [edi],0x10	;guardo es    descriptor de datos del kernel.
@@ -225,11 +225,11 @@ modo_protegido:
 		add edi,4
 		mov dword [edi],0x9000	;eip
 		add edi,4
-		mov dword [edi],0x0202		;con 0x0202 HABILITAS INTERRUPCIONES, EN EL TP HAY HACERLO				
+		mov dword [edi],0x0202		;con 0x0202 HABILITAS INTERRUPCIONES
 		add edi,20
 		mov dword [edi],0x16ffc	;esp (pila)
 		add edi,4
-		mov dword [edi],0x16ffc	;ebp (pila) ////chequear si podemos poner 17000
+		mov dword [edi],0x16ffc	;ebp (pila) 
 		
 		add edi,12
 		mov word [edi],0x10	;guardo es    descriptor de datos del kernel.
@@ -267,18 +267,11 @@ modo_protegido:
 		mov byte [edi+7],ah		
 
 		
-	mov ax,0x20			;task0: INICIALIZA EL MULTI TASKING. COMO VAMOS A USAR EL TIC DE RELOJ PARA DOS COSAS AL MISMO TIEMPO?
+	mov ax,0x20			;task0: INICIALIZA EL MULTI TASKING. 
 	ltr ax
 	sti
 	jmp 0x28:0
 	
-	;aca hace el switcheo de tareas     aca van las interrupciones y los jmps
-	
-;	jmp $
-
-
-
-
 
 
 
