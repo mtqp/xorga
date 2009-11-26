@@ -75,11 +75,6 @@ gdt_entry gdt[GDT_COUNT] = {
 	},
 	
 	
-	
-	///////////////////////////////////////////////////////////
-	/////hipotesis: los parametros q le mando a los task son piolas
-	
-	
 		/* TASK para iniciar multitasking*/
 	(gdt_entry){ 
 		(unsigned short) 0x6c, 

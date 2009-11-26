@@ -55,7 +55,7 @@ apply_lineFC:
 ;////////////////////////////////////////////////////////////
 	mov esi, ptr_src		; esi = puntero al inicio de línea src
 	;mov edi, ptr_dst		; edi = puntero al inicio de línea dst
-	;mov ecx,width			; ecx = ancho imagen
+	
 	mov ebx,line_selector	; ebx = calculo la linea 1 o la 2???
 	pxor xmm7,xmm7			; xmm7 = acum de lo mas bajo de lo mas bajo?
 fcX:
