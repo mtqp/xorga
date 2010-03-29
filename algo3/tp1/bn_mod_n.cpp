@@ -68,7 +68,7 @@ int main (int argc, char** argv)
 			cout << "\t\t[" << ts << "]" << endl;
 			terminar_medicion(ts);
 		}
-		else cout << b << "^" << n << " mod " << n << " = " << bn_mod_n(b,n,n) << endl;
+		else cout << bn_mod_n(b,n,n) << endl;
 	}
 	return 0;
 }
