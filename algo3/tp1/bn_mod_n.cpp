@@ -60,7 +60,7 @@ int main (int argc, char** argv)
 	uint b;
 	ullint n;
 	ullint ts;
-	while(cin >> b, b!=-1){
+	while(cin >> b && b!=-1){
 		cin >> n;
 		if(argc>1 && string(argv[1])=="time"){
 			empezar_medicion(ts);
