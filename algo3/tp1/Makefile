@@ -1,5 +1,6 @@
 ej1: ej1.cpp
-	g++ -o ej1 ej1.cpp -lm
+	g++ -o ej1 ej1.cpp -lm -g -Wall
 
-mainmath: mainmath.c
-	gcc -g -o mainmath mainmath.c -lm
+clean:
+	rm ej1
+

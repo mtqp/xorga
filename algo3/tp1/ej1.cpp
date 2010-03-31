@@ -40,10 +40,6 @@ uint bn_mod_n( uint b, ullint n, ullint m )
 	if( m == 1 )
 		return c;
 
-	// caso base 3: n == 2
-	/*if( m == 2 )
-		return mod(c * c, n);*/
-
 	// caso recursivo
 	uint tmp = bn_mod_n( c, n, m/2 );
 	tmp *= tmp;
@@ -55,7 +51,7 @@ uint bn_mod_n( uint b, ullint n, ullint m )
 	return mod(tmp,n);
 }
 
-typedef string(PROCFUNC)( istringstream&, bool& );
+typedef string (PROCFUNC)( istringstream&, bool& );
 
 bool procesarArchivo( const string& input_name, const string& output_name, PROCFUNC& callback )
 {
@@ -64,15 +60,19 @@ bool procesarArchivo( const string& input_name, const string& output_name, PROCF
 	ifstream input_file;
 	ofstream output_file;
 	string line;
+	istringstream sstream;
+
 	input_file.open(input_name.data());
 	output_file.open(output_name.data());
+
 	if( input_file.is_open( ) && output_file.is_open( ) )
 	{
 		while( !input_file.eof() && !input_end )
 		{
 			getline( input_file, line );
-			istringstream s( line );
-			resultado = callback( s, input_end );
+			sstream.str( line );
+			resultado = callback( sstream, input_end );
+			sstream.clear();
 			if( !input_end )
 				output_file << resultado << endl;
 		}
@@ -90,31 +90,48 @@ bool procesarArchivo( const string& input_name, const string& output_name, PROCF
 
 string procesar_input( istringstream& s, bool& end_of_input )
 {
-	uint b, result;
-	ullint n;
+	uint result;
 	ullint ts;
-	
-	s >> b;
+	int b, n;
+
+	/**
+	 * carga las variables b y n
+	 **/
+	s >> b; 
 	s >> n;
-	
+
+	/**
+	 * si es el final del archivo (-1,-1) no procesa la línea
+	 **/
 	end_of_input = ( b == -1 && n == -1 );
-	
+	if( end_of_input ) return "";
+
+	/**
+	 * toma el clock antes de empezar a medir, luego mide y
+	 * calcula la cantidad de clocks 
+	 **/
 	empezar_medicion(ts);
 	result = bn_mod_n( b, n, n );
 	terminar_medicion(ts);
-	
-	cout << b << "^" << n << " mod " << n << " = " << result;
+
+	/**
+	 * imprime el resultado
+	 **/
+	cout << x1 << "^" << x2 << " mod " << x2 << " = " << result;
 	cout << "\t\t[" << ts << "]" << endl;
 	
-	//ostringstream out;
-	//out << (int)result;
-	return "salida";
+	/**
+	 * devuelve el string a almacenar en el archivo de salida
+	 **/
+	ostringstream out;
+	out << result;
+	return out.str();
 } 
 
-int main ( )
+int main( int argc, char** argv  )
 {
 
-	procesarArchivo( "Tp1Ej1.in", "Tp1Ej1.out", procesar_input );
+	procesarArchivo( , "Tp1Ej1.out", procesar_input );
 
 	return 0;
 }
