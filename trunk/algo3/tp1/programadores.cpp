@@ -24,19 +24,21 @@ uint programadores_en_simultaneo(const string* ingresos,const string* egresos,ui
 	//print(ingresos,n);
 	//cout << "Egresos: " << endl;
 	//print(egresos,n);
-	int max=0,tmp=0,j=0,k=0;
-	while(j<n){
-		if(ingresos[j]<=egresos[k]){
-			tmp++;
-			j++;
+	int max=0;	//max guarda la maxima cantidad de programadores en simultaneo hasta el momento
+	int tmp=0;	//tmp guarda la cantidad de programadores en simultaneo en un momento dado
+	int j=0,k=0;	//j se mueve dentro del array ingresos y k se mueve dentro del array de egresos
+	while(j<n){	//cuando veo todos los ingresos ya me alcanza para decidir
+		if(ingresos[j]<=egresos[k]){	//si ingresa alguien
+			tmp++;			//sumo un programador a los que tengo hasta el momento
+			j++;			//y paso al siguiente ingreso
 		}
-		else{
-			if(tmp>max) max=tmp;
-			tmp--;
-			k++;
+		else{				//si egresa alguien
+			if(tmp>max) max=tmp;	//miro si la cantidad de programadores en simultaneo antes de que egrese ese programador es mayor a la maxima cantidad de programadores en simultaneo calculada anteriormente, si es asi actualizo max
+			tmp--;			//resto un programador a los que tengo hasta el momento
+			k++;			//y paso al siguiente egreso
 		}
 	}
-	if(tmp>max) max=tmp;
+	if(tmp>max) max=tmp;			//si es necesario actualizo el max
 	return max;
 }
 
