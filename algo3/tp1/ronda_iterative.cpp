@@ -157,44 +157,6 @@ bool ronda( ListaDeAmigas* personas, int n ){
 	
 }
 
-
-/*
-
-bool ronda( ListaDeAmigas* personas, bool* pasadas, int actual, int n )
-{
-	//cout << "Actual: " << actual << endl;
-	bool todasPasadas=true;
-	ListaDeAmigas::iterator it;
-	
-	for( int i = 0 ; i < n ; i++ )
-		todasPasadas&=pasadas[i];
-		
-	bool esAmigaDeRoot=false;
-	for( it = personas[actual].begin() ; it != personas[actual].end() ; it++ )
-		esAmigaDeRoot |= (*it == 0);
-	
-	if( esAmigaDeRoot && todasPasadas )
-	{
-		return true;
-	}	
-	for( it = personas[actual].begin() ; it != personas[actual].end() ; it++ )
-	{
-		if( !pasadas[*it] )
-		{
-			pasadas[*it]=true;
-			if( ronda(personas, pasadas, *it, n ) )
-			{
-				return true;
-			}
-			pasadas[*it]=false;
-		}
-	}
-	
-	return false;
-
-}
-*/
-
 int main( ) 
 {
 	int n;
