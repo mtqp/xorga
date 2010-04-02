@@ -72,7 +72,7 @@ bool algunaAmigaRepetida(ListaDeAmigas::iterator *solucion, int longitud){
 bool ronda( ListaDeAmigas* personas, int n ){
 
 	cout << "entrando a ronda!!" << endl;
-
+	cout << "menor q dos amigas?? " << menorQDosAmigas(personas,n) << endl;
 	if (menorQDosAmigas(personas,n)){		//costo del if == O(n)
 		return false;
 	} else { 
@@ -128,6 +128,8 @@ bool ronda( ListaDeAmigas* personas, int n ){
 						it_actual++;								//existe otro camino para recorrer o tengo q subir?
 						if (it_actual != personas[i].end()){
 							it_apunta_NULL = true;
+						} else {
+							i++;
 						}
 					}
 					//---------------//
@@ -141,13 +143,14 @@ bool ronda( ListaDeAmigas* personas, int n ){
 			}
 		
 			if (it_apunta_NULL) {
-				/*vuelve hasta encontrar algun camino posible desde los padres
-				**y devuelve falso si llego hasta la raiz y no pudo encontrar
-				**otro camino*/
+				//vuelve hasta encontrar algun camino posible desde los padres
+				//**y devuelve falso si llego hasta la raiz y no pudo encontrar
+				//**otro camino
 				probe_todas_posibilidades = !dame_ult_it_not_NULL(solucion,personas,i);
 			}
 			
-			imprimir_resultado(solucion,i);	
+			cout << "encontre posible == " << encontre_posible << endl;
+			cout << "it_apunta_NULL == "<< it_apunta_NULL << endl;
 			encontre_posible= false;
 			it_apunta_NULL 	= false;
 		}
