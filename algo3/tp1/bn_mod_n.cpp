@@ -54,6 +54,35 @@ uint bn_mod_n( uint b, ullint n, ullint m )
 	return mod(tmp,n);
 }
 
+uint _bn_mod_n( uint b, ullint n )
+{
+	uint c = mod( b, n );
+	// caso base 1: b == 1 => resultado = 1
+	if( c == 1 )
+		return 1;
+	
+	// caso base 2: n == 1 => X mod 1 = 0
+	if( n == 1 )
+		return 0;
+
+	long long int m = n;
+	int tmp = c;
+
+	while( m != 1 )
+	{
+		tmp *= tmp;
+		m = m/2;
+		if (mod(m,2) == 1) {
+			tmp *= c;
+		}
+		tmp = mod(tmp,n);
+	}
+	return tmp;
+
+}
+
+
+
 int main (int argc, char** argv)
 {
 	uint b;
@@ -63,11 +92,12 @@ int main (int argc, char** argv)
 		cin >> n;
 		if(argc>1 && string(argv[1])=="time"){
 			empezar_medicion(ts);
-			cout << b << "^" << n << " mod " << n << " = " << bn_mod_n(b,n,n);
+			cout << b << "^" << n << " mod " << n << " = " << _bn_mod_n(b,n)/*,n)*/;
 			cout << "\t\t[" << ts << "]" << endl;
 			terminar_medicion(ts);
 		}
-		else cout << bn_mod_n(b,n,n) << endl;
+		//else cout << bn_mod_n(b,n,n) << endl;
+		else cout << _bn_mod_n(b,n) << endl;
 	}
 	return 0;
 }
