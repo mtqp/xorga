@@ -65,8 +65,8 @@ uint _bn_mod_n( uint b, ullint n )
 	if( n == 1 )
 		return 0;
 
-	long long int m = n;
-	int tmp = c;
+	ullint m = n;
+	uint tmp = c;
 
 	while( m != 1 )
 	{
