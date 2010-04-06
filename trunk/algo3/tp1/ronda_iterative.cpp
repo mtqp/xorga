@@ -18,30 +18,35 @@ void imprimir_resultado(ListaDeAmigas :: iterator *solucion, int longitud_soluci
 
 bool ronda_posible(ListaDeAmigas :: iterator *solucion, int longitud_solucion){
 //	cout << "entrando ronda posible" << endl;
-	return *solucion[0] == *solucion[longitud_solucion];
+	return *solucion[longitud_solucion-1] == 0;
 //	cout << "saliendo ronda posible" << endl;
 }
 	
 bool dame_ult_it_not_NULL(ListaDeAmigas :: iterator *solucion, ListaDeAmigas *personas, int retroceder_hasta){
 //	cout << "entrando dame ult is not null" << endl;
-	bool hay_opciones = true;
-	while (hay_opciones){
-		if (retroceder_hasta == 0){
-			hay_opciones = false;
-		}
+	bool encontre_camino = false;
+	while (!encontre_camino){
 		/*en solucion[i-1] tengo el iterador de la chica i-1 a sus amigas
 		**tengo q ver si ese iterador no es nulo, si es sigo subiendo
 		**si no, modifico solucion[i-1] con el iterador siguiente y devuelvo true*/
 		retroceder_hasta--;
 
-		if(solucion[retroceder_hasta] != personas[*(solucion[retroceder_hasta])].end()){
-			solucion[retroceder_hasta] = solucion[retroceder_hasta]++;
-//			cout << "saliendo ult is not null" << endl;
+		if (retroceder_hasta == -1){		//me pase y se me acabo el arreglo
 			return true;
+		}
+
+		solucion[retroceder_hasta]++;
+		if (retroceder_hasta == 0){
+			if(solucion[retroceder_hasta] != personas[0].end()){
+				return false;
+			}
+		}else {
+			if(solucion[retroceder_hasta] != personas[*solucion[retroceder_hasta-1]].end()){
+				return false;
+			}
 		}
 	}
 //	cout << "saliendo ult is not null" << endl;
-	return false;
 }
 
 bool menorQDosAmigas (ListaDeAmigas *personas, int n){
@@ -62,7 +67,8 @@ bool algunaAmigaRepetida(ListaDeAmigas::iterator *solucion, int longitud){
 	int i = 0;
 	bool repetida = false;
 	for(i;i<longitud && (!repetida);i++){
-		repetida = *(solucion[i]) == *(solucion[longitud]);
+		repetida = (*(solucion[i]) == *(solucion[longitud])) || (0 == *solucion[i]);
+		///recordemos q la amiga cero solo puede aparecer en el indice i-1 y nada mas q ahi
 	}
 //	cout << "saliendo alguna amiga repetida" << endl;
 	return repetida;
@@ -71,14 +77,13 @@ bool algunaAmigaRepetida(ListaDeAmigas::iterator *solucion, int longitud){
 
 bool ronda( ListaDeAmigas* personas, int n ){
 
-	cout << "entrando a ronda!!" << endl;
-	cout << "menor q dos amigas?? " << menorQDosAmigas(personas,n) << endl;
+	//cout << "entrando a ronda!!" << endl;
 	if (menorQDosAmigas(personas,n)){		//costo del if == O(n)
 		return false;
 	} else { 
 		//Creo nuestro array solucion, donde se guardara el camino posible en cada momento//
 		//el tam es n+1 ya que si [0] == [n+1] ==> cerre la vuelta / HAY RONDA //
-		int longitud_solucion = n+1;
+		int longitud_solucion = n;
 		ListaDeAmigas :: iterator solucion[longitud_solucion];
 
 		//bools encargados de manejar ambos whiles//
@@ -107,12 +112,12 @@ bool ronda( ListaDeAmigas* personas, int n ){
 			///WHILE 2///
 			while(!encontre_posible && !it_apunta_NULL){
 				//----IF 1---------//
-				if(i == longitud_solucion) {						//mi arreglo solucion esta lleno!
+				if(i == longitud_solucion-1) {						//mi arreglo solucion esta lleno!
 					//---------------//
 					if (ronda_posible (solucion,longitud_solucion)){	//hay ronda? //SIEMPRE ESTA SIN REP SALVO ULT==1ro
 						return true;
 						cout << "saliendo de ronda" << endl;
-						imprimir_resultado(solucion,longitud_solucion); //imprime en pantalla el orden de las amigas
+						//imprimir_resultado(solucion,longitud_solucion); //imprime en pantalla el orden de las amigas
 					} else {
 						it_actual++;								//existe otro camino para recorrer o tengo q subir?
 						if (it_actual != personas[i].end()){
@@ -129,7 +134,7 @@ bool ronda( ListaDeAmigas* personas, int n ){
 						if (it_actual != personas[i].end()){
 							it_apunta_NULL = true;
 						} else {
-							i++;
+							encontre_posible = true;
 						}
 					}
 					//---------------//
@@ -149,12 +154,12 @@ bool ronda( ListaDeAmigas* personas, int n ){
 				probe_todas_posibilidades = !dame_ult_it_not_NULL(solucion,personas,i);
 			}
 			
-			cout << "encontre posible == " << encontre_posible << endl;
-			cout << "it_apunta_NULL == "<< it_apunta_NULL << endl;
+		//	cout << "encontre posible == " << encontre_posible << endl;
+		//	cout << "it_apunta_NULL == "<< it_apunta_NULL << endl;
 			encontre_posible= false;
 			it_apunta_NULL 	= false;
 		}
-		cout << "saliendo de ronda!!" << endl;
+		//cout << "saliendo de ronda!!" << endl;
 		return false;	
 	}
 	
@@ -166,22 +171,22 @@ int main( )
 	int a, cant_amigas;
 	while(cin >> n && n!=-1){
 		ListaDeAmigas personas[n];
-		bool p[n];
+		//bool p[n];
 		cout << "Son " << n << " amigas" << endl;
 		for( int i = 0 ; i < n ; i++ )
 		{
 			cin >> cant_amigas;
 			cout << "La persona " << i << " tiene " << cant_amigas <<": ";
-			p[i]= false;
+			//p[i]= false;
 			for( int j = 0 ; j < cant_amigas ; j++ )
 			{
 				cin >> a;
-				cout << a << " ";
+				cout << a-1 << " ";
 				personas[i].push_back( a-1 );
 			}
 			cout << endl;
 		}
-		p[0]=true;
+		//p[0]=true;
 		cout << "Es ronda: " << ronda( personas, n ) << endl;
 	}
 	
