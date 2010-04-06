@@ -85,6 +85,10 @@ uint _bn_mod_n( uint b, ullint n )
 		if(2*m > n){
 			m = n-m;
 			tmp *= pow(c,m);	///seria una negrada llamar a la recursion, pensar como se puede arreglar
+			/*while (m!=0){
+				tmp *= c;
+				m--
+			}*/
 			tmp = mod(tmp,n);
 			break;
 		}
