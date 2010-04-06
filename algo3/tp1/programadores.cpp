@@ -19,11 +19,6 @@ void print(const string* a, uint n){
 }
 
 uint programadores_en_simultaneo(const string* ingresos,const string* egresos,uint n){
-	//cout << "Cantidad de programadores: " << n << endl;
-	//cout << "Ingresos: " << endl;
-	//print(ingresos,n);
-	//cout << "Egresos: " << endl;
-	//print(egresos,n);
 	int max=0;	//max guarda la maxima cantidad de programadores en simultaneo hasta el momento
 	int tmp=0;	//tmp guarda la cantidad de programadores en simultaneo en un momento dado
 	int j=0,k=0;	//j se mueve dentro del array ingresos y k se mueve dentro del array de egresos
@@ -49,18 +44,14 @@ int main (int argc, char** argv){
 		string ingresos[n];
 		string egresos[n];
 		string delim;
-		//cout << "n: " << n << endl;
 		for(uint i=0; i<n; i++){ 
 			cin >> ingresos[i];
 			cin >> delim;
-			//cout << "ingreso: " << ingresos[i] << endl;
 		}
 		for(uint i=0; i<n; i++){
 			 cin >> egresos[i];
 		  	 cin >> delim;
-			 //cout << "egreso: " << egresos[i] << endl;
 		}
-		
 		if(argc>1 && string(argv[1])=="time"){
 			empezar_medicion(ts);
 			cout << programadores_en_simultaneo(ingresos,egresos,n);
