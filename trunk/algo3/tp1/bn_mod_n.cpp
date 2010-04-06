@@ -17,7 +17,15 @@ uint bn_mod_n_c( uint b, ullint n )
 	return (ullint)pow( b, n )%n;
 }
 
-uint mod( ullint x, uint r )
+uint mod_loco( uint x, ullint r )
+{
+	ullint x_tmp = x;
+	while( x_tmp >= r )
+		x_tmp -= r;
+	return x_tmp;
+}
+
+uint mod( uint x, ullint r )
 {
 	while( x >= r )
 		x -= r;
@@ -58,27 +66,34 @@ uint _bn_mod_n( uint b, ullint n )
 {
 	uint c = mod( b, n );
 	// caso base 1: b == 1 => resultado = 1
-	if( c == 1 )
+	if( c == 1 ){
+//		cout << "caso C == 1"<< endl;
 		return 1;
+	}
 	
 	// caso base 2: n == 1 => X mod 1 = 0
-	if( n == 1 )
+	if( n == 1 ){
+//		cout << "caso N == 1"<< endl;
 		return 0;
+	}
 
-	ullint m = n;
+	ullint m = 1;
 	uint tmp = c;
 
-	while( m != 1 )
+	while( m!=n )
 	{
-		tmp *= tmp;
-		m = m/2;
-		if (mod(m,2) == 1) {
-			tmp *= c;
+		if(2*m > n){
+			m = n-m;
+			tmp *= pow(c,m);	///seria una negrada llamar a la recursion, pensar como se puede arreglar
+			tmp = mod(tmp,n);
+			break;
 		}
+		tmp *= tmp;
+		m += m;
+			
 		tmp = mod(tmp,n);
 	}
 	return tmp;
-
 }
 
 
