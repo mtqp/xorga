@@ -10,6 +10,9 @@
 #define terminar_medicion(var) __asm__ __volatile__ ("rdtsc;sub %0,%%eax;mov %%eax,%0" : : "g" (var) );
 #define cola queue<uint>
 
+#define O(n) contador+=(n)
+unsigned long long contador; //el contador de la cantidad de operaciones
+
 using namespace std;
 
 typedef unsigned int uint;
@@ -31,21 +34,28 @@ void print_vector(uint* V, uint n){
 bool unico_grupo(uint** relaciones, uint n){
 	bool marcadas[n];
 	for(uint i=0; i<n; i++) marcadas[i]=false;
+	O(n);
 	cola q;
 	q.push(0);
 	marcadas[0]=true;
+	O(3);
 	while(!q.empty()){
 		uint chica = q.front();
 		for(uint amiga=0; amiga<n; amiga++){
 			if(relaciones[chica][amiga]==1 && !marcadas[amiga]){
 				q.push(relaciones[chica][amiga]);
 				marcadas[amiga] = true;
+				O(3);
 			}
+			cout << "hola" << endl;
+			O(5);
 		}
 		q.pop();
+		O(3);
 	}
 	bool res = true;
 	for(uint i=0; i<n; i++) res&=marcadas[i];
+	O(n);
 	return res;
 }
 
@@ -56,9 +66,11 @@ bool ronda_de_amigas(uint** relaciones, uint n){
 		uint cantidad_de_amigas=0;
 		for(uint j=0; j<n; j++){
 			if(relaciones[i][j]==1) cantidad_de_amigas++;
+			O(4);
 		}
 		if(cantidad_de_amigas<2 || !unico_grupo(relaciones,n)) return false;
 		todas_amigas_de_todas&=(cantidad_de_amigas==n-1);
+		O(6);
 	}
 	if(todas_amigas_de_todas) return true;
 	uint solucion[n];
@@ -66,6 +78,7 @@ bool ronda_de_amigas(uint** relaciones, uint n){
 	uint s=1;	//posicion del vector prometedor para la que estoy buscando la chica
 	uint i=0;	//posicion en la matriz de la chica de la cual busco una amiga
 	uint ant=0;	//para retroceder, la ultima amiga vista que no lleva a una solucion
+	O(4);
 	while(s!=0){	//si retrocede lo suficiente para intentar cambiar la primer chica es porque no hay forma de hacer la ronda, ya que es lo mismo empezar por cualquiera
 		for(uint j=ant; j<n; j++){	//j recorre las amigas de i
 			if(relaciones[i][j]==1){	//si j es amiga de i
@@ -75,18 +88,23 @@ bool ronda_de_amigas(uint** relaciones, uint n){
 					if(solucion[k]==j){
 						esta=true;
 					}
+					O(6);
 				}
 				if(!esta && s<n){	//si no esta y todavia no llego el momento de cerrar la ronda (no estan todas las chicas)
 					solucion[s]=j;	//agrego la chica j a la ronda
 					i=j;	//empiezo a buscar una amiga de j
 					j=-1;	//miro desde la primer amiga de la que agregue
 					s++;
+					O(7);
 				}
+				O(8);
 			}
+			O(4);
 		}
 		s--;	//saco la ultima chica que meti a la ronda
 		i=solucion[s-1];	//vuelvo a buscar una amiga de la anterior
 		ant=solucion[s]+1;	//ant es la chica que saque, sigo buscando a partir de ahi
+		O(6);
 	}
 	return false;
 }
@@ -110,21 +128,26 @@ int main (int argc, char** argv){
 				relaciones[i][amiga-1]=1;
 			}
 		}
-	if(argc>1 && string(argv[1])=="time"){
+		if(argc>1 && string(argv[1])=="time"){	//si el argumento es "time", mido el tiempo
 			empezar_medicion(ts);
 			if(ronda_de_amigas(relaciones,n)) cout << "ronda" << endl;
 			else cout << "no" << endl;
 			cout << "\t\t[" << ts << "]" << endl;
 			terminar_medicion(ts);
 		}
-	else{	
-		if(ronda_de_amigas(relaciones,n)) cout << "ronda" << endl;
-		else cout << "no" << endl;
-	}
-	for(uint i=0; i<n; i++){
-		delete [] relaciones[i];
-	}
-	delete [] relaciones;
-	}
+		else if(argc>1 && string(argv[1])=="count"){	//si el argumento es "count", cuento cantidad de operaciones
+			contador=0;
+			ronda_de_amigas(relaciones,n);
+			cout << contador << endl;	//imprimo la cuenta
+		}
+		else{
+			if(ronda_de_amigas(relaciones,n)) cout << "ronda" << endl;
+			else cout << "no" << endl;
+		}
+		for(uint i=0; i<n; i++){	//libero la memoria
+			delete [] relaciones[i];
+		}
+		delete [] relaciones;
+		}
 	return 0;
 }
