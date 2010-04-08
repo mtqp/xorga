@@ -33,7 +33,9 @@
 \newpage
 
 	\begin{section}*{Introducción}	\addcontentsline{toc}{section}{Introducción}
-	blah
+	Este trabajo tiene como objetivo la aplicación de diferentes técnicas algorítmicas para la resolución de tres problemas particulares, el cálculo de complejidad teórica en el peor caso de cada algoritmo implementado, y la posterior verificación empírica.
+	
+	El lenguaje utilizado para implementar los algoritmos de todos los problemas fue C/C++
 	\end{section}
 
 	\begin{section}{Problema 1}
@@ -86,7 +88,14 @@
 	\newpage
 	
 	\begin{section}{Compilación y ejecución de los programas}
-	
+	Para compilar los programas se puede usar el comando \texttt{make} (Requiere el compilador \texttt{g++}).
+	Se pueden correr los programas de cada ejercicio ejecutando \texttt{./bn\_mod\_n}, \texttt{./ronda\_de\_amigas} y \texttt{./programadores} respectivamente.
+		
+	Los programas leen la entrada de stdin y escriben la respuesta en stdout. 		Para leer la entrada de un archivo \texttt{Tp1EjX.in} y escribir la respuesta en un archivo \texttt{Tp1EjX.out} ses puede usar:\\ \texttt{./(ejecutable) < Tp1EjX.in > Tp1EjX.out}
+		
+	Para medir los tiempos de ejecución: \texttt{./(ejecutable) time}
+
+	Para contar la cantidad de operaciones: \texttt{./(ejecutable) count}. Devuelve la cantidad de operaciones de cada instancia.
 	\end{section}
 	
 	\begin{section}{Conclusiones}
