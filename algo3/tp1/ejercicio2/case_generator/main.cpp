@@ -21,22 +21,27 @@ int main (int argc, char** argv){
 		cout << "	Cantidad maxima de amigas por test" << endl << endl;
 		cout << "Modos posibles  de generacion: '-random', '-rondas' y '-no_rondas'" << endl;
 	} else {
+		int cant_test  = atoi(argv[3]); 
+		int cant_amigas= atoi(argv[4]);
 		string option = string(argv[1]);
+		
+		//esto explota si le mandas menos de tres chicas... arreglarlo!!!
+		cout << "cant test == " << cant_test << "	&& cant_amigas == " << cant_amigas << endl;
 		if(argc > 1){
 			if (option=="-random"){
 				cout << "Generando en modo 'random'" << endl;
-				random(argv[2], (int) *(argv[3]), (int) *(argv[4]));	
+				random(argv[2], cant_test, cant_amigas);	
 				modo_generacion = true;
 				//esto no funciona bien pasando parametros!!!!!
 			}
 			if(option == "-rondas"){
 				cout << "Generando en modo 'rondas'" << endl;
-				rondas(argv[2], (int) *(argv[3]), (int) *(argv[4]));
+				rondas(argv[2], cant_test, cant_amigas);
 				modo_generacion = true;
 			}
 			if(option == "-no_rondas"){		
 				cout << "Generando en modo 'no_rondas'" << endl;
-//				no_rondas(argv[2], (int) *(argv[3]), (int) *(argv[4]));
+//				no_rondas(argv[2], cant_test, cant_amigas);
 				modo_generacion = true;
 			} else {
 				cout << "Modos posibles  de generacion: '-random', '-rondas' y '-no_rondas'" << endl;
