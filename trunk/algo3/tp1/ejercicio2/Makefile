@@ -1,5 +1,5 @@
-ronda: ronda.cpp
-	g++ -o ronda ronda.cpp -lm -g -Wall
+ronda: ronda_de_amigas.cpp
+	g++ -o ronda_de_amigas ronda_de_amigas.cpp -lm -g -Wall
 
 
 clean:
