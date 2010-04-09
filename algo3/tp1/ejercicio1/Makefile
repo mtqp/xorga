@@ -1,9 +1,10 @@
-ARCHIVOS = bn_mod_n test_bn_mod_n
+ARCHIVOS = bn_mod_n
+CFLAGS = -g -Wall
 
 all: $(ARCHIVOS)
 
-%:%.cpp
-	g++ -o $@ $<
+%:%.cpp ../medicion.h
+	g++ -o $@ $< $(CFLAGS)
 
 clean:
 	rm $(ARCHIVOS)
