@@ -1,4 +1,4 @@
-\begin{section}{Ejercicio 3}
+\begin{section}{Problema 3}
 	
 	\begin{subsection}{Explicación}
 %El ejercicio planteaba el problema de obtener la mayor cantidad de programadores que están simultáneamente dentro de una empresa de software dado los horarios de ingreso y egreso de cada programador.
@@ -9,7 +9,7 @@ Dado que ambas listas se encuentran ordenadas, nuestro algoritmo las recorre dec
 
 Cuando una persona ingresa a la empresa se incrementa el contador de la cantidad de programadores en simultáneo en el horario actual. Así, cuando se produce un egreso se compara si la cantidad de programadores dentro de la empresa previo a dicho egreso es mayor a la máxima cantidad de programadores en simultáneo hasta el momento, de ser así, actualizamos el máximo.
 
-Luego se descuenta el recientemente egresado del contador "cantidad de programadores en simultáneo".
+Luego se descuenta el recientemente egresado del contador ``cantidad de programadores en simultáneo''.
 
 Este procedimiento se repite hasta haber visto todos los ingresos, lo que nos garantiza tener el máximo correspondiente, ya que a partir de ese momento sólo se producirían egresos.
 
@@ -44,11 +44,9 @@ El algoritmo en todos los casos recorre completamente la lista de ingresos, por 
 	\end{subsection}
 
 	\begin{subsection}{Detalles de la implementación}
-	Guardamos los horarios de ingreso de todos los programadores (de la misma forma que estan en el archivo de entrada, es decir, en orden creciente) en un arreglo de $strings$ (los cuales representan un horario en formato "HH:MM:SS") de tamaño $n$, donde $n$ es la cantidad de programadores.
-
-	Además guardamos otro arreglo del mismo tamaño con los horarios de egreso.
+	Guardamos los horarios de ingreso de todos los programadores (de la misma forma que estan en el archivo de entrada, es decir, en orden creciente) en un arreglo de $strings$ (los cuales representan un horario en formato ``HH:MM:SS'') de tamaño $n$, donde $n$ es la cantidad de programadores. Además guardamos otro arreglo del mismo tamaño con los horarios de egreso.
 	
-	A medida que vamos recorriendo los arreglos $ingresos$ y $egresos$ necesitamos decidir si el horario de ingreso del programador $j$ es anterior o posterior al horario de egreso del programador $i$, esto lo hacemos comparando los $strings$ por menor igual (que el horario de ingreso del programador $j$ sea el mismo que el horario de egreso del programador $i$ significa que ambos estuvieron en simultáneo en la empresa justamente en ese horario ya que se considera que un programador permanece dentro de la empresa desde su horario de ingreso hasta su horario de egreso, incluyendo ambos extremos). Si la comparación resulta verdadera significa que el programador $j$ ingresa a la empresa por lo que incrementamos el contador de programadores en simultáneo en ese horario, en caso contrario lo decrementamos ya que el programador $i$ egresa. Antes de decrementar dicho contador verificamos si la cantidad de programadores en simultáneo previo al egreso de $i$ es mayor a $max$ (máxima cantidad de programadores en simultáneo calculada hasta el momento) y de ser necesario actualizamos $max$.
+	A medida que vamos recorriendo los arreglos $ingresos$ y $egresos$ necesitamos decidir si el horario de ingreso del programador $j$ es anterior o posterior al horario de egreso del programador $i$, esto lo hacemos comparando los $strings$ por menor o igual (que el horario de ingreso del programador $j$ sea el mismo que el horario de egreso del programador $i$ significa que ambos estuvieron en simultáneo en la empresa jústamente en ese horario ya que se considera que un programador permanece dentro de la empresa desde su horario de ingreso hasta su horario de egreso, incluyendo ambos extremos). Si la comparación resulta verdadera significa que el programador $j$ ingresa a la empresa por lo que incrementamos el contador de programadores en simultáneo en ese horario. En caso contrario lo decrementamos ya que el programador $i$ egresa. Antes de decrementar dicho contador verificamos si la cantidad de programadores en simultáneo previo al egreso de $i$ es mayor a $max$ (máxima cantidad de programadores en simultáneo calculada hasta el momento) y de ser necesario actualizamos $max$.
 
 	Una vez que terminamos de recorrer la lista de ingresos, actualizamos $max$ ya que desde el último egreso visto se pueden haber producido nuevos ingresos. Una vez hecho esto tenemos determinada la mayor cantidad de programadores que estan simultáneamente dentro de la empresa.
 	\end{subsection}

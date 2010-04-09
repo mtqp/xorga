@@ -1,6 +1,6 @@
 
 all: informe.pdf
 
-informe.pdf: informe.tex ejercicio3.tex
+informe.pdf: informe.tex ejercicio*.tex
 	pdflatex informe.tex
 
