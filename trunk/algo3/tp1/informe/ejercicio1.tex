@@ -14,6 +14,34 @@
 
 		Por esto tambien analizamos un poco la complejidad obtenida bajo el modelo uniforme. \\
 
+		\begin{pseudo}
+			\WHILE{$m>0$} \\
+			\tab \IF{ $m$ es impar } \\
+			\tab \tab $tmp \leftarrow tmp \cdot c$ \\
+			\tab \tab $tmp \leftarrow tmp\; mod\; n$ \\
+			\tab $m \leftarrow \frac{m}{2}$ \\
+			\tab $c \leftarrow c^2$ \\
+			\tab $c \leftarrow c\; mod\; n$
+			
+		\end{pseudo}
+
+		\begin{tabular}{l l}
+			1 iteración & $m = n$ \\
+			2 iteración & $m = \frac{n}{2}$ \\
+			3 iteración & $m = \frac{n}{2^2}$ \\
+			4 iteración & $m = \frac{n}{2^3}$ \\
+			k iteración & $m = \frac{n}{2^{k-1}} = 1$  
+		\end{tabular}
+
+		Como el algoritmo termina cuando $m=1$ entonces, \\
+			$\frac{n}{2^{k-1}} = 1$ \\
+			$n = 2^{k-1}$ \\
+			$\log_2 n = \log_2 2^{k-1}$ \\
+			$\log_2 n = k-1 \Rightarrow k = \log_2( n )+1 $ \\
+
+		Entonces, el algoritmo hace $\log_2(n)+1$ iteraciones, cada una con una cantidad constante de operaciones. 
+		Por lo tanto, la cantidad de operaciones que hace el algoritmo es del orden de $\log_2 n$.
+
 		\end{subsubsection}
 	\end{subsection}
 
