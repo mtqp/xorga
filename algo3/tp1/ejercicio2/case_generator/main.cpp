@@ -12,7 +12,7 @@
 using namespace std;
 
 int main (int argc, char** argv){
-	bool modo_generacion;
+	bool modo_generacion = false;
 	if(argc<5 || argc <= 1) {
 		cout << "Ingrese en el siguiente orden:" << endl;
 		cout << "	Modo de generacion" << endl;
@@ -24,13 +24,25 @@ int main (int argc, char** argv){
 		int cant_test  = atoi(argv[3]); 
 		int cant_amigas= atoi(argv[4]);
 		string option = string(argv[1]);
+		bool cant_test_valida = true;
+		bool cant_amigas_valida = true;
 		
-		//esto explota si le mandas menos de tres chicas... arreglarlo!!!
-		cout << "cant test == " << cant_test << "	&& cant_amigas == " << cant_amigas << endl;
-		if(argc > 1){
+		
+		if (cant_test <= 0){
+			cout << "Elija una cantidad de test mayor a cero para realizar" << endl;
+			cant_test_valida = false;
+		}
+		
+		if(cant_amigas < 3){
+			cout << "Elija una cantidad de amigas mayor a dos para generar tests" << endl;
+			cant_amigas_valida = false;
+		}
+		
+		if((argc > 1) && cant_test_valida & cant_amigas_valida){
 			if (option=="-random"){
 				cout << "Generando en modo 'random'" << endl;
-				random(argv[2], cant_test, cant_amigas);	
+				cout << "Por lo pronto, esta opcion no se encuentra en funcionamiento." << endl;
+				//random(argv[2], cant_test, cant_amigas);	
 				modo_generacion = true;
 				//esto no funciona bien pasando parametros!!!!!
 			}
@@ -41,17 +53,18 @@ int main (int argc, char** argv){
 			}
 			if(option == "-no_rondas"){		
 				cout << "Generando en modo 'no_rondas'" << endl;
+				cout << "Por lo pronto, esta opcion no se encuentra en funcionamiento." << endl;
 //				no_rondas(argv[2], cant_test, cant_amigas);
 				modo_generacion = true;
-			} else {
-				cout << "Modos posibles  de generacion: '-random', '-rondas' y '-no_rondas'" << endl;
-				modo_generacion = false;
-			}
-		
+			} 
+			
 			if (modo_generacion){
 				cout << "Las entradas generadas se guardaron en '" << argv[2];
 				cout << ".in' y las salidas esperadas en '" << argv[2] << ".out'" << endl;
-			}		
+			} else {
+				cout << "Modos posibles  de generacion: '-random', '-rondas' y '-no_rondas'" << endl;
+				//modo_generacion = false;
+			}
 		}
 	}
 	return 0;
