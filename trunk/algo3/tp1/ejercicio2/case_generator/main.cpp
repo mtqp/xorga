@@ -52,10 +52,14 @@ int main (int argc, char** argv){
 				modo_generacion = true;
 			}
 			if(option == "-no_rondas"){		
+				if(cant_amigas < 5) {
+					cout << "Imposible generar una no-ronda con menos de cinco amigas" << endl;
+				} else {
 				cout << "Generando en modo 'no_rondas'" << endl;
 				cout << "Por lo pronto, esta opcion no se encuentra en funcionamiento." << endl;
 //				no_rondas(argv[2], cant_test, cant_amigas);
 				modo_generacion = true;
+				}
 			} 
 			
 			if (modo_generacion){
