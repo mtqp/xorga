@@ -43,11 +43,10 @@ bool unico_grupo(uint** relaciones, uint n){
 		uint chica = q.front();
 		for(uint amiga=0; amiga<n; amiga++){
 			if(relaciones[chica][amiga]==1 && !marcadas[amiga]){
-				q.push(relaciones[chica][amiga]);
+				q.push(amiga);
 				marcadas[amiga] = true;
 				O(3);
 			}
-			cout << "hola" << endl;
 			O(5);
 		}
 		q.pop();
@@ -62,13 +61,14 @@ bool unico_grupo(uint** relaciones, uint n){
 bool ronda_de_amigas(uint** relaciones, uint n){
 	//veo que cada chica tenga al menos 2 amigas, se podria hacer al leer la entrada pero se mezcla para la complejidad
 	bool todas_amigas_de_todas=true;
+	if(!unico_grupo(relaciones,n)) return false;
 	for(uint i=0; i<n; i++){
 		uint cantidad_de_amigas=0;
 		for(uint j=0; j<n; j++){
 			if(relaciones[i][j]==1) cantidad_de_amigas++;
 			O(4);
 		}
-		if(cantidad_de_amigas<2 || !unico_grupo(relaciones,n)) return false;
+		if(cantidad_de_amigas<2) return false;
 		todas_amigas_de_todas&=(cantidad_de_amigas==n-1);
 		O(6);
 	}
