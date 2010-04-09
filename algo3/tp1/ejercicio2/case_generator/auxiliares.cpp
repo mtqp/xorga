@@ -39,40 +39,30 @@ void agregar_ronda(list<int> *array_amigas, int *orden, int cant){
 	cout << endl << endl;
 	*/
 	int i = 1;
-	array_amigas[orden[0]].push_back(orden[cant-1]);
+	array_amigas[orden[0]].push_back(orden[cant-1]);		//agrego las relaciones a izquierda
 	cout << "agregar ronda linea 36" << endl;		
 	for(i;i<cant;i++){
 		array_amigas[orden[i]].push_back(orden[i-1]);
 		cout << "agregar ronda linea 39 con i==" << i << endl;		
 	}//convencerse q nunca agregar en amigas[i] efectivamente a i;
+
+	i=0;
+	array_amigas[orden[cant-1]].push_back(orden[0]);		//agrego las relaciones a derecha
+	for(i;i<cant-1;i++){
+		array_amigas[orden[i]].push_back(orden[i+1]);
+	}
 	cout << "agregar ronda linea 41" << endl;		
 }
 
-bool no_repita_amigas(list<int> lista, int size){
+bool no_repita_amigas(list<int> lista,/* int size,*/ int am_rand){
 	//cout << "no repita amigas linea 52" << endl;
 	list<int> :: iterator it;
-	int cant_veces[size];
-	bool no_repite = true;
-	
-	//inicializa el array
-	for(int d=0;d<size;d++){
-		cant_veces[d] = 0;
-	}
-	
+	bool res = true;
+
 	//cout << "no repita amigas linea 57" << endl;
 	for ( it=lista.begin();it!=lista.end(); it++ ){
-		cant_veces[*it]++;
+		res = res && !(*it==am_rand);
 	}
-	
-	int z = 0;
-	//cout << "no repita amigas linea 62" << endl;
-	while(z<size && no_repite){
-		//cout << "valor bool no repite == " << no_repite << endl;
-		no_repite = cant_veces[z]<2;
-		z++;
-	}
-	bool res = no_repite;
-//	cout << "no repita amigas resultado == " << res << endl;
 	return res;
 }
 
@@ -114,18 +104,20 @@ void ronda_posible(list<int> *array_amigas, int cant_amigas){
 	int am_camino;
 	for(i=0;i<cant_amigas;i++){
 		cout << "ronda posible linea 103 con i==" << i << endl;
-		cant_am_rand = rand()%cant_amigas;				//no puede ser amiga de si misma
-		j=0;
+		cant_am_rand = rand()%cant_amigas-2;				//no puede ser amiga de si misma
+		j=0;												//ni de las q ya es xq es camino
 		cout << "ronda posible linea 106 cant amigas random == " << cant_am_rand << endl;
 		while(j<cant_am_rand){
 			cout << "ronda posible linea 108 j==" << j << endl;		
-			am_rand = rand()%cant_amigas+1;
+			am_rand = rand()%cant_amigas;
 			if (am_rand != i){
-				if (no_repita_amigas(array_amigas[i],cant_amigas)){	//q no se quiera hacer amiga de si misma o de la q ya era amiga
+				if (no_repita_amigas(array_amigas[i],/*cant_amigas,*/am_rand)){	//q no se quiera hacer amiga de si misma o de la q ya era amiga
 					if (rand()%2){
 						array_amigas[i].push_front(am_rand);
+						array_amigas[am_rand].push_front(i);
 					} else {
 						array_amigas[i].push_back(am_rand);
+						array_amigas[am_rand].push_back(i);
 					}
 					j++;
 				}
