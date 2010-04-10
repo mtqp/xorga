@@ -61,7 +61,6 @@ bool unico_grupo(uint** relaciones, uint n){
 bool ronda_de_amigas(uint** relaciones, uint n){
 	//veo que cada chica tenga al menos 2 amigas
 	bool todas_amigas_de_todas=true;
-	if(!unico_grupo(relaciones,n)) return false;
 	for(uint i=0; i<n; i++){
 		uint cantidad_de_amigas=0;
 		for(uint j=0; j<n; j++){
@@ -73,6 +72,8 @@ bool ronda_de_amigas(uint** relaciones, uint n){
 		O(6);
 	}
 	if(todas_amigas_de_todas) return true;
+	if(!unico_grupo(relaciones,n)) return false;
+
 	uint solucion[n];
 	solucion[0]=0;	//empiezo la ronda por la chica 0
 	uint s=1;	//posicion del vector prometedor para la que estoy buscando la chica
