@@ -21,6 +21,15 @@
 	\end{subsection}
 
 	\begin{subsection}{Detalles de la implementación}
+		\begin{pseudo}
+			\func{ronda\_de\_amigas}{$relaciones$}
+			\tab\IF{no\_todas\_tienen\_dos\_amigas(relaciones) ó hay\_más\_de\_un\_grupo(relaciones)} \\
+			\tab\tab \RET false \\
+			\tab\IF{todas\_amigas\_de\_todas(relaciones)} \\
+			\tab\tab \RET true \\
+			\tab backtracking( relaciones )
+		\end{pseudo}
+
 		Elegimos arbitrariamente empezar la ronda por la chica $uno$ (la primera segun el archivo de entrada) ya que a los efectos de verificar si es posible armar la ronda esta elección no tiene relevancia alguna.
 
 		El algoritmo de backtracking recorre las chicas, para cada una de estas chequea si es amiga de la última chica que se agrego a la ronda y si todavia no pertenece a la misma. Si es asi la agrega y repite este procedimiento (avanza). Sino significa que recorrió todas las chicas y ninguna cumple ambas condiciones por lo que comienza a retroceder.

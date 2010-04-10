@@ -13,33 +13,27 @@ ullint bn_mod_n( uint b, ullint n )
 {
 	reiniciar_contador();
 
-	uint c = b%n;
 	ullint tmp=1;
 	ullint m = n;
+	b = b%n;
 
-	// caso base 1: n == 1 => X mod 1 = 0
-	// caso base 2: c == 0 => 0 mod X = 0
-	O(6);
-	if( n == 1 || c == 0 ) 
-		return 0;
+	// caso base: b < 2 => b mod X = b
+	O(5);
+	if( b < 2 ) 
+		return b;
 
-	// caso base 3: c == 1 => resultado = 1
-	O(1);
-	if( c == 1 )
-		return 1;
-
-	while( m > 0 )
+	while( n > 0 )
 	{
-		if( m%2 == 1 )
+		if( n%2 == 1 )
 		{
-			tmp *= c;
-			tmp %= n;
-			O(2);
+			tmp *= b;
+			tmp %= m;
+			O(4);
 		}
-		m /= 2;
-		c *= c;
-		c %= n;
-		O(6);
+		n /= 2;
+		b *= b;
+		b %= m;
+		O(9);
 	}	
 
 	return tmp;
@@ -50,7 +44,7 @@ int main (int argc, char** argv)
 	uint b, r;
 	ullint n;
 	uint ts=0;
-	
+
 	while(cin >> b && b!=(uint)-1){
 		cin >> n;
 		if(argc>1 && string(argv[1])=="time"){
