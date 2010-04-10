@@ -59,7 +59,7 @@ bool unico_grupo(uint** relaciones, uint n){
 }
 
 bool ronda_de_amigas(uint** relaciones, uint n){
-	//veo que cada chica tenga al menos 2 amigas, se podria hacer al leer la entrada pero se mezcla para la complejidad
+	//veo que cada chica tenga al menos 2 amigas
 	bool todas_amigas_de_todas=true;
 	if(!unico_grupo(relaciones,n)) return false;
 	for(uint i=0; i<n; i++){

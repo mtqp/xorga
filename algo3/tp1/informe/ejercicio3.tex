@@ -1,9 +1,7 @@
 \begin{section}{Problema 3}
-	
+	\textit{Dada una lista de ingresos y otra de egresos que contienen los horarios de ingreso y egreso de cada uno de los programadores de una empresa respectivamente, determinar la mayor cantidad de programadores que estan simultáneamente dentro de la empresa.}
 	\begin{subsection}{Explicación}
-%El ejercicio planteaba el problema de obtener la mayor cantidad de programadores que están simultáneamente dentro de una empresa de software dado los horarios de ingreso y egreso de cada programador.
-%Vamos recorriendo la lista de ingresos y egresos, viendo la cantidad de programadores que hay en cada horario registrado. Si cuando egresa una persona, la cantidad de programadores hasta ese momento era mayor que la cantidad máxima registrada previamente, se establece la nueva cantidad máxima. Al terminar de recorrer la lista de ingresos, 
-			Para cada instancia tenemos una lista que contiene para cada programador su horario de ingreso a la empresa y otra con su horario de egreso. Además, tenemos guardado en cada momento la cantidad máxima de programadores en simultáneo.
+		Para cada instancia tenemos una lista que contiene para cada programador su horario de ingreso a la empresa y otra con su horario de egreso. Además, tenemos guardado en cada momento la cantidad máxima de programadores en simultáneo.
 
 Dado que ambas listas se encuentran ordenadas, nuestro algoritmo las recorre decidiendo a cada momento si se produce un ingreso o un egreso, es decir, si el horario que sigue en la lista de ingresos es anterior a la de egresos implica que hubo un ingreso, en caso contrario un egreso.
 
