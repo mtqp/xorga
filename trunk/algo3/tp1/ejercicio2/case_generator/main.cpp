@@ -41,10 +41,8 @@ int main (int argc, char** argv){
 		if((argc > 1) && cant_test_valida & cant_amigas_valida){
 			if (option=="-random"){
 				cout << "Generando en modo 'random'" << endl;
-				cout << "Por lo pronto, esta opcion no se encuentra en funcionamiento." << endl;
-				//random(argv[2], cant_test, cant_amigas);	
+				random(argv[2], cant_test, cant_amigas);	
 				modo_generacion = true;
-				//esto no funciona bien pasando parametros!!!!!
 			}
 			if(option == "-rondas"){
 				cout << "Generando en modo 'rondas'" << endl;
@@ -56,8 +54,7 @@ int main (int argc, char** argv){
 					cout << "Imposible generar una no-ronda con menos de cinco amigas" << endl;
 				} else {
 				cout << "Generando en modo 'no_rondas'" << endl;
-				cout << "Por lo pronto, esta opcion no se encuentra en funcionamiento." << endl;
-//				no_rondas(argv[2], cant_test, cant_amigas);
+				no_rondas(argv[2], cant_test, cant_amigas);
 				modo_generacion = true;
 				}
 			} 

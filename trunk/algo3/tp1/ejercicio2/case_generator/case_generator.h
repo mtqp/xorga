@@ -7,6 +7,6 @@ using namespace std;
 
 void random(string file, int cant_test, int max_amigas);
 void rondas(string file, int cant_test, int max_amigas);
-/*void no_rondas(string file, int cant_test, int max_amigas){*/
+void no_rondas(string file, int cant_test, int max_amigas);
 
 #endif

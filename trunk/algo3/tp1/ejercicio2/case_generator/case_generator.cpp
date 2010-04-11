@@ -13,7 +13,7 @@
 
 using namespace std;
 
-void random(string file, int cant_test, int max_amigas){
+void random(string file, int cant_test, int n_amigas){
 	
 	srand(time(NULL));
 	string file_in = file + ".in";
@@ -27,22 +27,35 @@ void random(string file, int cant_test, int max_amigas){
 	int i = 0;
 	int r;
 	int cant_amigas;
+
 	for (i;i<cant_test;i++){
 		r = rand()%2;
-		cant_amigas = rand()%(max_amigas+1);
+		cant_amigas = rand()%(n_amigas+1);
 		list<int> array_amigas[cant_amigas];
-		cant_amigas = rand()%(max_amigas+1); 	//setear cant amigas mayor a tres x precond MAN
-		if(cant_amigas < 3) cant_amigas = 3;
 		if (r) {
-			//ronda_no_posible(array_amigas, cant_amigas);
+			cout << "Creando ronda generada numero " << i+1 << " NO posible" << endl;
+			if(cant_amigas < 5){
+				while(cant_amigas < 5){
+					cant_amigas = rand()%(n_amigas+1);
+				}
+			}
+			ronda_no_posible(array_amigas, cant_amigas);
 			f_out << "no" << endl;
+			cout << "Guardando ronda generada numero " << i+1 << endl;
+			guardar_ronda(f, array_amigas, cant_amigas);
 		} else {
-			cant_amigas = rand()%(max_amigas+1);
+			cout << "Creando ronda generada numero " << i+1 << " posible" << endl;
+			if(cant_amigas < 3){
+				while(cant_amigas < 3){
+					cant_amigas = rand()%(n_amigas+1);
+				}
+			}
+			//cout << "RONDA POSIBLE" << endl;
 			ronda_posible(array_amigas, cant_amigas);
 			f_out << "ronda" << endl;
+			cout << "Guardando ronda generada numero " << i+1 << endl;
 			guardar_ronda(f, array_amigas, cant_amigas);
 		}
-//		guardar_ronda(f, array_amigas, cant_amigas);
 	}
 	f << "-1" << endl;
 	f_out.close();
@@ -74,7 +87,7 @@ void rondas(string file, int cant_test, int n_amigas){
 		list<int> array_amigas[cant_amigas];
 		ronda_posible(array_amigas, cant_amigas);
 		f_out << "ronda" << endl;
-		cout << "Guardando ronda numero " << i+1 << endl;
+		cout << "Guardando ronda generada numero " << i+1 << endl;
 		guardar_ronda(f, array_amigas, cant_amigas);
 	}
 	
@@ -83,32 +96,35 @@ void rondas(string file, int cant_test, int n_amigas){
 	f.close();
 }
 
-/*void no_rondas(string file, int cant_test, int max_amigas){
+void no_rondas(string file, int cant_test, int n_amigas){
 	srand(time(NULL));
-	const string file_in = file + ".in";
+	string file_in = file + ".in";
+	string file_out= file + ".out";
 	
-	cout << file_in << endl;
-
 	ofstream f;
 	ofstream f_out;
-	f.open("rondas.in");
-	f_out.open("rondas.out");
+	f.open(file_in.data());
+	f_out.open(file_out.data());
 	
 	int i = 0;
 	int r;
 	int cant_amigas;
 	for (i;i<cant_test;i++){
-		cant_amigas = rand()%(max_amigas+1);
+		cant_amigas = rand()%(n_amigas+1);
+		if(cant_amigas < 5){
+			while(cant_amigas < 5){
+				cant_amigas = rand()%(n_amigas+1);
+			}
+		}
+		
 		list<int> array_amigas[cant_amigas];
-		cant_amigas = rand()%(max_amigas+1);
-		no_ronda_posible(array_amigas, cant_amigas);
-		f_out << "ronda" << endl;
+		ronda_no_posible(array_amigas, cant_amigas);
+		f_out << "no" << endl;
+		cout << "Guardando ronda generada numero " << i+1 << endl;
+		guardar_ronda(f, array_amigas, cant_amigas);
 	}
-	
-	guardar_ronda(f, array_amigas, cant_amigas);
 	
 	f << "-1" << endl;
 	f_out.close();
 	f.close();
-
-}*/
+}
