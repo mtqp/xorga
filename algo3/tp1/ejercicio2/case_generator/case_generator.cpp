@@ -1,4 +1,3 @@
-#include<cmath>
 #include<fstream>
 #include<iostream>
 #include<sstream>
@@ -31,26 +30,24 @@ void random(string file, int cant_test, int n_amigas){
 	for (i;i<cant_test;i++){
 		r = rand()%2;
 		cant_amigas = rand()%(n_amigas+1);
-		list<int> array_amigas[cant_amigas];
 		if (r) {
-			cout << "Creando ronda generada numero " << i+1 << " NO posible" << endl;
 			if(cant_amigas < 5){
 				while(cant_amigas < 5){
 					cant_amigas = rand()%(n_amigas+1);
 				}
 			}
+			list<int> array_amigas[cant_amigas];
 			ronda_no_posible(array_amigas, cant_amigas);
 			f_out << "no" << endl;
 			cout << "Guardando ronda generada numero " << i+1 << endl;
 			guardar_ronda(f, array_amigas, cant_amigas);
 		} else {
-			cout << "Creando ronda generada numero " << i+1 << " posible" << endl;
 			if(cant_amigas < 3){
 				while(cant_amigas < 3){
 					cant_amigas = rand()%(n_amigas+1);
 				}
 			}
-			//cout << "RONDA POSIBLE" << endl;
+			list<int> array_amigas[cant_amigas];
 			ronda_posible(array_amigas, cant_amigas);
 			f_out << "ronda" << endl;
 			cout << "Guardando ronda generada numero " << i+1 << endl;
