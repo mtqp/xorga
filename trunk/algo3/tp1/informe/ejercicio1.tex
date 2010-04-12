@@ -4,21 +4,21 @@
 
 	\begin{subsection}{Explicación}
 
-		Para la resolución del problema, usamos la técnica de $Divide$ $\&$ $Conquer$ para tratar de minimizar la cantidad
-	de multiplicaciones. 
+		Para la resolución del problema, usamos la técnica de $Divide$ $\&$ $Conquer$.	De esta forma, evitamos hacer calculos repetidos y logramos minimizar la cantidad de multiplicaciones.
+
 
 		\begin{subsubsection}{Análisis de complejidad}
 		Esta vez, elegimos un modelo logarítmico para analizar el algoritmo, ya que las operaciones que aplicamos, en teoría, dependen del logaritmo del número en cuestión, o dicho de otra forma, del tamaño de la entrada. No obstante, en los resultados muchas de ellas tienen costo uniforme por trabajar con números de tamaño acotado (\texttt{unsigned long long int}) para simplificar la implementación.
 
 		\begin{pseudo}
 			Sea $m = n$ \\
-			\WHILE{$m>0$} & \tOde{\log_2^3 n} \\
-			\tab \IF{ $m$ es impar } & \tOde{\log_2 m} \\
-			\tab \tab $tmp \leftarrow tmp * b$ & \tOde{\log_{2}^{2}(n)} \\
-			\tab \tab $tmp \leftarrow tmp\; mod\; n$ & \tOde{\log_{2}^{2}(n)} \\
-			\tab $m \leftarrow \frac{m}{2}$ & \tOde{\log_2 m} \\
-			\tab $b \leftarrow b^2$ & \tOde{\log_{2}^{2} n} \\
-			\tab $b \leftarrow b\; mod \; n$ & \tOde{\log_{2}^{2} n} \\
+			\WHILE{$m>0$} & \tOde{\log^3 n} \\
+			\tab \IF{ $m$ es impar } & \tOde{\log m} \\
+			\tab \tab $tmp \leftarrow tmp * b$ & \tOde{\log^{2}n} \\
+			\tab \tab $tmp \leftarrow tmp\; mod\; n$ & \tOde{\log^{2}n} \\
+			\tab $m \leftarrow \frac{m}{2}$ & \tOde{\log m} \\
+			\tab $b \leftarrow b^2$ & \tOde{\log^{2} n} \\
+			\tab $b \leftarrow b\; mod \; n$ & \tOde{\log^{2} n} \\
 			\RET $tmp$
 		\end{pseudo}
 			
@@ -33,23 +33,28 @@
 		Como el algoritmo termina cuando $m=1$ entonces, \\
 			$\frac{n}{2^{k-1}} = 1$ \\
 			$n = 2^{k-1}$ \\
-			$\log_2 n = \log_2 2^{k-1}$ \\
-			$\log_2 n = k-1 \Rightarrow k = \log_2( n )+1 $ \\
+			$\log n = \log 2^{k-1}$ \\
+			$\log n = k-1 \Rightarrow k = \log( n )+1 $ \\
 
-		Entonces, el algoritmo hace $\log_2(n)+1$ iteraciones, cada una con una cantidad constante de operaciones. 
-		Por lo tanto, la cantidad de operaciones que hace el algoritmo es del orden de $\log_2 n$ y \Ode{\log n} $\subset$ \Ode{n}.
+		Entonces, el algoritmo hace $\log(n)+1$ iteraciones, cada una con una cantidad constante de operaciones. 
+		Por lo tanto, la cantidad de operaciones que hace el algoritmo es del orden de $\log n$ y \Ode{\log n} $\subset$ \Ode{n}.
 
 		\vspace{0.5cm}
-		\noindent\textbf{Complejidad en el modelo logarítimico}
+		\noindent\textbf{Complejidad en el modelo logarítimico}\\
 
 			La complejidad del algoritmo en el modelo logarítmico es: \\
-(1) \Ode{\log_2(n) * (\log(m)*\log(2)+\log(tmp)*\log(b)+\log(tmp)*\log(n)+\log(m)*\log(2)+\log^2(b)+\log(b)*\log(n))}
+(1) \Ode{\log(n) * (\log(m)*\log(2)+\log(tmp)*\log(b)+\log(tmp)*\log(n)+\log(m)*\log(2)+\log^2(b)+\log(b)*\log(n))}
 
 			Como $m\leq n$ y la función logaritmo es estrictamente creciente, $\log m \leq \log n$. De la misma manera $\log b$ y $\log tmp$ están acotados por $\log n$. Por lo tanto,
 
 (1) $\leq$ \Ode{\log(n)*(\log(n)+\log^2(n)+\log^2(n)+\log(n)+\log^2(n)+\log^2(n))} $=$ \Ode{\log(n)*(2\log(n)+4\log^2(n))} $=$ \Ode{2\log^2 n + 4\log^3 n}
 
 		Por definición, \Ode{2\log^2 n + 4\log^3 n} $=$ \Ode{max(2\log^2 n , 4\log^3 n)} $=$ \Ode{\log^3 n}.
+		Entonces, la complejidad del algoritmo resulta ser: \Ode{log^3 n}\VSP
+		
+		\noindent\textbf{En función del tamaño de la entrada}\\
+
+			El tamaño de la entrada $t$ es $\log n$ ya que $b$ es acotado ($n=2^t$). Entonces la complejidad del algoritmo en función del tamaño de entrada es: \Ode{\log^3 2^t}=\Ode{t^3}.
 
 		\end{subsubsection}
 	\end{subsection}
@@ -85,15 +90,6 @@
  $$b^k * b^{n-k}\; mod\;n = (b^k\;mod\;n)*(b^{n-k}\;mod\;n)\;\forall\;k\leq n ^{[1]}$$
 
 De esta manera, incluso si el cálculo de $b^n$ es un número tan grande que no entra en el tamaño de la variable, se va a poder realizar sin problemas (suponiendo que $(n-1)^2$ entra en una variable).
-
-
-
-
-%El algoritmo en cada iteración reduce el exponente a la mitad y a la vez eleva al cuadrado la base. Al dividir el exponente pueden pasar dos casos:
-%\begin{itemize}
-%	\item \textbf{El nuevo exponente es impar:} se multiplica el resultado calculado hasta el momento ($tmp$) por el $b$ calculado en la iteración anterior.
-%	\item \textbf{El nuevo exponente es par:} 
-%\end{itemize}
 
 \vspace{0.5cm}
 \noindent{\footnotesize [1] impar se define como:

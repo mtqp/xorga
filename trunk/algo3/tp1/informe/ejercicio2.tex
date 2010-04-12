@@ -1,7 +1,7 @@
 \begin{section}{Problema 2}
 	\textit{Se tiene $n$ chicas cada de estas tiene $k$ amigas, con $k<n$. Decidir si se puede formar una ronda que las contega a todas donde cada una de las chicas este de la mano de dos de sus amigas.}
 	\begin{subsection}{Explicación}
-		El Algotirmo busca todas las formas de armar la ronda utilizando la técnica de backtracking. Para esto, el algoritmo recorre la matriz de relaciones uniendo a las chicas hasta que:
+		El Algoritmo busca todas las formas de armar la ronda utilizando la técnica de backtracking. Para esto, el algoritmo recorre la matriz de relaciones uniendo a las chicas hasta que:
 		\begin{itemize} \item forma la ronda (encuentra una combinación posible), o \item no puede armar la ronda de esa forma, y\end{itemize}
 		
 				saca la última chica que puso y vuelve a intentar formar la ronda poniendo otra amiga. Termina cuando encuentra una forma de armar la ronda o cuando prueba todas las posibles formas de armarla.\\
@@ -21,16 +21,29 @@
 	\end{subsection}
 
 	\begin{subsection}{Detalles de la implementación}
+		Elegimos arbitrariamente empezar la ronda por la chica $uno$ (la primera segun el archivo de entrada) ya que a los efectos de verificar si es posible armar la ronda esta elección no tiene relevancia alguna.\\
+	
+		Almacenamos las relaciones entre las chicas en una matriz de $n \times n$, donde $n$ es la cantidad de chicas. Cada posición $(i,j)$ de la matriz contiene un $uno$ si la chica $i$ es amiga de $j$ y un $cero$ en caso contrario.\VSP
+
 		\begin{pseudo}
 			\func{ronda\_de\_amigas}{$relaciones$}
-			\tab\IF{no\_todas\_tienen\_dos\_amigas(relaciones) ó hay\_más\_de\_un\_grupo(relaciones)} \\
+			\tab\IF{no\_todas\_tienen\_al\_menos\_dos\_amigas(relaciones) \OR hay\_más\_de\_un\_grupo(relaciones)} \\
 			\tab\tab \RET false \\
 			\tab\IF{todas\_amigas\_de\_todas(relaciones)} \\
 			\tab\tab \RET true \\
 			\tab backtracking( relaciones )
 		\end{pseudo}
 
-		Elegimos arbitrariamente empezar la ronda por la chica $uno$ (la primera segun el archivo de entrada) ya que a los efectos de verificar si es posible armar la ronda esta elección no tiene relevancia alguna.
+		\begin{itemize}
+			\item \textbf{no\_todas\_tienen\_al\_menos\_dos\_amigas:} para cada chica $c$ el algoritmo inicializa un contador de amigas en cero y recorre todas las chicas preguntando si son amigas de $c$, si es asi incrementa dicho contador. Al finalizar el recorrido verifica que el contador sea mayor o igual a dos, es decir, que la chica $c$ tenga al menos dos amigas. Si no es asi el algoritmo termina y devuelve falso.
+
+			\item \textbf{hay\_más\_de\_un\_grupo:} para determinar si existe más de un grupo el algoritmo corre un bfs a partir de la primer chica (la primera segun el archivo de entrada). El algoritmo busca todas las amigas que todavia no hayan sido vistas considerandolas del mismo grupo. Repite este paso para cada una de las chicas alcanzadas (amigas de alguna anterior). Si el algoritmo termina y hay chicas que no fueron alcanzadas se las considera de otro grupo y por lo tanto la ronda no va a poder formarse.
+
+La complejidad es $n^2$, donde $n$ es la cantidad de chicas. Porque el peor caso es cuando hay sólo un grupo ya que el algoritmo alcanza todas las chicas y para cada una de estas busca entre todas la chicas sus amigas.
+
+		\item \textbf{todas\_amigas\_de\_todas:} a la vez que determina si existe una chica que tiene menos de dos amigas (no\_todas\_tienen\_al\_menos\_dos\_amigas) utiliza ese contador para saber si cada chica tiene $n-1$ amigas, es decir, es amiga de todas las demas. Si es asi, el algoritmo termina y devuelve verdadero.
+
+		\end{itemize}
 
 		El algoritmo de backtracking recorre las chicas, para cada una de estas chequea si es amiga de la última chica que se agrego a la ronda y si todavia no pertenece a la misma. Si es asi la agrega y repite este procedimiento (avanza). Sino significa que recorrió todas las chicas y ninguna cumple ambas condiciones por lo que comienza a retroceder.
 
