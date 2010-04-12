@@ -3,5 +3,5 @@ ronda: ronda_de_amigas.cpp
 
 
 clean:
-	rm ej1 ronda
+	rm ronda_de_amigas
 

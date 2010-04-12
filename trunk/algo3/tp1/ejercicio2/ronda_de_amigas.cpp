@@ -1,17 +1,8 @@
 #include<cmath>
-#include<fstream>
 #include<iostream>
-#include<sstream>
-#include<stdio.h>
-#include<stdlib.h>
 #include<queue>
-
-#define empezar_medicion(var) __asm__ __volatile__ ("rdtsc;mov %%eax, %0" : : "g" (var) );
-#define terminar_medicion(var) __asm__ __volatile__ ("rdtsc;sub %0,%%eax;mov %%eax,%0" : : "g" (var) );
+#include "../medicion.h"
 #define cola queue<uint>
-
-#define O(n) contador+=(n)
-unsigned long long contador; //el contador de la cantidad de operaciones
 
 using namespace std;
 
@@ -130,16 +121,16 @@ int main (int argc, char** argv){
 			}
 		}
 		if(argc>1 && string(argv[1])=="time"){	//si el argumento es "time", mido el tiempo
+			ts=0;
 			empezar_medicion(ts);
-			if(ronda_de_amigas(relaciones,n)) cout << "ronda" << endl;
-			else cout << "no" << endl;
-			cout << "\t\t[" << ts << "]" << endl;
+			ronda_de_amigas(relaciones,n);
 			terminar_medicion(ts);
+			cout << n << "\t" << ts << endl;
 		}
 		else if(argc>1 && string(argv[1])=="count"){	//si el argumento es "count", cuento cantidad de operaciones
 			contador=0;
 			ronda_de_amigas(relaciones,n);
-			cout << contador << endl;	//imprimo la cuenta
+			cout << n << "\t" << contador << endl;	//imprimo la cuenta
 		}
 		else{
 			if(ronda_de_amigas(relaciones,n)) cout << "ronda" << endl;
