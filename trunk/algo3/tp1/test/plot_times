@@ -1,0 +1,21 @@
+#!/usr/bin/gnuplot -persist
+
+set term svg
+set output '../ej1_times.svg'
+
+# si no se entiende nada, el plot_counts esta comentado!
+
+set title "Tiempos de ejecucion del algoritmo 'intervalos'"
+set xlabel "Tamaño de entrada"
+set ylabel "tiempo de ejecucion (s)"
+set key left box
+set bars small
+set style line 1 lt 1 pt 1 ps 1
+set style line 2 lt -1 pt 7 ps .3
+
+plot 'time_err.dat' w yerr title 'tiempo de ejecucion' linestyle 1,\
+     x*log(x)/12000000 title 'n*log(n)*c'
+
+set term pop
+set output
+replot
