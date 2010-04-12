@@ -1,15 +1,6 @@
-#include<cmath>
-#include<fstream>
 #include<iostream>
 #include<string.h>
-#include<sstream>
-#include<stdio.h>
-#include<stdlib.h>
-
-#define empezar_medicion(var) __asm__ __volatile__ ("rdtsc;mov %%eax, %0" : : "g" (var) );
-#define terminar_medicion(var) __asm__ __volatile__ ("rdtsc;sub %0,%%eax;mov %%eax,%0" : : "g" (var) );
-#define O(n) contador+=(n)
-unsigned long long contador; //el contador de la cantidad de operaciones
+#include "../medicion.h"
 
 using namespace std;
 
@@ -45,7 +36,7 @@ uint programadores_en_simultaneo(const string* ingresos,const string* egresos,ui
 
 int main (int argc, char** argv){
 	ullint n;
-	ullint ts;
+	ullint ts=0;
 	while(cin >> n && n!=-1){
 		string ingresos[n];
 		string egresos[n];
@@ -60,14 +51,14 @@ int main (int argc, char** argv){
 		}
 		if(argc>1 && string(argv[1])=="time"){	//si el argumento es "time", mido el tiempo
 			empezar_medicion(ts);
-			cout << programadores_en_simultaneo(ingresos,egresos,n);
-			cout << "\t\t[" << ts << "]" << endl;
+			programadores_en_simultaneo(ingresos,egresos,n);
 			terminar_medicion(ts);
+			cout << n << "\t" << ts << endl;
 		}
 		else if(argc>1 && string(argv[1])=="count"){	//si el argumento es "count", cuento cantidad de operaciones
 			contador=0;
 			programadores_en_simultaneo(ingresos,egresos,n);
-			cout << contador << endl; //imprimo la cuenta
+			cout << n << "\t" << contador << endl; //imprimo la cuenta
 		}
 		else cout << programadores_en_simultaneo(ingresos,egresos,n) << endl;
 	}

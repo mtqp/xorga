@@ -4,7 +4,7 @@ import random
 
 random.seed()
 
-cantidad = 100
+cantidad = 500
 maximo_b = 200
 maximo_n = 10000000
 
