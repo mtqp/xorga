@@ -21,35 +21,47 @@
 			\tab $b \leftarrow b\; mod \; n$ & \tOde{\log^{2} n} \\
 			\RET $tmp$
 		\end{pseudo}
-			
-		\begin{tabular}{l l}
-			1 iteración & $m = n$ \\
-			2 iteración & $m = \frac{n}{2}$ \\
-			3 iteración & $m = \frac{n}{2^2}$ \\
-			4 iteración & $m = \frac{n}{2^3}$ \\
-			k iteración & $m = \frac{n}{2^{k-1}} = 1$  
+		\begin{center}
+		\begin{tabular}{rlcl}
+			1er&iteración & $\rightarrow$ & $m = n$ \\
+			2da&iteración & $\rightarrow$ & $m = \frac{n}{2}$ \\
+			3er&iteración & $\rightarrow$ & $m = \frac{n}{2^2}$ \\
+			4ta&iteración & $\rightarrow$ & $m = \frac{n}{2^3}$ \\
+			&\vdots&&\vdots \\
+			$k$-ésima&iteración & $\rightarrow$ & $m = \frac{n}{2^{k-1}} = 1$  
 		\end{tabular}
+		\end{center}
 
-		Como el algoritmo termina cuando $m=1$ entonces, \\
-			$\frac{n}{2^{k-1}} = 1$ \\
-			$n = 2^{k-1}$ \\
-			$\log n = \log 2^{k-1}$ \\
-			$\log n = k-1 \Rightarrow k = \log( n )+1 $ \\
+		\noindent Como el algoritmo termina cuando $m=1$ entonces, \\
+		\begin{eqnarray*}
+			\frac{n}{2^{k-1}}&=& 1 \\
+			n &=& 2^{k-1} \\
+			\log n &=& \log\; 2^{k-1} \\
+			\log n &=& k-1 \Rightarrow k = \log( n )+1
+		\end{eqnarray*}
 
-		Entonces, el algoritmo hace $\log(n)+1$ iteraciones, cada una con una cantidad constante de operaciones. 
+		\noindent es decir, hace $\log(n)+1$ iteraciones, cada una con una cantidad constante de operaciones. 
 		Por lo tanto, la cantidad de operaciones que hace el algoritmo es del orden de $\log n$ y \Ode{\log n} $\subset$ \Ode{n}.
 
 		\vspace{0.5cm}
 		\noindent\textbf{Complejidad en el modelo logarítimico}\\
 
-			La complejidad del algoritmo en el modelo logarítmico es: \\
-(1) \Ode{\log(n) * (\log(m)*\log(2)+\log(tmp)*\log(b)+\log(tmp)*\log(n)+\log(m)*\log(2)+\log^2(b)+\log(b)*\log(n))}
+Como $m\leq n$ y la función logaritmo es estrictamente creciente, $\log m \leq \log n$. De la misma manera, $\log b$ y $\log tmp$ están acotados por $\log n$. Por lo tanto, la complejidad en el modelo logarítmico es: \\
+\Ode{\log(n)*(\log(n)+\log^2(n)+\log^2(n)+\log(n)+\log^2(n)+\log^2(n))} $=$ \\
+$=$ \Ode{\log(n)*(2\log(n)+4\log^2(n))} $=$ \Ode{2\log^2 n + 4\log^3 n} \\
+Luego, por definición, 
+			\begin{center}
+				\Ode{2\log^2 n + 4\log^3 n} $=$ \Ode{max(2\log^2 n , 4\log^3 n)} $=$ \Ode{\log^3 n}.
+			\end{center}
 
-			Como $m\leq n$ y la función logaritmo es estrictamente creciente, $\log m \leq \log n$. De la misma manera $\log b$ y $\log tmp$ están acotados por $\log n$. Por lo tanto,
+			%La complejidad del algoritmo en el modelo logarítmico es: \\
+%(1) \Ode{\log(n) * (\log(m)*\log(2)+\log(tmp)*\log(b)+\log(tmp)*\log(n)+\log(m)*\log(2)+\log^2(b)+\log(b)*\log(n))}
 
-(1) $\leq$ \Ode{\log(n)*(\log(n)+\log^2(n)+\log^2(n)+\log(n)+\log^2(n)+\log^2(n))} $=$ \Ode{\log(n)*(2\log(n)+4\log^2(n))} $=$ \Ode{2\log^2 n + 4\log^3 n}
+%			Como $m\leq n$ y la función logaritmo es estrictamente creciente, $\log m \leq \log n$. De la misma manera $\log b$ y $\log tmp$ están acotados por $\log n$. Por lo tanto,
 
-		Por definición, \Ode{2\log^2 n + 4\log^3 n} $=$ \Ode{max(2\log^2 n , 4\log^3 n)} $=$ \Ode{\log^3 n}.
+%(1) $\leq$ \Ode{\log(n)*(\log(n)+\log^2(n)+\log^2(n)+\log(n)+\log^2(n)+\log^2(n))} $=$ \Ode{\log(n)*(2\log(n)+4\log^2(n))} $=$ \Ode{2\log^2 n + 4\log^3 n}
+
+%		Por definición, \Ode{2\log^2 n + 4\log^3 n} $=$ \Ode{max(2\log^2 n , 4\log^3 n)} $=$ \Ode{\log^3 n}.
 		Entonces, la complejidad del algoritmo resulta ser: \Ode{log^3 n}\VSP
 		
 		\noindent\textbf{En función del tamaño de la entrada}\\
