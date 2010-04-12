@@ -9,7 +9,7 @@ typedef unsigned long long int ullint;
 
 ullint operaciones = 0;
 
-ullint bn_mod_n( uint b, ullint n )
+ullint bn_mod_n( ullint b, ullint n )
 {
 	reiniciar_contador();
 
@@ -50,11 +50,16 @@ int main (int argc, char** argv)
 		if(argc>1 && string(argv[1])=="time"){
 
 			empezar_medicion(ts);
-			r = bn_mod_n(b,n);
+			bn_mod_n(b,n);
 			terminar_medicion(ts);
-
-			cout << setw(4) << b << "^" << setw(4) << n << " mod " << setw(4) << n << " = " << setw(4) << r;
-			cout << "\t[" << setw(2) << ts << "c," << setw(3) << contador << "ops]" << endl;
+			cout << n << "\t" << ts << endl;
+			//cout << setw(4) << b << "^" << setw(4) << n << " mod " << setw(4) << n << " = " << setw(4) << r;
+			//cout << "\t[" << setw(2) << ts << "c," << setw(3) << contador << "ops]" << endl;
+		}
+		else if( argc > 1 && string(argv[1])=="count")
+		{
+			bn_mod_n(b,n);
+			cout << n << "\t" << contador << endl;
 		}
 		else cout << bn_mod_n(b,n) << endl;
 	}
