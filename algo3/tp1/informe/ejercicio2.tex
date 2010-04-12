@@ -16,7 +16,23 @@
 		\end{subsubsection}
 			
 		\begin{subsubsection}{Análisis de complejidad}
+			Elegimos el modelo uniforme porque consideramos que las operaciones elementales son constantes porque todos los valores son acotados.\\
 
+			La complejidad de este algoritmo es exponencial.\Pa
+		
+			Sea $n$ la cantidad de chicas.	
+		
+			El peor caso para el algoritmo es aplicar backtraking sobre una instancia $no\_ronda$ con una cantidad maximal de relaciones.
+			
+			Para analizar la complejidad tomamos como peor caso, la instancia donde las relaciones sean maximas (todas con todas, cada chica tiene $n-1$ amigas) y el árbol se genere completamente sólo podando cuando se repite una amiga  (nunca va a pasar por las optimizaciones y porque el algoritmo determinaria que se puede formar la ronda completando sólo la primer rama). En este caso se toma una chica y se generan todas las combinaciones posibles (sin repetir chicas). Se elige la primera de donde se desprenden $n-1$ ramas posibles, de cada una de estas ramas se desprenden $n-2$, asi hasta llegar al nivel $n$.
+
+			Se ve que: $$\displaystyle\prod_{i=1}^n (n-i) = (n-1)! \leq n!$$
+
+			Entonces la complejidad es:  \Ode{n!}.\VSP
+		
+			\noindent\textbf{En función del tamaño de la entrada}\\
+
+				El tamaño de la entrada $t$ es $n^2$ ($n=\sqrt t$). Entonces la complejidad del algoritmo es \Ode{(\sqrt t)!}. 
 		\end{subsubsection}
 	\end{subsection}
 
@@ -55,7 +71,7 @@ La complejidad es $n^2$, donde $n$ es la cantidad de chicas. Porque el peor caso
 	\end{subsection}
 
 	\begin{subsection}{Pruebas y Resultados}
-		
+
 	\end{subsection}
 \end{section}
 
