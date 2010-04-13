@@ -29,12 +29,12 @@ def generar_amistades( n, densidad, min_amigos ):
 def main():
 	seed()
 	
-	densidad = 0.5
+	densidad = 0.7
 	min_amigos = 2
 	cantidad_por_n = 20
 	
 	fIn = open("test.in",'w')
-	for n in range(16,21):
+	for n in range(6,19):
 		for k in range(cantidad_por_n):
 			amistades = generar_amistades(n,densidad,min_amigos)
 			fIn.write("%d\n"%(n))
