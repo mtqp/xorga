@@ -3,7 +3,7 @@
 
 #define empezar_medicion(var) __asm__ __volatile__ ("rdtsc;mov %%eax, %0" : : "g" (var) )
 #define terminar_medicion(var) __asm__ __volatile__ ("rdtsc;sub %0,%%eax;mov %%eax,%0" : : "g" (var) )
-	
+
 /*
 #include<sys/time.h>
 
