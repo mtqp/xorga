@@ -2,14 +2,14 @@
 
 #exporto como png
 set term svg
-set output '../ej1_counts.svg'
+set output 'ej1_time.svg'
 
 #le pone titulo al grafico
-set title "Cantidad de Operaciones del algoritmo 'intervalos'"
+set title "Cantidad de ciclos de reloj del algoritmo programadores"
 
 #pone la descripccion de los ejes
 set xlabel "Tamaño de entrada"
-set ylabel "cantidad de operaciones"
+set ylabel "Cantidad de ciclos de reloj"
 
 #pone la leyenda a la izquierda y con borde
 set key left box
@@ -21,11 +21,8 @@ set style line 1 lt 1 pt 1 ps 1
 set style line 2 lt 3 pt 1 ps 1
 
 #dibuja los puntos. index es porque lo separe en bloques de primos/no primos para ponerle distinto estilo..
-plot	'counts2.dat' title "Cantidad de operaciones" linestyle 1,\
-		int(x)! title "n!*c"
-
-#plot	int(x)! title "n!*c"
-#plot	'counts2.dat' title "Cantidad de operaciones" linestyle 1
+plot	'time.dat' title "Cantidad de ciclos de reloj" linestyle 1,\
+	250*x title "n*c"
 
 #pongo la salida default para mostrar en pantalla
 set term pop
