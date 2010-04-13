@@ -21,8 +21,8 @@ set style line 1 lt 1 pt 1 ps 1
 set style line 2 lt 3 pt 1 ps 1
 
 #dibuja los puntos. index es porque lo separe en bloques de primos/no primos para ponerle distinto estilo..
-plot	'time.dat' title "Cantidad de ciclos de reloj" linestyle 1,\
-	130*log(x) title "log(n)*c"
+plot	'time.dat' title "Tiempo (segundos)" linestyle 1,\
+	0.000000059*log(x) title "log(n)*c"
 
 #pongo la salida default para mostrar en pantalla
 set term pop
