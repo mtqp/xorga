@@ -7,14 +7,14 @@ Dado que ambas listas se encuentran ordenadas, nuestro algoritmo las recorre dec
 
 Cuando una persona ingresa a la empresa se incrementa el contador de la cantidad de programadores en simultáneo en el horario actual. Así, cuando se produce un egreso se compara si la cantidad de programadores dentro de la empresa previo a dicho egreso es mayor a la máxima cantidad de programadores en simultáneo hasta el momento, de ser así, actualizamos el máximo.
 
-Luego se descuenta el recientemente egresado del contador ``cantidad de programadores en simultáneo''.
+Luego se descuenta el recientemente egresado del contador parcial de cantidad de programadores en simultaneo.
 
 Este procedimiento se repite hasta haber visto todos los ingresos, lo que nos garantiza tener el máximo correspondiente, ya que a partir de ese momento sólo se producirían egresos.
 
 		\begin{subsubsection}{Análisis de complejidad}
-			Elegimos el modelo uniforme para analizar la complejidad de este algoritmo porque el tamaño de los elementos es acotado y por lo tanto todas las operaciones elementales son de tiempo constante.
+			Elegimos el modelo uniforme para analizar la complejidad de este algoritmo porque el tamaño de los elementos es acotado y por lo tanto todas las operaciones elementales son de costo constante.\Pa
 			
-			Sea $n$ la cantidad de programadores.\\
+			Sea $n$ la cantidad de programadores, $j$ el indice dentro de la lista de ingresos y $k$ el indice dentro de la lista de egresos.\\
 			
 			\begin{pseudo}
 				\func{programadores\_en\_simultaneo}{$ingresos, egresos$}
@@ -35,11 +35,11 @@ Este procedimiento se repite hasta haber visto todos los ingresos, lo que nos ga
 
 			Cada programador tiene un ingreso y un egreso, por lo tanto la lista de ingresos y la lista de egresos tienen longitud $n$.
 
-El algoritmo en todos los casos recorre completamente la lista de ingresos, por lo que el peor caso es cuando el último ingreso y el último egreso corresponden al mismo programador, ya que para registrar éste último ingreso, tambien tuvo que recorrer toda la lista de egresos. Por este motivo, podemos inferir que a lo sumo se realizan $2n -1$ iteraciones. En cada una de estas iteraciones tenemos un costo constante de operaciones, que no modifican la complejidad en el análisis asintótico. La complejidad algorítmica entonces, es \Ode{n}.\VSP
+El algoritmo en todos los casos recorre completamente la lista de ingresos, por lo que el peor caso es cuando el último ingreso y el último egreso corresponden al mismo programador, ya que para registrar éste último ingreso, tambien tuvo que recorrer toda la lista de egresos. Por este motivo, podemos inferir que a lo sumo se realizan $2n -1$ iteraciones. En cada una de estas tenemos un costo constante de operaciones, que no modifican la complejidad en el análisis asintótico. La complejidad algorítmica entonces, es \Ode{n}.\VSP
 
 		\noindent\textbf{En función del tamaño de la entrada}\\
 
-			Como los elementos de ambas listas son de tamaño acotado, el tamaño de la entada es proporcional a la longitud de las listas (n). Entonces la complejidad del algoritmo es \Ode{t}, donde $t$ es el tamaño de la entrada.
+			Como los elementos de ambas listas son de tamaño acotado, el tamaño de la entada es proporcional a la longitud de las listas (n). Entonces la complejidad del algoritmo es \Ode{t}, donde $t$ es el tamaño de la entrada. El algoritmo es lineal.
 
 		\end{subsubsection}
 
@@ -53,7 +53,14 @@ El algoritmo en todos los casos recorre completamente la lista de ingresos, por 
 	Una vez que terminamos de recorrer la lista de ingresos, actualizamos $max$ ya que desde el último egreso visto se pueden haber producido nuevos ingresos. Una vez hecho esto tenemos determinada la mayor cantidad de programadores que estan simultáneamente dentro de la empresa.
 	\end{subsection}
 
-	\begin{subsection}{Pruebas y Resultados}			
+	\begin{subsection}{Pruebas y Resultados}
+	Para medir tiempos y cantidad de operaciones generamos instancias aleatorias con a lo sumo $100$ programadores.
+		
+	\gra{ej3_counts.png}
+	\gra{ej3_times.png}
+
+	\newpage
+
 	\end{subsection}
 
 \end{section}
