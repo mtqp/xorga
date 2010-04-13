@@ -54,11 +54,14 @@ El algoritmo en todos los casos recorre completamente la lista de ingresos, por 
 	\end{subsection}
 
 	\begin{subsection}{Pruebas y Resultados}
-	Para medir tiempos y cantidad de operaciones generamos instancias aleatorias con a lo sumo $100$ programadores.
+	Para medir tiempos y cantidad de operaciones utilizamos un generador aleatorio de instancias, que dado un numero maximo de programadores $n$, genera instancias aleatorias con a lo sumo $n$ programadores. Corrimos el generador con $n$ igual a cien
 		
 	\gra{ej3_counts.png}
+	En el primer gráfico se ve la función que dado el numero de programadores, muestra la cantidad de operaciones realizadas por el algoritmo para cada instancia de $n$ programadores. Se puedo observar que se encuentra acotada por una recta, con lo cual se ve sin problemas que se trata de un algoritmo que trabaja en "tiempo" lineal.
+	
 	\gra{ej3_times.png}
-
+	
+	En el segundo gráfico, se observa que hay un dibujo muy similar, sólo que en este se muestra la funcion que dada una instancia muestra los ciclos de reloj realizados durante la ejecucion. Solo se puede diferenciar que en este gráfico la amplitud entre los maximos y los minimos de cada numero de programadores en mas cerrada, delineando así una recta mucho mas marcada.
 	\newpage
 
 	\end{subsection}
