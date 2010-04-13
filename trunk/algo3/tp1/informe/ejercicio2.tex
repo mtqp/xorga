@@ -69,6 +69,15 @@ La complejidad es $n^2$, donde $n$ es la cantidad de chicas. Porque el peor caso
 	\end{subsection}
 
 	\begin{subsection}{Pruebas y Resultados}
+		Para poder correr pruebas de forma eficaz, contamos con un generador aleatorio de rondas, donde para cada numero de chicas $n$ se va variando la densidad de las relaciones(que es el porcentaje de la cantidad maxima de relaciones posibles que se incluye en la instancia generada). Generamos 20 casos por cada $n$ desde 6 chicas a 18, variando la densidad entre 0.3, 0.5 y 0.7. Se dio enfacis en la generación de casos promedio y peores. Solo dos instancias por cada $n$ y cada densidad permitieron que hubiera chicas sin amigas o sólo con una, donde el algoritmo optimizado se ahorra el intentar construir solociones.
+		
+
+		En el primer grafico se muestra la funcion que dado una instancia devuelve la cantidad de operaciones. Esta se ve acotada por la funcion factorial, cuyo parametro de entrada es la cantidad de chicas n de la instancia ( $n!$). Se ven claramente en el piso del grafico los casos en donde las optimizaciones del algoritmo no permitieron recorrer inutilmente el árbol para poder concluir que no hay solucion posible.
+
+		El segundo grafico es en apariencia muy similar al primero. En este se grafica la cantidad de ciclos de reloj transcurridos por cada instancia. La apreciacion tambien es muy similar, ya que nuevamente aparece acotada por la funcion factorial, y se ven mas abajo los casos donde se dieron lugar a las optimizaciones.
+		
+
+		
 
 	\end{subsection}
 \end{section}
