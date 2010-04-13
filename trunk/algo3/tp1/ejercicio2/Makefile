@@ -7,10 +7,10 @@ ejercicio: $(EJ)
 	g++ -o $@ $< -Wall
 
 graf_counts:
-	python $(GEN)
+	./$(GEN)
 	./$(EJ) count < test.in > counts.dat
-	cp counts.dat ../informe/gej2/
-	../informe/gej2/plot_counts
+	cp counts.dat gej2/
+	gej2/plot_counts
 
 clean:
 	rm ronda_de_amigas

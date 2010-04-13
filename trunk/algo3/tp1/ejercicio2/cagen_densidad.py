@@ -1,3 +1,4 @@
+#!/usr/bin/python
 # Case Generator Densidad
 
 from random import randint, seed, choice
@@ -25,19 +26,26 @@ def generar_amistades( n, densidad, min_amigos ):
 
 	return amistades
 
-seed()
+def main():
+	seed()
+	
+	densidad = 0.5
+	min_amigos = 2
+	cantidad_por_n = 20
+	
+	fIn = open("test.in",'w')
+	for n in range(16,21):
+		for k in range(cantidad_por_n):
+			amistades = generar_amistades(n,densidad,min_amigos)
+			fIn.write("%d\n"%(n))
+			for i in range(len(amistades)):
+				if len(amistades[i]) > 0:
+					fIn.write("%d %s\n"%(len(amistades[i]), reduce(lambda x,y: "%s %s"%(x,y),amistades[i]) ) )
+				else:
+					fIn.write("%d\n"%(len(amistades[i])))
+	
+	fIn.write("%d"%(-1))
 
-densidad = 0.5
-min_amigos = 2
-
-fIn = open("test.in",'w')
-for n in range(6,25):
-	amistades = generar_amistades(n,densidad,min_amigos)
-	fIn.write("%d\n"%(n))
-	for i in range(len(amistades)):
-		if len(amistades[i]) > 0:
-			fIn.write("%d %s\n"%(len(amistades[i]), reduce(lambda x,y: "%s %s"%(x,y),amistades[i]) ) )
-		else:
-			fIn.write("%d\n"%(len(amistades[i])))
-
-fIn.write("%d"%(-1))
+if __name__=="__main__":
+	main()
+	
