@@ -10,21 +10,19 @@
 		\begin{subsubsection}{Optimizaciones}
 		\begin{itemize} \item Verifica que cada chica tenga al menos dos amigas, de no ser asi podemos afirmar que no se puede formar la ronda ya que cada chica debe estar tomada de la mano de dos de sus amigas.
 				\item A la vez, comprueba si todas son amigas de todas. Si eso sucede podemos afirmar que la ronda existe.
-				\item Por otro lado, detecta si existen grupos independientes, es decir, sin conexiones entre si. Si esto ocurre podemos afirmar que no se puede armar la ronda ya que esta debe incluirlas a todas. 
+				\item Por otro lado, detecta si existen grupos independientes, es decir, sin conexiones entre sí. Si esto ocurre podemos afirmar que no se puede armar la ronda ya que esta debe incluirlas a todas. 
 		\end{itemize}
 			
 		\end{subsubsection}
 			
 		\begin{subsubsection}{Análisis de complejidad}
-			Elegimos el modelo uniforme porque consideramos que las operaciones elementales son constantes porque todos los valores son acotados.\\
-
-			La complejidad de este algoritmo es exponencial.\Pa
+			Elegimos el modelo uniforme porque consideramos que las operaciones elementales son constantes porque todos los valores son acotados.\Pa
 		
 			Sea $n$ la cantidad de chicas.	
 		
 			El peor caso para el algoritmo es aplicar backtraking sobre una instancia $no\_ronda$ con una cantidad maximal de relaciones.
 			
-			Para analizar la complejidad tomamos como peor caso, la instancia donde las relaciones sean maximas (todas con todas, cada chica tiene $n-1$ amigas) y el árbol se genere completamente sólo podando cuando se repite una amiga  (nunca va a pasar por las optimizaciones y porque el algoritmo determinaria que se puede formar la ronda completando sólo la primer rama). En este caso se toma una chica y se generan todas las combinaciones posibles (sin repetir chicas). Se elige la primera de donde se desprenden $n-1$ ramas posibles, de cada una de estas ramas se desprenden $n-2$, asi hasta llegar al nivel $n$.
+			Para analizar la complejidad tomamos como peor caso, la instancia donde las relaciones sean máximas (todas con todas, cada chica tiene $n-1$ amigas) y el árbol se genere completamente sólo podando cuando se repite una amiga  (nunca va a pasar por las optimizaciones y porque el algoritmo determinaria que se puede formar la ronda completando sólo la primer rama). En este caso se toma una chica y se generan todas las combinaciones posibles (sin repetir chicas). Para esto se elige la primera de donde se desprenden $n-1$ ramas posibles, de cada una de estas ramas se desprenden $n-2$, asi hasta llegar al nivel $n$.
 
 			Se ve que: $$\displaystyle\prod_{i=1}^n (n-i) = (n-1)! \leq n!$$
 
@@ -32,7 +30,7 @@
 		
 			\noindent\textbf{En función del tamaño de la entrada}\\
 
-				El tamaño de la entrada $t$ es $n^2$ ($n=\sqrt t$). Entonces la complejidad del algoritmo es \Ode{(\sqrt t)!}. 
+				El tamaño de la entrada $t$ es $n^2$ ($n=\sqrt t$). Entonces la complejidad del algoritmo es \Ode{(\sqrt t)!}. El algoritmo es exponencial.
 		\end{subsubsection}
 	\end{subsection}
 
@@ -55,7 +53,7 @@
 
 			\item \textbf{hay\_más\_de\_un\_grupo:} para determinar si existe más de un grupo el algoritmo corre un bfs a partir de la primer chica (la primera segun el archivo de entrada). El algoritmo busca todas las amigas que todavia no hayan sido vistas considerandolas del mismo grupo. Repite este paso para cada una de las chicas alcanzadas (amigas de alguna anterior). Si el algoritmo termina y hay chicas que no fueron alcanzadas se las considera de otro grupo y por lo tanto la ronda no va a poder formarse.
 
-La complejidad es $n^2$, donde $n$ es la cantidad de chicas. Porque el peor caso es cuando hay sólo un grupo ya que el algoritmo alcanza todas las chicas y para cada una de estas busca entre todas la chicas sus amigas.
+La complejidad es $n^2$, donde $n$ es la cantidad de chicas. Porque el peor caso es cuando hay sólo un grupo ya que el algoritmo alcanza todas las chicas y para cada una de estas busca entre todas las chicas sus amigas.
 
 		\item \textbf{todas\_amigas\_de\_todas:} a la vez que determina si existe una chica que tiene menos de dos amigas (no\_todas\_tienen\_al\_menos\_dos\_amigas) utiliza ese contador para saber si cada chica tiene $n-1$ amigas, es decir, es amiga de todas las demas. Si es asi, el algoritmo termina y devuelve verdadero.
 
@@ -63,7 +61,7 @@ La complejidad es $n^2$, donde $n$ es la cantidad de chicas. Porque el peor caso
 
 		El algoritmo de backtracking recorre las chicas, para cada una de estas chequea si es amiga de la última chica que se agrego a la ronda y si todavia no pertenece a la misma. Si es asi la agrega y repite este procedimiento (avanza). Sino significa que recorrió todas las chicas y ninguna cumple ambas condiciones por lo que comienza a retroceder.
 
-		Cuando retrocede, saca la última chica que agrego a la ronda (la cual identificaremos con la letra $a$, además llamamos $b$ a la actual última chica en la ronda (la anterior a la que sacó)) y prosigue la busqueda desde la chica $a$ de la amiga de $b$ que ocupara la posición recientemente desocupada en la ronda. Si no hay una chica que puede ocuparla, es decir, $b$ no tiene mas amigas el algoritmo sigue retrocediendo.
+		Cuando retrocede, saca la última chica que agrego a la ronda (la cual identificaremos con la letra $a$, además llamamos $b$ a la actual última chica en la ronda (la anterior a la que sacó)) y prosigue la busqueda desde la chica $a$ de la amiga de $b$ que ocupara la posición recientemente desocupada en la ronda. Si no hay una chica que puede ocuparla, es decir, $b$ no tiene más amigas el algoritmo sigue retrocediendo.
 
 		Avanzando, si llega a meter a todas las chicas a la ronda y la primer chica es amiga de la última, encontró una forma de armar la ronda, termina y devuelve verdadero.
 
