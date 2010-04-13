@@ -106,7 +106,7 @@ int main (int argc, char** argv){
 	ullint ts;
 	uint cantidad_de_amigas;
 	uint amiga;
-	while(cin >> n && n!=-1){
+	while(cin >> n && n!=(ullint)-1){
 		uint** relaciones;
 		relaciones = new uint* [n];
 		for(uint i=0; i<n; i++){
