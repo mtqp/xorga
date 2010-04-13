@@ -20,7 +20,8 @@
 \newcommand{\OR}{\textbf{ or }}
 \newcommand{\tOde}[1]{\tab \small{O($#1$)}}
 \newcommand{\Ode}[1]{O($#1$)}
-\newcommand{\Omegade}[1]{\small{$\Omega$($#1$)}}
+\newcommand{\Thetade}[1]{{\small$\Theta$($#1$)}}
+\newcommand{\Omegade}[1]{{\small$\Omega$($#1$)}}
 \newcommand{\VSP}{\vspace*{3em}}
 \newcommand{\Pa}{\vspace{5mm}}
 \newenvironment{pseudo}{\begin{tabular}{ll}}{\end{tabular}\VSP}
@@ -67,13 +68,13 @@ Mariano De Sousa Bispo & plaplapla/sarasa & rockeroviejo@tqp.puff.plam \\
 		
 	Los programas leen la entrada de stdin y escriben la respuesta en stdout. 		Para leer la entrada de un archivo \texttt{Tp1EjX.in} y escribir la respuesta en un archivo \texttt{Tp1EjX.out} ses puede usar:\\ \texttt{./(ejecutable) < Tp1EjX.in > Tp1EjX.out}
 		
-	Para medir los tiempos de ejecución: \texttt{./(ejecutable) time}
+	Para medir los tiempos de ejecución: \texttt{./(ejecutable) time}. Devuelve para cada instancia el tamaño seguido de la cantidad de ciclos de reloj consumidos.
 
-	Para contar la cantidad de operaciones: \texttt{./(ejecutable) count}. Devuelve la cantidad de operaciones de cada instancia.
+	Para contar la cantidad de operaciones: \texttt{./(ejecutable) count}. Devuelve para cada instancia el tamaño seguido de la cantidad de operaciones de cada instancia.
 	\end{section}
 	
 	\begin{section}{Conclusiones}
-
+		Pudimos implementar las soluciones a los problemas propuestos utilizando diversas técnicas algorítmicas. En todos los casos las mediciones de tiempo y cantidad de operaciones se correspondieron con las complejidades teóricas calculadas. Esto indica que los modelos elegidos fueron adecuados. Observamos que los problemas 2 tienen complejidad exponencial, esto significa que no estan 'bien' resueltos para tamaños de entrada suficientemente grandes.
 	\end{section}
 
 \end{document}

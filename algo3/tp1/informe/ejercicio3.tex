@@ -54,14 +54,18 @@ El algoritmo en todos los casos recorre completamente la lista de ingresos, por 
 	\end{subsection}
 
 	\begin{subsection}{Pruebas y Resultados}
-	Para medir tiempos y cantidad de operaciones utilizamos un generador aleatorio de instancias, que dado un numero maximo de programadores $n$, genera instancias aleatorias con a lo sumo $n$ programadores. Corrimos el generador con $n$ igual a cien
+	Para medir tiempos y cantidad de operaciones utilizamos un generador aleatorio de instancias, que dado un número máximo de programadores $n$, genera instancias aleatorias con a lo sumo $n$ programadores. Corrimos el generador con $n$ igual a cien.
 		
 	\gra{ej3_counts.png}
-	En el primer gráfico se ve la función que dado el numero de programadores, muestra la cantidad de operaciones realizadas por el algoritmo para cada instancia de $n$ programadores. Se puedo observar que se encuentra acotada por una recta, con lo cual se ve sin problemas que se trata de un algoritmo que trabaja en "tiempo" lineal.
+	En el gráfico se ve la función que dado el número de programadores, muestra la cantidad de operaciones realizadas por el algoritmo para esa cantidad de programadores. Se puede observar que se encuentra acotada por una recta, con lo cual se ve sin problemas que se trata de un algoritmo que trabaja en "tiempo" lineal.
 	
 	\gra{ej3_times.png}
 	
-	En el segundo gráfico, se observa que hay un dibujo muy similar, sólo que en este se muestra la funcion que dada una instancia muestra los ciclos de reloj realizados durante la ejecucion. Solo se puede diferenciar que en este gráfico la amplitud entre los maximos y los minimos de cada numero de programadores en mas cerrada, delineando así una recta mucho mas marcada.
+	En este gráfico, se observa que hay una distribución muy similar, sólo que en este se muestra el tiempo consumido para procesar cada instancia en función de la cantidad de programadores. Solo se puede diferenciar que en este gráfico la amplitud entre los maximos y los minimos de cada numero de programadores en mas cerrada, delineando así una recta mucho mas marcada.\\
+
+	Lo que obsevamos en los graficos tiene coherencia con la complejidad teórica calculada. 
+	En general, vemos que el algoritmo se comporta como \Thetade{n} ya que como mínimo recorre sólo toda la lista de ingresos y como máximo recorre tanto la lista de ingresos como la de egresos. Es decir, el costo del algoritmo esta acotado inferior y superiormente por $c*n$, con c constante.
+
 	\newpage
 
 	\end{subsection}

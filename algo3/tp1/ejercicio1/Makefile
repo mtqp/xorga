@@ -1,5 +1,5 @@
 ARCHIVOS = bn_mod_n
-CFLAGS = -g -Wall
+CFLAGS = -Wall
 
 all: $(ARCHIVOS)
 

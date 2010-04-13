@@ -81,7 +81,7 @@ Luego, por definición,
 		
 		\noindent\textbf{En función del tamaño de la entrada}\\
 
-			El tamaño de la entrada $t$ es $\log n$ ya que $b$ es acotado ($n=2^t$). Entonces la complejidad del algoritmo en función del tamaño de entrada es: \Ode{\log^3 2^t}=\Ode{t^3}.
+			El tamaño de la entrada $t$ es $\log n$ ya que $b$ es acotado ($n=2^t$). Entonces la complejidad del algoritmo en función del tamaño de entrada es: \Ode{\log^3 2^t}=\Ode{t^3}. El algoritmo es logarítmico.
 
 		\end{subsubsection}
 	\end{subsection}
@@ -134,18 +134,15 @@ De esta manera, incluso si el cálculo de $b^n$ es un número tan grande que no 
 	\end{subsection}
 
 	\begin{subsection}{Pruebas y Resultados}
-		Para llevar a cabo las pruebas de este algoritmo en cuanto a operaciones realizadas por instancia, y ciclos de reloj transcurridos, contamos con un generador aleatorio de instancias, que genera instancias completamente aleatorias, con $b$ comprendido entre cero y docientos, y $n$ entre uno y 10 elevado a la séptima potencia.\\
+		Para llevar a cabo las pruebas de este algoritmo en cuanto a operaciones realizadas por instancia, y tiempo en segundos transcurridos, generamos números en forma aleatoria, con $b$ comprendido entre cero y docientos, y $n$ entre uno y 10 elevado a la séptima potencia.\\
 		
 		\gra{ej1_counts}\Pa
 		
 		En este gráfico se muestra la funcion que dada una instancia, nos devuelve la cantidad de operaciones realizadas. Se ve claramente como esta acotada por la funcion Logaritmo, con $n$ como parámetro de entrada. Se pueden apreciar algunos casos en el fondo del gráfico que corresponden al caso base del ejercicio, en los que no hubo nececidad de iterar para llegar al resultado.
 
-
-
-		
 		\gra{ej1_times}
-		En este otro gráfico se observa de forma muy parecida a la funcion que dada una instancia devuelve la cantidad de ciclos de reloj transcurridos durante la ejecucion del algoritmo. También se ve acotada por la funcion Algoritmo con parametro $n$. Al no ser una herramienta muy precisa el contar los ciclos de reloj, se pueden ver algunos outlayers por encima de la curva del logaritmo. Aun así, los resultados coninciden con las predicciones en cuanto a la complegidad y con el grafico anterior de forma muy rigurosa.
 
+		En este otro gráfico se observa de forma muy parecida a la función que dada una instancia devuelve el tiempo transcurridos durante la ejecución del algoritmo. También se ve acotada por la función logaritmo con parametro $n$. Al no ser una herramienta muy precisa el contar los ciclos de reloj, se pueden ver algunos outlayers por encima de la curva del logaritmo. Aun así, los resultados coninciden con las predicciones en cuanto a la complejidad.
 	\end{subsection}
 
 \end{section}
