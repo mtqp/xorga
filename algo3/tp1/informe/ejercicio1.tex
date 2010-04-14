@@ -114,7 +114,7 @@ Luego, por definición,
 		$$\displaystyle\prod_{i=1}^k Z_i = b^n$$
 
 \noindent Además, luego de cada multiplicación toma el módulo ya que
- $$b^k * b^{n-k}\; mod\;n = (b^k\;mod\;n)*(b^{n-k}\;mod\;n)\;\forall\;k\leq n ^{[2]}$$
+ $$b^k * b^{n-k}\; mod\;n = ((b^k\;mod\;n)*(b^{n-k}\;mod\;n))\;mod\;n\;\forall\;k\leq n ^{[2]}$$
 
 De esta manera, incluso si el cálculo de $b^n$ es un número tan grande que no entra en el tamaño de la variable, se va a poder realizar sin problemas (suponiendo que $(n-1)^2$ entra en una variable).
 
@@ -128,7 +128,7 @@ De esta manera, incluso si el cálculo de $b^n$ es un número tan grande que no 
 	\end{array}\right.
 \end{displaymath}
 } \\
-{\footnotesize [2] Por propiedades del módulo $x*y\; mod \; z = (x\; mod\; z)*(y\; mod\; z)$ } \\
+{\footnotesize [2] Por propiedades del módulo $x*y\; mod \; z = ((x\; mod\; z)*(y\; mod\; z))\;mod\; z$ } \\
 
 
 	\end{subsection}
