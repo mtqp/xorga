@@ -1,15 +1,11 @@
 #!/usr/bin/gnuplot -persist
 
-#exporto como png
-set term svg
-set output 'ej1_time.svg'
-
 #le pone titulo al grafico
-set title "Cantidad de ciclos de reloj del algoritmo programadores"
+set title "Tiempos del algoritmo ronda_de_amigas"
 
 #pone la descripccion de los ejes
 set xlabel "Tamaño de entrada"
-set ylabel "Cantidad de ciclos de reloj"
+set ylabel "Tiempo (segundos)"
 
 #pone la leyenda a la izquierda y con borde
 set key left box
@@ -18,11 +14,16 @@ set key left box
 #lt=tipo de linea y color,  pt=point type,  ps=point size
 #(para ver los distintos point types pongan "test" en el gnuplot)
 set style line 1 lt 1 pt 1 ps 1
-set style line 2 lt 3 pt 1 ps 1
+set style line 2 lt 7 pt 7 ps 1
+set style line 3 lt 5 pt 5 ps 1
+set style line 4 lt 2 pt 2 ps 1
 
-#dibuja los puntos. index es porque lo separe en bloques de primos/no primos para ponerle distinto estilo..
-plot	'time.dat' title "Cantidad de ciclos de reloj" linestyle 1,\
-	250*x title "n*c"
+set logscale y
+
+plot	'< cat times_07*.dat' title "Densidad 0.7" linestyle 4,\
+		'times_03.dat' title "Densidad 0.3" linestyle 3,\
+		'times_05.dat' title "Densidad 0.5" linestyle 1,\
+		'factoriales_times.dat' title "n!*c" with points linestyle 2
 
 #pongo la salida default para mostrar en pantalla
 set term pop
