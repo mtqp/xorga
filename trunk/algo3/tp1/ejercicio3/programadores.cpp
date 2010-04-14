@@ -36,8 +36,8 @@ uint programadores_en_simultaneo(const string* ingresos,const string* egresos,ui
 
 int main (int argc, char** argv){
 	ullint n;
-	ullint ts=0;
-	while(cin >> n && n!=-1){
+	double ts=0;
+	while(cin >> n && n!=(ullint)-1){
 		string ingresos[n];
 		string egresos[n];
 		string delim;
@@ -50,9 +50,7 @@ int main (int argc, char** argv){
 		  	 cin >> delim;
 		}
 		if(argc>1 && string(argv[1])=="time"){	//si el argumento es "time", mido el tiempo
-			empezar_medicion(ts);
-			programadores_en_simultaneo(ingresos,egresos,n);
-			terminar_medicion(ts);
+			medir_tiempo( ts, programadores_en_simultaneo(ingresos,egresos,n), 1, 0.5f );
 			cout << n << "\t" << ts << endl;
 		}
 		else if(argc>1 && string(argv[1])=="count"){	//si el argumento es "count", cuento cantidad de operaciones
