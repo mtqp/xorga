@@ -136,13 +136,16 @@ De esta manera, incluso si el cálculo de $b^n$ es un número tan grande que no 
 	\begin{subsection}{Pruebas y Resultados}
 		Para llevar a cabo las pruebas de este algoritmo en cuanto a operaciones realizadas por instancia, y tiempo en segundos transcurridos, generamos números en forma aleatoria, con $b$ comprendido entre cero y docientos, y $n$ entre uno y 10 elevado a la séptima potencia.\\
 		
-		\gra{ej1_counts}\Pa
+		\gra{ej1_counts}\VSP
 		
-		En este gráfico se muestra la funcion que dada una instancia, nos devuelve la cantidad de operaciones realizadas. Se ve claramente como esta acotada por la funcion Logaritmo, con $n$ como parámetro de entrada. Se pueden apreciar algunos casos en el fondo del gráfico que corresponden al caso base del ejercicio, en los que no hubo nececidad de iterar para llegar al resultado.
+		En este gráfico se muestra la función que dada una instancia, nos devuelve la cantidad de operaciones realizadas. Se ve claramente como esta acotada por la función logaritmo, con $n$ como parámetro de entrada. Se pueden apreciar algunos casos en el fondo del gráfico que corresponden al caso trivial del ejercicio, en los que no hubo necesidad de iterar para llegar al resultado.
 
-		\gra{ej1_times}
+		\gra{ej1_time}\VSP
 
-		En este otro gráfico se observa de forma muy parecida a la función que dada una instancia devuelve el tiempo transcurridos durante la ejecución del algoritmo. También se ve acotada por la función logaritmo con parametro $n$. Al no ser una herramienta muy precisa el contar los ciclos de reloj, se pueden ver algunos outlayers por encima de la curva del logaritmo. Aun así, los resultados coninciden con las predicciones en cuanto a la complejidad.
+		En este otro gráfico se observa de forma muy parecida a la función que dada una instancia devuelve el tiempo transcurridos durante la ejecución del algoritmo. También se ve acotada por la función logaritmo con parametro $n$. Como medir el tiempo no es una herramienta muy precisa, se pueden ver algunos outlayers por encima de la curva del logaritmo. Aun así, los resultados coninciden con las predicciones en cuanto a la complejidad.\Pa
+
+		En general, podemos ver que los resultados prácticos se mantienen cada vez más abajo de la complejidad teórica analizada (línea verde) y se corresponden en forma con la misma. Por lo que seria lógico creer que tambien lo va a hacer para mayores tamaños de entrada que los aqui representado.
+		Por esto suponemos que es una buena cota para la complejidad del algoritmo.
 	\end{subsection}
 
 \end{section}
