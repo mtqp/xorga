@@ -1,5 +1,7 @@
 #!/usr/bin/python
-# Case Generator Densidad
+# Generador de test para el ejercicio 2
+
+from optparse import OptionParser
 
 from random import randint, seed, choice
 import sys
@@ -26,15 +28,15 @@ def generar_amistades( n, densidad, min_amigos ):
 
 	return amistades
 
-def main():
+def main(options):
 	seed()
 	
-	densidad = 0.7
-	min_amigos = 2
-	cantidad_por_n = 20
+	densidad = options.densidad
+	min_amigos = options.min_amigos
+	cantidad_por_n = options.count
 	
-	fIn = open("test.in",'w')
-	for n in range(6,19):
+	fIn = open(options.archivo+".in",'w')
+	for n in range(options.min_n,options.max_n+1):
 		for k in range(cantidad_por_n):
 			amistades = generar_amistades(n,densidad,min_amigos)
 			fIn.write("%d\n"%(n))
@@ -47,5 +49,13 @@ def main():
 	fIn.write("%d"%(-1))
 
 if __name__=="__main__":
-	main()
+	parser = OptionParser()
+	parser.add_option("-a", "--archivo", dest="archivo", help="escribe los test en ARCHIVO.in", metavar='ARCHIVO', default='test')
+	parser.add_option("-c", "--count", dest="count", help="genera COUNT casos de prueba por cada n", type='int', default=20, metavar='COUNT')
+	parser.add_option("-d", "--densidad", dest="densidad", help="establece la densidad de relaciones", type='float', default=0.5, metavar='DENSIDAD')
+	parser.add_option("--min_n", dest="min_n", help="establece el rango de n desde MIN_N", type='int', default=6, metavar='MIN_N')
+	parser.add_option("--max_n", dest="max_n", help="establece el rango de n hasta MAX_N", type='int', default=18, metavar='MAX_N')
+	parser.add_option("--min_amigos", dest="min_amigos", help="establece el minimo de amigos por persona", type='int', default=2)
+	(options, args) = parser.parse_args()
+	main(options)
 	
