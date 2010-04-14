@@ -103,7 +103,7 @@ bool ronda_de_amigas(uint** relaciones, uint n){
 
 int main (int argc, char** argv){
 	ullint n;
-	ullint ts;
+	double ts;
 	uint cantidad_de_amigas;
 	uint amiga;
 	while(cin >> n && n!=(ullint)-1){
@@ -122,9 +122,9 @@ int main (int argc, char** argv){
 		}
 		if(argc>1 && string(argv[1])=="time"){	//si el argumento es "time", mido el tiempo
 			ts=0;
-			empezar_medicion(ts);
-			ronda_de_amigas(relaciones,n);
-			terminar_medicion(ts);
+			
+			medir_tiempo( ts, ronda_de_amigas(relaciones,n), 1, 0.5f );
+			
 			cout << n << "\t" << ts << endl;
 		}
 		else if(argc>1 && string(argv[1])=="count"){	//si el argumento es "count", cuento cantidad de operaciones
