@@ -43,15 +43,15 @@ int main (int argc, char** argv)
 {
 	uint b, r;
 	ullint n;
-	uint ts=0;
+	double ts;
 
 	while(cin >> b && b!=(uint)-1){
 		cin >> n;
 		if(argc>1 && string(argv[1])=="time"){
-
-			empezar_medicion(ts);
-			bn_mod_n(b,n);
-			terminar_medicion(ts);
+			int i = 0;
+			//empezar_medicion(ts);
+			medir_tiempo( ts, bn_mod_n(b,n), 1, 0.5f );
+			//terminar_medicion(ts);
 			cout << n << "\t" << ts << endl;
 			//cout << setw(4) << b << "^" << setw(4) << n << " mod " << setw(4) << n << " = " << setw(4) << r;
 			//cout << "\t[" << setw(2) << ts << "c," << setw(3) << contador << "ops]" << endl;
