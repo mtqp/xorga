@@ -5,15 +5,15 @@
 	\begin{subsection}{Explicación}
 
 		Una solución factible al problema es utilizar un algoritmo recursivo basado en la técnica $Divide \& Conquer$.
-		La idea seria quedarnos cada vez con un problema más chico, dividiendo el exponente a la mitad y resolver recursivamente dicho problema hasta llegar a uno suficientemente chico (en este caso $n==2$) para luego combinar las soluciones elevando al cuadrado lo ya calculado y obtener así una solución al problema original. En el caso donde $n$ fuese impar se resuelve el problema para $n-1$ a través del mismo procedimiento y luego se multiplica el resultado por $b$.
+		La idea seria quedarnos cada vez con un problema más chico, dividiendo el exponente a la mitad y resolver recursivamente dicho problema hasta llegar a uno suficientemente chico (en este caso $n==2$) para luego combinar las soluciones elevando al cuadrado lo ya calculado y obtener así una solución al problema original. En el caso donde $n$ fuese impar se resuelve el problema para $n-1$ a través del procedimiento mencionado y luego se multiplica el resultado por $b$.
 
 		Para la resolución del problema decidimos utilizar un algoritmo iterativo frente a uno recursivo debido al uso que este último hace de la pila, lo cual implica repetidos accesos a memoria disminuyendo asi la performance del algoritmo.
 
-		En cada iteración el algoritmo divide el exponente a la mitad y eleva al cuadrado el acumulador (en la primer iteración $b$). Cuando llega a un exponente impar multiplica el resultado por el acumulador y continua elevando dicho acumulador. Cuando el exponente llega a uno repite lo anterior y termina. Es decir, el resultado es la productoria de los resultados parciales obtenidos en los exponentes impares.
+		La versión iterativa de la solución funciona de la siguiente manera: en cada iteración el algoritmo divide el exponente a la mitad y eleva al cuadrado el acumulador (en la primer iteración $b$). Cuando llega a un exponente impar multiplica el resultado por el acumulador y continua elevando dicho acumulador. Cuando el exponente llega a uno repite lo anterior y termina. Es decir, el resultado es la productoria de los resultados parciales obtenidos en los exponentes impares.
 
 		Al tener un acumulador que nos guarda las potencias ya calculadas el algoritmo evita hacer calculos repetidos y logra minimizar la cantidad de multiplicaciones.
 
-		Tanto la versión recursiva como la iterativa toman módulo $n$ luego de cada multiplicación para asegurarse que el resultado entra en el tamaño de la variable (suponiendo que $n-1\times n-1$ entra).
+		Tanto la versión recursiva como la iterativa toman módulo $n$ luego de cada multiplicación para asegurarse que el resultado entra en el tamaño de la variable (suponiendo que $(n-1)\times (n-1)$ entra).
 
 
 		\begin{subsubsection}{Análisis de complejidad}
@@ -45,7 +45,7 @@
 		\end{tabular}
 		\end{center}
 
-		\noindent Como el algoritmo termina cuando $m=1$ entonces, \\
+		\noindent Como el algoritmo termina cuando $m=1$ tenemos, \\
 		\begin{eqnarray*}
 			\frac{n}{2^{k-1}}&=& 1 \\
 			n &=& 2^{k-1} \\
@@ -53,7 +53,7 @@
 			\log n &=& k-1 \Rightarrow k = \log( n )+1
 		\end{eqnarray*}
 
-		\noindent es decir, hace $\log(n)+1$ iteraciones, cada una con una cantidad constante de operaciones.
+		\noindent es decir, el algoritmo hace $\log(n)+1$ iteraciones, cada una con una cantidad constante de operaciones.
 
 		Por lo tanto, la cantidad de operaciones que hace el algoritmo es del orden de $\log n$ y \Ode{\log n} $\subset$ \Ode{n}.
 
