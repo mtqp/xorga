@@ -32,6 +32,8 @@ bool unico_grupo(uint** relaciones, uint n){
 	O(3);
 	while(!q.empty()){
 		uint chica = q.front();
+		q.pop();
+		O(3);
 		for(uint amiga=0; amiga<n; amiga++){
 			if(relaciones[chica][amiga]==1 && !marcadas[amiga]){
 				q.push(amiga);
@@ -40,8 +42,6 @@ bool unico_grupo(uint** relaciones, uint n){
 			}
 			O(5);
 		}
-		q.pop();
-		O(3);
 	}
 	bool res = true;
 	for(uint i=0; i<n; i++) res&=marcadas[i];
