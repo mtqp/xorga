@@ -107,14 +107,14 @@ Luego, por definición,
 		\indent
 		\begin{tabular}{lp{6cm}}
 			$A_k = \frac{n}{2^{k-1}}$ & la sucesión con los valores de $n$ en la iteración $k$, y \\
-			$Z_k = impar(A_k) * b^{2^{k-1}} + par( A_k )$ $^{[2]}$ & la sucesión que tiene los valores de $b$ corres\-pondientes a los $n$ impares y $1$ en los pares
+			$Z_k = impar(A_k) * b^{2^{k-1}} + par( A_k )$ $^{[1]}$ & la sucesión que tiene los valores de $b$ corres\-pondientes a los $n$ impares y $1$ en los pares
 		\end{tabular} \\
 		\vspace{0.2cm}
 		entonces el cálculo hecho por el algoritmo está dado por 
 		$$\displaystyle\prod_{i=1}^k Z_i = b^n$$
 
 \noindent Además, luego de cada multiplicación toma el módulo ya que
- $$b^k * b^{n-k}\; mod\;n = (b^k\;mod\;n)*(b^{n-k}\;mod\;n)\;\forall\;k\leq n ^{[1]}$$
+ $$b^k * b^{n-k}\; mod\;n = (b^k\;mod\;n)*(b^{n-k}\;mod\;n)\;\forall\;k\leq n ^{[2]}$$
 
 De esta manera, incluso si el cálculo de $b^n$ es un número tan grande que no entra en el tamaño de la variable, se va a poder realizar sin problemas (suponiendo que $(n-1)^2$ entra en una variable).
 

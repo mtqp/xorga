@@ -69,17 +69,21 @@ La complejidad es $n^2$, donde $n$ es la cantidad de chicas. Porque el peor caso
 	\end{subsection}
 
 	\begin{subsection}{Pruebas y Resultados}
-		Las entradas para probar correctitud estan en el archivo \texttt{rondas.in, no\_rondas.in, alguna\_menos\_dos\_amigas.in, todas\_con\_todas.in, \\
+		Las entradas para probar correctitud estan en los archivo \texttt{rondas.in, no\_rondas.in, alguna\_menos\_dos\_amigas.in, todas\_con\_todas.in, \\
 		mas\_de\_un\_grupo.in}.
 		Fueron elegidas para probar el comportamiento del algoritmo en todas sus variantes y probar la eficiente detección de las 'no\_rondas' cuando hay alguna chica con menos de dos amigas o cuando hay grupos aislados y de las 'rondas' cuando todas son amigas de todas.
-
-		Para poder correr pruebas de forma eficaz, contamos con un generador aleatorio de rondas, donde para cada número de chicas $n$ variamos la densidad de las relaciones (que es el porcentaje de la cantidad máxima de relaciones posibles que se incluye en la instancia generada). Generamos 20 casos por cada $n$ desde 6 a 18 chicas, variando la densidad entre 0.3, 0.5 y 0.7.
+		
+		Para analizar la complejidad temporal del algoritmo (tiempo y cantidad de operaciones) contamos con un generador aleatorio de rondas, donde para cada número de chicas $n$ variamos la densidad de las relaciones (que es el porcentaje de la cantidad máxima de relaciones posibles que se incluye en la instancia generada). Generamos 20 casos por cada $n$ desde 6 a 18 chicas, variando la densidad entre 0.3, 0.5 y 0.7.
 
 		 Se hizo enfasis en la generación de casos promedio y peores casos (donde el algoritmo no resuelve el problema mediante las optimizaciones). Tambien forzamos a que en sólo dos instancias por cada $n$ hubiera chicas sin amigas o con sólo una amiga, donde el algoritmo optimizado se ahorra el intentar construir soluciones.
 
 		\gra{ej2_counts.png}
 
-		En este gráfico se muestra la cantidad de operaciones en función del tamaño de la entrada, es decir, en función de la cantidad de chicas y la cantidad de relaciones entre ellas. Dicha función se ve acotada por la funcion factorial, cuyo parametro de entrada es la cantidad de chicas $n$ de la instancia ( $n!$). Se ven claramente en el piso del gráfico los casos en donde las optimizaciones del algoritmo no permitieron recorrer inutilmente el árbol para poder concluir que no hay solución posible.
+		En este gráfico se muestra la cantidad de operaciones en función del tamaño de la entrada, es decir, en función de la cantidad de chicas y la cantidad de relaciones entre ellas.
+
+		Ovservamos que para un $n$ fijo, la función crece (la cantidad de operaciones aumenta) conforme aumenta la cantidad de relaciones entre las chicas.
+
+		Dicha función se ve acotada por la función factorial, cuyo parametro de entrada es la cantidad de chicas $n$. Se ven claramente en el piso del gráfico los casos en donde las optimizaciones del algoritmo no permitieron recorrer inutilmente el árbol para poder concluir que no hay solución posible.
 
 		En este se grafica el tiempo transcurrido para cada instancia. La apreciación tambien es muy similar, ya que nuevamente aparece acotada por la funcion factorial, y se ven más abajo los casos donde se dieron lugar a las optimizaciones.		
 
