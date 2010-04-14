@@ -1,5 +1,5 @@
 #!/usr/bin/python
-# Generador de test para el ejercicio 2
+# Generador de casos para el ejercicio 2
 
 from optparse import OptionParser
 
@@ -53,8 +53,8 @@ if __name__=="__main__":
 	parser.add_option("-a", "--archivo", dest="archivo", help="escribe los test en ARCHIVO.in", metavar='ARCHIVO', default='test')
 	parser.add_option("-c", "--count", dest="count", help="genera COUNT casos de prueba por cada n", type='int', default=20, metavar='COUNT')
 	parser.add_option("-d", "--densidad", dest="densidad", help="establece la densidad de relaciones", type='float', default=0.5, metavar='DENSIDAD')
-	parser.add_option("--min_n", dest="min_n", help="establece el rango de n desde MIN_N", type='int', default=6, metavar='MIN_N')
-	parser.add_option("--max_n", dest="max_n", help="establece el rango de n hasta MAX_N", type='int', default=18, metavar='MAX_N')
+	parser.add_option("--min_n", dest="min_n", help="establece la minima cantidad de personas", type='int', default=8, metavar='MIN_N')
+	parser.add_option("--max_n", dest="max_n", help="establece la maxima cantidad de personas", type='int', default=18, metavar='MAX_N')
 	parser.add_option("--min_amigos", dest="min_amigos", help="establece el minimo de amigos por persona", type='int', default=2)
 	(options, args) = parser.parse_args()
 	main(options)
