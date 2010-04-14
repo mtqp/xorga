@@ -1,9 +1,5 @@
 #!/usr/bin/gnuplot -persist
 
-#exporto como png
-set term png
-set output 'ej1_counts.png'
-
 #le pone titulo al grafico
 set title "Cantidad de Operaciones del algoritmo ronda_de_amigas"
 
@@ -24,11 +20,10 @@ set style line 4 lt 2 pt 2 ps 1
 
 set logscale y
 
-#dibuja los puntos. index es porque lo separe en bloques de primos/no primos para ponerle distinto estilo..
 plot	'< cat counts_07*.dat' title "Densidad 0.7" linestyle 4,\
-	'< cat counts_03*.dat' title "Densidad 0.3" linestyle 3,\
-	'< cat counts_05*.dat' title "Densidad 0.5" linestyle 1,\
-	'factoriales.dat' title "n!*c" with points linestyle 2
+		'< cat counts_03*.dat' title "Densidad 0.3" linestyle 3,\
+		'< cat counts_05*.dat' title "Densidad 0.5" linestyle 1,\
+		'factoriales.dat' title "n!*c" with points linestyle 2
 	
 	
 #pongo la salida default para mostrar en pantalla
