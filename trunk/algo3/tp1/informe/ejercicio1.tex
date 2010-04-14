@@ -134,6 +134,8 @@ De esta manera, incluso si el cálculo de $b^n$ es un número tan grande que no 
 	\end{subsection}
 
 	\begin{subsection}{Pruebas y Resultados}
+		Para probar correctitud tenemos un generador de instancias random que nos devuelve dos archivos, en uno \texttt{test.in} la instancia elegida ($b$ $n$) y otro \texttt{test.out} el resultado ($b^n \mod n$). De esta forma, con una comparación de archivos (comando $diff\;test.out\;bn\_mod\_n.out$ ) podemos saber para cada instancia si el resultado obtenido por nuestro algoritmo se condice con el resultado correspondiente a esa instancia en el archivo \texttt{test.out}.
+		
 		Para llevar a cabo las pruebas de este algoritmo en cuanto a operaciones realizadas por instancia, y tiempo en segundos transcurridos, generamos números en forma aleatoria, con $b$ comprendido entre cero y docientos, y $n$ entre uno y 10 elevado a la séptima potencia.\\
 		
 		\gra{ej1_counts}\VSP
