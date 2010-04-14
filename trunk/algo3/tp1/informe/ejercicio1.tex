@@ -5,9 +5,9 @@
 	\begin{subsection}{Explicación}
 
 		Una solución factible al problema es utilizar un algoritmo recursivo basado en la técnica $Divide \& Conquer$.
-		La idea seria quedarnos cada vez con un problema más chico, dividiendo el exponente a la mitad y resolver recursivamente dicho problema hasta llegar a uno suficientemente chico (en este caso $n==2$) para luego combinar las soluciones elevando al cuadrado lo ya calculado y obtener así una solución al problema original. En el caso donde $n$ fuese impar se resuelve el problema para $n-1$ a través del procedimiento mencionado y luego se multiplica el resultado por $b$.
+		La idea sería quedarnos cada vez con un problema más chico, dividiendo el exponente a la mitad y resolver recursivamente dicho problema hasta llegar a uno suficientemente chico (en este caso $n==2$) para luego combinar las soluciones elevando al cuadrado lo ya calculado y obtener así una solución al problema original. En el caso donde $n$ fuese impar se resuelve el problema para $n-1$ a través del procedimiento mencionado y luego se multiplica el resultado por $b$.
 
-		Para la resolución del problema decidimos utilizar un algoritmo iterativo frente a uno recursivo debido al uso que este último hace de la pila, lo cual implica repetidos accesos a memoria disminuyendo asi la performance del algoritmo.
+		Para la resolución del problema decidimos utilizar un algoritmo iterativo frente a uno recursivo debido al uso que este último hace de la pila, lo cual implica repetidos accesos a memoria que disminuyen la performance del algoritmo, y la posibilidad de {\em stack overflow}.
 
 		La versión iterativa de la solución funciona de la siguiente manera: en cada iteración el algoritmo divide el exponente a la mitad y eleva al cuadrado el acumulador (en la primer iteración $b$). Cuando llega a un exponente impar multiplica el resultado por el acumulador y continua elevando dicho acumulador. Cuando el exponente llega a uno repite lo anterior y termina. Es decir, el resultado es la productoria de los resultados parciales obtenidos en los exponentes impares.
 
@@ -17,7 +17,7 @@
 
 
 		\begin{subsubsection}{Análisis de complejidad}
-		Esta vez, elegimos un modelo logarítmico para analizar el algoritmo, ya que las operaciones que aplicamos, en teoría, dependen del logaritmo del número en cuestión, o dicho de otra forma, del tamaño de la entrada. No obstante, en los resultados muchas de ellas tienen costo uniforme por trabajar con números de tamaño acotado (\texttt{unsigned long long int}) para simplificar la implementación.\Pa
+		Esta vez, elegimos un modelo logaritmico para analizar el algoritmo, ya que las operaciones que aplicamos, en teoría, dependen del logaritmo del número en cuestión, o dicho de otra forma, del tamaño de la entrada. No obstante, en los resultados muchas de ellas tienen costo uniforme por trabajar con números de tamaño acotado (\texttt{unsigned long long int}) para simplificar la implementación.\Pa
 
 		Sea $m = n$ \\
 
@@ -105,9 +105,9 @@ Luego, por definición,
 		\vspace{0.5cm}
 		\noindent Sean \\
 		\indent
-		\begin{tabular}{ll}
-			$A_k = \frac{n}{2^{k-1}}$ & bla bla bla, y \\
-			$Z_k = impar(A_k) * b^{2^{k-1}}$ $^{[2]}$ & la sucesión que tiene los valores de $b$ correspondientes a los $n$ impares
+		\begin{tabular}{lp{8cm}}
+			$A_k = \frac{n}{2^{k-1}}$ & la sucesión con los valores de $n$ en la iteración $k$, y \\
+			$Z_k = impar(A_k) * b^{2^{k-1}}$ $^{[2]}$ & la sucesión que tiene los valores de $b$ corres\-pondientes a los $n$ impares y $0$ en los pares
 		\end{tabular} \\
 		\vspace{0.2cm}
 		entonces el cálculo hecho por el algoritmo está dado por 
@@ -136,17 +136,17 @@ De esta manera, incluso si el cálculo de $b^n$ es un número tan grande que no 
 	\begin{subsection}{Pruebas y Resultados}
 		Para probar correctitud tenemos un generador de instancias random que nos devuelve dos archivos, en uno \texttt{test.in} la instancia elegida ($b$ $n$) y otro \texttt{test.out} el resultado ($b^n \mod n$). De esta forma, con una comparación de archivos (comando $diff\;test.out\;bn\_mod\_n.out$ ) podemos saber para cada instancia si el resultado obtenido por nuestro algoritmo se condice con el resultado correspondiente a esa instancia en el archivo \texttt{test.out}.
 		
-		Para llevar a cabo las pruebas de este algoritmo en cuanto a operaciones realizadas por instancia, y tiempo en segundos transcurridos, generamos números en forma aleatoria, con $b$ comprendido entre cero y docientos, y $n$ entre uno y 10 elevado a la séptima potencia.\\
+		Para llevar a cabo las pruebas de este algoritmo en cuanto a operaciones realizadas por instancia, y tiempo en segundos transcurridos, generamos números en forma aleatoria, con $b$ comprendido entre $0$ y $200$, y $n$ entre 1 y $10^7$.\\
 		
 		\gra{ej1_counts}\VSP
 		
-		En este gráfico se muestra la función que dada una instancia, nos devuelve la cantidad de operaciones realizadas. Se ve claramente como esta acotada por la función logaritmo, con $n$ como parámetro de entrada. Se pueden apreciar algunos casos en el fondo del gráfico que corresponden al caso trivial del ejercicio, en los que no hubo necesidad de iterar para llegar al resultado.
+		En este gráfico se muestra la función que dada una instancia, nos devuelve la cantidad de operaciones realizadas. Se ve claramente cómo esta acotada por la función logaritmo, con $n$ como parámetro de entrada. Se pueden apreciar algunos casos en el fondo del gráfico que co\-rres\-pon\-den al caso trivial del ejercicio, en los que no hubo necesidad de iterar para llegar al resultado.
 
 		\gra{ej1_time}\VSP
 
-		En este otro gráfico se observa de forma muy parecida a la función que dada una instancia devuelve el tiempo transcurridos durante la ejecución del algoritmo. También se ve acotada por la función logaritmo con parametro $n$. Como medir el tiempo no es una herramienta muy precisa, se pueden ver algunos outlayers por encima de la curva del logaritmo. Aun así, los resultados coninciden con las predicciones en cuanto a la complejidad.\Pa
+		En este otro gráfico se observa de forma muy parecida a la función que dada una instancia devuelve el tiempo transcurridos durante la ejecución del algoritmo. También se ve acotada por la función logaritmo con parámetro $n$. Como medir el tiempo no es una herramienta muy precisa, se pueden ver algunos {\em outliers} por encima de la curva del logaritmo. Aun así, los resultados coninciden con las predicciones en cuanto a la complejidad.\Pa
 
-		En general, podemos ver que los resultados prácticos se mantienen cada vez más abajo de la complejidad teórica analizada (línea verde) y se corresponden en forma con la misma. Por lo que seria lógico creer que tambien lo va a hacer para mayores tamaños de entrada que los aqui representado.
+		En general, podemos ver que los resultados prácticos se mantienen cada vez más abajo de la complejidad teórica analizada (línea verde) y se corresponden en forma con la misma. Por lo que sería lógico creer que también lo va a hacer para mayores tamaños de entrada que los aquí representados.
 		Por esto suponemos que es una buena cota para la complejidad del algoritmo.
 	\end{subsection}
 
