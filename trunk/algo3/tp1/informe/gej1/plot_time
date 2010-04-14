@@ -1,15 +1,15 @@
 #!/usr/bin/gnuplot -persist
 
 #exporto como png
-set term svg
-set output 'ej1_time.svg'
+set term png
+set output 'ej1_time.png'
 
 #le pone titulo al grafico
 set title "Cantidad de Operaciones del algoritmo bn_mod_n"
 
 #pone la descripccion de los ejes
 set xlabel "Tamaño de entrada"
-set ylabel "Cantidad de ciclos de reloj"
+set ylabel "Tiempo (segundos)"
 
 #pone la leyenda a la izquierda y con borde
 set key left box
@@ -21,7 +21,7 @@ set style line 1 lt 1 pt 1 ps 1
 set style line 2 lt 3 pt 1 ps 1
 
 #dibuja los puntos. index es porque lo separe en bloques de primos/no primos para ponerle distinto estilo..
-plot	'time.dat' title "Tiempo (segundos)" linestyle 1,\
+plot	'time.dat' title "Tiempo" linestyle 1,\
 	0.000000059*log(x) title "log(n)*c"
 
 #pongo la salida default para mostrar en pantalla
