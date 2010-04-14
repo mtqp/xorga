@@ -7,6 +7,8 @@ using namespace std;
 typedef unsigned int uint;
 typedef unsigned long long int ullint;
 
+ullint operaciones = 0;
+
 ullint bn_mod_n( ullint b, ullint n )
 {
 	reiniciar_contador();
@@ -32,7 +34,8 @@ ullint bn_mod_n( ullint b, ullint n )
 		b *= b;
 		b %= m;
 		O(9);
-	}
+	}	
+
 	return tmp;
 }
 
@@ -50,12 +53,14 @@ int main (int argc, char** argv)
 			//terminar_medicion(ts);
 			cout << n << "\t" << ts << endl;
 		}
-		else if( argc > 1 && string(argv[1])=="count"){
+		else if( argc > 1 && string(argv[1])=="count")
+		{
 			bn_mod_n(b,n);
 			cout << n << "\t" << contador << endl;
 		}
 		else cout << bn_mod_n(b,n) << endl;
 	}
+	
 	return 0;
 }
 
