@@ -1,0 +1,31 @@
+chicos les dejo un pseudo codigo q creo en el peor caso anda en O(n²) de todas formas, piensenlo y puteen
+si les hice perder el tiempo!
+
+int pseudo_code(array A){
+
+	tupla(numero, indice) array_maximos_locales[cantidad_max_locales];
+	for(i=0;i<longitud(A);i++){
+		busco_maximos_locales(A) //IMPLICA QUE A LA IZQ TIENE UN NUMERO MENOR Y A LA DERECHA TBM
+								 //GUARDO ADEMAS EL NUMERO EN EL ARRAY MAXIMOS Y EL SUBINDICE DE 'A'
+	}
+	
+	tupla(ptr_izquierda, max_local, ptr_derecha) array_soluciones[cantidad_max_locales]
+	for(i=0;i<longitud(array_soluciones); i++){
+		agrego_a_izquierda_decreciente(array_soluciones,indice_max_local)
+		agrego_a_derecha_decreciente(array_soluciones,indice_max_local)
+	}
+
+	return longitud(A) - dame_longitud_lista_max(array_soluciones)
+	
+}
+
+la idea es... buscar los maximos locales ==> (tanto a izq como derecha tiene numeros inferiores) y cargarlos en un array junto al indice en el q se encuentra
+despues armarse un array de listas (una suerte de arbol con dos ramas, a izquierda y a derecha del maximo local) 
+una vez armado el array de listas cargaremos nodos a izquierda q vayan decreciendo (estrictamente decreciente desde el maximo local), lo mismo para los nodos a la derecha
+una vez terminado eso, nos basta con buscar el maximo en LONGITUD de estas lista dentro del array. 
+la lista q MAS numeros tenga implica q los q tiene q desechar para conseguir la cosa q nos piden es menor!
+
+lo pense muy rapido, pero creo q en el peor caso tendrias n/2 maximos locales, y tendrias q para cada i fijarte los numeros q van al lado (costo del orden de n^2)
+ademas tenes una busqueda de maximos locales (O(n)) + una busqueda de lista mas larga (O(n))
+se los dejo para pensar, les mando el abrazo mas tqp del mundo, avisenme si les gusto q me lo programo.
+
