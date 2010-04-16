@@ -8,7 +8,6 @@ def main():
 	cantidad = 15
 	maximo_n = 20
 	maximo_elem = 20
-	secuencia = []	
 	
 	fIn  = open('test.in', 'w')
 
@@ -17,8 +16,7 @@ def main():
 		fIn.write('%s   '%(n))
 		for j in range(n):
 			elem = randint(-maximo_elem,maximo_elem)
-			secuencia += [elem]
-			fIn.write('%s '%(secuencia[j]))
+			fIn.write('%s '%(elem))
 		fIn.write('\n')
 
 	fIn.write('-1')
