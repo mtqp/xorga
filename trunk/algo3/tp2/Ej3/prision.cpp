@@ -84,18 +84,16 @@ int main(int argc, char** argv){
 		bool puedo_entrar[n];
 		uint puertas[n];
 		for(uint i=0;i<n;i++){
-			puedo_entrar[i]=false;
+			puedo_entrar[i]=true;
 			puertas[i]=0;
 		}
-		puedo_entrar[0]=true;
-		puedo_entrar[n-1]=true;
 		for(uint i=0;i<p;i++){
 			uint esta;
 			cin >> esta;
-			puedo_entrar[esta-1]=true;
 			uint abre;
 			cin >> abre;
 			puertas[esta-1]=abre-1;
+			puedo_entrar[abre-1]=false;
 		}
 		//cout << "Puertas: " << endl;
 		//print_vector(puertas,n);
