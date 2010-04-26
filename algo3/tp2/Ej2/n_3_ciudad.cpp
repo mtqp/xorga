@@ -88,31 +88,20 @@ Nodo_lista *dame_nodo_camino_no_visto(Lista *aristas){
 }
 
 bool tengaAdyacente_y_noEsXDondeVenia(Nodo_matriz** matrix, uint tam_matrix, Lista *aristas, Queue<Nodo_lista*> &q, uint * nodos_marcados, Nodo_lista* nodo_camino, Nodo_lista* sig_adyacente))	
-	/*	un camino viable (usara q no sea un nodo marcado para q no loopee, y los posible caminos q le restan
-		si no encuentra, devuelve falso
-		si encuentra, devuelve true, y guarda el numero de nodo en sig_adyacente
-
-		tengo q buscar en la matrix[nodocamino->pi2] los bools en UNO tal q ptr!=NULL y no estan en Q ya (**), y si lo 
-		encuentro guardarlo en sig_adyacente  
-		
-		(**) 	
+	/*	
+		si nodo_camino es igual al con el q empece, 
+			termine un circuito NUEVO
+				aumenta la cantidad de circuitos nuevos
+			
+		si nodo_camino me lleva a algun circuito (una arista q no esta en la lista)
+			veo si tengo salida de ese circuito, 
+					uno todos los queue a ese circuito
+			si no tengo salida de ese circuito
+					entre en un loop ==> no hay solucion
+				
+		si nodo_camino me lleva a una pared
+			no tengo solucion
 	*/
-	
-	Nodo_lista* primer_q = q.front();
-	
-	int i = nodo_camino->_pi2;
-	int j = 0;
-	while(j<tam_matrix){
-		if((matrix[i][j])->_adyacencia && ((matrix[i][j])->_ptr_arista != NULL)){
-			if(no_esta_en_queue(q, nodo_camino)){
-				FIJATE Q ESTE EN NODO CAMINO LOCOOOO
-				return true;
-			}
-		}
-	
-	}
-	return false;
-
 
 }
 
@@ -150,6 +139,8 @@ bool ciudad(Nodo_Matriz** matriz_adyacencia, Lista *aristas_sin_camino, uint tam
 	Nodo_lista* nodo_camino;
 	Nodo_lista* sig_adyacente;
 
+	int circuito = 0;
+
 	while(aristas_sin_camino->_primero_lista != NULL){			//==> existen todavia aristas sin caminos
 																// costo del while == O(n²)
 		//q empty
@@ -176,12 +167,16 @@ bool ciudad(Nodo_Matriz** matriz_adyacencia, Lista *aristas_sin_camino, uint tam
 				q.pop();
 				borrar_nodo_lista(aristas_sin_camino, (matriz_adyacencia[popeado->_pi1][popeado->_pi2])->_ptr_arista);
 				(matriz_adyacencia[popeado->_pi1][popeado->_pi2])->_ptr_arista = NULL;
+				(matriz_adyacencia[popeado->_pi1][popeado->_pi2])->_numero_circuito = circuito;
+					//seteo el circuito con el q se metio... nos e la verdad 
 				nodo_marcado[popeado->_pi1] = false;	//reseteo el marcados para volver a buscar caminos
 			}
+			circuito++;
 		}
 	}
 	//si sale aca es xq paso x todas las aristas y siempre encontro camino para volver
-	return fuertemente_conexo;
+	if(circuitos == 1) 	return fuertemente_conexo;
+	else 				return no_fuertemente_conexo;
 }
 /////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////

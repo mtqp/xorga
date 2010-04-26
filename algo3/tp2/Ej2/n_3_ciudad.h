@@ -23,6 +23,7 @@ typedef struct _Nodo_matriz {
 			else 			ptr_arista == NULL
 	*/
 	int _adyacente;				// es 1 o 0, tipo bool
+	int _numero_circuito;
 	Nodo_lista *_ptr_arista;	
 }Nodo_matriz;
 
