@@ -1,4 +1,4 @@
-EJ = ciudad
+EJ = fuertemente_conexo
 
 all: $(EJ)
 
