@@ -31,6 +31,7 @@ template<class T> void print_vector(T* V, uint n){
 bool ciudad(uint** conexiones, uint n){
 	int marcado[n];		//llevo la cuenta de los nodos vistos
 	int padre[n];		//para cada nodo guardo su predecesor, es decir, el nodo que lo metio a la cola
+	bool res=true;
 	uint** predecesores;	//para cada nodo guarda la lista de sus predecesores
 	predecesores = new uint* [n];
 	for(uint i=0; i<n; i++){
@@ -67,16 +68,15 @@ bool ciudad(uint** conexiones, uint n){
 			}
 		}
 	}
-	for(uint i=0;i<n;i++) if(marcado[i]==0) return false; //si el grafo no es conexo devuelvo falso
+	for(uint i=0;i<n && res;i++) if(marcado[i]==0) res=false; //si el grafo no es conexo devuelvo falso
 	lista l;
 	//armo una lista con todas las hojas
-	for(uint i=0;i<n;i++){
+	for(uint i=0;i<n && res;i++){
 		if(marcado[i]==hoja) l.push_back(i);
 		marcado[i]=0;
 	}
 	pila p;
-	bool res=true;
-	for(uint i=0;i<n;i++) padre[i]=-1;
+	for(uint i=0;i<n && res;i++) padre[i]=-1;
 	while(!l.empty() && res){
 		uint actual=l.front();
 		l.pop_front();
@@ -86,7 +86,7 @@ bool ciudad(uint** conexiones, uint n){
 				cierra_ciclo=true;
 			}
 		}
-		if(!cierra_ciclo) return false;
+		if(!cierra_ciclo) res=false;
 		//veo si existe un camino desde la hoja hacia la raiz que no sea el de sus predecesores
 		p.push(actual);
 		marcado[actual]=1;
@@ -104,8 +104,12 @@ bool ciudad(uint** conexiones, uint n){
 			}
 		}
 		res&=existe_camino;
-		for(uint i=0;i<n;i++) marcado[i]=0;
+		for(uint i=0;i<n && res;i++) marcado[i]=0;
 	}
+	for(uint i=0; i<n; i++){	//libero la memoria
+		delete [] predecesores[i];
+	}
+	delete [] predecesores;
 	return res;
 }
 
