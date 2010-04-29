@@ -1,0 +1,68 @@
+\begin{section}{Problema 1}
+
+	\textit{enunciado}
+
+	\begin{subsection}{Explicación}
+
+		La resolución del problema consiste en considerar cada uno de los elementos de la secuencia dada como
+		posible máximo de una subsecuencia (al que nos referiremos como ``pico"), tal que sea unimodal. Cada 
+		subsecuencia unimodal tiene longitud máxima, es decir, contiene la subsecuencia creciente hasta el pico
+		y la subsecuencia decreciente desde el pico, ambas con la mayor cantidad de elementos posibles. Al no
+		necesitar explicitar los elementos de la secuencia, la única información que aporta a la solución del
+		problema es la longitud de cada subsecuencia. De esta manera, para determinar la mínima cantidad de
+		elementos que se deben eliminar para transformar la secuencia dada en unimodal, basta con conocer
+		la diferencia entre la longitud de la secuencia original y el máximo de las longitudes de cada
+		subsecuencia unimodal. 		
+
+	\end{subsection}
+
+
+	\begin{subsection}{Detalles de la implementación}
+		
+		Para determinar la máxima longitud de la subsecuencia creciente y decreciente hasta cada elemento,
+		utilizamos la técnica de programación dinámica.
+		
+		Sea la secuencia dada $S=[s_1,s_2,...,s_n]$ y $C=[c_1,c_2,...,c_n]$ \\
+		con $c_i=\displaystyle\max_{0<j<i}\{ c_j / s_j < s_i \}+1$ ($\forall\;i\in\mathbb{N}, 0<i\leq n$), es 
+		decir, para cada $i$ tenemos en $c_i$ la máxima longitud de la subsecuencia creciente que incluye a
+		$s_i$. Análogamente, se define $D$ como la secuencia que contiene las máximas longitudes de las
+		subsecuencias decrecientes de $S$.
+		
+		El algoritmo que calcula la solución implementa tanto $C$ como $D$.	
+		Para obtener la máxima longitud de la subsecuencia creciente hasta el índice $i$, itera
+		por todos los índices $j<i$ en $C$, buscando el máximo valor entre los $c_j$ tales que $s_i$ sea mayor
+		que	$s_j$. 
+		Esto asegura que en la posición $c_i$ está la máxima longitud de la subsecuencia creciente
+		que incluye a $s_i$ ya que, si existiese otra subsecuencia de mayor longitud a la que se pueda 
+		agregar $s_i$, se podría agregar el $s_i$ a esa secuencia y así obtener una con más cantidad de 
+		elementos, siendo el valor de $c_i$ la longitud de dicha secuencia más 1. Para calcular $D$,
+		invertimos $S$ y aplicamos el mismo	procedimiento que para $C$, quedando en $d_i$ la máxima longitud
+		de la subsecuencia decreciente que incluye a $s_{n-i}$.
+
+		Luego de calcular $C$ y $D$ el algoritmo determina la mínima cantidad de elementos a ser eliminados de
+		la secuencia tales que el resto de los elementos forman una secuencia unimodal, de la siguiente forma:
+		
+		\vspace{0.5cm}
+		\begin{pseudo}
+			\func{secuencia\_unimodal}{$secuencia,C,D$}
+			\tab $max\_long \leftarrow 0$ \\
+			\tab \FOR $i=1$ \TO $n$ \\
+			\tab \tab $long\_secuencia\_unimodal\leftarrow C[i]+D[n-i]-1$ \\
+			\tab \tab \IF $ long\_secuencia\_unimodal >  max\_long$ \\
+			\tab \tab \tab $max\_long \leftarrow long\_secuencia\_unimodal$ \\
+			\tab \RET longitud($secuencia$)-$max\_long$
+		\end{pseudo}
+
+	\end{subsection}
+
+
+	\begin{subsection}{Análisis de complejidad}
+	\end{subsection}
+
+
+	\begin{subsection}{Pruebas y Resultados}
+
+	\end{subsection}
+
+\end{section}
+
