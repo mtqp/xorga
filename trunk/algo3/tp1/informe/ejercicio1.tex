@@ -8,7 +8,7 @@
 
 		Para la resolución del problema decidimos utilizar un algoritmo iterativo frente a uno recursivo debido al uso que este último hace de la pila, lo cual implica repetidos accesos a memoria que disminuyen la performance del algoritmo, y la posibilidad de {\em stack overflow}.
 
-		La versión iterativa de la solución funciona de la siguiente manera: sea $res$ una variable de tipo número natural inicializada en 1. En cada iteración el algoritmo divide el exponente a la mitad y eleva al cuadrado $b$. Cuando llega a un exponente impar, multiplica el resultado parcial ($res$) por $b$. Cuando el exponente es 0, termina el algoritmo, siendo el valor de $res$ el resultado final. Es decir, el resultado es la productoria de los resultados parciales obtenidos en los exponentes impares. Al acumular en $b$ las potencias calculadas el algoritmo evita repetir cálculos y logra disminuir la cantidad de multiplicaciones.
+		La versión iterativa de la solución funciona de la siguiente manera: en cada iteración el algoritmo divide el exponente a la mitad y eleva al cuadrado $b$. Cuando llega a un exponente impar, multiplica el resultado parcial (en la primer iteración 1) por $b$. Cuando el exponente es 0, termina, siendo el resultado parcial el valor del resultado final. Es decir, el resultado es la productoria de los resultados parciales obtenidos en los exponentes impares. Al acumular en $b$ las potencias calculadas el algoritmo evita repetir cálculos y logra disminuir la cantidad de multiplicaciones.
 
 		Tanto la versión recursiva como la iterativa toman módulo $n$ luego de cada multiplicación para asegurarse que el resultado entra en el tamaño de la variable (suponiendo que $(n-1)\times (n-1)$ entra).
 	\end{subsection}
