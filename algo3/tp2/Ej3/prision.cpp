@@ -21,18 +21,18 @@ void print_matriz(uint** M, uint n){
 }
 
 
-bool libre(uint** conexiones, bool* puedo_entrar, uint* puertas, uint n){
+bool libre(uint** conexiones, bool* tengo_llave, uint* puertas, uint n){
 	cola q;
-	bool a[n];
+	bool puedo_entrar[n];
 	uint accesos[n];
-	bool marcados[n];
-	uint adyacentes;	
+	bool visitados[n];
+	uint adyacentes;
 	bool llegue = false;
 	uint actual;
 
 	for(uint i=0;i<n;i++)
 	{
-		marcados[i]=false;
+		visitados[i]=false;
 		adyacentes=0;
 		for( uint j=0; j<n; j++ )
 			if( conexiones[i][j] )
@@ -42,7 +42,7 @@ bool libre(uint** conexiones, bool* puedo_entrar, uint* puertas, uint n){
 
 	q.push(0);
 	accesos[0]--;
-	marcados[0]=true;
+	visitados[0]=true;
 
 	while( !q.empty() && !llegue )
 	{
@@ -50,24 +50,23 @@ bool libre(uint** conexiones, bool* puedo_entrar, uint* puertas, uint n){
 		q.pop();
 		for( uint i=0 ; i < n && !llegue ; i++ )
 		{
-			a[i]=false;
-			if( conexiones[actual][i] && puedo_entrar[i] && accesos[i]>0 )
+			puedo_entrar[i]=false;
+			if( conexiones[actual][i] && tengo_llave[i] && accesos[i]>0 )
 			{
-				//tal vez necesitamos preguntar cuál fue el último que fuimos
-				a[i]=true;
-				puedo_entrar[puertas[i]] = true;
+				puedo_entrar[i]=true;
+				tengo_llave[puertas[i]] = true;
 				accesos[i]--;
-				marcados[i]=true;
+				visitados[i]=true;
 				llegue = (i == n-1);
 				
 			}
 		}
 		for( uint i=0 ; i < n ; i++ )
-			if( a[i] && !marcados[i] )
+			if( puedo_entrar[i] && !visitados[i] )
 				q.push(i);
 
 		for( uint i=0 ; i < n ; i++ )
-			if( a[i] && marcados[i] )
+			if( puedo_entrar[i] && visitados[i] )
 				q.push(i);
 	}
 	return llegue;
@@ -81,10 +80,10 @@ int main(int argc, char** argv){
 	while(cin >> n && n!=(uint)-1){
 		cin >> p;
 		cin >> m;
-		bool puedo_entrar[n];
+		bool tengo_llave[n];
 		uint puertas[n];
 		for(uint i=0;i<n;i++){
-			puedo_entrar[i]=true;
+			tengo_llave[i]=true;
 			puertas[i]=0;
 		}
 		for(uint i=0;i<p;i++){
@@ -93,12 +92,12 @@ int main(int argc, char** argv){
 			uint abre;
 			cin >> abre;
 			puertas[esta-1]=abre-1;
-			puedo_entrar[abre-1]=false;
+			tengo_llave[abre-1]=false;
 		}
 		//cout << "Puertas: " << endl;
 		//print_vector(puertas,n);
-		//cout << "puedo_entrar: " << endl;
-		//print_vector(puedo_entrar,n);
+		//cout << "tengo_llave: " << endl;
+		//print_vector(tengo_llave,n);
 		/*MATRIZ DE INCIDENCIA
 		uint** conexiones;
 		conexiones = new uint* [n];
@@ -131,15 +130,15 @@ int main(int argc, char** argv){
 		//cout << "Conexiones: " << endl;
 		//print_matriz(conexiones,n);
 		if(argc>1 && string(argv[1])=="time"){
-			medir_tiempo( ts, libre(conexiones,puedo_entrar,puertas,n), 1, 0.5f );
+			medir_tiempo( ts, libre(conexiones,tengo_llave,puertas,n), 1, 0.5f );
 			cout << n << "\t" << ts << endl;
 		}
 		else if( argc > 1 && string(argv[1])=="count"){
-			libre(conexiones,puedo_entrar,puertas,n);
+			libre(conexiones,tengo_llave,puertas,n);
 			cout << n << "\t" << contador << endl;
 		}
 		else{
-			if(libre(conexiones,puedo_entrar,puertas,n)) cout << "libre" << endl;
+			if(libre(conexiones,tengo_llave,puertas,n)) cout << "libre" << endl;
 			else cout << "no" << endl;
 		}
 		for(uint i=0;i<n;i++) delete [] conexiones[i];
