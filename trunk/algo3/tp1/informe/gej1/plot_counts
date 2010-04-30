@@ -8,7 +8,7 @@ set output 'ej1_counts.png'
 set title "Cantidad de Operaciones del algoritmo bn_mod_n"
 
 #pone la descripccion de los ejes
-set xlabel "Tamaño de entrada"
+set xlabel "n"
 set ylabel "cantidad de operaciones"
 
 #pone la leyenda a la izquierda y con borde
