@@ -1,13 +1,33 @@
 \begin{section}{Problema 3}
 	\textit{Dada una lista de ingresos y otra de egresos que contienen los horarios de ingreso y egreso de cada uno de los programadores de una empresa respectivamente, determinar la mayor cantidad de programadores que estan simultáneamente dentro de la empresa.}
 	\begin{subsection}{Explicación}
+		Este es el pseudocódigo del algoritmo diseñado, que se explicará mas detalladamente a continuación. 
+\\
+\\
+	\begin{pseudo}
+				\func{programadores\_en\_simultaneo}{$ingresos, egresos$}
+(1)				\tab $max,tmp,j,k \leftarrow 0$ \\
+(2)				\tab \WHILE($j< n$) &   \\
+(3)				\tab \tab \IF($ingresos[j]\leq egresos[k]$) \\
+(4)				\tab \tab \tab $tmp \leftarrow tmp+1$ \\
+(5)				\tab \tab \tab $j \leftarrow j+1$ \\
+(6)				\tab \tab \ELSE \\
+(7)				\tab \tab \tab \IF($tmp>max$) \\
+(8)				\tab \tab \tab \tab $max \leftarrow tmp$ \\
+(9)				\tab \tab \tab $tmp \leftarrow tmp - 1$ \\				(10)				\tab \tab \tab $k \leftarrow k+1$ \\
+(11)				\tab \IF($tmp>max$) \\
+(12)				\tab \tab $max \leftarrow tmp$ \\
+(13)				\tab \RET $max$
+			\end{pseudo}
+
+
 		Para cada instancia tenemos una lista que contiene para cada programador su horario de ingreso a la empresa y otra con su horario de egreso. Además, tenemos guardado en cada momento la cantidad máxima de programadores en simultáneo.
 
-Dado que ambas listas se encuentran ordenadas, nuestro algoritmo las recorre decidiendo a cada momento si se produce un ingreso o un egreso, es decir, si el horario que sigue en la lista de ingresos es anterior a la de egresos implica que hubo un ingreso, en caso contrario un egreso.
+Dado que ambas listas se encuentran ordenadas, nuestro algoritmo las recorre decidiendo a cada momento si se produce un ingreso o un egreso (lineas 2 y 3), es decir, si el horario que sigue en la lista de ingresos es anterior a la de egresos implica que hubo un ingreso, en caso contrario un egreso.
 
-Cuando una persona ingresa a la empresa se incrementa el contador de la cantidad de programadores en simultáneo en el horario actual. Así, cuando se produce un egreso se compara si la cantidad de programadores dentro de la empresa previo a dicho egreso es mayor a la máxima cantidad de programadores en simultáneo hasta el momento, de ser así, actualizamos el máximo.
+Cuando una persona ingresa a la empresa se incrementa el contador de la cantidad de programadores en simultáneo en el horario actual(linea 4). Así, cuando se produce un egreso se compara si la cantidad de programadores dentro de la empresa previo a dicho egreso es mayor a la máxima cantidad de programadores en simultáneo hasta el momento(linea 7), de ser así, actualizamos el máximo.
 
-Luego se descuenta el recientemente egresado del contador parcial de cantidad de programadores en simultaneo.
+Luego se descuenta el recientemente egresado del contador parcial de cantidad de programadores en simultaneo(linea 9).
 
 Este procedimiento se repite hasta haber visto todos los ingresos, lo que nos garantiza tener el máximo correspondiente, ya que a partir de ese momento sólo se producirían egresos.
 
@@ -16,30 +36,14 @@ Este procedimiento se repite hasta haber visto todos los ingresos, lo que nos ga
 			
 			Sea $n$ la cantidad de programadores, $j$ el indice dentro de la lista de ingresos y $k$ el indice dentro de la lista de egresos.\\
 			
-			\begin{pseudo}
-				\func{programadores\_en\_simultaneo}{$ingresos, egresos$}
-				\tab $max,tmp,j,k \leftarrow 0$ \\
-				\tab \WHILE($j< n$) & \tOde{n}  \\
-				\tab \tab \IF($ingresos[j]\leq egresos[k]$) \\
-				\tab \tab \tab $tmp \leftarrow tmp+1$ \\
-				\tab \tab \tab $j \leftarrow j+1$ \\
-				\tab \tab \ELSE \\
-				\tab \tab \tab \IF($tmp>max$) \\
-				\tab \tab \tab \tab $max \leftarrow tmp$ \\
-				\tab \tab \tab $tmp \leftarrow tmp - 1$ \\
-				\tab \tab \tab $k \leftarrow k+1$ \\
-				\tab \IF($tmp>max$) \\
-				\tab \tab $max \leftarrow tmp$ \\
-				\tab \RET $max$
-			\end{pseudo}
-
+			
 			Cada programador tiene un ingreso y un egreso, por lo tanto la lista de ingresos y la lista de egresos tienen longitud $n$.
 
-El algoritmo en todos los casos recorre completamente la lista de ingresos, por lo que el peor caso es cuando el último ingreso y el último egreso corresponden al mismo programador, ya que para registrar éste último ingreso, tambien tuvo que recorrer toda la lista de egresos. Por este motivo, podemos inferir que a lo sumo se realizan $2n -1$ iteraciones. En cada una de estas tenemos un costo constante de operaciones, que no modifican la complejidad en el análisis asintótico. La complejidad algorítmica entonces, es \Ode{n}.\VSP
+El algoritmo en todos los casos recorre completamente la lista de ingresos, por lo que el peor caso es cuando el último ingreso y el último egreso corresponden al mismo programador, ya que para registrar éste último ingreso, tambien tuvo que recorrer toda la lista de egresos. Por este motivo, podemos inferir que a lo sumo se realizan $2n -1$ iteraciones. En cada una de estas tenemos un costo constante de operaciones, que no modifican la complejidad en el análisis asintótico. La complejidad algorítmica entonces, en el modelo uniforme,es \Ode{n}.\VSP
 
 		\noindent\textbf{En función del tamaño de la entrada}\\
 
-			Como los elementos de ambas listas son de tamaño acotado, el tamaño de la entada es proporcional a la longitud de las listas (n). Entonces la complejidad del algoritmo es \Ode{t}, donde $t$ es el tamaño de la entrada. El algoritmo es lineal.
+			Como los elementos de ambas listas son de tamaño acotado, el tamaño de la entada es proporcional a la longitud de las listas (n). Entonces la complejidad del algoritmo es \Ode{t}, donde $t$ es el tamaño de la entrada. La complejidad del algoritmo es lineal.
 
 		\end{subsubsection}
 
@@ -56,15 +60,30 @@ El algoritmo en todos los casos recorre completamente la lista de ingresos, por 
 	\begin{subsection}{Pruebas y Resultados}
 	Las entradas utilizadas para probar correctitud estan en el archivo \texttt{pruebas.in}. Fueron elegidas para probar casos bordes como son: un solo programador, primero ingresan todos y luego empiezan a egresar, un ingreso se produce exactamente al mismo horario que un egreso, cada ingreso seguido del egreso correspondiente y por ultimo ingresos y egresos mezclados.
 
-	Para medir tiempos y cantidad de operaciones utilizamos un generador aleatorio de instancias, que dado un número máximo de programadores $n$, genera instancias aleatorias con a lo sumo $n$ programadores. Corrimos el generador con $n$ igual a cien.
 		
+	En los gráfico se verán, en rojo, las funciones que dado el número de programadores, muestran la cantidad de operaciones realizadas o el tiempo transcurrido durante la ejecución del algoritmo para esa cantidad de programadores. Se busca con esto comprobar lo analizado anteriormente, que dicha función se pueda ver acotada por alguna recta, dibujada en color verde.
+\\
+	En los primeros dos gráficos se podra ver comportamiento del algoritmo para un rango de 1 a n programadores que entran y salen constantemente, es decir, nunca habra mas de un programador en simultaneo. Para esto se cuenta con un generador que crea instancias de este tipo. La recta graficada se corresponde con Ax. 
+\\	
+	GRAFICO 1, GRAFICO 2
+\\
+	En los siguientes dos gráficos se mostraran casos donde primero ocurran todos ingresos y luego los egresos. Se espera ver lo que sería el peor caso, donde si bien la complejidad de mantendría lineal, se maximisa la cantidad de operaciones, ya que carla lo explicara ahora..... COMPLETAR. Para esto se usó un generador de instancias de este tipo, donde siempre el último en ingresar era el ultimo en irse.
+\\
+	GRAFICO 1, GRAFICO 2
+\\
+
+	Para los ultimos gráficos utilizamos un generador aleatorio de instancias, que dado un número máximo de programadores $n$, genera instancias aleatorias con a lo sumo $n$ programadores. Corrimos el generador con $n$ igual a cien, esperando ver el comportamiento del algoritmo en los casos anteriores y casos promedio,y así poder cotrastarlos.
+
+
 	\gra{ej3_counts.png}\VSP
 
-	En el gráfico se ve la función que dado el número de programadores, muestra la cantidad de operaciones realizadas por el algoritmo para esa cantidad de programadores. Se puede observar que se encuentra acotada por una recta, con lo cual se ve sin problemas que se trata de un algoritmo que trabaja en "tiempo" lineal.
+	
 	
 	\gra{ej3_time.png}\VSP
+
 	
-	En este gráfico, se observa que hay una distribución muy similar, sólo que en este se muestra el tiempo consumido para procesar cada instancia en función de la cantidad de programadores.\\
+	 Se puede observar que ambos gráficos se encuentran acotadas por la rectas de los casos donde todos los ingresos precedían a los egresos. Con lo cual se corrobora empiricamente que el pero caso coincide con lo analizado previamente. 
+	En ambos gráfico, se observa que hay una distribución muy similar, sólo que en este se muestra el tiempo consumido para procesar cada instancia en función de la cantidad de programadores.\\
 
 	Lo que obsevamos en los gráficos tiene coherencia con la complejidad teórica calculada. 
 	En general, vemos que el algoritmo se comporta como \Thetade{n} ya que como mínimo recorre sólo toda la lista de ingresos y como máximo recorre tanto la lista de ingresos como la de egresos. Es decir, el costo del algoritmo esta acotado inferior y superiormente por $c*n$, con c constante.
