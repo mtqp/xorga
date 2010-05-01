@@ -20,6 +20,6 @@ set style line 1 lt 1 pt 1 ps 1
 set style line 2 lt 3 pt 1 ps 1
 
 set output 'png/input_count_test.png'
-plot	'data/count_test.dat' using (0.5*log($1)/log(2)):2 title "Cantidad de operaciones" linestyle 1,\
-	x*x*x title "x^3"
+plot	'data/count_test.dat' using (log($1)/log(2)):2 title "Cantidad de operaciones" linestyle 1
+#	x*x*x title "x^3"
 
