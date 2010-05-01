@@ -131,22 +131,22 @@
 		\end{subsubsection}
 
 	\end{subsection}
-
 	\begin{subsection}{Pruebas y Resultados}
-		Para probar correctitud tenemos un generador de instancias random que nos devuelve dos archivos, en uno \texttt{test.in} la instancia elegida ($b$ $n$) y otro \texttt{test.out} el resultado ($b^n \mod n$). De esta forma, con una comparación de archivos (comando $diff\;test.out\;bn\_mod\_n.out$ ) podemos saber para cada instancia si el resultado obtenido por nuestro algoritmo se condice con el resultado correspondiente a esa instancia en el archivo \texttt{test.out}.
+		Para probar correctitud tenemos un generador de instancias random que nos devuelve dos archivos, en uno \texttt{test.in} la instancia elegida ($b$ $n$) y otro \texttt{test.out} el resultado ($b^n \mod n$). De esta forma, con una comparación de archivos (comando \texttt{diff test.out bn\_mod\_n.out} ) podemos saber para cada instancia si el resultado obtenido por nuestro algoritmo se condice con el resultado correspondiente a esa instancia en el archivo \texttt{test.out}.
 		
-		Para llevar a cabo las pruebas de este algoritmo en cuanto a operaciones realizadas por instancia, y tiempo en segundos transcurridos, generamos números en forma aleatoria, con $b$ comprendido entre $0$ y $200$, y $n$ entre 1 y $10^7$.\\
-		
-		\gra{ej1_counts}\VSP
-		
-		En este gráfico se muestra la función que dada una instancia, nos devuelve la cantidad de operaciones realizadas. Se ve claramente cómo esta acotada por la función logaritmo, con $n$ como parámetro de entrada. Se pueden apreciar algunos casos en el fondo del gráfico que co\-rres\-pon\-den al caso trivial del ejercicio, en los que no hubo necesidad de iterar para llegar al resultado.
+		Para llevar a cabo las pruebas de este algoritmo en cuanto a operaciones realizadas por instancia, y tiempo en segundos transcurridos, generamos números en forma aleatoria, con $b$ comprendido entre $0$ y $200$ (porque $b$ está acotado), y $n$ entre 1 y $10^7$ (esta cantidad de instancias posibles permite contrastar el comportamiento del algoritmo con los resultados teóricos). 
 
-		\gra{ej1_time}\VSP
+En los siguientes gráficos cada instancia está representada con una cruz roja. También está representada en color verde la función $log(n)*c$, ya que es la cota teórica previamente calculada con una constante aproximada calculada empíricamente para cada gráfico.
+A continuación se muestra la cantidad de operaciones realizadas en función de $n$ (donde $c$ es $19$).\\
+		\gra{bn_mod_n/count_test}\VSP
 
-		En este otro gráfico se observa de forma muy parecida a la función que dada una instancia devuelve el tiempo transcurridos durante la ejecución del algoritmo. También se ve acotada por la función logaritmo con parámetro $n$. Como medir el tiempo no es una herramienta muy precisa, se pueden ver algunos {\em outliers} por encima de la curva del logaritmo. Aun así, los resultados coninciden con las predicciones en cuanto a la complejidad.\Pa
+El siguiente gráfico muestra el tiempo transcurrido (en segundos) en función de $n$ (donde $c$ es $2.79*10^{-7}$)\\
+		\gra{bn_mod_n/time_test}
 
-		En general, podemos ver que los resultados prácticos se mantienen cada vez más abajo de la complejidad teórica analizada (línea verde) y se corresponden en forma con la misma. Por lo que sería lógico creer que también lo va a hacer para mayores tamaños de entrada que los aquí representados.
-		Por esto suponemos que es una buena cota para la complejidad del algoritmo.
+En los gráficos se ve cómo la cantidad de operaciones y el tiempo que tardó en ejecutar cada instancia están acotados por la función logaritmo (multiplicada por la constante correspondiente en cada caso), con $n$ como parámetro. Los casos cercanos al cero en los ejes que representan al tiempo y la cantidad de operaciones, co\-rres\-pon\-den al caso trivial del ejercicio (caso base), en los que no hubo necesidad de iterar para llegar al resultado.
+		%Como medir el tiempo no es una herramienta muy precisa, se pueden ver algunos {\em outliers} por encima de la curva del logaritmo. Aun así, los resultados coinciden con las predicciones en cuanto a la complejidad.\Pa
+
+		En general, podemos ver que la complejidad teórica analizada resulta ser una mejor cota conforme crece $n$. Por lo tanto, podemos afirmar que $\log n$ es una buena cota superior para la complejidad del algoritmo ya que los resultados prácticos coinciden con los cálculos teóricos.
 	\end{subsection}
 
 \end{section}
