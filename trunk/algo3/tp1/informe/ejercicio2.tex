@@ -1,16 +1,20 @@
 \begin{section}{Problema 2}
 	\textit{Se tiene $n$ chicas cada de estas tiene $k$ amigas, con $k<n$. Decidir si se puede formar una ronda que las contega a todas donde cada una de las chicas este de la mano de dos de sus amigas.}
 	\begin{subsection}{Explicación}
-		El Algoritmo busca todas las formas de armar la ronda utilizando la técnica de backtracking. Para esto, el algoritmo recorre la matriz de relaciones uniendo a las chicas hasta que:
-		\begin{itemize} \item forma la ronda (encuentra una combinación posible), o \item no puede armar la ronda de esa forma, y\end{itemize}
+		El Algoritmo busca todas las formas de armar la ronda utilizando la técnica de backtracking. Para esto, el algoritmo une a las chicas hasta que:
+		\begin{itemize} 
+			\item forma la ronda (encuentra una combinación posible), o 
+			\item no puede armar la ronda de esa forma, y
+		\end{itemize}
 		
-				saca la última chica que puso y vuelve a intentar formar la ronda poniendo otra amiga. Termina cuando encuentra una forma de armar la ronda o cuando prueba todas las posibles formas de armarla.\\
+		saca la última chica que puso y vuelve a intentar formar la ronda poniendo otra amiga. Termina cuando encuentra una forma de armar la ronda o cuando prueba todas las posibles formas de armarla.\\
 			
 		Además, el algoritmo utiliza algunas propiedades de la ronda para ser más eficiente:
 		\begin{subsubsection}{Optimizaciones}
-		\begin{itemize} \item Verifica que cada chica tenga al menos dos amigas, de no ser asi podemos afirmar que no se puede formar la ronda ya que cada chica debe estar tomada de la mano de dos de sus amigas.
-				\item A la vez, comprueba si todas son amigas de todas. Si eso sucede podemos afirmar que la ronda existe.
-				\item Por otro lado, detecta si existen grupos independientes, es decir, sin conexiones entre sí. Si esto ocurre podemos afirmar que no se puede armar la ronda ya que esta debe incluirlas a todas. 
+		\begin{itemize} 
+			\item Verifica que cada chica tenga al menos dos amigas, de no ser asi podemos afirmar que no se puede formar la ronda ya que cada chica debe estar tomada de la mano de dos de sus amigas.
+			\item A la vez, comprueba si todas son amigas de todas. Si eso sucede podemos afirmar que la ronda existe.
+			\item Por otro lado, detecta si existen grupos independientes, es decir, sin conexiones entre sí. Si esto ocurre podemos afirmar que no se puede armar la ronda ya que esta debe incluirlas a todas. 
 		\end{itemize}
 			
 		\end{subsubsection}
