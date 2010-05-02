@@ -1,38 +1,6 @@
-#include<cmath>
-#include<iostream>
-#include<stack>
-#include<queue>
-#include<list>
-
+#include "ciudad.h"
 #include "../medicion.h"
-#define pila stack<uint>
-#define cola queue<uint>
-#define lista list<uint>
-#define no_fuertemente_conexo 	false
-#define fuertemente_conexo		true 
 
-using namespace std;
-
-typedef unsigned int uint;
-typedef unsigned long long int ullint;
-
-void print_vector(uint* V, uint n);
-void print_matriz(uint** M, uint m, uint n);
-
-bool ciudad(uint** conexiones, uint n);
-
-bool dfs_busco_primer_ciclo(uint** conexiones, bool* nodos_ciclo, bool* nodos_ciclo_posible, uint n);
-void buscar_y_marcar_ciclo(uint** conexiones, bool* nodos_ciclos, lista &l, uint n);
-bool dame_adyacentes_a(uint nodo_actual,uint** conexiones, lista &l_ady, uint n);
-void reseteo_matriz_salvo_ciclo(uint** conexiones, bool* nodos_ciclos, uint n);
-void limpiar_array(bool* array, uint n);
-
-
-/*
-bool dame_arista_libre_ciclo(&nodo_salida, conexiones, nodos_ciclos, n)
-
-bool formar_ciclo_desde(nodo_salida, conexiones, nodos_ciclos, &cant_nodos_ciclo, n);
-*/
 int main (int argc, char** argv){
 	ullint n;
 	double ts;
@@ -96,15 +64,44 @@ bool ciudad(uint** conexiones, uint n) {
 	//--CODIGO--//
 	encontre_ciclo = dfs_busco_primer_ciclo(conexiones, nodos_ciclo, nodos_ciclo_posible, n);
 	
-	/*
+	cant_nodos_ciclo = nodos_en_ciclo(nodos_ciclo,n);
 	while((cant_nodos_ciclo < n) && encontre_ciclo){		//n-1???	
-		if(dame_arista_libre_ciclo(&nodo_salida, conexiones, nodos_ciclos, n))
-			encontre_ciclo = formar_ciclo_desde(nodo_salida, conexiones, nodos_ciclos, &cant_nodos_ciclo, n);
+		if(dame_arista_libre_ciclo(nodo_salida, conexiones, nodos_ciclo, n))
+			encontre_ciclo = formar_ciclo_desde(nodo_salida, conexiones, nodos_ciclos, cant_nodos_ciclo, n);
 		else
 			encontre_ciclo = false;			//fijarse si no puede pasar q cant_nodos sea N y esto da false
 	}
-	*/
+	
 	return encontre_ciclo;
+}
+
+bool formar_ciclo_desde(uint& nodo_salida, uint** conexiones, bool* nodos_ciclos, uint& cant_nodos_ciclo, uint n){
+	return true;
+}
+
+uint nodos_en_ciclo(bool* nodos, uint n){
+	uint res=0;
+	for(int j=0; j<n; j++){
+		if(nodos_ciclos[i])	res++
+	}
+	return res;
+}
+
+bool dame_arista_libre_ciclo(uint &nodo_salida, uint** conexiones, bool* nodos_ciclo, uint n){
+	bool arista_libre = false;
+	for(int i=0; (i<n)&&(!arista_libre) ;i++){
+		if(nodos_ciclo[i]){
+			for(int j=0; (j<n)&& (!arista_libre); j++){
+				if(conexiones[i][j] == 1){
+					conexiones[i][j] = 2;
+					conexiones[j][i] = 2;
+					arista_libre = true;
+					nodo_salida	 = i;	
+				}
+			}
+		}
+	}
+	return arista_libre;
 }
 
 bool dfs_busco_primer_ciclo(uint** conexiones, bool* nodos_ciclo, bool* nodos_ciclo_posible, uint n){
