@@ -1,0 +1,41 @@
+	\begin{subsection}{Anexo}
+		La siguiente tabla representa la correspondencia entre las variables de entrada ($b$ y $n$) en 
+		cada iteración del algoritmo implementado:
+
+		\vspace{0.5cm}
+		\begin{center}
+		\begin{tabular}{|l|c|c|c|c|c|}
+			\hline
+			iteración   & $1$ & $2$           & $3$             & ... & $k$ \\
+			\hline
+			$n$         & $n$ & $\frac{n}{2}$ & $\frac{n}{2^2}$ & ... & $\frac{n}{2^{k-1}}$ \\
+			\hline
+			$b$         & $b$ & $b^2$         & $b^4$           & ... & $b^{2^{k-1}}$ \\
+			\hline
+		\end{tabular}
+		\end{center}
+
+		\vspace{0.5cm}
+		\noindent Sean \\
+		\indent
+		\begin{tabular}{lp{6cm}}
+			$A_k = \frac{n}{2^{k-1}}$ & la sucesión con los valores de $n$ en la iteración $k$, y \\
+			$Z_k = impar(A_k) * b^{2^{k-1}} + par( A_k )$ $^{[1]}$ & la sucesión que tiene los valores de $b$ corres\-pondientes a los $n$ impares y $1$ en los pares
+		\end{tabular} \\
+		\vspace{0.2cm}
+		entonces el cálculo hecho por el algoritmo está dado por 
+		$$\displaystyle\prod_{i=1}^k Z_i = b^n$$
+
+
+		\vspace{0.5cm}
+		\noindent{\footnotesize [1] $par(x)=1-impar(x)$\\ $impar$ se define como:
+		\begin{displaymath}
+			impar(x)=\left\{
+			\begin{array}{ll}
+				1 & $si $x$ es impar$ \\
+				0 & $sino$
+			\end{array}\right.
+		\end{displaymath}
+		} \\
+		
+	\end{subsection}

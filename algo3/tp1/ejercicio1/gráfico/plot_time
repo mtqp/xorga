@@ -22,7 +22,7 @@ set style line 2 lt 3 pt 1 ps 1
 #dibuja los puntos. index es porque lo separe en bloques de primos/no primos para ponerle distinto estilo..
 set output 'png/time_test.png'
 plot	'data/time_test.dat' title "Tiempo" linestyle 1,\
-	0.000000059*log(x) title "log(n)*c"
+	0.000000279*log(x) title "log(n)*c"
 
 set output 'png/time_test_if.png'
 plot	'data/time_test_if.dat' title "Tiempo" linestyle 1,\
