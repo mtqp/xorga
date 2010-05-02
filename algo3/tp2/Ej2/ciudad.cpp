@@ -16,102 +16,23 @@ using namespace std;
 typedef unsigned int uint;
 typedef unsigned long long int ullint;
 
-void print_matriz(uint** M, uint m, uint dos){
-	for(uint i=0; i<m; i++){
-		for(uint j=0; j<dos; j++) cout << M[i][j];
-		cout << endl;
-	}
-}
+void print_vector(uint* V, uint n);
+void print_matriz(uint** M, uint m, uint n);
 
-void print_vector(uint* V, uint n){
-	for(uint i=0; i<n; i++) cout << V[i];
-	cout << endl;
-}
+bool ciudad(uint** conexiones, uint n);
 
-void limpiar_array(bool* array, uint n){
-	/*costo = n*/
-	for(int i=0;i<n;i++)
-		array[i] = false;
-}
+bool dfs_busco_primer_ciclo(uint** conexiones, bool* nodos_ciclo, bool* nodos_ciclo_posible, uint n);
+void buscar_y_marcar_ciclo(uint** conexiones, bool* nodos_ciclos, lista &l, uint n);
+bool dame_adyacentes_a(uint nodo_actual,uint** conexiones, lista &l_ady, uint n);
+void reseteo_matriz_salvo_ciclo(uint** conexiones, bool* nodos_ciclos, uint n);
+void limpiar_array(bool* array, uint n);
 
-bool dfs_busco_primer_ciclo(uint** conexiones, bool* nodos_ciclo, bool* nodos_ciclo_posible, uint n){
-	pila q;
-	lista l;
-	
-	lista l_ady;
-	
-	bool encontre_ciclo = false;
-	bool conexo 		= true;
-	uint nodo_actual;
-	
-	c.push(0);									//push 1er nodo (EMPIRICAMENTE, el 0)			
-	l.push_back(0);
-	//nodos_ciclo_posible[0] = true;	
-	
-	while((!encontre_ciclo) && conexo /*&& (!c.empty())*/){
-		nodo_actual = c.front();
-		c.pop();
-		nodos_ciclo_posible[nodo_actual] = true;
-		conexo = dame_adyacentes_a(nodo_actual,conexiones, l_ady);
-		while((!l_ady.empty()) && conexo && (!encontre_ciclo)){
-			if(!nodos_ciclo_posible[l_ady.front()]){
-				q.push(l_ady.front());
-				l_ady.pop_front();
-			}else{
-				l.push(l_ady.pop_front());
-				encontre_ciclo = true;
-			}
-		}
-	}
-	
-	if(!conexo) return no_fuertemente_conexo;
-	
-	if(encontre_ciclo){
-		marco_en(nodos_ciclos)
-	}
 
-	reseteo(nodos_ciclo_posible)
-	
-	return encontre_ciclo && conexo;
-
-}
 /*
 bool dame_arista_libre_ciclo(&nodo_salida, conexiones, nodos_ciclos, n)
 
 bool formar_ciclo_desde(nodo_salida, conexiones, nodos_ciclos, &cant_nodos_ciclo, n);
 */
-
-bool ciudad(uint** conexiones, uint n) {
-	
-	//--chequear casos bases--//
-	
-	//--algun nodo tiene solo una arista--//
-	
-	//--VARIABLES--//
-	/*crea array de nodos pertenecientes al ciclo*/
-	nodos_ciclo<bool>[n];
-	limpiar_array(nodos_ciclo, n);
-
-	nodos_ciclo_posible<bool>[n];
-	limpiar_array(nodos_ciclo_posible,n)
-
-	/*se la cantidad de nodos q pertenecen al ciclo en cada momento*/
-	uint cant_nodos_ciclo = 0;
-
-	uint nodo_salida;
-	bool  encontre_ciclo;
-	//--CODIGO--//
-	encontre_ciclo = dfs_busco_primer_ciclo(conexiones, nodos_ciclo, nodos_ciclos_posible, n);
-	
-	while((cant_nodos_ciclo < n) && encontre_ciclo){		//n-1???	
-		if(dame_arista_libre_ciclo(&nodo_salida, conexiones, nodos_ciclos, n))
-			encontre_ciclo = formar_ciclo_desde(nodo_salida, conexiones, nodos_ciclos, &cant_nodos_ciclo, n);
-		else
-			encontre_ciclo = false;			//fijarse si no puede pasar q cant_nodos sea N y esto da false
-	}
-	return encontre_ciclo;
-}
-
 int main (int argc, char** argv){
 	ullint n;
 	double ts;
@@ -151,4 +72,148 @@ int main (int argc, char** argv){
 	}
 	return 0;
 }
- 
+
+
+bool ciudad(uint** conexiones, uint n) {
+	
+	//--chequear casos bases--//
+	
+	//--algun nodo tiene solo una arista--//
+	
+	//--VARIABLES--//
+	/*crea array de nodos pertenecientes al ciclo*/
+	bool nodos_ciclo [n];
+	limpiar_array(nodos_ciclo, n);
+
+	bool nodos_ciclo_posible [n];
+	limpiar_array(nodos_ciclo_posible,n);
+
+	/*se la cantidad de nodos q pertenecen al ciclo en cada momento*/
+	uint cant_nodos_ciclo = 0;
+
+	uint nodo_salida;
+	bool  encontre_ciclo;
+	//--CODIGO--//
+	encontre_ciclo = dfs_busco_primer_ciclo(conexiones, nodos_ciclo, nodos_ciclo_posible, n);
+	
+	/*
+	while((cant_nodos_ciclo < n) && encontre_ciclo){		//n-1???	
+		if(dame_arista_libre_ciclo(&nodo_salida, conexiones, nodos_ciclos, n))
+			encontre_ciclo = formar_ciclo_desde(nodo_salida, conexiones, nodos_ciclos, &cant_nodos_ciclo, n);
+		else
+			encontre_ciclo = false;			//fijarse si no puede pasar q cant_nodos sea N y esto da false
+	}
+	*/
+	return encontre_ciclo;
+}
+
+bool dfs_busco_primer_ciclo(uint** conexiones, bool* nodos_ciclo, bool* nodos_ciclo_posible, uint n){
+	pila  p;
+	lista l;
+	lista l_ady;
+	
+	bool encontre_ciclo = false;
+	bool tiene_algo_para_agregar		= true;
+	uint nodo_actual;
+	
+	p.push(0);									//push 1er nodo (EMPIRICAMENTE, el 0)			
+	nodos_ciclo_posible[0] = true;	
+	
+	while((!encontre_ciclo) && tiene_algo_para_agregar /*&& (!c.empty())*/){
+		nodo_actual = p.top();
+		l.push_back(nodo_actual);
+		p.pop();
+		tiene_algo_para_agregar = dame_adyacentes_a(nodo_actual,conexiones, l_ady, n);
+		
+		while((!l_ady.empty()) && tiene_algo_para_agregar && (!encontre_ciclo)){
+			if(!nodos_ciclo_posible[l_ady.front()]){
+				p.push(l_ady.front());
+				l_ady.pop_front();
+				nodos_ciclo_posible[p.top()] = true;
+			}else{
+				l.push_back(l_ady.front());
+				encontre_ciclo = true;
+			}
+		}
+	}
+	if(!tiene_algo_para_agregar) return no_fuertemente_conexo;
+	if(encontre_ciclo){
+		buscar_y_marcar_ciclo(conexiones, nodos_ciclo, /*nodos_ciclo_posibles, */l, n);
+	}
+	
+	limpiar_array(nodos_ciclo_posible,n);
+
+	return encontre_ciclo && tiene_algo_para_agregar;
+}
+
+bool dame_adyacentes_a(uint nodo_actual,uint** conexiones, lista &l_ady, uint n){
+	for(int j=0; j<n; j++){
+		if(conexiones[nodo_actual][j] == 1){
+			conexiones[nodo_actual][j] = 2;
+			conexiones[j][nodo_actual] = 2;
+			l_ady.push_back(j);
+		}
+	}
+	print_matriz(conexiones,n,n);
+	cout << endl << endl;
+	return !l_ady.empty();
+}
+
+void buscar_y_marcar_ciclo(uint** conexiones, bool* nodos_ciclos, /*bool* nodos_ciclo_posibles, */lista &l, uint n){
+	bool encontre_ciclo = false;
+	uint ultimo_int = l.back();
+	uint primer_int;
+	
+	while(!encontre_ciclo){
+		if(l.empty()) cout << "se comio la lista, agarrate q se viene el 0.25 seg_fault" << endl;
+		primer_int = l.front();
+		if(conexiones[ultimo_int][primer_int] == 2)
+			encontre_ciclo = true;
+		else
+			l.pop_front();
+	}
+	cout << "esperemos q no seg faultee" << endl;
+	while(!l.empty()){
+		nodos_ciclos[l.front()] = true;
+		cout << l.front()+1 << " ";
+		l.pop_front();
+	}
+	cout << endl;
+	
+	reseteo_matriz_salvo_ciclo(conexiones, nodos_ciclos, n);
+	
+	cout << "resetee la matriz, qdo linda?" << endl;
+	print_matriz(conexiones,n,n);
+
+}
+
+void reseteo_matriz_salvo_ciclo(uint** conexiones, bool *nodos_ciclos, uint n){
+	for(int i=0; i<n; i++){
+		if(nodos_ciclos[i]==0){
+			for(int j=0;j<n;j++){
+				if(conexiones[i][j] == 2){ 
+					conexiones[i][j]=1;
+					conexiones[j][i]=1;
+				}
+			}
+		}
+	}
+}
+
+void print_matriz(uint** M, uint m, uint n){
+	for(uint i=0; i<m; i++){
+		for(uint j=0; j<n; j++) cout << M[i][j];
+		cout << endl;
+	}
+}
+
+void print_vector(uint* V, uint n){
+	for(uint i=0; i<n; i++) cout << V[i];
+	cout << endl;
+}
+
+void limpiar_array(bool* array, uint n){
+	/*costo = n*/
+	for(int i=0;i<n;i++)
+		array[i] = false;
+}
