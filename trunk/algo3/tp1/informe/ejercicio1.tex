@@ -137,14 +137,26 @@
 		Para llevar a cabo las pruebas de este algoritmo en cuanto a operaciones realizadas por instancia, y tiempo en segundos transcurridos, generamos números en forma aleatoria, con $b$ comprendido entre $0$ y $200$ (porque $b$ está acotado), y $n$ entre 1 y $10^7$ (esta cantidad de instancias posibles permite contrastar el comportamiento del algoritmo con los resultados teóricos). 
 
 En los siguientes gráficos cada instancia está representada con una cruz roja. También está representada en color verde la función $log(n)*c$, ya que es la cota teórica previamente calculada con una constante aproximada calculada empíricamente para cada gráfico.
-A continuación se muestra la cantidad de operaciones realizadas en función de $n$ (donde $c$ es $19$).\\
+A continuación se muestra la cantidad de operaciones realizadas en función de $n$ (donde $c$ es $19$). \\
 		\gra{bn_mod_n/count_test}\VSP
 
 El siguiente gráfico muestra el tiempo transcurrido (en segundos) en función de $n$ (donde $c$ es $2.79*10^{-7}$)\\
 		\gra{bn_mod_n/time_test}
 
-En los gráficos se ve cómo la cantidad de operaciones y el tiempo que tardó en ejecutar cada instancia están acotados por la función logaritmo (multiplicada por la constante correspondiente en cada caso), con $n$ como parámetro. Los casos cercanos al cero en los ejes que representan al tiempo y la cantidad de operaciones, co\-rres\-pon\-den al caso trivial del ejercicio (caso base), en los que no hubo necesidad de iterar para llegar al resultado.
+En los gráficos anteriores se ve cómo la cantidad de operaciones y el tiempo que tardó en ejecutar cada instancia están acotados por la función logaritmo (multiplicada por la constante correspondiente en cada caso), con $n$ como parámetro. Los casos cercanos al cero en los ejes que representan al tiempo y la cantidad de operaciones, co\-rres\-pon\-den al caso trivial del ejercicio (caso base), en los que no hubo necesidad de iterar para llegar al resultado.
 		%Como medir el tiempo no es una herramienta muy precisa, se pueden ver algunos {\em outliers} por encima de la curva del logaritmo. Aun así, los resultados coinciden con las predicciones en cuanto a la complejidad.\Pa
+
+En el siguiente gráfico se muestran instancias en las que en cada iteración entra al caso condicional junto con las instancias que en ninguna de las iteraciones entra al caso condicional. Las instancias fueron generadas de la siguiente manera:
+\begin{itemize}
+	\item En ambos casos se tomó $2 < b < 200$ aleatoriamente. El valor mínimo fue elegido para evitar generar casos base y así poder ver únicamente los casos en cuestión.
+	\item Para las instancias que entran siempre al caso condicional se eligieron los $n$ dados por $2^i-1\;\;\forall\; i\in\mathbb{N}, i < 50$ debido a que al hacer la división entera de $n$ por $2$, siempre se obtiene un nuevo $n$ impar.
+	\item Para las instancias que nunca entran al caso condicional se eligieron los $n$ dados por $2^i\;\;\forall\; i\in\mathbb{N}, i < 50$ debido a que al hacer la división entera de $n$ por $2$, siempre se obtiene un nuevo $n$ par.
+\end{itemize}
+El eje que corresponde al valor de $n$ está en escala logarítmica para poder apreciar mejor el gráfico dado que los valores de $n$ tomados crecen exponencialmente. Cada instancia que entra siempre al caso condicional está representada con una cruz roja. A su vez, las instancias que nunca entran al caso condicional están representadas con una cruz azul. También está graficada en color verde la función $log(n)*19+15$, ya que es la cota teórica previamente calculada con una constante aproximada calculada empíricamente. 
+	Con esta prueba se espera poder contrastar ambos casos, donde teóricamente hay solo una diferencia $cosntante$, pero que en la práctica nos brinda el mejor o peor caso para cierta cantidad de iteraciones. \\
+		\gra{bn_mod_n/count_test_if}\VSP
+
+Observamos que en el gráfico, cuanto mayor es $n$, mayor es la diferencia entre los valores de las muestras a pesar de que son consecutivos.
 
 		En general, podemos ver que la complejidad teórica analizada resulta ser una mejor cota conforme crece $n$. Por lo tanto, podemos afirmar que $\log n$ es una buena cota superior para la complejidad del algoritmo ya que los resultados prácticos coinciden con los cálculos teóricos.
 	\end{subsection}
