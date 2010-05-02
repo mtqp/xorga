@@ -48,12 +48,9 @@ Este procedimiento se repite hasta haber visto todos los ingresos, lo que nos ga
 	\begin{subsection}{Análisis de complejidad}
 			Elegimos el modelo uniforme para analizar la complejidad de este algoritmo porque el tamaño de los elementos es acotado y por lo tanto todas las operaciones elementales son de costo constante.\Pa
 			
-			Sea $n$ la cantidad de programadores, $j$ el indice dentro de la lista de ingresos y $k$ el indice dentro de la lista de egresos.\\
-			
-			
-			Cada programador tiene un ingreso y un egreso, por lo tanto la lista de ingresos y la lista de egresos tienen longitud $n$.
+			Como cada programador tiene un ingreso y un egreso, tanto la lista de ingresos como la lista de egresos tienen longitud $n$.
 
-El algoritmo en todos los casos recorre completamente la lista de ingresos, por lo que el peor caso es cuando el último ingreso y el último egreso corresponden al mismo programador, ya que para registrar éste último ingreso, tambien tuvo que recorrer toda la lista de egresos. Por este motivo, podemos inferir que a lo sumo se realizan $2n -1$ iteraciones. En cada una de estas tenemos un costo constante de operaciones, que no modifican la complejidad en el análisis asintótico. La complejidad algorítmica en el modelo uniforme entonces es \Ode{n}.\VSP
+El algoritmo en todos los casos recorre completamente la lista de ingresos, por lo que el peor caso es cuando el último ingreso y el último egreso corresponden al mismo programador, ya que para registrar éste último ingreso, tambien tuvo que recorrer toda la lista de egresos. Por este motivo, podemos inferir que a lo sumo se realizan $2n -1$ iteraciones. En cada una de estas tenemos un costo constante de operaciones, que no modifican la complejidad en el análisis asintótico. La complejidad algorítmica en el modelo uniforme es \Ode{n}.\VSP
 
 		\noindent\textbf{En función del tamaño de la entrada}\\
 
@@ -61,30 +58,35 @@ El algoritmo en todos los casos recorre completamente la lista de ingresos, por 
 	\end{subsection}
 
 	\begin{subsection}{Pruebas y Resultados}
-	Las entradas utilizadas para probar correctitud estián en el archivo \texttt{pruebas.in}. Fueron elegidas para probar casos bordes como son: un solo programador, primero ingresan todos y luego empiezan a egresar, un ingreso se produce exactamente al mismo horario que un egreso, cada ingreso seguido del egreso correspondiente y por último ingresos y egresos mezclados.
+	Las entradas utilizadas para probar correctitud están en el archivo\\ \texttt{pruebas.in}. Fueron elegidas para probar casos bordes como son: un solo programador, primero ingresan todos y luego empiezan a egresar, un ingreso se produce exactamente al mismo horario que un egreso, cada ingreso seguido del egreso correspondiente y por último ingresos y egresos mezclados.
 
-	En los gráfico se verán, en rojo la cantidad de operaciones realizadas o el tiempo transcurrido durante la ejecución del algoritmo para una cantidad de programadores dada. Se busca con esto comprobar lo analizado anteriormente, que dicha función se pueda ver acotada por alguna recta, dibujada en color verde.
+	Por un lado, decidimos contar la cantidad de operaciones realizadas por el algoritmo en el mejor y pero caso. Para esto generamos las instancias de la siguiente manera:
+	\begin{itemize}
+		\item En ambos casos, elegimos un número máximo de programadores($m$) ($m=1000$ porque nos pareció suficiente para constrastar estos casos) y creamos una instancia $\forall\;n,0\leq n < m$ siendo $n$ la cantidad de programadores para esa instancia.
+		\item Para las instancias que corresponden al mejor caso ingresan todos los programadores y luego egresan.
+		\item Para las instancias que corresponden al peor caso los programadores que entran salen antes de que haya un nuevo ingreso, es decir, nunca va a haber más de un programador en simultáneo.
+	\end{itemize}
 
-	Los primeros dos gráficos muestran el comportamiento del algoritmo para un rango de 1 a n programadores que entran y salen antes de que haya un nuevo ingreso, es decir, nunca habrá más de un programador en simultáneo. Para esto se cuenta con un generador que crea instancias de este tipo de 1 a N. La recta graficada se corresponde con SARASA.
-
-	GRAFICO 1, GRAFICO 2
-
-	En los siguientes dos gráficos se mostrarán casos donde primero ocurran todos ingresos y luego los egresos. Se espera ver el mejor caso, donde si bien la complejidad se mantiene lineal, es mínima la cantidad de operaciones, ya que al producirse todos los ingresos el algoritmo termina sin recorrer la lista de egresos. Para esto se usó un generador de instancias.
-
-	GRAFICO 1, GRAFICO 2
-
-	Para los ultimos gráficos utilizamos un generador aleatorio de instancias, que dado un número máximo de programadores $n$, genera instancias aleatorias con a lo sumo $n$ programadores. Corrimos el generador con $n$ igual a cien, esperando ver el comportamiento del algoritmo en los casos anteriores y casos promedio,y así poder cotrastarlos.
-
-
-	\gra{ej3_counts.png}\VSP
-
+	El objetivo de esta prueba es comparar ambos casos. Uno de ellos es el mejor caso para el algoritmo y esta acotado inferiormente por $n$ y el otro, el peor caso para el algoritmo se encuentra acotado superiormente por $n$. A pesar de que el costo del algoritmo es siempre $n$, se espera ver diferencias significativas en la cantidad de operaciones realizadas en uno u otro caso ya que en el primero de ellos es mínima porque al producirse todos los ingresos el algoritmo termina sin recorrer la lista de egresos y en el segundo máxima ya que para poder registrar el último ingreso tuvo que recorrer todos los egresos.
 	
+	Cada instancia correspondiente al peor caso se representa con una cruz roja mientras que cada instancia que corresponde al mejor caso está representada con una cruz azul. También está graficada en color verde la función $a*n$, ya que es la cota teórica previamente calculada con una constante aproximada calculada empíricamente.
+	
+	GRAFICO 1, GRAFICO 2
+
+	Observamos que se cumple lo esperado, es decir, corroboramos empíricamente que lo analizado previamente tiene coherencia, ya que la diferencia en la cantidad de operaciones que realiza el algoritmo para resolver un problema cuya caracteristica es la del mejor caso con $n$ programadores se hace cada vez más significativa respecto a las del peor caso para un mismo $n$ a medida que dicho $n$ crece.\\
+	
+	Para los gráficos que siguen utilizamos un generador, que dado un número máximo de programadores $n$, genera instancias aleatorias con a lo sumo $n$ programadores. Corrimos el generador con $n$ igual a $cien$ dado que no necesitamos instancias demasiado grandes para poder apreciar el comportamiento del algoritmo.
+
+	En los siguientes gráficos esperamos ver el comportamiento general del algoritmo en cuanto a cantidad de operaciones como en tiempo transcurrido por instancia.
+	
+	Las instancias se representan con una cruz roja, además en color verde aparece graficada la función $a*n$ por los motivos ya mencionados.
+
+	\gra{ej3_counts.png}\VSP	
 	
 	\gra{ej3_time.png}\VSP
 
-	
-	 Se puede observar que ambos gráficos se encuentran acotadas por la rectas de los casos donde todos los ingresos precedían a los egresos. Con lo cual se corrobora empiricamente que el pero caso coincide con lo analizado previamente. 
-	En ambos gráfico, se observa que hay una distribución muy similar, sólo que en este se muestra el tiempo consumido para procesar cada instancia en función de la cantidad de programadores.\\
+	En el primer gráfico se ve la función que dado el número de programadores, muestra la cantidad de operaciones realizadas por el algoritmo mientras que en el segundo se observa el tiempo consumido para procesar cada instancia, ambos en función de la cantidad de programadores.
+	En los dos gráficos se puede observar que la función se encuentra acotada por una recta, con lo cual se ve sin problemas que se trata de un algoritmo que trabaja en "tiempo" lineal.
 
 	Lo que obsevamos en los gráficos tiene coherencia con la complejidad teórica calculada. 
 	En general, vemos que el algoritmo se comporta como \Thetade{n} ya que como mínimo recorre sólo toda la lista de ingresos y como máximo recorre tanto la lista de ingresos como la de egresos. Es decir, el costo del algoritmo esta acotado inferior y superiormente por $c*n$, con c constante.
