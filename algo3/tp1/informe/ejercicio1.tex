@@ -150,13 +150,15 @@ En el siguiente gráfico se muestran instancias en las que en cada iteración en
 \begin{itemize}
 	\item En ambos casos se tomó $2 < b < 200$ aleatoriamente. El valor mínimo fue elegido para evitar generar casos base y así poder ver únicamente los casos en cuestión.
 	\item Para las instancias que entran siempre al caso condicional se eligieron los $n$ dados por $2^i-1\;\;\forall\; i\in\mathbb{N}, i < 50$ debido a que al hacer la división entera de $n$ por $2$, siempre se obtiene un nuevo $n$ impar. Esto hace que sea el peor caso.
-	\item Para las instancias que nunca entran al caso condicional se eligieron los $n$ dados por $2^i\;\;\forall\; i\in\mathbb{N}, i < 50$ debido a que al hacer la división entera de $n$ por $2$, siempre se obtiene un nuevo $n$ par. Esto hace que sea el mejor caso.
+	\item Para las instancias que nunca entran al caso condicional se eligieron los $n$ dados por $2^i\;\;\forall\; i\in\mathbb{N}, i < 50$ debido a que al hacer la división entera de $n$ por $2$, siempre se obtiene un nuevo $n$ par. Esto hace que sea el mejor caso excluyendo los casos base.
 \end{itemize}
-El eje que corresponde al valor de $n$ está en escala logarítmica para poder apreciar mejor el gráfico dado que los valores de $n$ tomados crecen exponencialmente. Cada instancia que entra siempre al caso condicional está representada con una cruz roja. A su vez, las instancias que nunca entran al caso condicional están representadas con una cruz azul. También está graficada en color verde la función $log(n)*19+15$, ya que es la cota teórica previamente calculada con una constante aproximada calculada empíricamente. 
-	Con esta prueba se espera poder contrastar ambos casos, donde teóricamente hay solo una diferencia $cosntante$, pero que en la práctica nos brinda el mejor o peor caso para cierta cantidad de iteraciones. \\
+
+	Con esta prueba se espera poder contrastar ambos casos. Tanto el mejor como el peor caso difieren en una constante que se desprecia en la complejidad teórica pero que en la práctica puede significar una diferencia de rendimiento importante a medida que $n$ crece.
+
+El eje del gráfico que corresponde al valor de $n$ está en escala logarítmica para poder apreciar mejor el gráfico dado que los valores de $n$ tomados crecen exponencialmente. Cada instancia que entra siempre al caso condicional está representada con una cruz roja. A su vez, las instancias que nunca entran al caso condicional están representadas con una cruz azul. También está graficada en color verde la función $log(n)*19+15$, ya que es la cota teórica previamente calculada con una constante aproximada calculada empíricamente. \\
 		\gra{bn_mod_n/count_test_if}\VSP
 
-Observamos que en el gráfico, cuanto mayor es $n$, mayor es la diferencia entre los valores de las muestras a pesar de que son consecutivos.
+Observamos en el gráfico que para cada $n$ impar elegido, hay un $n$ par consecutivo. Cuanto mayor es $n$, mayor es la diferencia entre la cantidad de operaciones entre esas dos instancias. Esto se debe a que dichos $n$ impares corresponden al peor caso del algoritmo y los pares al mejor. Asintóticamente, la diferencia entre mejor y peor caso resulta significativa a la hora del procesamiento.
 
 		En general, podemos ver que la complejidad teórica analizada resulta ser una mejor cota conforme crece $n$. Por lo tanto, podemos afirmar que $\log n$ es una buena cota superior para la complejidad del algoritmo ya que los resultados prácticos coinciden con los cálculos teóricos.
 	\end{subsection}
