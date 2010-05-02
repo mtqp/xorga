@@ -22,6 +22,7 @@ void print_matriz(uint** M, uint n){
 
 
 bool libre(uint** conexiones, bool* tengo_llave, uint* puertas, uint n){
+	reiniciar_contador();
 	cola q;
 	bool puedo_entrar[n];
 	uint accesos[n];
@@ -29,7 +30,7 @@ bool libre(uint** conexiones, bool* tengo_llave, uint* puertas, uint n){
 	uint adyacentes;
 	bool llegue = false;
 	uint actual;
-
+	O(7);
 	for(uint i=0;i<n;i++)
 	{
 		visitados[i]=false;
@@ -37,13 +38,14 @@ bool libre(uint** conexiones, bool* tengo_llave, uint* puertas, uint n){
 		for( uint j=0; j<n; j++ )
 			if( conexiones[i][j] )
 				adyacentes++;
-		accesos[i]=adyacentes;	
+		accesos[i]=adyacentes;
+		O(12);
 	}
 
 	q.push(0);
 	accesos[0]--;
 	visitados[0]=true;
-
+	O(5);
 	while( !q.empty() && !llegue )
 	{
 		actual=q.front();
@@ -58,16 +60,21 @@ bool libre(uint** conexiones, bool* tengo_llave, uint* puertas, uint n){
 				accesos[i]--;
 				visitados[i]=true;
 				llegue = (i == n-1);
-				
+				O(10);
 			}
+			O(18);
 		}
 		for( uint i=0 ; i < n ; i++ )
-			if( puedo_entrar[i] && !visitados[i] )
+			if( puedo_entrar[i] && !visitados[i] ){
 				q.push(i);
+				O(6);
+			}
 
 		for( uint i=0 ; i < n ; i++ )
-			if( puedo_entrar[i] && visitados[i] )
+			if( puedo_entrar[i] && visitados[i] ){
 				q.push(i);
+				O(6);
+			}
 	}
 	return llegue;
 }
@@ -94,24 +101,6 @@ int main(int argc, char** argv){
 			puertas[esta-1]=abre-1;
 			tengo_llave[abre-1]=false;
 		}
-		//cout << "Puertas: " << endl;
-		//print_vector(puertas,n);
-		//cout << "tengo_llave: " << endl;
-		//print_vector(tengo_llave,n);
-		/*MATRIZ DE INCIDENCIA
-		uint** conexiones;
-		conexiones = new uint* [n];
-		for(uint i=0;i<n;i++){
-			conexiones[i] = new uint [m];
-			for(uint j=0;j<m;j++) conexiones[i][j]=0;
-		}
-		uint k;
-		for(uint i=0;i<m;i++){
-			cin >> k;
-			conexiones[k-1][i]=1;
-			cin >> k;
-			conexiones[k-1][i]=1;
-		}*/
 		//MATRIZ DE ADYACENCIA
 		uint** conexiones;
 		conexiones = new uint* [n];
@@ -127,8 +116,6 @@ int main(int argc, char** argv){
 			conexiones[q-1][k-1]=1;	
 			conexiones[k-1][q-1]=1;
 		}
-		//cout << "Conexiones: " << endl;
-		//print_matriz(conexiones,n);
 		if(argc>1 && string(argv[1])=="time"){
 			medir_tiempo( ts, libre(conexiones,tengo_llave,puertas,n), 1, 0.5f );
 			cout << n << "\t" << ts << endl;
