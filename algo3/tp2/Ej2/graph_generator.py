@@ -1,8 +1,15 @@
 #!/usr/bin/python
-# Case Generator Densidad
+# Case Generator Grafos
 
 from random import randint, seed, choice
 import sys
+
+def generar_grafo(n):
+	fIn = open("grafos_test.in", 'w')
+	fOut= open("grafos_test.out", 'w')
+
+
+
 
 def generar_no_rondas(n):
     fIn = open("test_no.in",'w')
