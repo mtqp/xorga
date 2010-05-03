@@ -42,7 +42,10 @@ int main (int argc, char** argv){
 }
 
 bool ciudad(uint** conexiones, uint n) {
-	
+	/*cout << "matrix original" << endl;
+	print_matriz(conexiones,n,n);
+	cout << "---------------" << endl;
+	cout << "n==" << n << endl << endl;*/
 	//--chequear casos bases--//
 	
 	//--algun nodo tiene solo una arista--//
@@ -63,33 +66,38 @@ bool ciudad(uint** conexiones, uint n) {
 	//--CODIGO--//
 	encontre_ciclo = dfs_busco_primer_ciclo(conexiones, nodos_ciclo, nodos_ciclo_posible, n);
 	cant_nodos_ciclo = nodos_en_ciclo(nodos_ciclo,n);
-	
+	/*
 	cout << "(BUSCO PRIMER CICLO == " << encontre_ciclo << ") ==> ";
 	if(encontre_ciclo){
 		print_vector<bool>(nodos_ciclo,n);
 		cout << "cant nodos ciclos == " << cant_nodos_ciclo << endl;
 		cout << "-----------------" << endl;
 	}
+	print_matriz(conexiones,n,n);
+	cout << endl << endl << "entro al while" << endl;
+	*/
 	int contador = 0;
 	while((cant_nodos_ciclo < n) && encontre_ciclo){		//n-1???	
-		cout << "cant veces en while == "<< contador << endl;
+		//cout << "cant veces en while == "<< contador << endl;
 		if(dame_arista_libre_ciclo(nodo_salida, conexiones, nodos_ciclo, n)){
-			cout << "nodo libre == " << nodo_salida+1 << endl;
+			//cout << "nodo libre == " << nodo_salida+1 << endl;
 			encontre_ciclo = formar_ciclo_desde(nodo_salida, conexiones, nodos_ciclo, cant_nodos_ciclo, n);
-			cout << "(FORMAR CICLO DESDE == " << encontre_ciclo << ") ==> ";
+			/*cout << "(FORMAR CICLO DESDE == " << encontre_ciclo << ") ==> ";
 			if(encontre_ciclo){
 				print_vector<bool>(nodos_ciclo,n);
 				cout << "cant nodos ciclos == " << cant_nodos_ciclo << endl;
-				cout << "-----------------" << endl;
+				cout << "-----------------";
 			}			
+			cout << endl;*/
 		}
 		else{
+			//cout << "no hay aristas libre" << endl;
 			encontre_ciclo = false;			//fijarse si no puede pasar q cant_nodos sea N y esto da false
 		}
 		contador++;
+		//print_matriz(conexiones,n,n);
+		reseteo_matriz_salvo_ciclo(conexiones, nodos_ciclo,n);
 	}
-	
-	print_matriz(conexiones,n,n);
 	
 	return encontre_ciclo;
 }
@@ -166,13 +174,17 @@ bool formar_ciclo_desde(uint& nodo_salida, uint** conexiones, bool* nodos_ciclo,
 			nodos_ciclo[l.front()] = true;
 			l.pop_front();
 		}
+		/*cout << "nodo actual == " << nodo_salida << ", adyacentes == ";
+		print_list<uint>(l_ady);*/
 		while(!l_ady.empty()){
 			uint top = l_ady.front();
 			l_ady.pop_front();
-			for(int i=0; i<n; i++){
-				if(conexiones[top][i] == 2)
-					conexiones[top][i] = 1;
-					conexiones[i][top] = 1;
+			if(!nodos_ciclo[top]){
+				for(int i=0; i<n; i++){
+					if(conexiones[top][i] == 2)
+						conexiones[top][i] = 1;
+						conexiones[i][top] = 1;
+				}
 			}
 		}
 		return true;
