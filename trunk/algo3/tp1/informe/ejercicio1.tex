@@ -24,9 +24,8 @@
 			\item El resultado parcial de la función se guarda en la variable $tmp$, inicializada en 1.
 			\item \textbf{Caso base:} 
 			\begin{itemize}
-				\item Cuando $b$ es menor que 2, entra en un caso base y el resultado es $1\;mod\;n$ ya que 
-				$1^n\;mod\;n = 1\;\forall\;n>1$ y $1\;mod\;1 = 0$.
-				\item Cuando $n$ es 1, entra al caso base $b<2$ ya que al comienzo la función toma $b=b\;mod\; n$ y $b\; mod\; 1 = 0$.
+				\item Cuando $b$ es $uno$, entra al caso base $b<2$ y el resultado es $b$ (porque $1^n\;mod\;n=1$).
+				\item Cuando $n$ es menor que 3, entra al caso base $b<2$ ya que al comienzo la función toma $b=b\;mod\; n$ ($b\; mod\; 1 = 0$ y $b\; mod\; 2$  es $cero$ si b es par y $uno$ si es impar) 
 			\end{itemize}
 
 			\item Antes de iniciar el ciclo, se crea una copia ($m$) de $n$ para preservar su valor original.
@@ -60,7 +59,7 @@
 
 
 	\begin{subsection}{Análisis de complejidad}
-		Elegimos el modelo logarítmico para analizar el algoritmo, ya que las operaciones que aplicamos dependen del logaritmo de $n$, o dicho de otra forma, del tamaño de la entrada. No obstante, en los resultados muchas de ellas tienen costo uniforme por trabajar con números de tamaño acotado (\texttt{unsigned long long int}) para simplificar la implementación.
+		Elegimos el modelo logarítmico para analizar el algoritmo, ya que las operaciones que aplicamos dependen del logaritmo de $n$, o dicho de otra forma, del tamaño de la entrada. No obstante, en los resultados muchas de ellas tienen costo uniforme por trabajar con números de tamaño acotado (\texttt{unsigned long long int}) para simplificar la implementación.\Pa
 
 		Sea $m = n$, $tmp$ inicializado en 1 y las siguientes complejidades en el modelo logarítmico:
 
@@ -76,6 +75,7 @@
 			\tab\tab $b \leftarrow b\; mod \; n$ & \tOde{\log^{2} n} \\
 			\tab\RET $tmp$ \\
 		\end{pseudo} \\
+
 		Analizaremos a continuación la cantidad de operaciones, complejidad en el modelo logarítmico y complejidad en función del tamaño de la entrada.
 
 		\begin{subsubsection}{Cantidad de operaciones}
@@ -93,8 +93,7 @@
 			\end{tabular}
 			\end{center}
 
-			\noindent Como el ciclo termina cuando $m=0$, en la última iteración $m=1$. Por lo tanto, hallamos $k$ tal que $m=1$ para así obtener la cantidad de 
-			total de iteraciones:
+			\noindent Como el ciclo termina cuando $m=0$, en la última iteración $m=1$. Por lo tanto, hallamos $k$ tal que $m=1$ para así obtener la cantidad total de iteraciones:
 			\begin{eqnarray*}
 				\frac{n}{2^{k-1}}&=& 1 \\
 				n &=& 2^{k-1} \\
@@ -103,7 +102,7 @@
 			\end{eqnarray*}
 
 			\noindent es decir, el algoritmo hace $\log(n)+1$ iteraciones, cada una con una cantidad de operaciones acotadas por una constante $c$. La cantidad máxima de
-			operaciones se da en las iteraciones en las que $m$ es impar porque entra al caso condicional. Luego, la cantidad de operaciones que hace el algoritmo es $c*(\log n)+1$.
+			operaciones se da en las iteraciones en las que $m$ es impar porque entra al caso condicional. Luego, la cantidad de operaciones que hace el algoritmo es $c*((\log n)+1)$.
 			Por lo tanto, la cantidad de operaciones es del orden de $\log n$ y \Ode{\log n} $\subset$ \Ode{n}.
 
 		\end{subsubsection}
@@ -120,7 +119,7 @@
 				\Ode{2\log^2 n + 4\log^3 n} $=$ \Ode{\max(2\log^2 n , 4\log^3 n)} $=$ \Ode{\log^3 n}.
 			\end{center}
 
-			Entonces, la complejidad del algoritmo resulta ser: \Ode{log^3 n}\VSP
+			Entonces, la complejidad del algoritmo resulta ser: \Ode{log^3 n}
 		
 		\end{subsubsection}
 
@@ -134,7 +133,7 @@
 	\begin{subsection}{Pruebas y Resultados}
 		Para probar correctitud tenemos un generador de instancias random que nos devuelve dos archivos, en uno \texttt{test.in} la instancia elegida ($b$ $n$) y otro \texttt{test.out} el resultado ($b^n \mod n$). De esta forma, con una comparación de archivos (comando \texttt{diff test.out bn\_mod\_n.out} ) podemos saber para cada instancia si el resultado obtenido por nuestro algoritmo se condice con el resultado correspondiente a esa instancia en el archivo \texttt{test.out}.
 		
-		Para llevar a cabo las pruebas de este algoritmo en cuanto a operaciones realizadas por instancia, y tiempo en segundos transcurridos, generamos números en forma aleatoria, con $b$ comprendido entre $0$ y $200$ (porque $b$ está acotado), y $n$ entre 1 y $10^7$ (esta cantidad de instancias posibles permite contrastar el comportamiento del algoritmo con los resultados teóricos). 
+		Para llevar a cabo las pruebas de este algoritmo en cuanto a operaciones realizadas por instancia, y tiempo en segundos transcurridos, generamos números en forma aleatoria, con $b$ comprendido entre $0$ y $200$ (porque $b$ está acotado), y $n$ entre 1 y $10^7$ (ya que esta cantidad de instancias posibles permite contrastar el comportamiento del algoritmo con los resultados teóricos).
 
 En los siguientes gráficos cada instancia está representada con una cruz roja. También está representada en color verde la función $log(n)*c$, ya que es la cota teórica previamente calculada con una constante aproximada calculada empíricamente para cada gráfico.
 A continuación se muestra la cantidad de operaciones realizadas en función de $n$ (donde $c$ es $19$). \\
@@ -143,14 +142,14 @@ A continuación se muestra la cantidad de operaciones realizadas en función de 
 El siguiente gráfico muestra el tiempo transcurrido (en segundos) en función de $n$ (donde $c$ es $2.79*10^{-7}$)\\
 		\gra{bn_mod_n/time_test}
 
-En los gráficos anteriores se ve cómo la cantidad de operaciones y el tiempo que tardó en ejecutar cada instancia están acotados por la función logaritmo (multiplicada por la constante correspondiente en cada caso), con $n$ como parámetro. Los casos cercanos al cero en los ejes que representan al tiempo y la cantidad de operaciones, co\-rres\-pon\-den al caso trivial del ejercicio (caso base), en los que no hubo necesidad de iterar para llegar al resultado.
+En los gráficos anteriores se ve cómo la cantidad de operaciones y el tiempo que tardó en ejecutar cada instancia están acotados por la función logaritmo (multiplicada por la constante correspondiente en cada caso), con $n$ como parámetro. Los casos cercanos al cero en los ejes que representan al tiempo y la cantidad de operaciones, co\-rres\-pon\-den al caso trivial del ejercicio (caso base), en los que no hubo necesidad de iterar para llegar al resultado.\Pa
 		%Como medir el tiempo no es una herramienta muy precisa, se pueden ver algunos {\em outliers} por encima de la curva del logaritmo. Aun así, los resultados coinciden con las predicciones en cuanto a la complejidad.\Pa
 
 En el siguiente gráfico se muestran instancias en las que en cada iteración entra al caso condicional junto con las instancias que en ninguna de las iteraciones entra al caso condicional. Las instancias fueron generadas de la siguiente manera:
 \begin{itemize}
-	\item En ambos casos se tomó $2 < b < 200$ aleatoriamente. El valor mínimo fue elegido para evitar generar casos base y así poder ver únicamente los casos en cuestión.
-	\item Para las instancias que entran siempre al caso condicional se eligieron los $n$ dados por $2^i-1\;\;\forall\; i\in\mathbb{N}, i < 50$ debido a que al hacer la división entera de $n$ por $2$, siempre se obtiene un nuevo $n$ impar. Esto hace que sea el peor caso.
-	\item Para las instancias que nunca entran al caso condicional se eligieron los $n$ dados por $2^i\;\;\forall\; i\in\mathbb{N}, i < 50$ debido a que al hacer la división entera de $n$ por $2$, siempre se obtiene un nuevo $n$ par. Esto hace que sea el mejor caso excluyendo los casos base.
+	\item En ambos casos se tomó $2 < b < 200$ aleatoriamente. El valor máximo es $200$ ya que $b$ está acotado y el valor mínimo fue elegido para evitar generar casos base y así poder ver únicamente los casos en cuestión.
+	\item Para las instancias que entran siempre al caso condicional se eligieron los $n$ dados por $2^i-1\;\;\forall\; i\in\mathbb{N}, i < 50$ debido a que al hacer la división entera de $n$ por $2$, siempre se obtiene un nuevo $n$ impar. Esto hace que sea el peor caso. Elegimos $50$ como cota porque la cantidad de instancias generadas es suficiente para poder apreciar el coportamiento del algoritmo en estos casos y $2^{50} \times 2^{50}$ entra en la variable.
+	\item Para las instancias que nunca entran al caso condicional se eligieron los $n$ dados por $2^i\;\;\forall\; i\in\mathbb{N}, i < 50$ debido a que al hacer la división entera de $n$ por $2$, siempre se obtiene un nuevo $n$ par. Esto hace que sea el mejor caso excluyendo los casos base. La cota para $i$ fue elegida con el mismo criterio que para generar los $n$ impares.
 \end{itemize}
 
 	Con esta prueba se espera poder contrastar ambos casos. Tanto el mejor como el peor caso difieren en una constante que se desprecia en la complejidad teórica pero que en la práctica puede significar una diferencia de rendimiento importante a medida que $n$ crece.
