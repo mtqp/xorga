@@ -1,10 +1,12 @@
 #!/usr/bin/gnuplot -persist
 
+set term png
+
 #le pone titulo al grafico
 set title "Tiempos del algoritmo ronda_de_amigas"
 
 #pone la descripccion de los ejes
-set xlabel "n"
+set xlabel "Cantidad de amigas"
 set ylabel "Tiempo (segundos)"
 
 #pone la leyenda a la izquierda y con borde
@@ -19,7 +21,7 @@ set style line 3 lt 5 pt 5 ps 1
 set style line 4 lt 2 pt 2 ps 1
 
 set logscale y
-
+set output 'time_test.png'
 plot	'< cat times_07*.dat' title "Densidad 0.7" linestyle 4,\
 		'times_03.dat' title "Densidad 0.3" linestyle 3,\
 		'times_05.dat' title "Densidad 0.5" linestyle 1,\
