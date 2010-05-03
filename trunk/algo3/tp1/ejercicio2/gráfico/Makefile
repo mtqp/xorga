@@ -23,5 +23,5 @@ $(DATA_PATH)/count_%.dat: $(TESTS_PATH)/%.in
 	../$(EJ) count < $< > $@
 
 copy:
-	cp png/*.png ../../informe/$(EJ)/
 	cp a\ mano/*.png ../../informe/$(EJ)/
+	cp png/*.png ../../informe/$(EJ)/

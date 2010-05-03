@@ -22,8 +22,8 @@ set style line 3 lt 3 pt 1 ps 1
 
 #dibuja los puntos. index es porque lo separe en bloques de primos/no primos para ponerle distinto estilo..
 set output 'png/count_test.png'
-plot	'data/count_test.dat' title "Cantidad de operaciones" linestyle 1,\
-	19*log(x) title "log(n)*c" linestyle 2
+plot[0:1e+09][0:500]	'data/count_test.dat' title "Cantidad de operaciones" linestyle 1,\
+	19*log(x) title "log(n)*19" linestyle 2
 
 set logscale x
 
