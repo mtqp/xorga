@@ -22,9 +22,18 @@ bool formar_ciclo_desde(uint& nodo_salida, uint** conexiones, bool* nodos_ciclos
 uint nodos_en_ciclo(bool* nodos_ciclos, uint n);
 void reseteo_matriz_salvo_ciclo(uint** conexiones, bool* nodos_ciclos, uint n);
 void buscar_y_marcar_ciclo(uint** conexiones, bool* nodos_ciclos, lista &l, uint n);
-void limpiar_array(bool* array, uint n);
-void print_matriz(uint** M, uint m, uint n);
 
+void print_matriz(uint** M, uint m, uint n){
+	for(uint i=0; i<m; i++){
+		for(uint j=0; j<n; j++) cout << M[i][j];
+		cout << endl;
+	}
+}
+
+void limpiar_array(bool* array, uint n){
+	for(int i=0;i<n;i++)
+		array[i] = false;
+}
 
 template<class T> 
 void print_vector(T* V, uint n){
