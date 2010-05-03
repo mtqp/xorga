@@ -33,3 +33,14 @@ void print_vector(T* V, uint n){
 	cout << "]";
 	cout << endl;
 }
+
+template<class T>
+void print_list(list<T> &l){
+	typename list<T>::iterator it;
+	cout << "		{ ";
+	for(it=l.begin();it!=l.end();it++){
+		cout << *it << " ";
+	}
+	cout << "}" << endl;
+}
+
