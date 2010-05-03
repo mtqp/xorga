@@ -62,14 +62,34 @@ bool ciudad(uint** conexiones, uint n) {
 	bool  encontre_ciclo;
 	//--CODIGO--//
 	encontre_ciclo = dfs_busco_primer_ciclo(conexiones, nodos_ciclo, nodos_ciclo_posible, n);
-	
 	cant_nodos_ciclo = nodos_en_ciclo(nodos_ciclo,n);
-	while((cant_nodos_ciclo < n) && encontre_ciclo){		//n-1???	
-		if(dame_arista_libre_ciclo(nodo_salida, conexiones, nodos_ciclo, n))
-			encontre_ciclo = formar_ciclo_desde(nodo_salida, conexiones, nodos_ciclo, cant_nodos_ciclo, n);
-		else
-			encontre_ciclo = false;			//fijarse si no puede pasar q cant_nodos sea N y esto da false
+	
+	/*cout << "(BUSCO PRIMER CICLO == " << encontre_ciclo << ") ==> ";
+	if(encontre_ciclo){
+		print_vector<bool>(nodos_ciclo,n);
+		cout << "cant nodos ciclos == " << cant_nodos_ciclo << endl;
+		cout << "-----------------" << endl;
 	}
+	int contador = 0;*/
+	while((cant_nodos_ciclo < n) && encontre_ciclo){		//n-1???	
+		//cout << "cant veces en while == "<< contador << endl;
+		if(dame_arista_libre_ciclo(nodo_salida, conexiones, nodos_ciclo, n)){
+			/*cout << "arista libre == " << nodo_salida << endl;*/
+			encontre_ciclo = formar_ciclo_desde(nodo_salida, conexiones, nodos_ciclo, cant_nodos_ciclo, n);
+			/*cout << "(FORMAR CICLO DESDE == " << encontre_ciclo << ") ==> ";
+			if(encontre_ciclo){
+				print_vector<bool>(nodos_ciclo,n);
+				cout << "cant nodos ciclos == " << cant_nodos_ciclo << endl;
+				cout << "-----------------" << endl;
+			}*/			
+		}
+		else{
+			encontre_ciclo = false;			//fijarse si no puede pasar q cant_nodos sea N y esto da false
+		}
+		contador++;
+	}
+	
+	//print_matriz(conexiones,n,n);
 	
 	return encontre_ciclo;
 }
@@ -146,9 +166,9 @@ bool formar_ciclo_desde(uint& nodo_salida, uint** conexiones, bool* nodos_ciclo,
 			nodos_ciclo[l.front()] = true;
 			l.pop_front();
 		}
-		while(!p.empty()){
-			uint top = p.top();
-			p.pop();
+		while(!l_ady.empty()){
+			uint top = l_ady.front();
+			l_ady.pop_front();
 			for(int i=0; i<n; i++){
 				if(conexiones[top][i] == 2)
 					conexiones[top][i] = 1;
@@ -238,11 +258,6 @@ void print_matriz(uint** M, uint m, uint n){
 		for(uint j=0; j<n; j++) cout << M[i][j];
 		cout << endl;
 	}
-}
-
-void print_vector(uint* V, uint n){
-	for(uint i=0; i<n; i++) cout << V[i];
-	cout << endl;
 }
 
 void limpiar_array(bool* array, uint n){
