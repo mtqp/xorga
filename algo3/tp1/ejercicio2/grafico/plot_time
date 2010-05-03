@@ -4,7 +4,7 @@
 set title "Tiempos del algoritmo ronda_de_amigas"
 
 #pone la descripccion de los ejes
-set xlabel "Tamaño de entrada"
+set xlabel "n"
 set ylabel "Tiempo (segundos)"
 
 #pone la leyenda a la izquierda y con borde
@@ -23,7 +23,7 @@ set logscale y
 plot	'< cat times_07*.dat' title "Densidad 0.7" linestyle 4,\
 		'times_03.dat' title "Densidad 0.3" linestyle 3,\
 		'times_05.dat' title "Densidad 0.5" linestyle 1,\
-		'factoriales_times.dat' title "n!*c" with points linestyle 2
+		'factoriales_times.dat' title "n!*10^(-7)" with points linestyle 2
 
 #pongo la salida default para mostrar en pantalla
 set term pop
