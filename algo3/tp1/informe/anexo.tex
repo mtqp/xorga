@@ -1,4 +1,5 @@
 	\begin{subsection}{Anexo}
+		\begin{subsubsection}{Correctitud ejercicio 1}
 		La siguiente tabla representa la correspondencia entre las variables de entrada ($b$ y $n$) en 
 		cada iteración del algoritmo implementado:
 
@@ -26,6 +27,13 @@
 		entonces el cálculo hecho por el algoritmo está dado por 
 		$$\displaystyle\prod_{i=1}^k Z_i = b^n$$
 
+		Luego de cada multiplicación toma módulo $n$ ya que
+			$$b^k * b^{n-k}\; mod\;n = ((b^k\;mod\;n)*(b^{n-k}\;mod\;n))\;mod\;n\;\forall\;k\leq n ^{[2]}$$ 
+
+		De esta manera, incluso si el cálculo de $b^n$ es un número tan grande que no entra en el 
+		tamaño de la variable, se va a poder realizar sin problemas (suponiendo que $(n-1)^2$ entra 
+		en una variable).
+
 
 		\vspace{0.5cm}
 		\noindent{\footnotesize [1] $par(x)=1-impar(x)$\\ $impar$ se define como:
@@ -37,5 +45,7 @@
 			\end{array}\right.
 		\end{displaymath}
 		} \\
-		
+		\vspace{0.5cm}
+		{\footnotesize [2] Por propiedades del módulo $x*y\; mod \; z = ((x\; mod\; z)*(y\; mod\; z))\;mod\; z$ } \\
+		\end{subsubsection}
 	\end{subsection}
