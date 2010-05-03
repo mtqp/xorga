@@ -1,0 +1,30 @@
+#!/usr/bin/gnuplot -persist
+
+#exporto como png
+set term png
+
+#le pone titulo al grafico
+set title "Cantidad de Operaciones del algoritmo programadores_en_simultaneo"
+
+#pone la descripccion de los ejes
+set xlabel "cantidad de programadores"
+set ylabel "cantidad de operaciones"
+
+#pone la leyenda a la izquierda y con borde
+set key left box
+
+#defino dos tipos de lineas
+#lt=tipo de linea y color,  pt=point type,  ps=point size
+#(para ver los distintos point types pongan "test" en el gnuplot)
+set style line 1 lt 1 pt 1 ps 1
+set style line 2 lt 2 pt 1 ps 3
+
+set output 'ej3_counts.png'
+#dibuja los puntos. index es porque lo separe en bloques de primos/no primos para ponerle distinto estilo..
+plot	'counts.dat' title "Cantidad de operaciones" linestyle 1,\
+	13*x title "n*13"
+
+#pongo la salida default para mostrar en pantalla
+set term pop
+set output
+replot
