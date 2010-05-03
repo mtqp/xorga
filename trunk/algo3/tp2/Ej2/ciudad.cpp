@@ -74,92 +74,6 @@ bool ciudad(uint** conexiones, uint n) {
 	return encontre_ciclo;
 }
 
-bool formar_ciclo_desde(uint& nodo_salida, uint** conexiones, bool* nodos_ciclo, uint& cant_nodos_ciclo, uint n){
-	/*pusheo nodo salida
-	popero nodo salida
-	pongo adyancentes (x invariante esta funcion tiene ady en nodo salida)
-	recorro con dfs, si vuelvo (hago mini ciclo, q no vuelve al primero) lo agrego a la lista
-	sigo popeando hasta volver al ciclo original || hasta q.empty
-	if q.empty =>devolver falso
-	si volvi al ciclo original
-		limpio toda la lista && marco todos los nodos
-		cambio cant_nodos_ciclo
-	*/
-	pila  p;
-	lista l;
-	lista l_ady;
-	
-	
-	//bool encontre_ciclo = false;
-	bool volvi_al_ciclo	= false;
-	bool bool_basura;
-	uint nodo_actual;
-	
-	p.push(nodo_salida);						//push nodo salida			
-	
-	while((!p.empty())&&(!volvi_al_ciclo)){
-		nodo_actual = p.top();
-		l.push_back(nodo_actual);
-		p.pop();
-		bool_basura = dame_adyacentes_a(nodo_actual,conexiones, l_ady, n);
-		
-		while((!l_ady.empty()) && (!volvi_al_ciclo)){
-			if(nodos_ciclo[l_ady.front()])
-				volvi_al_ciclo = true;
-			else {
-				p.push(l_ady.front());
-				l_ady.pop_front();
-			}		
-		}
-	}
-	if(volvi_al_ciclo) {			//esta es guarda quizas no va.
-		cant_nodos_ciclo += l.size();
-		
-		while(!l.empty()){
-			nodos_ciclo[l.front()] = true;
-			l.pop_front();
-		}
-		while(!p.empty()){
-			uint top = p.top();
-			p.pop();
-			for(int i=0; i<n; i++){
-				if(conexiones[top][i] == 2)
-					conexiones[top][i] = 1;
-					conexiones[i][top] = 1;
-			}
-		}
-		return true;
-	}else {
-		return no_fuertemente_conexo;
-	}
-
-}
-
-uint nodos_en_ciclo(bool* nodos, uint n){
-	uint res=0;
-	for(int j=0; j<n; j++){
-		if(nodos[j]) res++;
-	}
-	return res;
-}
-
-bool dame_arista_libre_ciclo(uint &nodo_salida, uint** conexiones, bool* nodos_ciclo, uint n){
-	bool arista_libre = false;
-	for(int i=0; (i<n)&&(!arista_libre) ;i++){
-		if(nodos_ciclo[i]){
-			for(int j=0; (j<n)&& (!arista_libre); j++){
-				if(conexiones[i][j] == 1){
-					conexiones[i][j] = 2;
-					conexiones[j][i] = 2;
-					arista_libre = true;
-					nodo_salida	 = j;	
-				}
-			}
-		}
-	}
-	return arista_libre;
-}
-
 bool dfs_busco_primer_ciclo(uint** conexiones, bool* nodos_ciclo, bool* nodos_ciclo_posible, uint n){
 	pila  p;
 	lista l;
@@ -199,6 +113,79 @@ bool dfs_busco_primer_ciclo(uint** conexiones, bool* nodos_ciclo, bool* nodos_ci
 	return encontre_ciclo && tiene_algo_para_agregar;
 }
 
+bool formar_ciclo_desde(uint& nodo_salida, uint** conexiones, bool* nodos_ciclo, uint& cant_nodos_ciclo, uint n){
+	pila  p;
+	lista l;
+	lista l_ady;
+
+	bool volvi_al_ciclo	= false;
+	bool bool_basura;
+	uint nodo_actual;
+	
+	p.push(nodo_salida);						//push nodo salida			
+	
+	while((!p.empty())&&(!volvi_al_ciclo)){
+		nodo_actual = p.top();
+		l.push_back(nodo_actual);
+		p.pop();
+		bool_basura = dame_adyacentes_a(nodo_actual,conexiones, l_ady, n);
+		
+		while((!l_ady.empty()) && (!volvi_al_ciclo)){
+			if(nodos_ciclo[l_ady.front()])
+				volvi_al_ciclo = true;
+			else {
+				p.push(l_ady.front());
+				l_ady.pop_front();
+			}		
+		}
+	}
+	if(volvi_al_ciclo) {
+		cant_nodos_ciclo += l.size();
+		
+		while(!l.empty()){
+			nodos_ciclo[l.front()] = true;
+			l.pop_front();
+		}
+		while(!p.empty()){
+			uint top = p.top();
+			p.pop();
+			for(int i=0; i<n; i++){
+				if(conexiones[top][i] == 2)
+					conexiones[top][i] = 1;
+					conexiones[i][top] = 1;
+			}
+		}
+		return true;
+	}else {
+		return no_fuertemente_conexo;
+	}
+}
+
+uint nodos_en_ciclo(bool* nodos, uint n){
+	uint res=0;
+	for(int j=0; j<n; j++){
+		if(nodos[j]) res++;
+	}
+	return res;
+}
+
+bool dame_arista_libre_ciclo(uint &nodo_salida, uint** conexiones, bool* nodos_ciclo, uint n){
+	bool arista_libre = false;
+	for(int i=0; (i<n)&&(!arista_libre) ;i++){
+		if(nodos_ciclo[i]){
+			for(int j=0; (j<n)&& (!arista_libre); j++){
+				if(conexiones[i][j] == 1){
+					conexiones[i][j] = 2;
+					conexiones[j][i] = 2;
+					arista_libre = true;
+					nodo_salida	 = j;	
+				}
+			}
+		}
+	}
+	return arista_libre;
+}
+
 bool dame_adyacentes_a(uint nodo_actual,uint** conexiones, lista &l_ady, uint n){
 	for(int j=0; j<n; j++){
 		if(conexiones[nodo_actual][j] == 1){
@@ -218,7 +205,7 @@ void buscar_y_marcar_ciclo(uint** conexiones, bool* nodos_ciclos, /*bool* nodos_
 	uint primer_int;
 	
 	while(!encontre_ciclo){
-		if(l.empty()) cout << "se comio la lista, agarrate q se viene el 0.25 seg_fault" << endl;
+		if(l.empty()) cout << "futuro seg_fault, no deberia haber borrado la lista" << endl;
 		primer_int = l.front();
 		if(conexiones[ultimo_int][primer_int] == 2)
 			encontre_ciclo = true;
@@ -230,7 +217,6 @@ void buscar_y_marcar_ciclo(uint** conexiones, bool* nodos_ciclos, /*bool* nodos_
 		nodos_ciclos[l.front()] = true;
 		l.pop_front();
 	}
-	
 	reseteo_matriz_salvo_ciclo(conexiones, nodos_ciclos, n);
 }
 
