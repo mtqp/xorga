@@ -64,24 +64,24 @@ bool ciudad(uint** conexiones, uint n) {
 	encontre_ciclo = dfs_busco_primer_ciclo(conexiones, nodos_ciclo, nodos_ciclo_posible, n);
 	cant_nodos_ciclo = nodos_en_ciclo(nodos_ciclo,n);
 	
-	/*cout << "(BUSCO PRIMER CICLO == " << encontre_ciclo << ") ==> ";
+	cout << "(BUSCO PRIMER CICLO == " << encontre_ciclo << ") ==> ";
 	if(encontre_ciclo){
 		print_vector<bool>(nodos_ciclo,n);
 		cout << "cant nodos ciclos == " << cant_nodos_ciclo << endl;
 		cout << "-----------------" << endl;
 	}
-	int contador = 0;*/
+	int contador = 0;
 	while((cant_nodos_ciclo < n) && encontre_ciclo){		//n-1???	
-		//cout << "cant veces en while == "<< contador << endl;
+		cout << "cant veces en while == "<< contador << endl;
 		if(dame_arista_libre_ciclo(nodo_salida, conexiones, nodos_ciclo, n)){
-			/*cout << "arista libre == " << nodo_salida << endl;*/
+			cout << "nodo libre == " << nodo_salida+1 << endl;
 			encontre_ciclo = formar_ciclo_desde(nodo_salida, conexiones, nodos_ciclo, cant_nodos_ciclo, n);
-			/*cout << "(FORMAR CICLO DESDE == " << encontre_ciclo << ") ==> ";
+			cout << "(FORMAR CICLO DESDE == " << encontre_ciclo << ") ==> ";
 			if(encontre_ciclo){
 				print_vector<bool>(nodos_ciclo,n);
 				cout << "cant nodos ciclos == " << cant_nodos_ciclo << endl;
 				cout << "-----------------" << endl;
-			}*/			
+			}			
 		}
 		else{
 			encontre_ciclo = false;			//fijarse si no puede pasar q cant_nodos sea N y esto da false
@@ -89,7 +89,7 @@ bool ciudad(uint** conexiones, uint n) {
 		contador++;
 	}
 	
-	//print_matriz(conexiones,n,n);
+	print_matriz(conexiones,n,n);
 	
 	return encontre_ciclo;
 }
