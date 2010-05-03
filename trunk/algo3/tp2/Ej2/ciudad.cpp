@@ -181,9 +181,10 @@ bool formar_ciclo_desde(uint& nodo_salida, uint** conexiones, bool* nodos_ciclo,
 			l_ady.pop_front();
 			if(!nodos_ciclo[top]){
 				for(int i=0; i<n; i++){
-					if(conexiones[top][i] == 2)
+					if(conexiones[top][i] == 2){
 						conexiones[top][i] = 1;
 						conexiones[i][top] = 1;
+					}
 				}
 			}
 		}
