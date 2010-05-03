@@ -19,7 +19,7 @@ set key left box
 set style line 1 lt 1 pt 1 ps 1
 set style line 2 lt 3 pt 1 ps 1
 
-set output 'ej3_counts.png'
+set output 'time_test.png'
 
 #dibuja los puntos. index es porque lo separe en bloques de primos/no primos para ponerle distinto estilo..
 plot	'time.dat' title "Tiempo" linestyle 1,\

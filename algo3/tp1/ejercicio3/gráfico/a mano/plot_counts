@@ -19,7 +19,7 @@ set key left box
 set style line 1 lt 1 pt 1 ps 1
 set style line 2 lt 2 pt 1 ps 3
 
-set output 'ej3_counts.png'
+set output 'count_test.png'
 #dibuja los puntos. index es porque lo separe en bloques de primos/no primos para ponerle distinto estilo..
 plot	'counts.dat' title "Cantidad de operaciones" linestyle 1,\
 	13*x title "n*13"
