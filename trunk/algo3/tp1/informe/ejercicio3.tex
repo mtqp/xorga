@@ -69,9 +69,9 @@ El algoritmo en todos los casos recorre completamente la lista de ingresos, por 
 
 	El objetivo de esta prueba es comparar ambos casos. Uno de ellos es el mejor caso para el algoritmo y esta acotado inferiormente por $n$ y el otro, el peor caso para el algoritmo se encuentra acotado superiormente por $n$. A pesar de que el costo del algoritmo es siempre $n$, se espera ver diferencias significativas en la cantidad de operaciones realizadas en uno u otro caso ya que en el primero de ellos es mínima porque al producirse todos los ingresos el algoritmo termina sin recorrer la lista de egresos y en el segundo máxima ya que para poder registrar el último ingreso tuvo que recorrer todos los egresos.
 	
-	Cada instancia correspondiente al peor caso se representa con una cruz roja mientras que cada instancia que corresponde al mejor caso está representada con una cruz azul. También está graficada en color verde la función $a*n$, ya que es la cota teórica previamente calculada con una constante aproximada calculada empíricamente.
+	Cada instancia correspondiente al peor caso se representa con una cruz roja mientras que cada instancia que corresponde al mejor caso está representada con una cruz azul. También está graficada en color verde la función $a*n$, ya que es la cota teórica previamente calculada con una constante aproximada calculada empíricamente.\VSP
 	
-	GRAFICO 1, GRAFICO 2
+	\gra{programadores/count_peor_mejor.png}\VSP
 
 	Observamos que se cumple lo esperado, es decir, corroboramos empíricamente que lo analizado previamente tiene coherencia, ya que la diferencia en la cantidad de operaciones que realiza el algoritmo para resolver un problema cuya caracteristica es la del mejor caso con $n$ programadores se hace cada vez más significativa respecto a las del peor caso para un mismo $n$ a medida que dicho $n$ crece.\\
 	
@@ -79,11 +79,11 @@ El algoritmo en todos los casos recorre completamente la lista de ingresos, por 
 
 	En los siguientes gráficos esperamos ver el comportamiento general del algoritmo en cuanto a cantidad de operaciones como en tiempo transcurrido por instancia.
 	
-	Las instancias se representan con una cruz roja, además en color verde aparece graficada la función $a*n$ por los motivos ya mencionados.
+	Las instancias se representan con una cruz roja, además en color verde aparece graficada la función $a*n$ por los motivos ya mencionados.\VSP
 
-	\gra{ej3_counts.png}\VSP	
+	\gra{programadores/count_test.png}\VSP
 	
-	\gra{ej3_time.png}\VSP
+	\gra{programadores/time_test.png}\VSP
 
 	En el primer gráfico se ve la función que dado el número de programadores, muestra la cantidad de operaciones realizadas por el algoritmo mientras que en el segundo se observa el tiempo consumido para procesar cada instancia, ambos en función de la cantidad de programadores.
 	En los dos gráficos se puede observar que la función se encuentra acotada por una recta, con lo cual se ve sin problemas que se trata de un algoritmo que trabaja en "tiempo" lineal.
