@@ -69,7 +69,7 @@ El algoritmo en todos los casos recorre completamente la lista de ingresos, por 
 
 	El objetivo de esta prueba es comparar ambos casos. Uno de ellos es el mejor caso para el algoritmo y esta acotado inferiormente por $n$ y el otro, el peor caso para el algoritmo se encuentra acotado superiormente por $n$. A pesar de que el costo del algoritmo es siempre $n$, se espera ver diferencias significativas en la cantidad de operaciones realizadas en uno u otro caso ya que en el primero de ellos es mínima porque al producirse todos los ingresos el algoritmo termina sin recorrer la lista de egresos y en el segundo máxima ya que para poder registrar el último ingreso tuvo que recorrer todos los egresos.
 	
-	Cada instancia correspondiente al peor caso se representa con una cruz roja mientras que cada instancia que corresponde al mejor caso está representada con una cruz azul. También está graficada en color verde la función $13*n$, ya que es la cota superior teórica previamente calculada y en amarillo la función $6*n$ que es la cota inferior calculada ambas con una constante aproximada calculada empíricamente.\VSP
+	Cada instancia correspondiente al peor caso se representa con {\color{red}+} mientras que cada instancia que corresponde al mejor caso está representada con {\color{blue}+}. También está graficada en color verde la función $13*n$, ya que es la cota superior teórica previamente calculada y en amarillo la función $6*n$ que es la cota inferior calculada ambas con una constante aproximada calculada empíricamente.\VSP
 	
 	\gra{programadores/count_peor_mejor.png}\VSP
 
@@ -79,7 +79,7 @@ El algoritmo en todos los casos recorre completamente la lista de ingresos, por 
 
 	En los siguientes gráficos esperamos ver el comportamiento general del algoritmo en cuanto a cantidad de operaciones como en tiempo transcurrido por instancia.
 	
-	Las instancias se representan con una cruz roja, además en el gráfico de cantidad de operaciones aparece en color verde la función $13*n$ mientras que en el de tiempos aparece graficada en el mismo color $8,7*10^(-8)+4*10^(-7)*n$ por los motivos ya mencionados.\VSP
+	Las instancias se representan con {\color{red}+}, además en el gráfico de cantidad de operaciones aparece en color verde la función $13*n$ mientras que en el de tiempos aparece graficada en el mismo color $8,7*10^{-8}*n+4*10^{-7}$ por los motivos ya mencionados.\VSP
 
 	\gra{programadores/count_test.png}\VSP
 	
