@@ -56,9 +56,9 @@ def main():
 	cantidad = 1000
 	maximo_b = 200
 	
-	generar_random(cantidad, maximo_b, 10000);
-	generar_no_if(cantidad, maximo_b, 50);
-	generar_if(cantidad, maximo_b, 50);
+	#generar_random(cantidad, maximo_b, 10000);
+	generar_no_if(cantidad, maximo_b, 31);
+	generar_if(cantidad, maximo_b, 31);
 
 
 if __name__=="__main__":
