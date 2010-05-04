@@ -6,7 +6,7 @@ set term png
 set title "Tiempos del algoritmo ronda_de_amigas"
 
 #pone la descripccion de los ejes
-set xlabel "Cantidad de amigas"
+set xlabel "Cantidad de chicas"
 set ylabel "Tiempo (segundos)"
 
 #pone la leyenda a la izquierda y con borde
@@ -16,7 +16,7 @@ set key left box
 #lt=tipo de linea y color,  pt=point type,  ps=point size
 #(para ver los distintos point types pongan "test" en el gnuplot)
 set style line 1 lt 1 pt 1 ps 1
-set style line 2 lt 7 pt 7 ps 1
+set style line 2 lt -1 pt 7 ps 1
 set style line 3 lt 5 pt 5 ps 1
 set style line 4 lt 2 pt 2 ps 1
 
