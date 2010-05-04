@@ -145,19 +145,21 @@ El siguiente gráfico muestra el tiempo transcurrido (en segundos) en función d
 
 		\gra{bn_mod_n/time_test}
 
-En los gráficos anteriores se ve cómo la cantidad de operaciones y el tiempo que tardó en ejecutar cada instancia están acotados por la función logaritmo (multiplicada por la constante correspondiente en cada caso), con $n$ como parámetro. Los casos cercanos al cero en los ejes que representan al tiempo y la cantidad de operaciones, co\-rres\-pon\-den al caso trivial del ejercicio (caso base), en los que no hubo necesidad de iterar para llegar al resultado.\Pa
-		%Como medir el tiempo no es una herramienta muy precisa, se pueden ver algunos {\em outliers} por encima de la curva del logaritmo. Aun así, los resultados coinciden con las predicciones en cuanto a la complejidad.\Pa
+En los gráficos anteriores se ve cómo la cantidad de operaciones y el tiempo que tardó en ejecutar cada instancia están acotados por la función logaritmo (multiplicada por la constante correspondiente en cada caso), con $n$ como parámetro. Los casos cercanos al cero en los ejes que representan al tiempo y la cantidad de operaciones, co\-rres\-pon\-den al caso trivial del ejercicio (caso base), en los que no hubo necesidad de iterar para llegar al resultado.
+
+		Como medir el tiempo no es una herramienta muy precisa, se pueden ver algunos {\em outliers} por encima de la curva del logaritmo. Aun así, los resultados coinciden con las predicciones en cuanto a la complejidad.\Pa
 
 En el siguiente gráfico se muestran instancias en las que en cada iteración entra al caso condicional junto con las instancias que en ninguna de las iteraciones entra al caso condicional. Las instancias fueron generadas de la siguiente manera:
 \begin{itemize}
 	\item En ambos casos se tomó $2 < b < 200$ aleatoriamente. El valor máximo es $200$ ya que $b$ está acotado y el valor mínimo fue elegido para evitar generar casos base y así poder ver únicamente los casos en cuestión.
-	\item Para las instancias que entran siempre al caso condicional se eligieron los $n$ dados por $2^i-1\;\;\forall\; i\in\mathbb{N}, i < 50$ debido a que al hacer la división entera de $n$ por $2$, siempre se obtiene un nuevo $n$ impar. Esto hace que sea el peor caso. Elegimos $50$ como cota porque la cantidad de instancias generadas es suficiente para poder apreciar el coportamiento del algoritmo en estos casos y $2^{50} \times 2^{50}$ entra en la variable.
-	\item Para las instancias que nunca entran al caso condicional se eligieron los $n$ dados por $2^i\;\;\forall\; i\in\mathbb{N}, i < 50$ debido a que al hacer la división entera de $n$ por $2$, siempre se obtiene un nuevo $n$ par. Esto hace que sea el mejor caso excluyendo los casos base. La cota para $i$ fue elegida con el mismo criterio que para generar los $n$ impares.
+	\item Para las instancias que entran siempre al caso condicional se eligieron los $n$ dados por $2^i-1\;\;\forall\; i\in\mathbb{N}, i < 31$ debido a que al hacer la división entera de $n$ por $2$, siempre se obtiene un nuevo $n$ impar. Esto hace que sea el peor caso. Elegimos $31$ como cota porque es el máximo valor tal que $2^{31} \times 2^{31}$ entra en la variable.
+	\item Para las instancias que nunca entran al caso condicional se eligieron los $n$ dados por $2^i\;\;\forall\; i\in\mathbb{N}, i < 31$ debido a que al hacer la división entera de $n$ por $2$, siempre se obtiene un nuevo $n$ par. Esto hace que sea el mejor caso excluyendo los casos base. La cota para $i$ fue elegida con el mismo criterio que para generar los $n$ impares.
 \end{itemize}
 
 	Con esta prueba se espera poder contrastar ambos casos. Tanto el mejor como el peor caso difieren en una constante que se desprecia en la complejidad teórica pero que en la práctica puede significar una diferencia de rendimiento importante a medida que $n$ crece.
 
 El eje del gráfico que corresponde al valor de $n$ está en escala logarítmica para poder apreciar mejor el gráfico dado que los valores de $n$ tomados crecen exponencialmente. Cada instancia que entra siempre al caso condicional está representada con una cruz roja. A su vez, las instancias que nunca entran al caso condicional están representadas con una cruz azul. También está graficada en color verde la función $log(n)*19+15$, ya que es la cota teórica previamente calculada con una constante aproximada calculada empíricamente.\VSP
+
 		\gra{bn_mod_n/count_test_if}\VSP
 
 Observamos en el gráfico que para cada $n$ impar elegido, hay un $n$ par consecutivo. Cuanto mayor es $n$, mayor es la diferencia entre la cantidad de operaciones entre esas dos instancias. Esto se debe a que dichos $n$ impares corresponden al peor caso del algoritmo y los pares al mejor. Asintóticamente, la diferencia entre mejor y peor caso resulta significativa a la hora del procesamiento.
