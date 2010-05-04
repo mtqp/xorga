@@ -21,5 +21,5 @@ set style line 2 lt 3 pt 1 ps 1
 
 #dibuja los puntos. index es porque lo separe en bloques de primos/no primos para ponerle distinto estilo..
 set output 'png/time_test.png'
-plot	'data/time_test.dat' title "Tiempo" linestyle 1,\
-	0.000000279*log(x) title "log(n)*2.79*10^(-7)"
+plot[][0:2.9e-06]	'data/time_test.dat' title "Tiempo" linestyle 1,\
+	0.000000115*log(x) title "log(n)*1.15*10^(-7)"
