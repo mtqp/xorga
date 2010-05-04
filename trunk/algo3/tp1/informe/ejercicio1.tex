@@ -135,7 +135,7 @@
 		
 		Para llevar a cabo las pruebas de este algoritmo en cuanto a operaciones realizadas por instancia, y tiempo en segundos transcurridos, generamos números en forma aleatoria, con $b$ comprendido entre $0$ y $200$ (porque $b$ está acotado), y $n$ entre 1 y $10^7$ (ya que esta cantidad de instancias posibles permite contrastar el comportamiento del algoritmo con los resultados teóricos).
 
-En los siguientes gráficos cada instancia está representada con una cruz roja. También está representada en color verde la función $log(n)*c$, ya que es la cota teórica previamente calculada con una constante aproximada calculada empíricamente para cada gráfico. A continuación se muestra la cantidad de operaciones realizadas en función de $n$ (donde $c$ es $19$).\VSP
+En los siguientes gráficos cada instancia está representada con {\color{red}+}. También está representada en color verde la función $log(n)*c$, ya que es la cota teórica previamente calculada con una constante aproximada calculada empíricamente para cada gráfico. A continuación se muestra la cantidad de operaciones realizadas en función de $n$ (donde $c$ es $19$).\VSP
 
 		\gra{bn_mod_n/count_test}\VSP
 		
@@ -158,7 +158,7 @@ En el siguiente gráfico se muestran instancias en las que en cada iteración en
 
 	Con esta prueba se espera poder contrastar ambos casos. Tanto el mejor como el peor caso difieren en una constante que se desprecia en la complejidad teórica pero que en la práctica puede significar una diferencia de rendimiento importante a medida que $n$ crece.
 
-El eje del gráfico que corresponde al valor de $n$ está en escala logarítmica para poder apreciar mejor el gráfico dado que los valores de $n$ tomados crecen exponencialmente. Cada instancia que entra siempre al caso condicional está representada con una cruz roja. A su vez, las instancias que nunca entran al caso condicional están representadas con una cruz azul. También está graficada en color verde la función $log(n)*19+15$, ya que es la cota teórica previamente calculada con una constante aproximada calculada empíricamente.\VSP
+El eje del gráfico que corresponde al valor de $n$ está en escala logarítmica para poder apreciar mejor el gráfico dado que los valores de $n$ tomados crecen exponencialmente. Cada instancia que entra siempre al caso condicional está representada con {\color{red}+}. A su vez, las instancias que nunca entran al caso condicional están representadas con {\color{blue}+}. También está graficada en color verde la función $log(n)*19+15$, ya que es la cota teórica previamente calculada con una constante aproximada calculada empíricamente.\VSP
 
 		\gra{bn_mod_n/count_test_if}\VSP
 
@@ -166,7 +166,7 @@ Observamos en el gráfico que para cada $n$ impar elegido, hay un $n$ par consec
 
 En general, podemos ver que la complejidad teórica analizada resulta ser una mejor cota conforme crece $n$. Por lo tanto, podemos afirmar que $\log n$ es una buena cota superior para la complejidad del algoritmo ya que los resultados prácticos coinciden con los cálculos teóricos.\VSP
 
-\texttt{Observacion:}
+\texttt{Observación:}
 Notamos que los resultados correspondientes a las instancias que nuncan entran al caso condicional son siempre $uno$ o $cero$. Más especificamente el resultado es siempre $cero$ para una instancia con $b$ par y siempre $uno$ para una instancia con $b$ impar.\VSP
 	\end{subsection}
 
