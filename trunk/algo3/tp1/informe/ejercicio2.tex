@@ -67,13 +67,13 @@ o dicho de otra manera, una instancia en que la cantidad de relaciones es tal qu
 
 				Sea $t$ el tamaño de la entrada, $n$ la cantidad de chicas, $i$ la cantidad de relaciones de cada una de ellas y $j$ la chica con la cual se relaciona, entonces:\\
 				
-				$t=\log n + \sum_{i=1}^n \log i + \sum_{j=1}^i \log j$\\
+				$t=\log n + \sum_{i=1}^n (\log i + \sum_{j=1}^i \log j)$\\
 				
 				Dado que un valor ocupa como mínimo $un$ bit puedo acotar inferiormente $\log n$, $\log i$ y $\log$ j por $uno$.
 				
 				Entonces,
 				
-				$t \geq 1 + \sum_{i=1}^n 1 + \sum_{j=1}^i 1=1 + n + i > n$.\\
+				$t \geq 1 + \sum_{i=1}^n (1 + \sum_{j=1}^i 1)=1 + n + n*i > n$.\\
 				
 				
 				Es decir, t es \Omegade{n}. Entonces la complejidad del algoritmo es \Ode{t!}. El algoritmo es factorial.
