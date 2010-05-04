@@ -68,7 +68,7 @@ Mariano De Sousa Bispo & 389/08 & marian\_sabianaa@hotmail.com \\
 	
 	\begin{section}{Mediciones}
 		\begin{itemize}
-			\item Para contar la cantidad de operaciones definimos una variable inicializada en $cero$ la cual incrementamos luego de cada operación.
+			\item Para contar la cantidad aproximada de operaciones definimos una variable inicializada en $cero$ la cual incrementamos luego de cada operación.
 			\item Para medir tiempo tenemos una función que ejecuta el algoritmo por un mínimo de tiempo pasado como parametro, esto lo hacemos para obtener una mejor precisión. Una vez que se cumple el tiempo tenemos en una variable la cantidad de veces que se ejecutó el algoritmo, luego dividimos el tiempo medido por $c$. 
 		\end{itemize}
 	\end{section}
@@ -83,10 +83,18 @@ Mariano De Sousa Bispo & 389/08 & marian\_sabianaa@hotmail.com \\
 	Para contar la cantidad de operaciones: \texttt{./(ejecutable) count}. Devuelve para cada instancia el tamaño seguido de la cantidad de operaciones de cada instancia.
 	\end{section}
 	
+	\newpage
+	
 	\begin{section}{Conclusiones}
 		Pudimos implementar las soluciones a los problemas propuestos utilizando diversas técnicas algorítmicas. En todos los casos las mediciones de tiempo y cantidad de operaciones se correspondieron con las complejidades teóricas calculadas. Esto indica que los modelos elegidos fueron adecuados.
 
-		En el problema $dos$ nos encontramos con un algoritmo de complejidad exponencial que a partir de cierto tamaño de entrada 'relativamente chico' se torna inutil, ya que la ejecución para dichas instancias es extremadamente lenta y en la practica muchas veces esto no es aceptable. Esto significa que el problema no esta 'bien' resuelto para tamaños de entrada no necesariamente grandes.
+		En el ejercicio $uno$ nos encontramos con un problema donde debiamos operar valores enteros muy grandes, esto hizo que no pudiesemos considerar constante el costo de las operaciones elementales. Por lo que tuvimos que analizar la complejidad en el modelo logaritmico. Al analizar la complejidad tuvimos que diferenciar esta en función de $n$ y del tamaño de entrada (lo que se hizo en todos los ejercicios), con la particularidad de que en función de $n$ resulto logaritmico y en función del tamaño de la entrada polinomial.
+		
+		Además, pudimos observar que en este caso la limitación del algoritmo no está dada por el tiempo de ejecución sino por el rango de valores admitidos ya que a partir de cierto $n$ hay que trabajar con números más grandes de lo que se puede almacenar en la variable. Dicho esto, nos parece un buen algoritmo porque como cualquier otro que opera con variables numéricas en algun punto hace $overflow$ para una entrada 'suficientemente grande', y este puede devolver un resultado para todas las instancias donde esto no ocurre con un costo temporal muy bajo.
+
+		En el problema $dos$ nos encontramos con un algoritmo de complejidad factorial que a partir de cierto tamaño de entrada 'relativamente chico' se torna inutil, ya que la ejecución para dichas instancias es extremadamente lenta y en la practica muchas veces esto no es aceptable. Esto significa que el problema no esta 'bien' resuelto para tamaños de entrada no necesariamente grandes. Esto lo notamos al hacer las pruebas ya que a partir de $16$ chicas en casos 'malos' para el algoritmo requeria de varias horas para devolver una respuesta.
+		
+		El problema $tres$ nos pareció un problema particularmente sencillo desde el punto de la implementación. Pudimos resolverlo con un algoritmo simple que tiene costo lineal tanto en función del tamaño de la entrada como de la cantidad de programadores. Por lo que se considera un problema 'bien' resuelto desde el punto de vista computacional.
 	\end{section}
 
 \end{document}
