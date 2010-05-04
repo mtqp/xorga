@@ -18,18 +18,19 @@ Este procedimiento se repite hasta haber visto todos los ingresos, lo que nos ga
 		\vspace{0.5cm}
 		\begin{pseudo}
 				\func{programadores\_en\_simultaneo}{$ingresos, egresos$}
-(1)				\tab $max,tmp,j,k \leftarrow 0$ \\
-(2)				\tab \WHILE($j< n$) &   \\
-(3)				\tab \tab \IF($ingresos[j]\leq egresos[k]$) \\
-(4)				\tab \tab \tab $tmp \leftarrow tmp+1$ \\
-(5)				\tab \tab \tab $j \leftarrow j+1$ \\
-(6)				\tab \tab \ELSE \\
-(7)				\tab \tab \tab \IF($tmp>max$) \\
-(8)				\tab \tab \tab \tab $max \leftarrow tmp$ \\
-(9)				\tab \tab \tab $tmp \leftarrow tmp - 1$ \\				(10)				\tab \tab \tab $k \leftarrow k+1$ \\
-(11)				\tab \IF($tmp>max$) \\
-(12)				\tab \tab $max \leftarrow tmp$ \\
-(13)				\tab \RET $max$
+				\tab $max,tmp,j,k \leftarrow 0$ \\
+				\tab \WHILE($j< n$) &   \\
+				\tab \tab \IF($ingresos[j]\leq egresos[k]$) \\
+				\tab \tab \tab $tmp \leftarrow tmp+1$ \\
+				\tab \tab \tab $j \leftarrow j+1$ \\
+				\tab \tab \ELSE \\
+				\tab \tab \tab \IF($tmp>max$) \\
+				\tab \tab \tab \tab $max \leftarrow tmp$ \\
+				\tab \tab \tab $tmp \leftarrow tmp - 1$ \\
+				\tab \tab \tab $k \leftarrow k+1$ \\
+				\tab \IF($tmp>max$) \\
+				\tab \tab $max \leftarrow tmp$ \\
+				\tab \RET $max$
 		\end{pseudo}
 
 
@@ -73,7 +74,7 @@ El algoritmo en todos los casos recorre completamente la lista de ingresos, por 
 	
 	\gra{programadores/count_peor_mejor.png}\VSP
 
-	Observamos que se cumple lo esperado, es decir, corroboramos empíricamente que lo analizado previamente tiene coherencia, ya que la diferencia en la cantidad de operaciones que realiza el algoritmo para resolver un problema cuya caracteristica es la del mejor caso con $n$ programadores se hace cada vez más significativa respecto a las del peor caso para un mismo $n$ a medida que dicho $n$ crece.\\
+	Observamos que se cumple lo esperado, es decir, corroboramos empíricamente que lo analizado previamente tiene coherencia, ya que la diferencia en la cantidad de operaciones que realiza el algoritmo para resolver un problema cuya caracteristica es la del mejor caso con $n$ programadores se hace cada vez más significativa respecto a las del peor caso para un mismo $n$ a medida que dicho $n$ crece.
 	
 	Para los gráficos que siguen utilizamos un generador, que dado un número máximo de programadores $n$, genera instancias aleatorias con a lo sumo $n$ programadores. Corrimos el generador con $n$ igual a $cien$ dado que no necesitamos instancias demasiado grandes para poder apreciar el comportamiento del algoritmo.
 
@@ -83,7 +84,7 @@ El algoritmo en todos los casos recorre completamente la lista de ingresos, por 
 
 	\gra{programadores/count_test.png}\VSP
 	
-	\gra{programadores/time_test.png}\VSP
+	\gra{programadores/time_test.png}
 
 	En el primer gráfico se ve la función que dado el número de programadores, muestra la cantidad de operaciones realizadas por el algoritmo mientras que en el segundo se observa el tiempo consumido para procesar cada instancia, ambos en función de la cantidad de programadores.
 	En los dos gráficos se puede observar que la función se encuentra acotada por una recta, con lo cual se ve sin problemas que se trata de un algoritmo que trabaja en "tiempo" lineal.
@@ -91,9 +92,7 @@ El algoritmo en todos los casos recorre completamente la lista de ingresos, por 
 	Lo que obsevamos en los gráficos tiene coherencia con la complejidad teórica calculada. 
 	En general, vemos que el algoritmo se comporta como \Thetade{n} ya que como mínimo recorre sólo toda la lista de ingresos y como máximo recorre tanto la lista de ingresos como la de egresos. Es decir, el costo del algoritmo esta acotado inferior y superiormente por $c*n$, con c constante.
 
-	\end{subsection}
-
-\end{section}
+	\end{subsection}\end{section}
 
 
 

@@ -1,7 +1,7 @@
 #!/usr/bin/gnuplot -persist
 
-#exporto como png
-set term png
+#exporto como svg
+set term svg
 
 #le pone titulo al grafico
 set title "Tiempos del algoritmo programadores_en_simultaneo"
@@ -19,13 +19,13 @@ set key left box
 set style line 1 lt 1 pt 1 ps 1
 set style line 2 lt 3 pt 1 ps 1
 
-set output 'time_test.png'
+set output 'time_test.svg'
 
 #dibuja los puntos. index es porque lo separe en bloques de primos/no primos para ponerle distinto estilo..
 plot	'time.dat' title "Tiempo" linestyle 1,\
-	0.000000087*x+0.0000004 title "n*8.7*10^(-8)+4*10^(-7)"
+	0.000000087*x+0.0000003 title "n*8.7*10^(-8)+3*10^(-7)"
 
 #pongo la salida default para mostrar en pantalla
-set term pop
-set output
-replot
+#set term pop
+#set output
+#replot

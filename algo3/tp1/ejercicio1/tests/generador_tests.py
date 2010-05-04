@@ -9,9 +9,9 @@ def generar_random(cantidad, maximo_b, maximo_n):
 	for i in range(cantidad):
 		b = randint(0,maximo_b)
 		n = randint(1,maximo_n)
-		r = (b**n)%n
+		#r = (b**n)%n
 		fIn.write('%s %s\n'%(b,n))
-		fOut.write('%s\n'%r)
+		#fOut.write('%s\n'%r)
 
 	fIn.write('-1 -1')
 	fIn.close()
@@ -20,7 +20,7 @@ def generar_random(cantidad, maximo_b, maximo_n):
 
 def generar_no_if(cantidad, maximo_b, maximo_log_n):
 	fIn  = open('test_no_if.in', 'w')
-	for i in range(3,maximo_log_n):
+	for i in range(2,maximo_log_n):
 		b = randint(2,maximo_b)
 		n = 2**i
 		while b%n<2:
@@ -30,18 +30,12 @@ def generar_no_if(cantidad, maximo_b, maximo_log_n):
 	fIn.write('-1 -1')
 	fIn.close()
 	
-
-def sucesion_if(i):
-	if i == 1:
-		return 1
-	return 2*sucesion_if(i-1)+1
-
 def generar_if(cantidad, maximo_b, maximo_n):
 	fIn  = open('test_if.in', 'w')
 
-	for i in range(3,maximo_n):
+	for i in range(2,maximo_n):
 		b = randint(2,maximo_b)
-		n = sucesion_if(i)
+		n = 2**i-1
 		while b%n<2:
 			b = randint(2,maximo_b)
 		fIn.write('%s %s\n'%(b,n))
@@ -56,7 +50,7 @@ def main():
 	cantidad = 1000
 	maximo_b = 200
 	
-	#generar_random(cantidad, maximo_b, 10000);
+	generar_random(cantidad, maximo_b, 100000000);
 	generar_no_if(cantidad, maximo_b, 31);
 	generar_if(cantidad, maximo_b, 31);
 

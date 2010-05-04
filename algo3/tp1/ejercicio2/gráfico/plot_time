@@ -23,8 +23,10 @@ set style line 4 lt 2 pt 2 ps 1
 set logscale y
 
 set output 'png/time_.png'
-plot	'.dat' title "Densidad 0.7" linestyle 4,\
-	'time_factoriales.dat' title "n!*10^(-7)" with points linestyle 2
+plot	'data/times_17_1.dat' title "Densidad 0.7" linestyle 4,\
+		'< cat data/times_03*.dat' title "Densidad 0.3" linestyle 3,\
+		'< cat data/times_05*.dat' title "Densidad 0.5" linestyle 1,\
+		'data/factoriales.dat' title "n!*10" with points linestyle 2
 
 #pongo la salida default para mostrar en pantalla
 set term pop
