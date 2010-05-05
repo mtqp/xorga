@@ -57,6 +57,26 @@
 
 
 	\begin{subsection}{Análisis de complejidad}
+	Como hemos visto anteriormente, nuestro algoritmo utiliza la técnica de programación dinámica. Esta consta de reutilizar información previa para llegar al resultado final. En el análisis de la complejidad veremos como la aplicación de la técnica previamente mencionada, ha permitido conseguir un algoritmo polinomial.\\
+	
+	El algoritmo $long\_max\_creciente$ que calcula para cada elemento $i$ de la secuencia original la máxima longitud de la secuencia creciente y decreciente que lo incluye, itera por todos los índices $j<i$ ($\forall\; 0 \leq i < n$).\\
+
+	La complejidad de dicho algoritmo viene dada por: $\sum_{i=0}^{n-1} i = \frac{n*(n-1)}{2} = n^2$\\
+
+	Sea $n$ la longitud de la secuencia dada, $max\_long\_creciente$ la secuencia que guarda en cada posición la máxima longitud de la subsecuencia creciente.\\
+
+	\begin{pseudo}
+		\func{long\_max\_creciente}{$secuencia, max\_long\_creciente$}
+		\tab $max\_long\_creciente[0] \leftarrow 0$ \tab \Ode{1} \\
+		\tab \FOR $i=1$ \TO $n$ \\
+		\tab \tab $max\_long \leftarrow 0$\\
+		\tab \tab \FOR $j=i-1$ \TO $0$ \\
+		\tab \tab \tab \IF $ secuencia[j] <  secuencia[i] \AND max\_long\_creciente [j] > max\_long)$\\
+		\tab \tab \tab \tab  $max\_long \leftarrow max\_long\_creciente[j] $\\
+		\tab $max\_long\_creciente[i] \leftarrow max\_long+1$\\
+	\end{pseudo}
+
+	
 	\end{subsection}
 
 
