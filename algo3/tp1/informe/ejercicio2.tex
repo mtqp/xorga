@@ -1,5 +1,5 @@
 \begin{section}{Problema 2}
-	\textit{Se tiene $n$ chicas cada de estas tiene $k$ amigas, con $k<n$. Decidir si se puede formar una ronda que las contega a todas donde cada una de las chicas este de la mano de dos de sus amigas.}
+	\textit{Se tiene $n$ chicas cada de estas tiene $k$ amigas, con $k<n$. Decidir si se puede formar una ronda que las contenga a todas donde cada una de las chicas este de la mano de dos de sus amigas.}
 	\begin{subsection}{Explicación}
 		El Algoritmo busca todas las formas de armar la ronda utilizando la técnica de backtracking. Para esto, el algoritmo une a las chicas hasta que:
 		\begin{itemize} \item forma la ronda (encuentra una combinación posible), o \item no puede armar la ronda de esa forma, y\end{itemize}
@@ -8,7 +8,7 @@
 			
 		Además, el algoritmo utiliza algunas propiedades de la ronda para ser más eficiente:
 		\begin{subsubsection}{Optimizaciones}
-		\begin{itemize} \item Verifica que cada chica tenga al menos dos amigas, de no ser asi podemos afirmar que no se puede formar la ronda ya que cada chica debe estar tomada de la mano de dos de sus amigas.
+		\begin{itemize} \item Verifica que cada chica tenga al menos dos amigas, de no ser así podemos afirmar que no se puede formar la ronda ya que cada chica debe estar tomada de la mano de dos de sus amigas.
 				\item A la vez, comprueba si todas son amigas de todas. Si eso sucede podemos afirmar que la ronda existe.
 				\item Por otro lado, detecta si existen grupos independientes, es decir, sin conexiones entre sí. Dicho de otra manera, detecta si existen al menos dos chicas que no pueden ser unidas ya sea directamente o pasando por otras chicas. Si esto ocurre podemos afirmar que no se puede armar la ronda ya que esta debe incluirlas a todas. 
 		\end{itemize}
@@ -16,7 +16,7 @@
 		\end{subsubsection}
 	\end{subsection}
 	\begin{subsection}{Detalles de la implementación}
-		Elegimos arbitrariamente empezar la ronda por la chica $uno$ (la primera segun el archivo de entrada) ya que a los efectos de verificar si es posible armar la ronda esta elección no tiene relevancia alguna. Esto es porque la equivalencia entre $dos$ rondas no esta dada por la chica desde la que se inicie, sino por el hecho de que cada chica este de la mano de las mismas $dos$ amigas.\\\\
+		Elegimos arbitrariamente empezar la ronda por la chica $uno$ (la primera según el archivo de entrada) ya que a los efectos de verificar si es posible armar la ronda esta elección no tiene relevancia alguna. Esto es porque la equivalencia entre $dos$ rondas no esta dada por la chica desde la que se inicie, sino por el hecho de que cada chica este de la mano de las mismas $dos$ amigas.\\\\
 	
 		Almacenamos las relaciones entre las chicas en una matriz de $n \times n$, donde $n$ es la cantidad de chicas. Cada posición $(i,j)$ de la matriz contiene un $uno$ si la chica $i$ es amiga de $j$ y un $cero$ en caso contrario.\VSP
 
@@ -30,19 +30,19 @@
 		\end{pseudo}
 
 		\begin{itemize}
-			\item \textbf{no\_todas\_tienen\_al\_menos\_dos\_amigas:} para cada chica $c$ el algoritmo inicializa un contador de amigas en cero y recorre todas las chicas preguntando si son amigas de $c$, si es asi incrementa dicho contador. Al finalizar el recorrido verifica que el contador sea mayor o igual a dos, es decir, que la chica $c$ tenga al menos dos amigas. Si no es asi el algoritmo termina y devuelve falso.
+			\item \textbf{no\_todas\_tienen\_al\_menos\_dos\_amigas:} para cada chica $c$ el algoritmo inicializa un contador de amigas en cero y recorre todas las chicas preguntando si son amigas de $c$, si es así incrementa dicho contador. Al finalizar el recorrido verifica que el contador sea mayor o igual a dos, es decir, que la chica $c$ tenga al menos dos amigas. Si no es así el algoritmo termina y devuelve falso.
 
-			\item \textbf{hay\_más\_de\_un\_grupo:} para determinar si existe más de un grupo el algoritmo corre un bfs a partir de la primer chica (la primera segun el archivo de entrada). El algoritmo busca todas las amigas que todavia no hayan sido vistas considerandolas del mismo grupo. Repite este paso para cada una de las chicas alcanzadas (amigas de alguna anterior). Si el algoritmo termina y hay chicas que no fueron alcanzadas se las considera de otro grupo y por lo tanto la ronda no va a poder formarse.
+			\item \textbf{hay\_más\_de\_un\_grupo:} para determinar si existe más de un grupo el algoritmo corre un bfs a partir de la primer chica (la primera según el archivo de entrada). El algoritmo busca todas las amigas que todavía no hayan sido vistas considerándolas del mismo grupo. Repite este paso para cada una de las chicas alcanzadas (amigas de alguna anterior). Si el algoritmo termina y hay chicas que no fueron alcanzadas se las considera de otro grupo y por lo tanto la ronda no va a poder formarse.
 
-La complejidad es $n^2$ (ya que las relaciones entre las chicas estan implementadas con una matriz), donde $n$ es la cantidad de chicas. Porque el peor caso es cuando hay sólo un grupo ya que el algoritmo alcanza todas las chicas y para cada una de estas busca entre todas las chicas sus amigas.
+La complejidad es $n^2$ (ya que las relaciones entre las chicas están implementadas con una matriz), donde $n$ es la cantidad de chicas. Porque el peor caso es cuando hay sólo un grupo ya que el algoritmo alcanza todas las chicas y para cada una de estas busca entre todas las chicas sus amigas.
 
-		\item \textbf{todas\_amigas\_de\_todas:} a la vez que determina si existe una chica que tiene menos de dos amigas (no\_todas\_tienen\_al\_menos\_dos\_amigas) utiliza ese contador para saber si cada chica tiene $n-1$ amigas, es decir, es amiga de todas las demas. Si es asi, el algoritmo termina y devuelve verdadero.
+		\item \textbf{todas\_amigas\_de\_todas:} a la vez que determina si existe una chica que tiene menos de dos amigas (no\_todas\_tienen\_al\_menos\_dos\_amigas) utiliza ese contador para saber si cada chica tiene $n-1$ amigas, es decir, es amiga de todas las demás. Si es así, el algoritmo termina y devuelve verdadero.
 
 		\end{itemize}
 
-		El algoritmo de backtracking recorre las chicas, para cada una de estas chequea si es amiga de la última chica que se agrego a la ronda y si todavia no pertenece a la misma. Si es asi la agrega y repite este procedimiento (avanza). Sino significa que recorrió todas las chicas y ninguna cumple ambas condiciones por lo que comienza a retroceder.
+		El algoritmo de backtracking recorre las chicas, para cada una de estas chequea si es amiga de la última chica que se agrego a la ronda y si todavía no pertenece a la misma. Si es así la agrega y repite este procedimiento (avanza). Sino significa que recorrió todas las chicas y ninguna cumple ambas condiciones por lo que comienza a retroceder.
 
-		Cuando retrocede, saca la última chica que agrego a la ronda (la cual identificaremos con la letra $a$, además llamamos $b$ a la actual última chica en la ronda (la anterior a la que sacó)) y prosigue la busqueda desde la chica $a$ de la amiga de $b$ que ocupara la posición recientemente desocupada en la ronda. Si no hay una chica que puede ocuparla, es decir, $b$ no tiene más amigas el algoritmo sigue retrocediendo.
+		Cuando retrocede, saca la última chica que agrego a la ronda (la cual identificaremos con la letra $a$, además llamamos $b$ a la actual última chica en la ronda (la anterior a la que sacó)) y prosigue la búsqueda desde la chica $a$ de la amiga de $b$ que ocupara la posición recientemente desocupada en la ronda. Si no hay una chica que puede ocuparla, es decir, $b$ no tiene más amigas el algoritmo sigue retrocediendo.
 
 		Avanzando, si llega a meter a todas las chicas a la ronda y la primer chica es amiga de la última, encontró una forma de armar la ronda, termina y devuelve verdadero.
 
@@ -55,9 +55,9 @@ La complejidad es $n^2$ (ya que las relaciones entre las chicas estan implementa
 			Sea $n$ la cantidad de chicas.	
 		
 			El peor caso para el algoritmo es aplicar backtraking sobre una instancia $no\_ronda$ con una cantidad maximal de relaciones,
-o dicho de otra manera, una instancia en que la cantidad de relaciones es tal que al agregar una relacion más a cualquier chica, se forma una ronda. Es el peor caso ya que no se resuleve por las optimizaciones y debe probar todas las combinaciones con las podas correspondientes.
+o dicho de otra manera, una instancia en que la cantidad de relaciones es tal que al agregar una relación más a cualquier chica, se forma una ronda. Es el peor caso ya que no se resuelve por las optimizaciones y debe probar todas las combinaciones con las podas correspondientes.
 			
-			Dado que la cantidad de ramas que se desprenden en cada nivel del árbol (teórico) no es constante, es decir, depende de la chica que el algoritmo agrega, encontrar una cota ajustada para la complejidad de este algoritmo es complicado. Por este motivo, para analizar la complejidad tomamos como peor caso un caso hipotetico (sabemos que va a ser resuelto por las optimizaciones pero nos sirve para este analisis). Dicho caso es la instancia donde las relaciones son máximas (todas con todas, cada chica tiene $n-1$ amigas) y el árbol se genera completamente sólo podando cuando se repite una chica. Se toma una chica y se generan todas las combinaciones posibles (sin repetir chicas). Para esto se elige la primera de donde se desprenden $n-1$ ramas posibles, de cada una de estas ramas se desprenden $n-2$, asi sucesivamente hasta llegar al nivel $n$.
+			Dado que la cantidad de ramas que se desprenden en cada nivel del árbol (teórico) no es constante, es decir, depende de la chica que el algoritmo agrega, encontrar una cota ajustada para la complejidad de este algoritmo es complicado. Por este motivo, para analizar la complejidad tomamos como peor caso un caso hipotético (sabemos que va a ser resuelto por las optimizaciones pero nos sirve para este análisis). Dicho caso es la instancia donde las relaciones son máximas (todas con todas, cada chica tiene $n-1$ amigas) y el árbol se genera completamente sólo podando cuando se repite una chica. Se toma una chica y se generan todas las combinaciones posibles (sin repetir chicas). Para esto se elige la primera de donde se desprenden $n-1$ ramas posibles, de cada una de estas ramas se desprenden $n-2$, así sucesivamente hasta llegar al nivel $n$.
 
 			De lo anterior se deduce que la cantidad de combinaciones es: $$\displaystyle\prod_{i=1}^{n-1} (n-i) = (n-1)! \leq n!$$
 
@@ -80,7 +80,7 @@ o dicho de otra manera, una instancia en que la cantidad de relaciones es tal qu
 	\end{subsection}
 
 	\begin{subsection}{Pruebas y Resultados}
-		Las entradas para probar correctitud estan en los archivo \texttt{rondas.in, no\_rondas.in, alguna\_menos\_dos\_amigas.in, todas\_con\_todas.in, \\
+		Las entradas para probar correctitud están en los archivo \texttt{rondas.in, no\_rondas.in, alguna\_menos\_dos\_amigas.in, todas\_con\_todas.in, \\
 		mas\_de\_un\_grupo.in}.
 		Fueron elegidas para probar el comportamiento del algoritmo en todas sus variantes y probar la eficiente detección de las 'no\_rondas' cuando hay alguna chica con menos de dos amigas o cuando hay grupos aislados y de las 'rondas' cuando todas son amigas de todas.
 		
@@ -88,8 +88,8 @@ o dicho de otra manera, una instancia en que la cantidad de relaciones es tal qu
 
 		 Se hizo énfasis en la generación de casos promedio y peores casos (donde el algoritmo no resuelve el problema mediante las optimizaciones). Para esto se tomo en cuenta las posibles $no\_rondas$, con un máximo aproximado (calculado empíricamente) de relaciones tal que al agregarle una relación más a cualquier chica, se pueda formar una ronda. También forzamos a que en sólo dos instancias por cada $n$ hubiera chicas sin amigas o con sólo una amiga, donde el algoritmo optimizado se ahorra el intentar construir soluciones.
 		
-		En los siguientes graficos las instancias con densidad 0.3 estan representadas con {\color{cyan}$\blacksquare$}, las instancias con densidad 0.5 con {\color{red}+}, las que tienen densidad 0.7 con {\color{green}$\times$} y los peores casos con {\color{blue}$\ast$}. Además, graficamos la función $c*n!$ con $\bullet$, ya que es la cota teórica previamente calculada con una constante aproximada calculada empíricamente para cada gráfico.
-		Los gráficos estan en escala logaritmica para poder apreciar mejor la función.\VSP
+		En los siguientes gráficos las instancias con densidad 0.3 están representadas con {\color{cyan}$\blacksquare$}, las instancias con densidad 0.5 con {\color{red}+}, las que tienen densidad 0.7 con {\color{green}$\times$} y los peores casos con {\color{blue}$\ast$}. Además, graficamos la función $c*n!$ con $\bullet$, ya que es la cota teórica previamente calculada con una constante aproximada calculada empíricamente para cada gráfico.
+		Los gráficos están en escala logarítmica para poder apreciar mejor la función.\VSP
 		
 		\newpage
 
@@ -99,22 +99,22 @@ o dicho de otra manera, una instancia en que la cantidad de relaciones es tal qu
 
 		Ovservamos que para un $n$ fijo, la función crece (la cantidad de operaciones aumenta) conforme aumenta la cantidad de relaciones entre las chicas.
 
-		Dicha función se ve acotada por la función factorial, cuyo parametro de entrada es la cantidad de chicas $n$. Vemos también que los casos que considerabamos como los peores aparecen por encima del resto de las instancias. Los casos cercanos al cero en el eje cantidad de operaciones representan las instancias donde las optimizaciones del algoritmo no permitieron recorrer inutilmente el árbol para poder concluir que no hay solución posible.\VSP
+		Dicha función se ve acotada por la función factorial, cuyo parámetro de entrada es la cantidad de chicas $n$. Vemos también que los casos que considerábamos como los peores aparecen por encima del resto de las instancias. Los casos cercanos al cero en el eje cantidad de operaciones representan las instancias donde las optimizaciones del algoritmo no permitieron recorrer inútilmente el árbol para poder concluir que no hay solución posible.\VSP
 
 		\newpage
 
 		\gra{ronda_de_amigas/time_test.png}\VSP
 
-		En este se grafica el tiempo transcurrido para cada instancia. La apreciación tambien es muy similar, ya que nuevamente aparece acotada por la funcion factorial, y se ven más abajo los casos donde se dieron lugar a las optimizaciones.
+		En este se grafica el tiempo transcurrido para cada instancia. La apreciación también es muy similar, ya que nuevamente aparece acotada por la función factorial, y se ven más abajo los casos donde se dieron lugar a las optimizaciones.
 
 		En general, podemos ver que la complejidad teórica analizada resulta ser una cota menos ajustada conforme crece $n$.
 		
-		En ambos gráficos se puede observar que en el eje de cantidad de amigas para una entrada de $dieciocho$, existen menos puntos de densidad $0.7$. Realizamos menos casos porque el costo (en tiempo) de procesamiento del algoritmo era del orden de horas para cada instancia. Tampoco se realizó la prueba de los peores casos correspondientes a $n$ igual a $diecisiete$ y $dieciocho$ por lo dicho anteriormente. Igualmente predecimos que de hacerse los casos y graficarlos, los puntos coincidirían con el comportamiento esperado.
+		En ambos gráficos se puede observar que en el eje de cantidad de amigas para una entrada de $dieciocho$, existen menos puntos de densidad $0.7$. Realizamos menos casos porque el costo (en tiempo) de procesamiento del algoritmo era del orden de horas para cada instancia. Tampoco se realizó la prueba de los peores casos correspondientes a $n$ igual a $diecisiete$ y $dieciocho$ en cuanto a cantidad de operaciones por lo dicho anteriormente. Igualmente predecimos que de hacerse los casos y graficarlos, los puntos coincidirían con el comportamiento esperado.
 
 		Al generar las rondas de forma aleatoria, para valores menores que seis -con las densidades propuestas-, nuestro algoritmo de generación de rondas no podía realizar la tarea. Por lo tanto, esos casos no fueron incluídos.
 	\end{subsection}
 	\begin{subsection}{Conclusiones}
-			En este problema nos encontramos con un algoritmo de complejidad factorial que a partir de cierto tamaño de entrada 'relativamente chico' se torna inútil, ya que la ejecución para dichas instancias es extremadamente lenta y en la práctica muchas veces no es aceptable. Esto significa que el problema no está 'bien' resuelto para tamaños de entrada no necesariamente grandes, notándolo en las pruebas: a partir de $16$ chicas en casos 'malos' el algoritmo requeria de varias horas para devolver una respuesta. 
+			En este problema nos encontramos con un algoritmo de complejidad factorial que a partir de cierto tamaño de entrada 'relativamente chico' se torna inútil, ya que la ejecución para dichas instancias es extremadamente lenta y en la práctica muchas veces no es aceptable. Esto significa que el problema no está 'bien' resuelto para tamaños de entrada no necesariamente grandes, notándolo en las pruebas: a partir de $16$ chicas en casos 'malos' el algoritmo requería de varias horas para devolver una respuesta. 
 
 	Con respecto a las mediciones de tiempo y cantidad de operaciones estas se correspondieron con las complejidades teóricas calculadas lo que indica que el modelo elegido fue adecuado.
 	\end{subsection}

@@ -1,5 +1,5 @@
 \begin{section}{Problema 3}
-	\textit{Dada una lista de ingresos y otra de egresos que contienen los horarios de ingreso y egreso de cada uno de los programadores de una empresa respectivamente, determinar la mayor cantidad de programadores que estan simultáneamente dentro de la empresa.}
+	\textit{Dada una lista de ingresos y otra de egresos que contienen los horarios de ingreso y egreso de cada uno de los programadores de una empresa respectivamente, determinar la mayor cantidad de programadores que están simultáneamente dentro de la empresa.}
 
 	\begin{subsection}{Explicación}
 		Para cada instancia tenemos una lista que contiene para cada programador su horario de ingreso a la empresa y otra con su horario de egreso. Además, tenemos guardado en cada momento la cantidad máxima de programadores en simultáneo.
@@ -39,11 +39,11 @@ Este procedimiento se repite hasta haber visto todos los ingresos, lo que nos ga
 	\end{subsection}
 
 	\begin{subsection}{Detalles de la implementación}
-	Guardamos los horarios de ingreso de todos los programadores (de la misma forma que estan en el archivo de entrada, es decir, en orden creciente) en un arreglo de $strings$ (los cuales representan un horario en formato ``HH:MM:SS'') de tamaño $n$, donde $n$ es la cantidad de programadores. Además guardamos otro arreglo del mismo tamaño con los horarios de egreso.
+	Guardamos los horarios de ingreso de todos los programadores (de la misma forma que están en el archivo de entrada, es decir, en orden creciente) en un arreglo de $strings$ (los cuales representan un horario en formato ``HH:MM:SS'') de tamaño $n$, donde $n$ es la cantidad de programadores. Además guardamos otro arreglo del mismo tamaño con los horarios de egreso.
 	
-	A medida que vamos recorriendo los arreglos $ingresos$ y $egresos$ necesitamos decidir si el horario de ingreso del programador $j$ es anterior o posterior al horario de egreso del programador $i$, esto lo hacemos comparando los $strings$ por menor o igual (que el horario de ingreso del programador $j$ sea el mismo que el horario de egreso del programador $i$ significa que ambos estuvieron en simultáneo en la empresa jústamente en ese horario ya que se considera que un programador permanece dentro de la empresa desde su horario de ingreso hasta su horario de egreso, incluyendo ambos extremos). Si la comparación resulta verdadera significa que el programador $j$ ingresa a la empresa por lo que incrementamos el contador de programadores en simultáneo en ese horario. En caso contrario lo decrementamos ya que el programador $i$ egresa. Antes de decrementar dicho contador verificamos si la cantidad de programadores en simultáneo previo al egreso de $i$ es mayor a $max$ (máxima cantidad de programadores en simultáneo calculada hasta el momento) y de ser necesario actualizamos $max$.
+	A medida que vamos recorriendo los arreglos $ingresos$ y $egresos$ necesitamos decidir si el horario de ingreso del programador $j$ es anterior o posterior al horario de egreso del programador $i$, esto lo hacemos comparando los $strings$ por menor o igual (que el horario de ingreso del programador $j$ sea el mismo que el horario de egreso del programador $i$ significa que ambos estuvieron en simultáneo en la empresa justamente en ese horario ya que se considera que un programador permanece dentro de la empresa desde su horario de ingreso hasta su horario de egreso, incluyendo ambos extremos). Si la comparación resulta verdadera significa que el programador $j$ ingresa a la empresa por lo que incrementamos el contador de programadores en simultáneo en ese horario. En caso contrario lo decrementamos ya que el programador $i$ egresa. Antes de decrementar dicho contador verificamos si la cantidad de programadores en simultáneo previo al egreso de $i$ es mayor a $max$ (máxima cantidad de programadores en simultáneo calculada hasta el momento) y de ser necesario actualizamos $max$.
 
-	Una vez que terminamos de recorrer la lista de ingresos, actualizamos $max$ ya que desde el último egreso visto se pueden haber producido nuevos ingresos. Una vez hecho esto tenemos determinada la mayor cantidad de programadores que estan simultáneamente dentro de la empresa.
+	Una vez que terminamos de recorrer la lista de ingresos, actualizamos $max$ ya que desde el último egreso visto se pueden haber producido nuevos ingresos. Una vez hecho esto tenemos determinada la mayor cantidad de programadores que están simultáneamente dentro de la empresa.
 	\end{subsection}
 
 	\begin{subsection}{Análisis de complejidad}
@@ -51,7 +51,7 @@ Este procedimiento se repite hasta haber visto todos los ingresos, lo que nos ga
 			
 			Como cada programador tiene un ingreso y un egreso, tanto la lista de ingresos como la lista de egresos tienen longitud $n$.
 
-El algoritmo en todos los casos recorre completamente la lista de ingresos, por lo que el peor caso es cuando el último ingreso y el último egreso corresponden al mismo programador, ya que para registrar éste último ingreso, tambien tuvo que recorrer toda la lista de egresos. Por este motivo, podemos inferir que a lo sumo se realizan $2n -1$ iteraciones. En cada una de estas tenemos un costo constante de operaciones, que no modifican la complejidad en el análisis asintótico. La complejidad algorítmica en el modelo uniforme es \Ode{n}.\VSP
+El algoritmo en todos los casos recorre completamente la lista de ingresos, por lo que el peor caso es cuando el último ingreso y el último egreso corresponden al mismo programador, ya que para registrar éste último ingreso, también tuvo que recorrer toda la lista de egresos. Por este motivo, podemos inferir que a lo sumo se realizan $2n -1$ iteraciones. En cada una de estas tenemos un costo constante de operaciones, que no modifican la complejidad en el análisis asintótico. La complejidad algorítmica en el modelo uniforme es \Ode{n}.\VSP
 
 		\noindent\textbf{En función del tamaño de la entrada}\\
 
@@ -74,7 +74,7 @@ El algoritmo en todos los casos recorre completamente la lista de ingresos, por 
 	
 	\gra{programadores/count_peor_mejor.png}\VSP
 
-	Observamos que se cumple lo esperado, es decir, corroboramos empíricamente que lo analizado previamente tiene coherencia, ya que la diferencia en la cantidad de operaciones que realiza el algoritmo para resolver un problema cuya caracteristica es la del mejor caso con $n$ programadores se hace cada vez más significativa respecto a las del peor caso para un mismo $n$ a medida que dicho $n$ crece.
+	Observamos que se cumple lo esperado, es decir, corroboramos empíricamente que lo analizado previamente tiene coherencia, ya que la diferencia en la cantidad de operaciones que realiza el algoritmo para resolver un problema cuya característica es la del mejor caso con $n$ programadores se hace cada vez más significativa respecto a las del peor caso para un mismo $n$ a medida que dicho $n$ crece.
 	
 	Para los gráficos que siguen utilizamos un generador, que dado un número máximo de programadores $n$, genera instancias aleatorias con a lo sumo $n$ programadores. Corrimos el generador con $n$ igual a $cien$ dado que no necesitamos instancias demasiado grandes para poder apreciar el comportamiento del algoritmo.
 
@@ -89,7 +89,7 @@ El algoritmo en todos los casos recorre completamente la lista de ingresos, por 
 	En el primer gráfico se ve la función que dado el número de programadores, muestra la cantidad de operaciones realizadas por el algoritmo mientras que en el segundo se observa el tiempo consumido para procesar cada instancia, ambos en función de la cantidad de programadores.
 	En los dos gráficos se puede observar que la función se encuentra acotada por una recta, con lo cual se ve sin problemas que se trata de un algoritmo que tiene 'costo' lineal.
 
-	Lo que obsevamos en los gráficos tiene coherencia con la complejidad teórica calculada. 
+	Lo que observamos en los gráficos tiene coherencia con la complejidad teórica calculada. 
 	En general, vemos que el algoritmo se comporta como \Thetade{n} ya que como mínimo recorre sólo toda la lista de ingresos y como máximo recorre tanto la lista de ingresos como la de egresos. Es decir, el costo del algoritmo esta acotado inferior y superiormente por $c*n$, con c constante.
 	\end{subsection}
 	\begin{subsection}{Conclusiones}
