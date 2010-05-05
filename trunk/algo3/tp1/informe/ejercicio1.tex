@@ -4,7 +4,7 @@
 
 	\begin{subsection}{Explicación}
 
-		Una solución factible al problema es utilizar un algoritmo recursivo basado en la técnica $Divide \& Conquer$. La idea sería quedarnos cada vez con un problema más chico, dividiendo el exponente a la mitad y resolver recursivamente dicho problema hasta llegar a uno suficientemente chico (en este caso cuando el exponente sea 2) para luego combinar las soluciones elevando al cuadrado lo ya calculado y obtener así una solución al problema original. En el caso donde $n$ fuese impar se resuelve el problema para $n-1$ a través del procedimiento mencionado y luego se multiplica el resultado por $b$.
+		Una solución factible al problema es utilizar un algoritmo recursivo basado en la técnica $Divide\; \&\; Conquer$. La idea sería quedarnos cada vez con un problema más chico, dividiendo el exponente a la mitad y resolver recursivamente dicho problema hasta llegar a uno suficientemente chico (en este caso cuando el exponente sea 2) para luego combinar las soluciones elevando al cuadrado lo ya calculado y obtener así una solución al problema original. En el caso donde $n$ fuese impar se resuelve el problema para $n-1$ a través del procedimiento mencionado y luego se multiplica el resultado por $b$.
 
 		Para la resolución del problema decidimos utilizar un algoritmo iterativo frente a uno recursivo debido al uso que este último hace de la pila, lo cual implica repetidos accesos a memoria que disminuyen la performance del algoritmo, y la posibilidad de {\em stack overflow}.
 
@@ -14,18 +14,13 @@
 	\end{subsection}
 	
 	\begin{subsection}{Detalles de la implementación}
-%TODO:
-%	· entra if o no entra al if
-%	· caso base
-%	· módulo al principio
-
 		\begin{itemize}
 			\item La función recibe como parámetros por copia $n$ y $b$.
 			\item El resultado parcial de la función se guarda en la variable $tmp$, inicializada en 1.
 			\item \textbf{Caso base:} 
 			\begin{itemize}
-				\item Cuando $b$ es $uno$, entra al caso base $b<2$ y el resultado es $b$ (porque $1^n\;mod\;n=1$).
 				\item Cuando $n$ es menor que 3, entra al caso base $b<2$ ya que al comienzo la función toma $b=b\;mod\; n$ ($b\; mod\; 1 = 0$ y $b\; mod\; 2$  es $cero$ si b es par y $uno$ si es impar) 
+				\item Cuando $b$ es $uno$ o $cero$, entra al caso base $b<2$ y el resultado es $b$ (porque $1^n\;mod\;n=1$ y $0^n\;mod\;n=0$).
 			\end{itemize}
 
 			\item Antes de iniciar el ciclo, se crea una copia ($m$) de $n$ para preservar su valor original.
@@ -61,7 +56,11 @@
 	\begin{subsection}{Análisis de complejidad}
 		Elegimos el modelo logarítmico para analizar el algoritmo, ya que las operaciones que aplicamos dependen del logaritmo de $n$, o dicho de otra forma, del tamaño de la entrada. No obstante, en los resultados muchas de ellas tienen costo uniforme por trabajar con números de tamaño acotado (\texttt{unsigned long long int}) para simplificar la implementación.\Pa
 
-		Sea $m = n$, $tmp$ inicializado en 1 y las siguientes complejidades en el modelo logarítmico:
+		Sea $m = n$ y $tmp$ inicializado en $1$.\\
+
+		Como $b\leq n$ y la función logaritmo es estrictamente creciente, $\log b \leq \log n$. De la misma manera, $\log tmp$ está acotado por $\log n$.\\
+
+		Sean las siguientes complejidades en el modelo logarítmico:\\
 
 		\vspace{0.5cm}
 		\begin{pseudo}
@@ -79,7 +78,7 @@
 		Analizaremos a continuación la cantidad de operaciones, complejidad en el modelo logarítmico y complejidad en función del tamaño de la entrada.
 
 		\begin{subsubsection}{Cantidad de operaciones}
-			Para determinar la cantidad de operaciones que realiza el algoritmo analizamos el valor $m$ en cada iteración debido a que la cantidad de iteraciones
+			Para determinar la cantidad de operaciones que realiza el algoritmo\\ analizamos el valor $m$ en cada iteración debido a que la cantidad de iteraciones
 			del ciclo depende de cuántas veces sea necesario dividir a $m$ a la mitad para que sea igual a 0.
 
 			\begin{center}
@@ -141,7 +140,7 @@ En los siguientes gráficos cada instancia está representada con {\color{red}+}
 		
 		\newpage
 
-El siguiente gráfico muestra el tiempo transcurrido (en segundos) en función de $n$ (donde $c$ es $2.79*10^{-7}$)\VSP
+El siguiente gráfico muestra el tiempo transcurrido (en segundos) en función de $n$ (donde $c$ es $1.15*10^{-7}$)\VSP
 
 		\gra{bn_mod_n/time_test}
 
@@ -152,8 +151,8 @@ En los gráficos anteriores se ve cómo la cantidad de operaciones y el tiempo q
 En el siguiente gráfico se muestran instancias en las que en cada iteración entra al caso condicional junto con las instancias que en ninguna de las iteraciones entra al caso condicional. Las instancias fueron generadas de la siguiente manera:
 \begin{itemize}
 	\item En ambos casos se tomó $2 < b < 200$ aleatoriamente. El valor máximo es $200$ ya que $b$ está acotado y el valor mínimo fue elegido para evitar generar casos base y así poder ver únicamente los casos en cuestión.
-	\item Para las instancias que entran siempre al caso condicional se eligieron los $n$ dados por $2^i-1\;\;\forall\; i\in\mathbb{N}, i < 31$ debido a que al hacer la división entera de $n$ por $2$, siempre se obtiene un nuevo $n$ impar. Esto hace que sea el peor caso. Elegimos $31$ como cota porque es el máximo valor tal que $2^{31} \times 2^{31}$ entra en la variable.
-	\item Para las instancias que nunca entran al caso condicional se eligieron los $n$ dados por $2^i\;\;\forall\; i\in\mathbb{N}, i < 31$ debido a que al hacer la división entera de $n$ por $2$, siempre se obtiene un nuevo $n$ par. Esto hace que sea el mejor caso excluyendo los casos base. La cota para $i$ fue elegida con el mismo criterio que para generar los $n$ impares.
+	\item Para las instancias que entran siempre al caso condicional se eligieron los $n$ dados por $2^i-1\;\;\forall\; i\in\mathbb{N}, 2 < i < 31$ debido a que al hacer la división entera de $n$ por $2$, siempre se obtiene un nuevo $n$ impar. Esto hace que sea el peor caso. Elegimos $31$ como cota superior para $i$ porque es el máximo valor tal que $2^{31} \times 2^{31}$ entra en la variable y $2$ como cota inferior para evitar los casos bases.
+	\item Para las instancias que nunca entran al caso condicional se eligieron los $n$ dados por $2^i\;\;\forall\; i\in\mathbb{N}, 2 < i < 31$ debido a que al hacer la división entera de $n$ por $2$, siempre se obtiene un nuevo $n$ par. Esto hace que sea el mejor caso excluyendo los casos base. La cota para $i$ fue elegida con el mismo criterio que para generar los $n$ impares.
 \end{itemize}
 
 	Con esta prueba se espera poder contrastar ambos casos. Tanto el mejor como el peor caso difieren en una constante que se desprecia en la complejidad teórica pero que en la práctica puede significar una diferencia de rendimiento importante a medida que $n$ crece.
@@ -164,11 +163,16 @@ El eje del gráfico que corresponde al valor de $n$ está en escala logarítmica
 
 Observamos en el gráfico que para cada $n$ impar elegido, hay un $n$ par consecutivo. Cuanto mayor es $n$, mayor es la diferencia entre la cantidad de operaciones entre esas dos instancias. Esto se debe a que dichos $n$ impares corresponden al peor caso del algoritmo y los pares al mejor. Asintóticamente, la diferencia entre mejor y peor caso resulta significativa a la hora del procesamiento.
 
-En general, podemos ver que la complejidad teórica analizada resulta ser una mejor cota conforme crece $n$. Por lo tanto, podemos afirmar que $\log n$ es una buena cota superior para la complejidad del algoritmo ya que los resultados prácticos coinciden con los cálculos teóricos.\VSP
-
 \texttt{Observación:}
 Notamos que los resultados correspondientes a las instancias que nuncan entran al caso condicional son siempre $uno$ o $cero$. Más especificamente el resultado es siempre $cero$ para una instancia con $b$ par y siempre $uno$ para una instancia con $b$ impar.\VSP
 	\end{subsection}
 
+	\begin{subsection}{Conclusiones}
+		En este ejercicio nos encontramos con un problema donde debíamos\\ operar valores enteros muy grandes, esto hizo que no pudiésemos considerar constante el costo de las operaciones elementales. Tuvimos así que analizar la complejidad en el modelo logaritmico. Al analizarla, tuvimos que diferenciarla en función de $n$ y del tamaño de entrada (lo que se hizo en todos los ejercicios), con la particularidad de que en función de $n$ resultó logarítmico, y en función del tamaño de la entrada, polinomial.
+
+		Las mediciones de tiempo y cantidad de operaciones se correspondieron con las complejidades teóricas calculadas. Esto indica que el modelo elegido fue adecuado.
+
+		Además, pudimos observar que en este caso la limitación del algoritmo no está dada por el tiempo de ejecución sino por el rango de valores admitidos ya que a partir de cierto $n$ hay que trabajar con números más grandes de lo que se puede almacenar en la variable. Dicho esto, nos parece un buen algoritmo porque como cualquier otro que opera con variables numéricas en algun punto hace $overflow$ para una entrada 'suficientemente grande', y este puede devolver un resultado para todas las instancias -donde esto no ocurre- con un costo temporal muy bajo.
+	\end{subsection}
 \end{section}
 

@@ -20,12 +20,14 @@ set style line 1 lt 1 pt 1 ps 1
 set style line 2 lt -1 pt 7 ps 1
 set style line 3 lt 5 pt 5 ps 1
 set style line 4 lt 2 pt 2 ps 1
+set style line 5 lt 3 pt 3 ps 1
 
 set logscale y
 set output 'count_test.png'
 plot	'count_17_18.dat' title "Densidad 0.7" linestyle 4,\
 		'< cat counts_03*.dat' title "Densidad 0.3" linestyle 3,\
 		'< cat counts_05*.dat' title "Densidad 0.5" linestyle 1,\
+		'< cat test_no4.dat' title "Peores casos" linestyle 5,\
 		'factoriales.dat' title "n!*10" with points linestyle 2
 	
 	
