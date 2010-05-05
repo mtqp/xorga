@@ -68,9 +68,9 @@ El algoritmo en todos los casos recorre completamente la lista de ingresos, por 
 		\item Para las instancias que corresponden al peor caso los programadores que entran salen antes de que haya un nuevo ingreso, es decir, nunca va a haber más de un programador en simultáneo.
 	\end{itemize}
 
-	El objetivo de esta prueba es comparar ambos casos. Uno de ellos es el mejor caso para el algoritmo y esta acotado inferiormente por $n$ y el otro, el peor caso para el algoritmo se encuentra acotado superiormente por $n$. A pesar de que el costo del algoritmo es siempre $n$, se espera ver diferencias significativas en la cantidad de operaciones realizadas en uno u otro caso ya que en el primero de ellos es mínima porque al producirse todos los ingresos el algoritmo termina sin recorrer la lista de egresos y en el segundo máxima ya que para poder registrar el último ingreso tuvo que recorrer todos los egresos.
+	El objetivo de esta prueba es comparar ambos casos. Uno de ellos es el mejor caso para el algoritmo y esta acotado inferiormente por $6*n$ y el otro, el peor caso para el algoritmo se encuentra acotado superiormente por $13*n$. A pesar de que el costo del algoritmo es siempre $n$, se espera ver diferencias significativas en la cantidad de operaciones realizadas en uno u otro caso ya que en el primero de ellos es mínima porque al producirse todos los ingresos el algoritmo termina sin recorrer la lista de egresos y en el segundo máxima ya que para poder registrar el último ingreso tuvo que recorrer todos los egresos.
 	
-	Cada instancia correspondiente al peor caso se representa con {\color{red}+} mientras que cada instancia que corresponde al mejor caso está representada con {\color{blue}+}. También está graficada en color verde la función $13*n$, ya que es la cota superior teórica previamente calculada y en amarillo la función $6*n$ que es la cota inferior calculada ambas con una constante aproximada calculada empíricamente.\VSP
+	Cada instancia correspondiente al peor caso se representa con {\color{red}+} mientras que cada instancia que corresponde al mejor caso está representada con {\color{blue}+}. También está graficada en color verde la función $13*n$, ya que es la cota superior teórica previamente calculada y en amarillo la función $6*n$ que es la cota inferior calculada ambas con una constante calculada empíricamente.\VSP
 	
 	\gra{programadores/count_peor_mejor.png}\VSP
 
@@ -80,18 +80,22 @@ El algoritmo en todos los casos recorre completamente la lista de ingresos, por 
 
 	En los siguientes gráficos esperamos ver el comportamiento general del algoritmo en cuanto a cantidad de operaciones como en tiempo transcurrido por instancia.
 	
-	Las instancias se representan con {\color{red}+}, además en el gráfico de cantidad de operaciones aparece en color verde la función $13*n$ mientras que en el de tiempos aparece graficada en el mismo color $8,7*10^{-8}*n+4*10^{-7}$ por los motivos ya mencionados.\VSP
+	Las instancias se representan con {\color{red}+}, además en el gráfico de cantidad de operaciones aparece en color verde la función $13*n$ mientras que en el de tiempos aparece graficada en el mismo color $8,7*10^{-8}*n+3*10^{-7}$ por los motivos ya mencionados.\VSP
 
 	\gra{programadores/count_test.png}\VSP
 	
 	\gra{programadores/time_test.png}
 
 	En el primer gráfico se ve la función que dado el número de programadores, muestra la cantidad de operaciones realizadas por el algoritmo mientras que en el segundo se observa el tiempo consumido para procesar cada instancia, ambos en función de la cantidad de programadores.
-	En los dos gráficos se puede observar que la función se encuentra acotada por una recta, con lo cual se ve sin problemas que se trata de un algoritmo que trabaja en "tiempo" lineal.
+	En los dos gráficos se puede observar que la función se encuentra acotada por una recta, con lo cual se ve sin problemas que se trata de un algoritmo que tiene 'costo' lineal.
 
 	Lo que obsevamos en los gráficos tiene coherencia con la complejidad teórica calculada. 
 	En general, vemos que el algoritmo se comporta como \Thetade{n} ya que como mínimo recorre sólo toda la lista de ingresos y como máximo recorre tanto la lista de ingresos como la de egresos. Es decir, el costo del algoritmo esta acotado inferior y superiormente por $c*n$, con c constante.
+	\end{subsection}
+	\begin{subsection}{Conclusiones}
+		Este problema nos pareció particularmente sencillo desde el punto de la implementación. Pudimos resolverlo con un algoritmo simple que tiene costo lineal tanto en función del tamaño de la entrada como de la cantidad de programadores. Se considera entonces un problema 'bien' resuelto desde el punto de vista computacional.
 
+		Además, las mediciones de tiempo y cantidad de operaciones se correspon-\\dieron con las complejidades teóricas calculadas. Por lo que el modelo elegido fue adecuado.
 	\end{subsection}\end{section}
 
 

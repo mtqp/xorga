@@ -34,7 +34,7 @@
 
 			\item \textbf{hay\_más\_de\_un\_grupo:} para determinar si existe más de un grupo el algoritmo corre un bfs a partir de la primer chica (la primera segun el archivo de entrada). El algoritmo busca todas las amigas que todavia no hayan sido vistas considerandolas del mismo grupo. Repite este paso para cada una de las chicas alcanzadas (amigas de alguna anterior). Si el algoritmo termina y hay chicas que no fueron alcanzadas se las considera de otro grupo y por lo tanto la ronda no va a poder formarse.
 
-La complejidad es $n^2$ (ya que se recorre la matriz por completo), donde $n$ es la cantidad de chicas. Porque el peor caso es cuando hay sólo un grupo ya que el algoritmo alcanza todas las chicas y para cada una de estas busca entre todas las chicas sus amigas.
+La complejidad es $n^2$ (ya que las relaciones entre las chicas estan implementadas con una matriz), donde $n$ es la cantidad de chicas. Porque el peor caso es cuando hay sólo un grupo ya que el algoritmo alcanza todas las chicas y para cada una de estas busca entre todas las chicas sus amigas.
 
 		\item \textbf{todas\_amigas\_de\_todas:} a la vez que determina si existe una chica que tiene menos de dos amigas (no\_todas\_tienen\_al\_menos\_dos\_amigas) utiliza ese contador para saber si cada chica tiene $n-1$ amigas, es decir, es amiga de todas las demas. Si es asi, el algoritmo termina y devuelve verdadero.
 
@@ -59,7 +59,7 @@ o dicho de otra manera, una instancia en que la cantidad de relaciones es tal qu
 			
 			Dado que la cantidad de ramas que se desprenden en cada nivel del árbol (teórico) no es constante, es decir, depende de la chica que el algoritmo agrega, encontrar una cota ajustada para la complejidad de este algoritmo es complicado. Por este motivo, para analizar la complejidad tomamos como peor caso un caso hipotetico (sabemos que va a ser resuelto por las optimizaciones pero nos sirve para este analisis). Dicho caso es la instancia donde las relaciones son máximas (todas con todas, cada chica tiene $n-1$ amigas) y el árbol se genera completamente sólo podando cuando se repite una chica. Se toma una chica y se generan todas las combinaciones posibles (sin repetir chicas). Para esto se elige la primera de donde se desprenden $n-1$ ramas posibles, de cada una de estas ramas se desprenden $n-2$, asi sucesivamente hasta llegar al nivel $n$.
 
-			De lo anterior se deduce que: $$\displaystyle\prod_{i=1}^n (n-i) = (n-1)! \leq n!$$
+			De lo anterior se deduce que la cantidad de combinaciones es: $$\displaystyle\prod_{i=1}^{n-1} (n-i) = (n-1)! \leq n!$$
 
 			Entonces la complejidad en el modelo uniforme es:  \Ode{n!}.\VSP
 		
@@ -69,7 +69,7 @@ o dicho de otra manera, una instancia en que la cantidad de relaciones es tal qu
 				
 				$t=\log n + \sum_{i=1}^n (\log i + \sum_{j=1}^i \log j)$\\
 				
-				Dado que un valor ocupa como mínimo $un$ bit puedo acotar inferiormente $\log n$, $\log i$ y $\log$ j por $uno$.
+				Dado que un valor ocupa como mínimo $un$ bit se puede acotar inferiormente $\log n$, $\log i$ y $\log$ j por $uno$.
 				
 				Entonces,
 				
@@ -88,7 +88,7 @@ o dicho de otra manera, una instancia en que la cantidad de relaciones es tal qu
 
 		 Se hizo énfasis en la generación de casos promedio y peores casos (donde el algoritmo no resuelve el problema mediante las optimizaciones). Para esto se tomo en cuenta las posibles $no\_rondas$, con un máximo aproximado (calculado empíricamente) de relaciones tal que al agregarle una relación más a cualquier chica, se pueda formar una ronda. También forzamos a que en sólo dos instancias por cada $n$ hubiera chicas sin amigas o con sólo una amiga, donde el algoritmo optimizado se ahorra el intentar construir soluciones.
 		
-		En los siguientes graficos las instancias con densidad 0.3 estan representadas con {\color{cyan}$\blacksquare$}, las instancias con densidad 0.5 con {\color{red}+} y las que tienen densidad 0.7 con {\color{green}$\times$}. Además, graficamos la función $c*n!$ con $\bullet$, ya que es la cota teórica previamente calculada con una constante aproximada calculada empíricamente para cada gráfico.
+		En los siguientes graficos las instancias con densidad 0.3 estan representadas con {\color{cyan}$\blacksquare$}, las instancias con densidad 0.5 con {\color{red}+}, las que tienen densidad 0.7 con {\color{green}$\times$} y los peores casos con {\color{blue}$\ast$}. Además, graficamos la función $c*n!$ con $\bullet$, ya que es la cota teórica previamente calculada con una constante aproximada calculada empíricamente para cada gráfico.
 		Los gráficos estan en escala logaritmica para poder apreciar mejor la función.\VSP
 		
 		\newpage
@@ -99,15 +99,23 @@ o dicho de otra manera, una instancia en que la cantidad de relaciones es tal qu
 
 		Ovservamos que para un $n$ fijo, la función crece (la cantidad de operaciones aumenta) conforme aumenta la cantidad de relaciones entre las chicas.
 
-		Dicha función se ve acotada por la función factorial, cuyo parametro de entrada es la cantidad de chicas $n$. Los casos cercanos al cero en el eje cantidad de operaciones representan las instancias donde las optimizaciones del algoritmo no permitieron recorrer inutilmente el árbol para poder concluir que no hay solución posible.\VSP
+		Dicha función se ve acotada por la función factorial, cuyo parametro de entrada es la cantidad de chicas $n$. Vemos también que los casos que considerabamos como los peores aparecen por encima del resto de las instancias. Los casos cercanos al cero en el eje cantidad de operaciones representan las instancias donde las optimizaciones del algoritmo no permitieron recorrer inutilmente el árbol para poder concluir que no hay solución posible.\VSP
 
 		\newpage
 
 		\gra{ronda_de_amigas/time_test.png}\VSP
 
 		En este se grafica el tiempo transcurrido para cada instancia. La apreciación tambien es muy similar, ya que nuevamente aparece acotada por la funcion factorial, y se ven más abajo los casos donde se dieron lugar a las optimizaciones.
+
+		En general, podemos ver que la complejidad teórica analizada resulta ser una cota menos ajustada conforme crece $n$.
 		
-		En ambos gráficos se puede observar que en el eje de cantidad de amigas para una entrada de $dieciocho$, existen menos puntos de densidad $0.7$. Realizamos menos casos porque el costo (en tiempo) de procesamiento del algoritmo era del orden de horas para cada instancia. Igualmente predecimos que de hacerse los casos y graficarlos, los puntos coincidirían con el comportamiento esperado.\\
+		En ambos gráficos se puede observar que en el eje de cantidad de amigas para una entrada de $dieciocho$, existen menos puntos de densidad $0.7$. Realizamos menos casos porque el costo (en tiempo) de procesamiento del algoritmo era del orden de horas para cada instancia. Tampoco se realizó la prueba de los peores casos correspondientes a $n$ igual a $diecisiete$ y $dieciocho$ por lo dicho anteriormente. Igualmente predecimos que de hacerse los casos y graficarlos, los puntos coincidirían con el comportamiento esperado.
+
 		Al generar las rondas de forma aleatoria, para valores menores que seis -con las densidades propuestas-, nuestro algoritmo de generación de rondas no podía realizar la tarea. Por lo tanto, esos casos no fueron incluídos.
+	\end{subsection}
+	\begin{subsection}{Conclusiones}
+			En este problema nos encontramos con un algoritmo de complejidad factorial que a partir de cierto tamaño de entrada 'relativamente chico' se torna inútil, ya que la ejecución para dichas instancias es extremadamente lenta y en la práctica muchas veces no es aceptable. Esto significa que el problema no está 'bien' resuelto para tamaños de entrada no necesariamente grandes, notándolo en las pruebas: a partir de $16$ chicas en casos 'malos' el algoritmo requeria de varias horas para devolver una respuesta. 
+
+	Con respecto a las mediciones de tiempo y cantidad de operaciones estas se correspondieron con las complejidades teóricas calculadas lo que indica que el modelo elegido fue adecuado.
 	\end{subsection}
 \end{section}
