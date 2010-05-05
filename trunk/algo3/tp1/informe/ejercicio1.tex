@@ -107,7 +107,7 @@
 		\end{subsubsection}
 
 
-		\begin{subsubsection}{Complejidad en el modelo logarítimico}
+		\begin{subsubsection}{Complejidad en el modelo logarítmico}
 
 			Como $m\leq n$ y la función logaritmo es estrictamente creciente, $\log m \leq \log n$. De la misma manera, $\log b$ y $\log tmp$ están acotados por $\log n$. Por lo tanto, la complejidad en el modelo logarítmico es: \\
 			\Ode{\log(n)*(\log(n)+\log^2(n)+\log^2(n)+\log(n)+\log^2(n)+\log^2(n))} $=$ \\
@@ -164,15 +164,15 @@ El eje del gráfico que corresponde al valor de $n$ está en escala logarítmica
 Observamos en el gráfico que para cada $n$ impar elegido, hay un $n$ par consecutivo. Cuanto mayor es $n$, mayor es la diferencia entre la cantidad de operaciones entre esas dos instancias. Esto se debe a que dichos $n$ impares corresponden al peor caso del algoritmo y los pares al mejor. Asintóticamente, la diferencia entre mejor y peor caso resulta significativa a la hora del procesamiento.
 
 \texttt{Observación:}
-Notamos que los resultados correspondientes a las instancias que nuncan entran al caso condicional son siempre $uno$ o $cero$. Más especificamente el resultado es siempre $cero$ para una instancia con $b$ par y siempre $uno$ para una instancia con $b$ impar.\VSP
+Notamos que los resultados correspondientes a las instancias que nuncan entran al caso condicional son siempre $uno$ o $cero$. Más específicamente el resultado es siempre $cero$ para una instancia con $b$ par y siempre $uno$ para una instancia con $b$ impar.\VSP
 	\end{subsection}
 
 	\begin{subsection}{Conclusiones}
-		En este ejercicio nos encontramos con un problema donde debíamos\\ operar valores enteros muy grandes, esto hizo que no pudiésemos considerar constante el costo de las operaciones elementales. Tuvimos así que analizar la complejidad en el modelo logaritmico. Al analizarla, tuvimos que diferenciarla en función de $n$ y del tamaño de entrada (lo que se hizo en todos los ejercicios), con la particularidad de que en función de $n$ resultó logarítmico, y en función del tamaño de la entrada, polinomial.
+		En este ejercicio nos encontramos con un problema donde debíamos\\ operar valores enteros muy grandes, esto hizo que no pudiésemos considerar constante el costo de las operaciones elementales. Tuvimos así que analizar la complejidad en el modelo logarítmico. Al analizarla, tuvimos que diferenciarla en función de $n$ y del tamaño de entrada (lo que se hizo en todos los ejercicios), con la particularidad de que en función de $n$ resultó logarítmico, y en función del tamaño de la entrada, polinomial.
 
 		Las mediciones de tiempo y cantidad de operaciones se correspondieron con las complejidades teóricas calculadas. Esto indica que el modelo elegido fue adecuado.
 
-		Además, pudimos observar que en este caso la limitación del algoritmo no está dada por el tiempo de ejecución sino por el rango de valores admitidos ya que a partir de cierto $n$ hay que trabajar con números más grandes de lo que se puede almacenar en la variable. Dicho esto, nos parece un buen algoritmo porque como cualquier otro que opera con variables numéricas en algun punto hace $overflow$ para una entrada 'suficientemente grande', y este puede devolver un resultado para todas las instancias -donde esto no ocurre- con un costo temporal muy bajo.
+		Además, pudimos observar que en este caso la limitación del algoritmo no está dada por el tiempo de ejecución sino por el rango de valores admitidos ya que a partir de cierto $n$ hay que trabajar con números más grandes de lo que se puede almacenar en la variable. Dicho esto, nos parece un buen algoritmo porque como cualquier otro que opera con variables numéricas en algún punto hace $overflow$ para una entrada 'suficientemente grande', y este puede devolver un resultado para todas las instancias -donde esto no ocurre- con un costo temporal muy bajo.
 	\end{subsection}
 \end{section}
 
