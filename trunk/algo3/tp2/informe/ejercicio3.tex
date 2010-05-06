@@ -1,0 +1,43 @@
+\begin{section}{Problema 3}
+
+	\textit{enunciado}
+
+	\begin{subsection}{Explicación}
+		Como Bernardo puede pasar más de una vez por cada habitación el algoritmo restringe el acceso a cada una de estas, podrá acceder a cada habitación tantas veces como pasillos llegan a la habitación.
+		Bernardo recorre las habitaciones que tengan conexión con la habitación donde se encuentra, siempre y cuando pueda entrar, ya sea porque tiene la llave o la habitación no tiene puerta y además, todavía tiene acceso a la habitación a entrar. Su procedimiento continúa hasta que:
+		\begin{itemize}
+			\item Llega a la habitación $n$, por lo tanto encontró la salida.
+			\item Se le terminan los accesos a las habitaciones vecinas y por lo tanto no puede escapar.
+		\end{itemize}
+
+	\end{subsection}
+
+	\begin{subsection}{Detalles de la implementación}
+		Modelamos este problema con un grafo donde los vértices corresponden a las habitaciones (puede ser una habitación con una llave dentro, con una puerta o sin puerta ni llave) y las aritas a los pasillos.\\	
+
+		Generamos la matriz de adyacencia del grafo (de $n\times n$ donde $n$ es la cantidad de habitaciones donde cada posición $(i,j)$ de la matriz contiene un $uno$ si la habitación $i$ está conectada con la habitación $j$. y $cero$ en caso contrario).\\
+
+		Para toda habitación que tenga puerta existe una llave. Poseer esta llave implica tener la posibilidad de acceder a la habitación. Podemos abstraernos del problema de Bernardo y considerar a las llaves como valores booleanos en un arreglo que nos dice para cada vértice, si este es accesible o no. Tenemos entonces, un arreglo de tipo bool ($tengo\_llave$) de tamaño $n$ donde cada vértice, representado por el índice de dicho arreglo, nos dice si es accesible o no.\\
+
+		Tenemos un arreglo $accesos$ que guarda en cada índice el grado del vértice correspondiente (los índices representan los vértices).\\
+
+		Por otro lado, tenemos un arreglo $puertas$ de tamaño $n$ (donde $n$ es la cantidad de vértices del grafo), donde cada posición, si corresponde a una habitación con llave, tiene el vértice al cual habilita el acceso. En caso contrario, el arreglo contiene el valor $0$.\\
+
+		Para la resolución del problema recorrimos el grafo de forma ordenada por niveles. Para esto hicimos una modificación al algoritmo $Breadth\; First\; Search$. La modificación consiste en no visitar indistitamente los vértices todavía no visitados (con la única condición de que sean adyacentes al vértice actual), sino que visitar aquellos vértices que además de ser adyacentes, $tengo\_llave$ del vértice al que quiero acceder es verdadero y todavía me quedan accesos al vértice (el arreglo accesos posee un valor mayor a cero para el mismo).\\
+
+		El $bfs$ encola los vértices con un cierto orden de prioridad. Los vértices que no han sido visitados tienen mayor prioridad frente a los ya visitados (es decir, se agrega primero todos los no visitados, seguidos de todos los visitados en orden indistinto entre ellos). Para cada vértice que se encola, su cantidad de accesos disminuye en uno y como ya mencionamos, no se puede utilizar un vértice con cantidad de accesos en cero. Como la cantidad de accesos a cada vértice es limitada, queremos explorar caminos todavía no vistos porque estos pueden concedernos el acceso a algún vértice que continúa algún camino ya visitado. Si encolaramos los vértices con prioridad inversa podría pasar que agotemos la cantidad de accesos de los vértices, encontrando luego el acceso (llave) a nuevos vértices que ya no podemos acceder porque para llegar a él, se necesita pasar por alguno que fue bloqueado.\\
+
+	\end{subsection}
+
+
+	\begin{subsection}{Análisis de complejidad}
+		
+	\end{subsection}
+
+
+	\begin{subsection}{Pruebas y Resultados}
+
+	\end{subsection}
+
+\end{section}
+
