@@ -15,7 +15,7 @@
 	\begin{subsection}{Detalles de la implementación}
 		Modelamos este problema con un grafo donde los vértices corresponden a las habitaciones (puede ser una habitación con una llave dentro, con una puerta o sin puerta ni llave) y las aritas a los pasillos.\\	
 
-		Generamos la matriz de adyacencia del grafo (de $n\times n$ donde $n$ es la cantidad de habitaciones donde cada posición $(i,j)$ de la matriz contiene un $uno$ si la habitación $i$ está conectada con la habitación $j$. y $cero$ en caso contrario).\\
+		Generamos la matriz de adyacencia del grafo (de $n\times n$ donde $n$ es la cantidad de habitaciones donde cada posición $(i,j)$ de la matriz contiene un $uno$ si la habitación $i$ está conectada con la habitación $j$. y $cero$ en caso contrario). Nos referiremos a la matriz como $conexiones$.\\
 
 		Para toda habitación que tenga puerta existe una llave. Poseer esta llave implica tener la posibilidad de acceder a la habitación. Podemos abstraernos del problema de Bernardo y considerar a las llaves como valores booleanos en un arreglo que nos dice para cada vértice, si este es accesible o no. Tenemos entonces, un arreglo de tipo bool ($tengo\_llave$) de tamaño $n$ donde cada vértice, representado por el índice de dicho arreglo, nos dice si es accesible o no.\\
 
@@ -25,8 +25,35 @@
 
 		Para la resolución del problema recorrimos el grafo de forma ordenada por niveles. Para esto hicimos una modificación al algoritmo $Breadth\; First\; Search$. La modificación consiste en no visitar indistitamente los vértices todavía no visitados (con la única condición de que sean adyacentes al vértice actual), sino que visitar aquellos vértices que además de ser adyacentes, $tengo\_llave$ del vértice al que quiero acceder es verdadero y todavía me quedan accesos al vértice (el arreglo accesos posee un valor mayor a cero para el mismo).\\
 
+		El objetivo del $bfs$ es llegar desde el primer vértice al último.\\
+
 		El $bfs$ encola los vértices con un cierto orden de prioridad. Los vértices que no han sido visitados tienen mayor prioridad frente a los ya visitados (es decir, se agrega primero todos los no visitados, seguidos de todos los visitados en orden indistinto entre ellos). Para cada vértice que se encola, su cantidad de accesos disminuye en uno y como ya mencionamos, no se puede utilizar un vértice con cantidad de accesos en cero. Como la cantidad de accesos a cada vértice es limitada, queremos explorar caminos todavía no vistos porque estos pueden concedernos el acceso a algún vértice que continúa algún camino ya visitado. Si encolaramos los vértices con prioridad inversa podría pasar que agotemos la cantidad de accesos de los vértices, encontrando luego el acceso (llave) a nuevos vértices que ya no podemos acceder porque para llegar a él, se necesita pasar por alguno que fue bloqueado.\\
 
+		El siguiente pseudocódigo refleja el comportamiento previamente descripto:\\
+
+		\begin{pseudo}
+		\func {prision}{$conexiones, tengo\_llave, puertas, accesos, n$}
+		\tab $llegue \leftarrow false$\\
+		\tab $cola\; q$\\
+		\tab $visitados[0..n] \leftarrow false$\\ 
+		\tab $encolar(q,0)$\\
+		\tab $accesos[0] \leftarrow accesos[0]-1$\\
+		\tab $visitados[0] \leftarrow true$\\
+		\tab \WHILE $!esVacia(q) \AND !llegue$\\
+		\tab \tab $actual \leftarrow primero(q)$\\
+		\tab \tab $desencolar(q)$\\
+		\tab \tab \FOR $ i\leftarrow0 \TO n \AND !llegue$\\
+		\tab \tab \tab \IF $es\_adyacente(actual,i) \AND tengo\_llave[i] \AND accesos[i]>0$\\
+		\tab \tab \tab \tab $tengo\_llave[puertas[i]] \leftarrow true$\\
+		\tab \tab \tab \tab $accesos[i] \leftarrow accesos[i]-1$\\
+		\tab \tab \tab \tab $visitados[i] \leftarrow true$\\
+		\tab \tab \tab \tab $llegue \leftarrow (i == n-1)$\\
+		\tab \tab $encolar\_mayor\_prioridad(q, adyacentes(actual))$\\
+		\tab \tab $encolar\_menor\_prioridad(q, adyacentes(actual))$\\
+		\tab \RET $llegue$\\
+		\end{pseudo}
+
+		El resultado final viene dado de la variable $llegue$. Es inicializada en falso y se setea en verdadero si sólo si en algún momento $i == n-1$. Si esto ocurre, podemos concluir que pudimos llegar al vértice objetivo.\\
 	\end{subsection}
 
 
