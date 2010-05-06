@@ -61,21 +61,26 @@
 	
 	El algoritmo $long\_max\_creciente$ que calcula para cada elemento $i$ de la secuencia original la máxima longitud de la secuencia creciente y decreciente que lo incluye, itera por todos los índices $j<i$ ($\forall\; 0 \leq i < n$).\\
 
-	La complejidad de dicho algoritmo viene dada por: $\sum_{i=0}^{n-1} i = \frac{n*(n-1)}{2} = n^2$\\
+	La complejidad de dicho algoritmo viene dada por: $\sum_{i=0}^{n-1} i = \frac{n*(n-1)}{2} = ESTA SUMATORIA DA DEL OOOODEN DE ene cuadrado, OJO AHI LA PIPETUa... n^2$\\
 
 	Sea $n$ la longitud de la secuencia dada, $max\_long\_creciente$ la secuencia que guarda en cada posición la máxima longitud de la subsecuencia creciente.\\
 
 	\begin{pseudo}
 		\func{long\_max\_creciente}{$secuencia, max\_long\_creciente$}
-		\tab $max\_long\_creciente[0] \leftarrow 0$ \tab \Ode{1} \\
+		\tab $max\_long\_creciente[0] \leftarrow 0$ \tab \tab \Ode{1} \\
 		\tab \FOR $i=1$ \TO $n$ \\
-		\tab \tab $max\_long \leftarrow 0$\\
-		\tab \tab \FOR $j=i-1$ \TO $0$ \\
-		\tab \tab \tab \IF $ secuencia[j] <  secuencia[i] \AND max\_long\_creciente [j] > max\_long)$\\
-		\tab \tab \tab \tab  $max\_long \leftarrow max\_long\_creciente[j] $\\
-		\tab $max\_long\_creciente[i] \leftarrow max\_long+1$\\
+		\tab \tab $max\_long \leftarrow 0$ \tab \tab \tab \tab \Ode{1} \\
+		\tab \tab \FOR $j=i-1$ \TO $0$ \tab \Ode{i}\\
+		\tab \tab \tab \IF $ secuencia[j] <  secuencia[i] \AND max\_long\_creciente [j] > max\_long)$ \Ode{1} \\
+		\tab \tab \tab \tab  $max\_long \leftarrow max\_long\_creciente[j] $ \tab \Ode{1} \\
+		\tab $max\_long\_creciente[i] \leftarrow max\_long+1$ \tab \tab \tab \Ode{1} \\
 	\end{pseudo}
 
+	Podemos ver dentro de cada ciclo ($for$) que todas las asignaciones tienen costo constante, así como también la guardar del ($if$). De esta manera podemos concluir que por cada iteración del ($for$) anidado tenemos en el peor caso el costo de la guarda del if, más el costo de la asignación adentro del mismo, con costo constante.\\
+	El ciclo anidado iterará para cada $i$, $i-1$ veces, siendo los valores posibles de $i$ desde $1$ hasta $n$.\\
+	La sumatoria que fue descripta anteriormente, se coindice entonces con el costo de la función $long\_max\_creciente$. La cantidad de operaciones que realiza este algoritmo es \Ode{n^2}.\\
+	
+	El algoritmo encargardo de devolver el resultado del problema se llama $secuencia\_unimodal$ la cual utiliza el algoritmo descripto anteriormente y realizar algunas otras operaciones que se detallarán a continuación para concluir con el análisis de complejidad.\\
 	
 	\end{subsection}
 
