@@ -2,8 +2,8 @@
 
 from random import randint, seed, choice
 
-casos = 1000
-max_habitaciones = 100
+casos = 10
+max_habitaciones = 10
 
 seed()
 
