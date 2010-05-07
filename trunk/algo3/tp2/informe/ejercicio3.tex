@@ -1,10 +1,9 @@
 \begin{section}{Problema 3}
 
-	\textit{enunciado}
-
+	\textit{Bernardo se encuentra en una prisión que consta de $n$ habitaciones conectadas por $m$ pasillos. Cada pasillo conecta exactamente $dos$ habitaciones y puede ser transitado en ambas direciones. En toda la prisión hay $p$ puertas, cada una puede abrirse con una única llave. Tanto las puertas como las llaves están repartidas en las habitaciones, de tal forma que cada habitación puede tener una única puerta o almacenar una única llave, pero no ambas cosas. Si una habitación tiene puerta, la llave correspondiente es necesaria para entrar a la habitación, independientemente del pasillo que se use para llegar a la misma. Bernardo se encuentra en la habitación $uno$, mientras que desde la habitación $n$ es posible salir de la prisión. Decidir si Bernardo puede recorrer las habitaciones recolectando llaves y abriendo puertas de manera tal de llegar a la habitación $n$ y asi escapar.}
+		
 	\begin{subsection}{Explicación}
-		Como Bernardo puede pasar más de una vez por cada habitación el algoritmo restringe el acceso a cada una de estas, podrá acceder a cada habitación tantas veces como pasillos llegan a la habitación.
-		Bernardo recorre las habitaciones que tengan conexión con la habitación donde se encuentra, siempre y cuando pueda entrar, ya sea porque tiene la llave o la habitación no tiene puerta y además, todavía tiene acceso a la habitación a entrar. Su procedimiento continúa hasta que:
+		Bernardo recorre las habitaciones que tengan conexión con la habitación donde se encuentra, siempre y cuando pueda entrar, ya sea porque tiene la llave o porque la habitación no tiene puerta. Su procedimiento continúa hasta que:
 		\begin{itemize}
 			\item Llega a la habitación $n$, por lo tanto encontró la salida.
 			\item Se le terminan los accesos a las habitaciones vecinas y por lo tanto no puede escapar.
@@ -15,17 +14,17 @@
 	\begin{subsection}{Detalles de la implementación}
 		Modelamos este problema con un grafo donde los vértices corresponden a las habitaciones (puede ser una habitación con una llave dentro, con una puerta o sin puerta ni llave) y las aritas a los pasillos.\\	
 
-		Generamos la matriz de adyacencia del grafo (de $n\times n$ donde $n$ es la cantidad de habitaciones donde cada posición $(i,j)$ de la matriz contiene un $uno$ si la habitación $i$ está conectada con la habitación $j$. y $cero$ en caso contrario). Nos referiremos a la matriz como $conexiones$.\\
+		Generamos la matriz de adyacencia del grafo (de $n\times n$ donde $n$ es la cantidad de habitaciones donde cada posición $(i,j)$ de la matriz contiene un $uno$ si la habitación $i$ está conectada con la habitación $j$ y $cero$ en caso contrario). Nos referiremos a la matriz como $conexiones$.\\
 
-		Para toda habitación que tenga puerta existe una llave. Poseer esta llave implica tener la posibilidad de acceder a la habitación. Podemos abstraernos del problema de Bernardo y considerar a las llaves como valores booleanos en un arreglo que nos dice para cada vértice, si este es accesible o no. Tenemos entonces, un arreglo de tipo bool ($tengo\_llave$) de tamaño $n$ donde cada vértice, representado por el índice de dicho arreglo, nos dice si es accesible o no.\\
+		Para toda habitación que tenga puerta existe una llave. Poseer esta llave implica tener la posibilidad de acceder a la habitación. Podemos abstraernos del problema de Bernardo y considerar a las llaves como valores booleanos en un arreglo que nos dice para cada vértice, si este es accesible o no. Tenemos entonces, un arreglo de tipo bool ($tengo\_llave$) de tamaño $n$ donde cada vértice, representado por el índice de dicho arreglo, esta seteado en $verdadero$ si es accesible y en $falso$ sino.
 
-		Por otro lado, tenemos un arreglo $puertas$ de tamaño $n$ (donde $n$ es la cantidad de vértices del grafo), donde cada posición, si corresponde a una habitación con llave, tiene el vértice al cual habilita el acceso. En caso contrario, el arreglo contiene el valor $0$. El valor es cero, porque como se verá más adelante en el código, modificará información del primer vértice, que a los fines prácticos, no modifica el resultado final del algoritmo. ESTO CAPAS Q ESTA BIEN X FAVOR CHEQUEENLO.\\
+		Por otro lado, tenemos un arreglo $puertas$ de tamaño $n$ (siendo $n$ es la cantidad de vértices del grafo), donde cada posición, si corresponde a una habitación con llave, tiene el vértice al cual habilita el acceso. En caso contrario, el arreglo contiene el valor $cero$. El valor es $cero$, porque como se verá más adelante en el pseudocódigo, modificará información del primer vértice, que a los fines prácticos, no modifica el resultado final del algoritmo.
+		
+		También tenemos un arreglo de bools llamado $enEspera$ el cual esta inicicalizado en falso si el vértice $i$ no puede ser accedido (tiene puerta), y en verdadero en caso contrario. Entonces, para cada vértice, de existir una posible restriccion de acceso, su posición permanece en falso.\\
 
-		Para la resolución del problema recorrimos el grafo de forma ordenada por niveles. Para esto hicimos una modificación al algoritmo $Breadth\; First\; Search$. La modificación consiste en visitar por niveles hasta que algún vértice no sea accesible (mientras sea nodo accesible se continúa recorriendo su subnivel), al encontrarlo, se lo marca como vértice en "espera" hasta que se encuentre el acceso en algún otro vértice al que está en espera. Si existe el acceso, se accede al vértice en espera y se continúa avanzando. Cabe destacar que este algoritmo puede acceder a cada nodo sólo una vez.\\ 
+		Para la resolución del problema recorrimos el grafo de forma ordenada por niveles. Para esto hicimos una modificación al algoritmo $Breadth\; First\; Search$. La modificación consiste en visitar los vértices adyacentes al 'actual' tales que todavía no fueron visitados y tienen acceso permitido, cuando esto último no ocurre se pone el vértice en 'espera' hasta que por otro camino se encuentre al vértice que habilite el acceso al mismo. Al momento de conseguir el acceso a un vértice que se encuentra en 'espera' se lo accede directamente (sin volver a pasar por los vértices que llevan a él) considerando posible ese camino hacia el vértice $n$. Cabe destacar que este algoritmo puede acceder a cada vértice sólo una vez.\\ 
 
 		El objetivo del $bfs$ es llegar desde el primer vértice al último.\\
-
-		Existe un arreglo de bools llamado $enEspera$ el cual esta seteado en falso si la habitación $i$ tiene puerta, en verdadero en caso contrario. Entonces, para cada vértice, de existir una posible restriccion de acceso, su posición permanece en falso.\\
 		
 		El siguiente pseudocódigo refleja el comportamiento previamente descripto:\\
 
@@ -41,7 +40,7 @@
 		\tab \tab $actual \leftarrow primero(q)$\\
 		\tab \tab $desencolar(q)$\\
 		\tab \tab \FOR $ i\leftarrow0 \TO n \AND !llegue$\\
-		\tab \tab \tab \IF	$conexiones[actual][i] \AND tengo_llave[i] \AND!visitados[i]$\\
+		\tab \tab \tab \IF	$conexiones[actual][i] \AND tengo\_llave[i] \AND !visitados[i]$\\
 		\tab \tab \tab \tab	$tengo_llave[puertas[i]] \leftarrow true$\\
 		\tab \tab \tab \tab	$encolar(q,i)$\\
 		\tab \tab \tab \tab	$visitados[i] \leftarrow true$\\
@@ -51,14 +50,14 @@
 		\tab \tab \tab \tab \tab $visitados[puertas[i]] \leftarrow true$\\
 		\tab \tab \tab \tab \tab $llegue \leftarrow (n-1==puertas[i])$\\
 		\tab \tab \tab \ELSE \\
-		\tab \tab \tab \tab \IF $todavia\_no\_tengo\_llave(i)$\\
+		\tab \tab \tab \tab \IF $conexiones[actual][i] \AND !visitados[i]$\\
 		\tab \tab \tab \tab \tab $enEspera[i] \leftarrow true$\\
 		\tab \RET $llegue$\\
 		\end{pseudo}
 
-		En pocas palabras, la idea del algoritmo es buscar con $bfs$ todos los caminos posibles, intentando llegar a el vértice $n$, si se encuentra con un vértice que no es accesible, espera hasta que desde otra rama se habilite ese vértice para poder continuar por ese hilo, mientras al mismo tiempo continúa por todo camino que se encuentre habilitado.\\
+		En pocas palabras, la idea del algoritmo es explorar el grafo con $bfs$ en busca de un camino que inicie en el vértice $cero$ y llegue al vértice $n$, si se encuentra con un vértice que no es accesible, espera hasta que desde otro camino se habilite la entrada a ese vértice, una vez habilitada continua por ese camino, mientras sigue recorriendo todo camino que se encuentre habilitado.\\
 
-		El resultado final viene dado de la variable $llegue$. Es inicializada en falso y se setea en verdadero si sólo si en algún momento $i == n-1$. Si esto ocurre, podemos concluir que pudimos llegar al vértice objetivo (desde la habitación $1$ de salida, llego a la $n$, por lo tanto Bernardo se escapó de la prisión). Si pasa por todos los nodos habilitados y los que pudo habilitar y no puede llegar al vértice $n$, saldrá del ciclo (\textbf{while}) si poder cambiar el valor de $llegue$ y devolverá falso.\\
+		El resultado final viene dado por la variable $llegue$. Es inicializada en $falso$ y se setea en $verdadero$ si sólo si en algún momento el vértice a encolar es el $n$ ($i == n-1$), es decir, el vértice $n$ fue alcanzado por el $bfs$. Si esto ocurre, podemos concluir que pudimos llegar al vértice objetivo. Si pasa por todos los vértices habilitados y los que pudo habilitar y no puede llegar al vértice $n$, sale del ciclo (\textbf{while}) sin cambiar el valor de $llegue$ y devuelve $falso$.\\
 		
 	\end{subsection}
 
