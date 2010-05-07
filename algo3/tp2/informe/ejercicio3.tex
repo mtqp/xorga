@@ -21,38 +21,38 @@
 
 		Por otro lado, tenemos un arreglo $puertas$ de tamaño $n$ (donde $n$ es la cantidad de vértices del grafo), donde cada posición, si corresponde a una habitación con llave, tiene el vértice al cual habilita el acceso. En caso contrario, el arreglo contiene el valor $0$. El valor es cero, PORQUE NOS LA RE BANCAMOS MODIFICANDO EL VALOR DE LA ROOM DE ENTRADA... ACLARAR BABY\\
 
-		Para la resolución del problema recorrimos el grafo de forma ordenada por niveles. Para esto hicimos una modificación al algoritmo $Breadth\; First\; Search$. La modificación consiste en visitar por niveles hasta que algún vértice no sea accesible  asdpogkadpofgadpfo 
-
-
-
-
-La modificación consiste en no visitar indistitamente los vértices todavía no visitados (con la única condición de que sean adyacentes al vértice actual), sino que visitar aquellos vértices que además de ser adyacentes, $tengo\_llave$ del vértice al que quiero acceder es verdadero y todavía me quedan accesos al vértice (el arreglo accesos posee un valor mayor a cero para el mismo).\\
+		Para la resolución del problema recorrimos el grafo de forma ordenada por niveles. Para esto hicimos una modificación al algoritmo $Breadth\; First\; Search$. La modificación consiste en visitar por niveles hasta que algún vértice no sea accesible (mientras sea nodo accesible se continúa recorriendo su subnivel), al encontrarlo, se lo marca como vértice en "espera" hasta que se encuentre el acceso en algún otro vértice al que está en espera. Si existe el acceso, se accede al vértice en espera y se continúa avanzando. Cabe destacar que este algoritmo puede acceder a cada nodo sólo una vez.\\ 
 
 		El objetivo del $bfs$ es llegar desde el primer vértice al último.\\
 
-		El $bfs$ encola los vértices con un cierto orden de prioridad. Los vértices que no han sido visitados tienen mayor prioridad frente a los ya visitados (es decir, se agrega primero todos los no visitados, seguidos de todos los visitados en orden indistinto entre ellos). Para cada vértice que se encola, su cantidad de accesos disminuye en uno y como ya mencionamos, no se puede utilizar un vértice con cantidad de accesos en cero. Como la cantidad de accesos a cada vértice es limitada, queremos explorar caminos todavía no vistos porque estos pueden concedernos el acceso a algún vértice que continúa algún camino ya visitado. Si encolaramos los vértices con prioridad inversa podría pasar que agotemos la cantidad de accesos de los vértices, encontrando luego el acceso (llave) a nuevos vértices que ya no podemos acceder porque para llegar a él, se necesita pasar por alguno que fue bloqueado.\\
-
+		Existe un arreglo de bools llamado $enEspera$ el cual esta seteado en falso si la habitación $i$ tiene puerta, en verdadero en caso contrario. Entonces, para cada vértice, de existir una posible restriccion de acceso, su posición permanece en falso.\\
+		
 		El siguiente pseudocódigo refleja el comportamiento previamente descripto:\\
 
 		\begin{pseudo}
-		\func {prision}{$conexiones, tengo\_llave, puertas, accesos, n$}
+		\func {prision}{$conexiones, tengo\_llave, puertas, n$}
 		\tab $llegue \leftarrow false$\\
 		\tab $cola\; q$\\
 		\tab $visitados[0..n] \leftarrow false$\\ 
+		\tab $enEspera[0..n] \leftarrow false$\\ 
 		\tab $encolar(q,0)$\\
-		\tab $accesos[0] \leftarrow accesos[0]-1$\\
 		\tab $visitados[0] \leftarrow true$\\
 		\tab \WHILE $!esVacia(q) \AND !llegue$\\
 		\tab \tab $actual \leftarrow primero(q)$\\
 		\tab \tab $desencolar(q)$\\
 		\tab \tab \FOR $ i\leftarrow0 \TO n \AND !llegue$\\
-		\tab \tab \tab \IF $es\_adyacente(actual,i) \AND tengo\_llave[i] \AND accesos[i]>0$\\
-		\tab \tab \tab \tab $tengo\_llave[puertas[i]] \leftarrow true$\\
-		\tab \tab \tab \tab $accesos[i] \leftarrow accesos[i]-1$\\
-		\tab \tab \tab \tab $visitados[i] \leftarrow true$\\
-		\tab \tab \tab \tab $llegue \leftarrow (i == n-1)$\\
-		\tab \tab $encolar\_mayor\_prioridad(q, adyacentes(actual))$\\
-		\tab \tab $encolar\_menor\_prioridad(q, adyacentes(actual))$\\
+		\tab \tab \tab \IF	$conexiones[actual][i] \AND tengo_llave[i] \AND!visitados[i]$\\
+		\tab \tab \tab \tab	$tengo_llave[puertas[i]] \leftarrow true$\\
+		\tab \tab \tab \tab	$encolar(q,i)$\\
+		\tab \tab \tab \tab	$visitados[i] \leftarrow true$\\
+		\tab \tab \tab \tab	$llegue \leftarrow (i == n-1)$\\
+		\tab \tab \tab \tab \IF	$enEspera[puertas[i]]$\\
+		\tab \tab \tab \tab \tab $encolar(q,puertas[i])$\\
+		\tab \tab \tab \tab \tab $visitados[puertas[i]] \leftarrow true$\\
+		\tab \tab \tab \tab \tab $llegue \leftarrow (n-1==puertas[i])$\\
+		\tab \tab \tab \ELSE \\
+		\tab \tab \tab \tab \IF $todavia\_no\_tengo\_llave(i)$\\
+		\tab \tab \tab \tab \tab $enEspera[i] \leftarrow true$\\
 		\tab \RET $llegue$\\
 		\end{pseudo}
 
