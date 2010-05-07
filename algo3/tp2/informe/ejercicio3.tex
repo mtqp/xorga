@@ -19,7 +19,7 @@
 
 		Para toda habitación que tenga puerta existe una llave. Poseer esta llave implica tener la posibilidad de acceder a la habitación. Podemos abstraernos del problema de Bernardo y considerar a las llaves como valores booleanos en un arreglo que nos dice para cada vértice, si este es accesible o no. Tenemos entonces, un arreglo de tipo bool ($tengo\_llave$) de tamaño $n$ donde cada vértice, representado por el índice de dicho arreglo, nos dice si es accesible o no.\\
 
-		Por otro lado, tenemos un arreglo $puertas$ de tamaño $n$ (donde $n$ es la cantidad de vértices del grafo), donde cada posición, si corresponde a una habitación con llave, tiene el vértice al cual habilita el acceso. En caso contrario, el arreglo contiene el valor $0$. El valor es cero, PORQUE NOS LA RE BANCAMOS MODIFICANDO EL VALOR DE LA ROOM DE ENTRADA... ACLARAR BABY\\
+		Por otro lado, tenemos un arreglo $puertas$ de tamaño $n$ (donde $n$ es la cantidad de vértices del grafo), donde cada posición, si corresponde a una habitación con llave, tiene el vértice al cual habilita el acceso. En caso contrario, el arreglo contiene el valor $0$. El valor es cero, porque como se verá más adelante en el código, modificará información del primer vértice, que a los fines prácticos, no modifica el resultado final del algoritmo. ESTO CAPAS Q ESTA BIEN X FAVOR CHEQUEENLO.\\
 
 		Para la resolución del problema recorrimos el grafo de forma ordenada por niveles. Para esto hicimos una modificación al algoritmo $Breadth\; First\; Search$. La modificación consiste en visitar por niveles hasta que algún vértice no sea accesible (mientras sea nodo accesible se continúa recorriendo su subnivel), al encontrarlo, se lo marca como vértice en "espera" hasta que se encuentre el acceso en algún otro vértice al que está en espera. Si existe el acceso, se accede al vértice en espera y se continúa avanzando. Cabe destacar que este algoritmo puede acceder a cada nodo sólo una vez.\\ 
 
@@ -56,11 +56,19 @@
 		\tab \RET $llegue$\\
 		\end{pseudo}
 
-		El resultado final viene dado de la variable $llegue$. Es inicializada en falso y se setea en verdadero si sólo si en algún momento $i == n-1$. Si esto ocurre, podemos concluir que pudimos llegar al vértice objetivo.\\
+		En pocas palabras, la idea del algoritmo es buscar con $bfs$ todos los caminos posibles, intentando llegar a el vértice $n$, si se encuentra con un vértice que no es accesible, espera hasta que desde otra rama se habilite ese vértice para poder continuar por ese hilo, mientras al mismo tiempo continúa por todo camino que se encuentre habilitado.\\
+
+		El resultado final viene dado de la variable $llegue$. Es inicializada en falso y se setea en verdadero si sólo si en algún momento $i == n-1$. Si esto ocurre, podemos concluir que pudimos llegar al vértice objetivo (desde la habitación $1$ de salida, llego a la $n$, por lo tanto Bernardo se escapó de la prisión). Si pasa por todos los nodos habilitados y los que pudo habilitar y no puede llegar al vértice $n$, saldrá del ciclo (\textbf{while}) si poder cambiar el valor de $llegue$ y devolverá falso.\\
+		
 	\end{subsection}
 
 
 	\begin{subsection}{Análisis de complejidad}
+		Como mencionamos previamente, el algoritmo \textbf{no} podrá pasar más de una vez por cada vértice. Mientras quede algun vértice por ver y pueda accederse, seguirá intentando llegar al nodo $n$. Analizando la complejidad, vemos que si pudiera acceder a todos los vértices del grafo, tendría un costo de $n$ iteraciones.\\
+		Dentro del ciclo principal tenemos las primeras dos operaciones con costo constante (una asignación y quitar de la pila el primer elemento), y un ciclo anidado ($for$).\\
+		EXPLICAR BIEN EN DETALLE EL COSTO DEL IF  DENTRO DEL FORWOWOWOWO
+		
+		
 		El \textbf{while} se ejecuta a lo sumo $n$ veces
 		
 	\end{subsection}
