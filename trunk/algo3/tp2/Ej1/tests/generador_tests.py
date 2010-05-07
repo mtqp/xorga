@@ -45,5 +45,8 @@ def generar_instancias( n, generador=secuencia_random ):
 	return instancias
 
 if __name__ == "__main__":
-	instancias = generar_instancias( 10, secuencia_unimodal )
+	n = 10
+	instancias = generar_instancias( n, secuencia_unimodal )
 	generar_input( "test_unimodal.in", instancias )
+	instancias = generar_instancias( n, secuencia_random )
+	generar_input( "test_random.in", instancias )
