@@ -11,12 +11,12 @@ data_time := $(patsubst $(DATA_PATH)/%.dat,$(DATA_PATH)/time_%.dat,$(data))
 pdf_count := $(patsubst %.dat,%.pdf,$(subst $(DATA_PATH),$(OUT_PATH),$(data_count)) )
 pdf_time := $(patsubst %.dat,%.pdf,$(subst $(DATA_PATH),$(OUT_PATH),$(data_time)) )
 
-all: counts time convert
+all: counts time
 
-%.eps: $(data_time)
+time_%.eps: $(data_time)
 	./plot_time
 
-%.eps: $(data_count) 
+count_%.eps: $(data_count) 
 	./plot_count
 
 %.pdf: %.eps
@@ -33,3 +33,9 @@ time: plot_time $(data_time) $(pdf_time)
 
 copy:
 	cp ps/*.pdf ../../informe/$(EJ)/
+
+clean:
+	rm ps/*.pdf
+
+clean_all: clean
+	rm data/*.dat

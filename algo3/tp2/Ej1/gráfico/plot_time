@@ -1,13 +1,13 @@
 #!/usr/bin/gnuplot -persist
 
 #exporto como png
-set term png
+set term postscript enhanced color
 
 #le pone titulo al grafico
-set title "Tiempos del algoritmo bn_mod_n"
+set title "Tiempos del algoritmo secuencia unimodal"
 
 #pone la descripccion de los ejes
-set xlabel "n"
+set xlabel "longitud de la secuencia"
 set ylabel "Tiempo (segundos)"
 
 #pone la leyenda a la izquierda y con borde
@@ -19,7 +19,11 @@ set key left box
 set style line 1 lt 1 pt 1 ps 1
 set style line 2 lt 3 pt 1 ps 1
 
-#dibuja los puntos. index es porque lo separe en bloques de primos/no primos para ponerle distinto estilo..
-set output 'png/time_test.png'
-plot[][0:2.9e-06]	'data/time_test.dat' title "Tiempo" linestyle 1,\
-	0.000000115*log(x) title "log(n)*1.15*10^(-7)"
+set output 'ps/time_test_unimodal.eps'
+plot	'data/time_test_unimodal.dat' title "Tiempo" linestyle 1,\
+	'data/time_test_random.dat' title "Tiempo",\
+		9.5*10**(-9)*x*x title "9.5*10^{-9}*n^2"
+
+set output 'ps/time_test_random.eps'
+plot	'data/time_test_random.dat' title "Tiempo" linestyle 1,\
+		9.5*10**(-9)*x*x title "9.5*10^{-9}*n^2"

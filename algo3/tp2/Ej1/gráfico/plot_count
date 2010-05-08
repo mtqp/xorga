@@ -22,9 +22,10 @@ set style line 3 lt 3 pt 1 ps 1
 
 set output 'ps/count_test_unimodal.eps'
 plot	'data/count_test_unimodal.dat' title "Unimodal" linestyle 1,\
-	10*x*x title "n^2"
+	'data/count_test_random.dat' title "Random",\
+	8.5*x*x title "n^2"
 
 set output 'ps/count_test_random.eps'
 plot	'data/count_test_random.dat' title "Random",\
-	10*x*x title "n^2"
+	8.5*x*x title "n^2"
 
