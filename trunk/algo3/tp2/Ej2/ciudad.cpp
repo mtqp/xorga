@@ -42,12 +42,10 @@ int main (int argc, char** argv){
 }
 
 bool ciudad(uint** conexiones, uint n) {
-	//--chequear casos bases--// (cero nodos, un nodo)
-	
 	/*crea array de nodos pertenecientes al ciclo*/
 	bool nodos_ciclo [n];
-	limpiar_array(nodos_ciclo, n);
 	bool nodos_ciclo_posible [n];
+	limpiar_array(nodos_ciclo, n);
 	limpiar_array(nodos_ciclo_posible,n);
 
 	uint cant_nodos_ciclo = 0;
@@ -55,17 +53,17 @@ bool ciudad(uint** conexiones, uint n) {
 	uint nodo_salida;
 	bool  encontre_ciclo;
 
-	encontre_ciclo = dfs_busco_primer_ciclo(conexiones, nodos_ciclo, nodos_ciclo_posible, n);
-	cant_nodos_ciclo = nodos_en_ciclo(nodos_ciclo,n);
+	encontre_ciclo = dfs_busco_primer_ciclo(conexiones, nodos_ciclo, nodos_ciclo_posible, n); 	//O(n²)
+	cant_nodos_ciclo = nodos_en_ciclo(nodos_ciclo,n);											//O(n)
 
-	while((cant_nodos_ciclo < n) && encontre_ciclo){		//n-1???	
-		if(dame_arista_libre_ciclo(nodo_salida, conexiones, nodos_ciclo, n)){
-			encontre_ciclo = formar_ciclo_desde(nodo_salida, conexiones, nodos_ciclo, cant_nodos_ciclo, n);
+	while((cant_nodos_ciclo < n) && encontre_ciclo){	//O(n³)
+		if(dame_arista_libre_ciclo(nodo_salida, conexiones, nodos_ciclo, n)){					//O(n²)
+			encontre_ciclo = formar_ciclo_desde(nodo_salida, conexiones, nodos_ciclo, cant_nodos_ciclo, n); //O(n²)
 		}
 		else{
-			encontre_ciclo = false;			//fijarse si no puede pasar q cant_nodos sea N y esto da false
+			encontre_ciclo = false;
 		}
-		reseteo_matriz_salvo_ciclo(conexiones, nodos_ciclo,n);
+		reseteo_matriz_salvo_ciclo(conexiones, nodos_ciclo,n);			//O(n²)
 	}
 	return encontre_ciclo;
 }
@@ -119,7 +117,7 @@ bool formar_ciclo_desde(uint& nodo_salida, uint** conexiones, bool* nodos_ciclo,
 	
 	p.push(nodo_salida);			
 	
-	while((!p.empty())&&(!volvi_al_ciclo)){
+	while((!p.empty())&&(!volvi_al_ciclo)){								//O(n²)
 		nodo_actual = p.top();
 		l.push_back(nodo_actual);
 		p.pop();
@@ -134,13 +132,13 @@ bool formar_ciclo_desde(uint& nodo_salida, uint** conexiones, bool* nodos_ciclo,
 			}		
 		}
 	}
-	if(volvi_al_ciclo) {
+	if(volvi_al_ciclo) {			//2*O(n)
 		cant_nodos_ciclo += l.size();
-		while(!l.empty()){
+		while(!l.empty()){			//O(n)
 			nodos_ciclo[l.front()] = true;
 			l.pop_front();
 		}
-		while(!l_ady.empty()){
+		while(!l_ady.empty()){		//O(n)
 			uint top = l_ady.front();
 			l_ady.pop_front();
 			if(!nodos_ciclo[top]){
