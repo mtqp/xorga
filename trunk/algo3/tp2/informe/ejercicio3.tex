@@ -20,7 +20,7 @@
 
 		Por otro lado, tenemos un arreglo $puertas$ de tamaño $n$ (siendo $n$ es la cantidad de vértices del grafo), donde cada posición, si corresponde a una habitación con llave, tiene el vértice al cual habilita el acceso. En caso contrario, el arreglo contiene el valor $cero$. El valor es $cero$, porque como se verá más adelante en el pseudocódigo, modificará información del primer vértice, que a los fines prácticos, no modifica el resultado final del algoritmo.
 		
-		También tenemos un arreglo de bools llamado $enEspera$ el cual esta inicicalizado en falso si el vértice $i$ no puede ser accedido (tiene puerta), y en verdadero en caso contrario. Entonces, para cada vértice, de existir una posible restriccion de acceso, su posición permanece en falso.\\
+		También tenemos un arreglo de bools llamado $enEspera$ el cual esta inicializado en falso si el vértice $i$ no puede ser accedido (tiene puerta), y en verdadero en caso contrario. Entonces, para cada vértice, de existir una posible restriccion de acceso, su posición permanece en falso.\\
 
 		Para la resolución del problema recorrimos el grafo de forma ordenada por niveles. Para esto hicimos una modificación al algoritmo $Breadth\; First\; Search$. La modificación consiste en visitar los vértices adyacentes al 'actual' tales que todavía no fueron visitados y tienen acceso permitido, cuando esto último no ocurre se pone el vértice en 'espera' hasta que por otro camino se encuentre al vértice que habilite el acceso al mismo. Al momento de conseguir el acceso a un vértice que se encuentra en 'espera' se lo accede directamente (sin volver a pasar por los vértices que llevan a él) considerando posible ese camino hacia el vértice $n$. Cabe destacar que este algoritmo puede acceder a cada vértice sólo una vez.\\ 
 
@@ -55,7 +55,7 @@
 		\tab \RET $llegue$\\
 		\end{pseudo}
 
-		En pocas palabras, la idea del algoritmo es explorar el grafo con $bfs$ en busca de un camino que inicie en el vértice $cero$ y llegue al vértice $n$, si se encuentra con un vértice que no es accesible, espera hasta que desde otro camino se habilite la entrada a ese vértice, una vez habilitada continua por ese camino, mientras sigue recorriendo todo camino que se encuentre habilitado.\\
+		En pocas palabras, la idea del algoritmo es explorar el grafo con $bfs$ en busca de un camino que inicie en el vértice $cero$ y llegue al vértice $n$, si se encuentra con un vértice que no es accesible, espera hasta que desde otro camino se habilite la entrada a ese vértice, una vez habilitada continua por ese camino, mientras sigue recorriendo todo camino que se encuentre habilitado hasta el momento.\\
 
 		El resultado final viene dado por la variable $llegue$. Es inicializada en $falso$ y se setea en $verdadero$ si sólo si en algún momento el vértice a encolar es el $n$ ($i == n-1$), es decir, el vértice $n$ fue alcanzado por el $bfs$. Si esto ocurre, podemos concluir que pudimos llegar al vértice objetivo. Si pasa por todos los vértices habilitados y los que pudo habilitar y no puede llegar al vértice $n$, sale del ciclo (\textbf{while}) sin cambiar el valor de $llegue$ y devuelve $falso$.\\
 		
@@ -64,12 +64,18 @@
 
 	\begin{subsection}{Análisis de complejidad}
 		Como mencionamos previamente, el algoritmo \textbf{no} podrá pasar más de una vez por cada vértice. Mientras quede algun vértice por ver y pueda accederse, seguirá intentando llegar al nodo $n$. Analizando la complejidad, vemos que si pudiera acceder a todos los vértices del grafo, tendría un costo de $n$ iteraciones.\\
+		
 		Dentro del ciclo principal tenemos las primeras dos operaciones con costo constante (una asignación y quitar de la pila el primer elemento), y un ciclo anidado ($for$).\\
-		EXPLICAR BIEN EN DETALLE EL COSTO DEL IF  DENTRO DEL FORWOWOWOWO
 		
+		Por lo tanto tenemos hasta el momento $n$ interaciones del ciclo $while$ donde dentro de el tenemos un ciclo $for$. Una primer aproximación a la complejidad final sería pensar que para cada una de las $n$ iteraciones tendremos un costo $h$ todavia no conocido por el ciclo $for$, descartando por complejidad el costo constante de la asignación y quitar el primer elemento de una pila. Tenemos hasta ahora, \Ode{$n*h$}.\\
 		
-		El \textbf{while} se ejecuta a lo sumo $n$ veces
+		Analizemos ahora la cantidad de operaciones a la que equivale $h$ en el peor caso.\\
 		
+		El ciclo for itera en el peor caso desde $0$ hasta $n$ (puede salir antes si el valor de la variable bool $llegue$ se setea en verdadero). Por lo tanto tenemos que $h$ será $n$ por el costo de cada iteración del for.\\
+		
+		Dentro de este ciclo anidado, se asignan valores a arreglos, matrices, se encolan parametros constantes a pilas, se setean valores booleanos y se chequea guardas de condicionales $if$. Todas estas operaciones tienen costo constante. Cabe aclarar que la cantidad de veces que se realizan estas operaciones por cada iteración también es constante, por lo que se puede deducir que una iteración del ciclo $for$ tiene costo constante. Es así entonces que $h = n*1 = n$.\\
+		
+		Continuando con el análisis de complejidad, teníamos que el algoritmo tenia complejidad de \Ode{n*h}, siendo ahora $h=n$. Por lo tanto, la complejidad de este algoritmo es \Ode{n*n} = \Ode{n^2} $\subset$ \Ode{n^3}\\
 	\end{subsection}
 
 
