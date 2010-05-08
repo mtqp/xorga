@@ -40,11 +40,11 @@ def generar_input( nombre,  instancias ):
 def generar_instancias( n, generador=secuencia_random ):
 	instancias = []
 	for i in range(1,n+1):
-		instancias.append( generador( i ) )
+		instancias.append( generador( i*10 ) )
 	return instancias
 
 if __name__ == "__main__":
-	n = 1000
+	n = 100
 	instancias = generar_instancias( n, secuencia_unimodal )
 	generar_input( "test_unimodal.in", instancias )
 	instancias = generar_instancias( n, secuencia_random )

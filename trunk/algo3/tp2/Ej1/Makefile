@@ -1,5 +1,5 @@
 ARCHIVOS = secuencia_unimodal
-CFLAGS = -Wall
+CFLAGS = -Wall -O3
 
 all: $(ARCHIVOS)
 
