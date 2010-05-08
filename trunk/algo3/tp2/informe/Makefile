@@ -1,7 +1,7 @@
 
 all: informe.pdf
 
-informe.pdf: informe.tex ejercicio*.tex
+informe.pdf: informe.tex ejercicio*.tex secuencia_unimodal/*.pdf
 	pdflatex informe.tex
 
 clean:

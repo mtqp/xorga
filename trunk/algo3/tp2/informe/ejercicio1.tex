@@ -57,31 +57,43 @@
 
 
 	\begin{subsection}{Análisis de complejidad}
-	Como hemos visto anteriormente, nuestro algoritmo utiliza la técnica de programación dinámica. Esta consta de reutilizar información previa para llegar al resultado final. En el análisis de la complejidad veremos como la aplicación de la técnica previamente mencionada, ha permitido conseguir un algoritmo polinomial.\\
+		Como hemos visto anteriormente, nuestro algoritmo utiliza la técnica de programación dinámica. Esta consta de 
+		reutilizar información previa para llegar al resultado final. En el análisis de la complejidad veremos como la
+		aplicación de la técnica previamente mencionada, ha permitido conseguir un algoritmo polinomial.
 	
-	El algoritmo $long\_max\_creciente$ utiliza la técnica de programación dinámica, calculando para cada elemento $i$ de la secuencia original la máxima longitud de la subsecuencia creciente y decreciente que lo incluye, iterando por todos los índices $j<i$ ($\forall\; 0 \leq i < n$), sabiendo que para cada $j$ ya esta calculada la longitud de la subsecuencia creciente más larga que lo incluye.\\
+		El algoritmo $long\_max\_creciente$ utiliza la técnica de programación dinámica, calculando para cada elemento 
+		$i$ de la secuencia original la máxima longitud de la subsecuencia creciente y decreciente que lo incluye, iterando 
+		por todos los índices $j<i$ ($\forall\; 0 \leq i < n$), sabiendo que para cada $j$ ya esta calculada la longitud de 
+		la subsecuencia creciente más larga que lo incluye.\\
 
-	Sea $n$ la longitud de la secuencia dada, $max\_long\_creciente$ la secuencia que guarda en cada posición la máxima longitud de la subsecuencia creciente.\\
+		Sea $n$ la longitud de la secuencia dada, $max\_long\_creciente$ la secuencia que guarda en cada posición la máxima 
+		longitud de la subsecuencia creciente.\\
 
-	\begin{pseudo}
-		\func{long\_max\_creciente}{$secuencia, max\_long\_creciente$}
-		\tab $max\_long\_creciente[0] \leftarrow 0$ 		\Ode{1} \\
-		\tab \FOR $i=1$ \TO $n$ \\
-		\tab \tab $max\_long \leftarrow 0$ 			\Ode{1} \\
-		\tab \tab \FOR $j=i-1$ \TO $0$ 				\Ode{i}\\
-		\tab \tab \tab \IF $ secuencia[j] <  secuencia[i] \AND max\_long\_creciente [j] > max\_long)$ \Ode{1} \\
-		\tab \tab \tab \tab  $max\_long \leftarrow max\_long\_creciente[j] $ 		\Ode{1} \\
-		\tab \tab $max\_long\_creciente[i] \leftarrow max\_long+1$ 			\Ode{1} \\
-	\end{pseudo}
+		\begin{pseudo}
+			\func{long\_max\_creciente}{$secuencia, max\_long\_creciente$}
+			\tab $max\_long\_creciente[0] \leftarrow 0$ 		\Ode{1} \\
+			\tab \FOR $i=1$ \TO $n$ \\
+			\tab \tab $max\_long \leftarrow 0$ 			\Ode{1} \\
+			\tab \tab \FOR $j=i-1$ \TO $0$ 				\Ode{i}\\
+			\tab \tab \tab \IF $ secuencia[j] <  secuencia[i] \AND max\_long\_creciente [j] > max\_long)$ \Ode{1} \\
+			\tab \tab \tab \tab  $max\_long \leftarrow max\_long\_creciente[j] $ 		\Ode{1} \\
+			\tab \tab $max\_long\_creciente[i] \leftarrow max\_long+1$ 			\Ode{1} \\
+		\end{pseudo}
 
-	Podemos ver dentro de cada ciclo ($for$) que todas las asignaciones tienen costo constante, así como también la guardar del ($if$). De esta manera podemos concluir que por cada iteración del ($for$) anidado tenemos en el peor caso el costo de la guarda del if, más el costo de la asignación adentro del mismo, con costo constante.\\
-	El ciclo anidado iterará para cada $i$, $i-1$ veces, siendo los valores posibles de $i$ desde $1$ hasta $n$.\\
+		Podemos ver dentro de cada ciclo ($for$) que todas las asignaciones tienen costo constante, así como también la guardar 
+		del ($if$). De esta manera podemos concluir que por cada iteración del ($for$) anidado tenemos en el peor caso el costo 
+		de la guarda del if, más el costo de la asignación adentro del mismo, con costo constante.
 
-	La complejidad de dicho algoritmo viene dada por: $\sum_{i=0}^{n-1} i = \frac{n*(n-1)}{2}$\\
+		El ciclo anidado iterará para cada $i$, $i-1$ veces, siendo los valores posibles de $i$ desde $1$ hasta $n$.
 
-	Esta sumatoria, se coindice entonces con el costo de la función $long\_max\_creciente$. La cantidad de operaciones que realiza este algoritmo es \Ode{n^2}.\\
+		La complejidad de dicho algoritmo viene dada por: $\sum_{i=0}^{n-1} i = \frac{n*(n-1)}{2}$
+
+		Esta sumatoria, se coindice entonces con el costo de la función $long\_max\_creciente$. La cantidad de operaciones que 
+		realiza este algoritmo es \Ode{n^2}.\\
 	
-	El algoritmo encargardo de devolver el resultado del problema es $secuencia\_unimodal$, el cual utiliza el algoritmo descripto anteriormente y realizar algunas otras operaciones que se detallarán a continuación para concluir con el análisis de complejidad.\\
+		El algoritmo encargardo de devolver el resultado del problema es $secuencia\_unimodal$, el cual utiliza el algoritmo 
+		descripto anteriormente y realizar algunas otras operaciones que se detallarán a continuación para concluir con el análisis 
+		de complejidad.\\
 	
 		\vspace{0.5cm}
 		\begin{pseudo}
@@ -99,19 +111,25 @@
 			\tab \RET longitud($secuencia$)-$max\_long$ 			\Ode{1}\\
 		\end{pseudo}
 		
-	La función reverso que toma una secuencia y devuelve otra con los elementos en orden inverso tiene costo lineal, en función de la cantidad de elementos, ya que itera una vez por la secuencia original ($desde i=0 hasta n-1$), guardando cada valor en la posición $n-1-i$ de la secuencia resultante. Cabe destacar que el costo de la asignación es constante.\\
+		La función reverso que toma una secuencia y devuelve otra con los elementos en orden inverso tiene costo lineal, en función 
+		de la cantidad de elementos, ya que itera una vez por la secuencia original ($desde i=0 hasta n-1$), guardando cada valor en 
+		la posición $n-1-i$ de la secuencia resultante. Cabe destacar que el costo de la asignación es constante.
 
-	El ciclo perteneciente a $secuencia\_unimodal$ ($for, linea 7$), itera $n$ veces, siendo en el peor caso el costo de cada una, constante (SE PODIRA PONER TODOS LOS O DEL MUNDO).\\
+		El ciclo perteneciente a $secuencia\_unimodal$ ($for, linea 7$), itera $n$ veces, siendo en el peor caso el costo de cada una, 
+		constante (SE PODIRA PONER TODOS LOS O DEL MUNDO).
 
-	Por lo tanto, el costo del algoritmo $secuencia\_unimodal$ es: \Ode{2*n + 2*n^2} que por definición es \Ode{max(2*n, 2*n^2)} = \Ode{2*n^2} = \Ode{n^2}. \\
-
-
-	
+		Por lo tanto, el costo del algoritmo $secuencia\_unimodal$ es: \Ode{2*n + 2*n^2} que por definición es 
+		\Ode{max(2*n, 2*n^2)} = \Ode{2*n^2} = \Ode{n^2}.
 		
 	\end{subsection}
 
 
 	\begin{subsection}{Pruebas y Resultados}
+		
+		\gra{secuencia_unimodal/count_test_unimodal.pdf}
+		Textooo
+
+		\gra{secuencia_unimodal/count_test_random.pdf}
 
 	\end{subsection}
 

@@ -2,6 +2,14 @@
 # Generador de archivos de test random para el ejercicio 1
 from random import seed, randint
 
+def generar_instancia( n ):
+	return [ randint(0,n) for i in range(n) ]
+
+#def generar_input( instancia ):
+	
+
+
+
 def main():
 	seed()
 
