@@ -1,0 +1,30 @@
+#!/usr/bin/gnuplot -persist
+
+#exporto como png
+set term postscript enhanced color
+
+#le pone titulo al grafico
+set title "Cantidad de Operaciones del algoritmo secuencia unimodal"
+
+#pone la descripccion de los ejes
+set xlabel "longitud de la secuencia"
+set ylabel "cantidad de operaciones"
+
+#pone la leyenda a la izquierda y con borde
+set key left box
+
+#defino dos tipos de lineas
+#lt=tipo de linea y color,  pt=point type,  ps=point size
+#(para ver los distintos point types pongan "test" en el gnuplot)
+set style line 1 lt 1 pt 1 ps 1
+set style line 2 lt 2 pt 1 ps 1
+set style line 3 lt 3 pt 1 ps 1
+
+set output 'ps/count_test_unimodal.eps'
+plot	'data/count_test_unimodal.dat' title "Unimodal" linestyle 1,\
+	10*x*x title "n^2"
+
+set output 'ps/count_test_random.eps'
+plot	'data/count_test_random.dat' title "Random",\
+	10*x*x title "n^2"
+
