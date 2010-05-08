@@ -15,7 +15,7 @@ typedef unsigned long long int ullint;
 using namespace std;
 
 bool ciudad(uint** conexiones, uint n);
-bool dfs_busco_primer_ciclo(uint** conexiones, bool* nodos_ciclo, bool* nodos_ciclo_posible, uint n);
+bool dfs_busco_primer_ciclo(uint** conexiones, bool* nodos_ciclo, uint n);
 bool dame_adyacentes_a(uint nodo_actual,uint** conexiones, lista &l_ady, uint n);
 bool dame_arista_libre_ciclo(uint &nodo_salida, uint** conexiones, bool* nodos_ciclo, uint n);
 bool formar_ciclo_desde(uint& nodo_salida, uint** conexiones, bool* nodos_ciclos, uint& cant_nodos_ciclo, uint n);

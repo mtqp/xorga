@@ -44,16 +44,14 @@ int main (int argc, char** argv){
 bool ciudad(uint** conexiones, uint n) {
 	/*crea array de nodos pertenecientes al ciclo*/
 	bool nodos_ciclo [n];
-	bool nodos_ciclo_posible [n];
 	limpiar_array(nodos_ciclo, n);
-	limpiar_array(nodos_ciclo_posible,n);
 
 	uint cant_nodos_ciclo = 0;
 
 	uint nodo_salida;
 	bool  encontre_ciclo;
 
-	encontre_ciclo = dfs_busco_primer_ciclo(conexiones, nodos_ciclo, nodos_ciclo_posible, n); 	//O(n²)
+	encontre_ciclo = dfs_busco_primer_ciclo(conexiones, nodos_ciclo, n); 	//O(n²)
 	cant_nodos_ciclo = nodos_en_ciclo(nodos_ciclo,n);											//O(n)
 
 	while((cant_nodos_ciclo < n) && encontre_ciclo){	//O(n³)
@@ -68,11 +66,12 @@ bool ciudad(uint** conexiones, uint n) {
 	return encontre_ciclo;
 }
 
-bool dfs_busco_primer_ciclo(uint** conexiones, bool* nodos_ciclo, bool* nodos_ciclo_posible, uint n){
+bool dfs_busco_primer_ciclo(uint** conexiones, bool* nodos_ciclo, uint n){
 	pila  p;
 	lista l;
 	lista l_ady;
-	
+	bool nodos_ciclo_posible[n];
+
 	bool encontre_ciclo = false;
 	bool tiene_algo_para_agregar		= true;
 	uint nodo_actual;
