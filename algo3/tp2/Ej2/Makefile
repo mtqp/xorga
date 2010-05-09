@@ -1,4 +1,4 @@
-EJ = ciudad ciudad_2
+EJ = ciudad
 
 all: $(EJ)
 
