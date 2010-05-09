@@ -112,11 +112,11 @@
 		\end{pseudo}
 		
 		La función reverso que toma una secuencia y devuelve otra con los elementos en orden inverso tiene costo lineal, en función 
-		de la cantidad de elementos, ya que itera una vez por la secuencia original ($desde i=0 hasta n-1$), guardando cada valor en 
+		de la cantidad de elementos, ya que itera una vez por la secuencia original ($desde\; i=0\; hasta\; n-1$), guardando cada valor en 
 		la posición $n-1-i$ de la secuencia resultante. Cabe destacar que el costo de la asignación es constante.
 
-		El ciclo perteneciente a $secuencia\_unimodal$ ($for, linea 7$), itera $n$ veces, siendo en el peor caso el costo de cada una, 
-		constante (SE PODIRA PONER TODOS LOS O DEL MUNDO).
+		El ciclo perteneciente a $secuencia\_unimodal$ ($for$), itera $n$ veces, siendo en el peor caso el costo de cada iteración acotado por una
+		constante. La cantidad máxima de operaciones se da en las iteraciones que entra al caso condicional. El costo del $for$ es $n*c$ (con $c$ constante), es decir, \Ode{n}.
 
 		Por lo tanto, el costo del algoritmo $secuencia\_unimodal$ es: \Ode{2*n + 2*n^2} que por definición es 
 		\Ode{max(2*n, 2*n^2)} = \Ode{2*n^2} = \Ode{n^2}.
