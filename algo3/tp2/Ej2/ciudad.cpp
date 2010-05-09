@@ -29,10 +29,12 @@ bool dfs_primer_ciclo(uint** conexiones, bool* nodos_ciclo, uint n )
 	{
 		orden[i] = n+1;
 		visitado[i] = false;
+		O(7);
 	}
 
 	p.push(0);
 	visitado[0] = true;
+	O(3);
 	while( !encontre_ciclo && !p.empty() )
 	{
 		tam_ciclo++;
@@ -49,6 +51,7 @@ bool dfs_primer_ciclo(uint** conexiones, bool* nodos_ciclo, uint n )
 					/* .. y no fue visitado, lo numero */
 					p.push( i );
 					visitado[i] = true;
+					O(6);
 				}
 				else if( orden[i] < orden[nodo_actual]-1 ) 
 				{
@@ -57,15 +60,22 @@ bool dfs_primer_ciclo(uint** conexiones, bool* nodos_ciclo, uint n )
 					encontre_ciclo = true;
 					/* dejo al nodo que comienza el ciclo arriba */
 					p.push( i );
+					O(3+6);
 				}
+			O(8);
 		}
-
+		O(12);
 	}
 
 	if( encontre_ciclo )
+	{
 		/* Marco los nodos del ciclo */
 		for( int i = 0 ; i < n ; i++ )
+		{
 			nodos_ciclo[i] |= (orden[i]>=orden[p.top()] && orden[i]<n+1);
+			O(13);
+		}
+	}
 
 	return encontre_ciclo;
 
@@ -85,10 +95,12 @@ bool dfs_ciclo(uint** conexiones, uint desde, bool* nodos_ciclo, uint n )
 	{
 		orden[i] = n+1;
 		visitado[i] = false;
+		O(7);
 	}
 
 	p.push(desde);
 	visitado[desde] = true;
+	O(3);
 	while( !encontre_ciclo && !p.empty() )
 	{
 		tam_ciclo++;
@@ -104,19 +116,30 @@ bool dfs_ciclo(uint** conexiones, uint desde, bool* nodos_ciclo, uint n )
 				{
 					/* .. y no fue visitado .. */
 					if( nodos_ciclo[i] )
+					{
 						/* y era del ciclo original */
 						encontre_ciclo = true;
+						O(1);
+					}
 					p.push( i );
 					visitado[i] = true;
+					O(5);
 				}
+			O(8);
 		}
-
+		O(12);
 	}
 
 	if( encontre_ciclo )
+	{
 		/* Marco los nodos del ciclo */
 		for( int i = 0 ; i < n ; i++ )
+		{
 			nodos_ciclo[i] |= (orden[i]<orden[p.top()]);
+			O(9);
+		}
+	}
+	O(1);
 
 	return encontre_ciclo;
 }
@@ -128,17 +151,23 @@ void adyacente_externo( uint** conexiones, bool* ciclo, int& nodo_busqueda, int&
 	{
 		if( ciclo[j] )
 		for( int i = 0 ; i < n && nodo_busqueda == -1 ; i++ )
+		{
 			if( !ciclo[i] && conexiones[j][i] )
 			{
 				nodo_busqueda = i;
 				nodo_salida = j;
+				O(2);
 				break;
 			}
+			O(10);
+		}
+		O(7);
 	}
 }
 
 bool ciudad( uint** conexiones, int n )
 {
+	reiniciar_contador();
 	bool ciclo[n];
 	bool encontre_ciclo, termine;
 	int nodo_busqueda, nodo_salida;
@@ -147,12 +176,14 @@ bool ciudad( uint** conexiones, int n )
 
 	for( j=0; j<n; j++ )
 		ciclo[j] = false;
+	O(5*n);
 
 	encontre_ciclo = dfs_primer_ciclo( conexiones, ciclo, n );
 
 	termine = true;
 	for( i = 0 ; i < n ; i++ )
 		termine &= ciclo[i];
+	O(6*n);
 
 	while( !termine && encontre_ciclo )
 	{
@@ -161,10 +192,10 @@ bool ciudad( uint** conexiones, int n )
 		encontre_ciclo = dfs_ciclo( conexiones, nodo_busqueda, ciclo, n );
 		conexiones[nodo_busqueda][nodo_salida] = 1;
 		termine = true;
+		O(4+8);
 		for( i = 0 ; i < n ; i++ )
-		{
 			termine &= ciclo[i];
-		}
+		O(6*n);
 	}
 
 	return termine;
