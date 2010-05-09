@@ -20,69 +20,8 @@ void print_matriz(uint** M, uint n){
 	}
 }
 
-/*
-bool libre(uint** conexiones, bool* tengo_llave, uint* puertas, uint n){
-	reiniciar_contador();
-	cola q;
-	bool puedo_entrar[n];
-	uint accesos[n];
-	bool visitados[n];
-	uint adyacentes;
-	bool llegue = false;
-	uint actual;
-	O(7);
-	for(uint i=0;i<n;i++)
-	{
-		visitados[i]=false;
-		adyacentes=0;
-		for( uint j=0; j<n; j++ )
-			if( conexiones[i][j] )
-				adyacentes++;
-		accesos[i]=adyacentes;
-		O(12);
-	}
-
-	q.push(0);
-	accesos[0]--;
-	visitados[0]=true;
-	O(5);
-	while( !q.empty() && !llegue )
-	{
-		actual=q.front();
-		q.pop();
-		for( uint i=0 ; i < n && !llegue ; i++ )
-		{
-			puedo_entrar[i]=false;
-			if( conexiones[actual][i] && tengo_llave[i] && accesos[i]>0 )
-			{
-				puedo_entrar[i]=true;
-				tengo_llave[puertas[i]] = true;
-				accesos[i]--;
-				visitados[i]=true;
-				llegue = (i == n-1);
-				O(10);
-			}
-			O(18);
-		}
-		for( uint i=0 ; i < n ; i++ )
-			if( puedo_entrar[i] && !visitados[i] ){
-				q.push(i);
-				O(6);
-			}
-
-		for( uint i=0 ; i < n ; i++ )
-			if( puedo_entrar[i] && visitados[i] ){
-				q.push(i);
-				O(6);
-			}
-	}
-	return llegue;
-}*/
-
 #define sin_llave false;
 #define con_llave true;
-//array sin llave viene seteado todo en verdadero salvo las q tienen puertas
-
 
 bool libre(uint** conexiones, bool* tengo_llave, uint* puertas, uint n){
 	reiniciar_contador();
@@ -91,15 +30,14 @@ bool libre(uint** conexiones, bool* tengo_llave, uint* puertas, uint n){
 	uint actual;
 	bool visitados[n];
 	bool enEspera[n];
-	O(7);
 	for(uint i=0;i<n;i++){
 		visitados[i]=false;
 		enEspera[i]=false;
+		O(7);
 	}
 	q.push(0);
 	visitados[0]=true;
-	O(5);
-	
+	O(3);
 	while( !q.empty() && !llegue ){
 		actual=q.front();
 		q.pop();
@@ -117,16 +55,19 @@ bool libre(uint** conexiones, bool* tengo_llave, uint* puertas, uint n){
 					//cout << "pusheado puerta"  << puertas[i] << endl;
 					visitados[puertas[i]]=true;
 					llegue = (n-1==puertas[i]);
+					O(9);
 				}
-				O(10);
+				O(12);
 			} else {
 				if(conexiones[actual][i] && !visitados[i]){
 					enEspera[i]=true;
+					O(2);
 				}
+				O(6);
 			}
-			
-			O(18);
+			O(13);
 		}
+		O(7);
 	}
 	return llegue;
 }
@@ -177,6 +118,10 @@ int main(int argc, char** argv){
 			libre(conexiones,tengo_llave,puertas,n);
 			cout << n << "\t" << contador << endl;
 		}
+		else if( argc > 1 && string(argv[1])=="count_llaves"){
+			libre(conexiones,tengo_llave,puertas,n);
+			cout << p << "\t" << contador << endl;
+		}
 		else{
 			if(libre(conexiones,tengo_llave,puertas,n)) cout << "libre" << endl;
 			else cout << "no" << endl;
@@ -184,5 +129,5 @@ int main(int argc, char** argv){
 		for(uint i=0;i<n;i++) delete [] conexiones[i];
 		delete [] conexiones;
 	}
-return 0;
+	return 0;
 }
