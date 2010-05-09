@@ -1,0 +1,36 @@
+#!/usr/bin/gnuplot -persist
+
+#exporto como png
+set term postscript enhanced color
+
+#le pone titulo al grafico
+set title "Cantidad de operaciones del algoritmo prision"
+
+#pone la descripccion de los ejes
+set xlabel "cantidad de habitaciones"
+set ylabel "cantidad de operaciones"
+
+#pone la leyenda a la izquierda y con borde
+set key left box
+
+#defino dos tipos de lineas
+#lt=tipo de linea y color,  pt=point type,  ps=point size
+#(para ver los distintos point types pongan "test" en el gnuplot)
+set style line 1 lt 1 pt 1 ps 1
+set style line 2 lt 2 pt 1 ps 1
+set style line 3 lt 3 pt 1 ps 1
+
+set output 'ps/count_test_densidades.eps'
+plot	'data/count_test_densidad_0.3.dat' title "Densidad 0.3" linestyle 1,\
+	'data/count_test_densidad_0.6.dat' title "Densidad 0.6",\
+	'data/count_test_densidad_0.9.dat' title "Densidad 0.9"
+
+set output 'ps/count_test_peor_caso.eps'
+plot	'data/count_test_densidad_0.3.dat' title "Densidad 0.3" linestyle 1,\
+	'data/count_test_densidad_0.6.dat' title "Densidad 0.6",\
+	'data/count_test_densidad_0.9.dat' title "Densidad 0.9",\
+	'data/count_peor_caso.dat' title "Peor caso",\
+	19*x*x title "n^2"
+
+
+
