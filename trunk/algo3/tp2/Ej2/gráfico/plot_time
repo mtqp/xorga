@@ -1,0 +1,29 @@
+#!/usr/bin/gnuplot -persist
+
+#exporto como png
+set term postscript enhanced color
+
+#le pone titulo al grafico
+set title "Tiempos del algoritmo secuencia unimodal"
+
+#pone la descripccion de los ejes
+set xlabel "longitud de la secuencia"
+set ylabel "Tiempo (segundos)"
+
+#pone la leyenda a la izquierda y con borde
+set key left box
+
+#defino dos tipos de lineas
+#lt=tipo de linea y color,  pt=point type,  ps=point size
+#(para ver los distintos point types pongan "test" en el gnuplot)
+set style line 1 lt 1 pt 1 ps 1
+set style line 2 lt 3 pt 1 ps 1
+
+set output 'ps/time_test_unimodal.eps'
+plot	'data/time_test_unimodal.dat' title "Tiempo" linestyle 1,\
+	'data/time_test_random.dat' title "Tiempo",\
+		9.5*10**(-9)*x*x title "9.5*10^{-9}*n^2"
+
+set output 'ps/time_test_random.eps'
+plot	'data/time_test_random.dat' title "Tiempo" linestyle 1,\
+		9.5*10**(-9)*x*x title "9.5*10^{-9}*n^2"
