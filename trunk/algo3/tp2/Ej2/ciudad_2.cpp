@@ -1,5 +1,174 @@
-#include "ciudad.h"
 #include "../medicion.h"
+#include <stack>
+#include <iostream>
+
+using namespace std;
+
+typedef unsigned int uint;
+typedef unsigned long long ullint;
+typedef stack<uint> pila;
+
+void print_matriz(uint** M, uint m, uint n){
+	for(uint i=0; i<m; i++){
+		for(uint j=0; j<n; j++) cout << M[i][j];
+		cout << endl;
+	}
+}
+
+bool dfs_primer_ciclo(uint** conexiones, bool* nodos_ciclo, uint n )
+{
+
+	pila p;
+	bool encontre_ciclo = false;
+	bool visitado[n];
+	uint nodo_actual;
+	uint orden[n];
+	uint tam_ciclo = 0;
+
+	for(int i=0;i<n;i++)
+	{
+		orden[i] = n+1;
+		visitado[i] = false;
+	}
+
+	p.push(0);
+	visitado[0] = true;
+	while( !encontre_ciclo && !p.empty() )
+	{
+		tam_ciclo++;
+		nodo_actual = p.top();
+		orden[nodo_actual] = tam_ciclo;
+		p.pop();
+		
+		for( int i = 0 ; i < n && !encontre_ciclo ; i++ )
+		{
+			if( conexiones[nodo_actual][i]  )
+				/* si es adyacente.. */
+				if( !visitado[i] )
+				{
+					/* .. y no fue visitado, lo numero */
+					p.push( i );
+					visitado[i] = true;
+				}
+				else if( orden[i] < orden[nodo_actual]-1 ) 
+				{
+					/* .. fue visitado y no vengo de ahí, 
+					 * entonces encontré un ciclo! */
+					encontre_ciclo = true;
+					/* dejo al nodo que comienza el ciclo arriba */
+					p.push( i );
+				}
+		}
+
+	}
+
+	if( encontre_ciclo )
+		/* Marco los nodos del ciclo */
+		for( int i = 0 ; i < n ; i++ )
+			nodos_ciclo[i] |= (orden[i]>=orden[p.top()] && orden[i]<n+1);
+
+	return encontre_ciclo;
+
+}
+
+bool dfs_ciclo(uint** conexiones, uint desde, bool* nodos_ciclo, uint n )
+{
+
+	pila p;
+	bool encontre_ciclo = false;
+	bool visitado[n];
+	uint nodo_actual;
+	uint orden[n];
+	uint tam_ciclo = 0;
+
+	for(int i=0;i<n;i++)
+	{
+		orden[i] = n+1;
+		visitado[i] = false;
+	}
+
+	p.push(desde);
+	visitado[desde] = true;
+	while( !encontre_ciclo && !p.empty() )
+	{
+		tam_ciclo++;
+		nodo_actual = p.top();
+		orden[nodo_actual] = tam_ciclo;
+		p.pop();
+		
+		for( int i = 0 ; i < n && !encontre_ciclo ; i++ )
+		{
+			if( conexiones[nodo_actual][i] )
+				/* si es adyacente.. */
+				if( !visitado[i] )
+				{
+					/* .. y no fue visitado .. */
+					if( nodos_ciclo[i] )
+						/* y era del ciclo original */
+						encontre_ciclo = true;
+					p.push( i );
+					visitado[i] = true;
+				}
+		}
+
+	}
+
+	if( encontre_ciclo )
+		/* Marco los nodos del ciclo */
+		for( int i = 0 ; i < n ; i++ )
+			nodos_ciclo[i] |= (orden[i]<orden[p.top()]);
+
+	return encontre_ciclo;
+}
+
+void adyacente_externo( uint** conexiones, bool* ciclo, int& nodo_busqueda, int& nodo_salida, int n )
+{
+	nodo_busqueda = -1;
+	for( int j = 0 ; j < n && nodo_busqueda == -1 ; j++ )
+	{
+		if( ciclo[j] )
+		for( int i = 0 ; i < n && nodo_busqueda == -1 ; i++ )
+			if( !ciclo[i] && conexiones[j][i] )
+			{
+				nodo_busqueda = i;
+				nodo_salida = j;
+				break;
+			}
+	}
+}
+
+bool ciudad( uint** conexiones, int n )
+{
+	bool ciclo[n];
+	bool encontre_ciclo, termine;
+	int nodo_busqueda, nodo_salida;
+	int cant_nodos_ciclo = 0;
+	int i,j;
+
+	for( j=0; j<n; j++ )
+		ciclo[j] = false;
+
+	encontre_ciclo = dfs_primer_ciclo( conexiones, ciclo, n );
+
+	termine = true;
+	for( i = 0 ; i < n ; i++ )
+		termine &= ciclo[i];
+
+	while( !termine && encontre_ciclo )
+	{
+		adyacente_externo( conexiones, ciclo, nodo_busqueda, nodo_salida, n );
+		conexiones[nodo_busqueda][nodo_salida] = 0;
+		encontre_ciclo = dfs_ciclo( conexiones, nodo_busqueda, ciclo, n );
+		conexiones[nodo_busqueda][nodo_salida] = 1;
+		termine = true;
+		for( i = 0 ; i < n ; i++ )
+		{
+			termine &= ciclo[i];
+		}
+	}
+
+	return termine;
+}
 
 int main (int argc, char** argv){
 	ullint n;
@@ -41,205 +210,3 @@ int main (int argc, char** argv){
 	return 0;
 }
 
-bool dfs_primer_ciclo(uint** conexiones, bool* nodos_ciclo, uint n)
-{
-
-	pila p;
-	bool encontre_ciclo = false;
-	bool visitado[n];
-	uint nodo_actual;
-	uint orden[n];
-	uint tam_ciclo = 0;
-
-	for(int i=0;i<n;i++)
-	{
-		orden[i] = 0;
-		visitado[i] = false;
-	}
-
-	p.push(0);
-	while( !encontre_ciclo && !p.empty() )
-	{
-		tam_ciclo++;
-		nodo_actual = p.top();
-		orden[nodo_actual] = tam_ciclo;
-		p.pop();
-		
-		for( int i = 0 ; i < n && !encontre_ciclo ; i++ )
-		{
-			if( conexiones[nodo_actual][i] )
-				/* si es adyacente.. */
-				if( !visitado[i] )
-				{
-					/* .. y no fue visitado, lo numero */
-					p.push( i );
-					visitado[i] = true;
-					orden[i] = tam_ciclo;
-				}
-				else if( orden[i] < orden[nodo_actual]-1 ) {
-					/* .. fue visitado y no vengo de ahí, 
-					 * entonces encontré un ciclo! */
-					encontre_ciclo = true;
-					/* dejo al nodo que comienza el ciclo arriba */
-					p.push( i );
-				}
-		}
-
-	}
-
-	if( encontre_ciclo )
-	{
-		for( int i = 0 ; i < n ; i++ )
-		{
-			nodos_ciclo[i] = (orden[i]>=orden[p.top()]);
-			if( nodos_ciclo[i] )
-				cout << "Nodo " << orden[i]-orden[p.top()] << ": " << i << endl;
-		}
-	}
-
-	return encontre_ciclo;
-
-}
-
-bool ciudad(uint** conexiones, uint n) {
-	/*crea array de nodos pertenecientes al ciclo*/
-	bool nodos_ciclo [n];
-	limpiar_array(nodos_ciclo, n);
-
-	uint cant_nodos_ciclo = 0;
-
-	uint nodo_salida;
-	bool  encontre_ciclo;
-
-	encontre_ciclo = dfs_primer_ciclo(conexiones, nodos_ciclo, n); 	//O(n²)
-	/*cant_nodos_ciclo = nodos_en_ciclo(nodos_ciclo,n);											//O(n)
-
-	while((cant_nodos_ciclo < n) && encontre_ciclo){	//O(n³)
-		if(dame_arista_libre_ciclo(nodo_salida, conexiones, nodos_ciclo, n)){					//O(n²)
-			encontre_ciclo = formar_ciclo_desde(nodo_salida, conexiones, nodos_ciclo, cant_nodos_ciclo, n); //O(n²)
-		}
-		else{
-			encontre_ciclo = false;
-		}
-		reseteo_matriz_salvo_ciclo(conexiones, nodos_ciclo,n);			//O(n²)
-	}*/
-	return encontre_ciclo;
-}
-
-bool formar_ciclo_desde(uint& nodo_salida, uint** conexiones, bool* nodos_ciclo, uint& cant_nodos_ciclo, uint n){
-	pila  p;
-	lista l;
-	lista l_ady;
-
-	bool volvi_al_ciclo	= false;
-	bool bool_basura;
-	uint nodo_actual;
-	
-	p.push(nodo_salida);			
-	
-	while((!p.empty())&&(!volvi_al_ciclo)){								//O(n²)
-		nodo_actual = p.top();
-		l.push_back(nodo_actual);
-		p.pop();
-		bool_basura = dame_adyacentes_a(nodo_actual,conexiones, l_ady, n);
-		
-		while((!l_ady.empty()) && (!volvi_al_ciclo)){
-			if(nodos_ciclo[l_ady.front()])
-				volvi_al_ciclo = true;
-			else {
-				p.push(l_ady.front());
-				l_ady.pop_front();
-			}		
-		}
-	}
-	if(volvi_al_ciclo) {			//2*O(n)
-		cant_nodos_ciclo += l.size();
-		while(!l.empty()){			//O(n)
-			nodos_ciclo[l.front()] = true;
-			l.pop_front();
-		}
-		while(!l_ady.empty()){		//O(n)
-			uint top = l_ady.front();
-			l_ady.pop_front();
-			if(!nodos_ciclo[top]){
-				for(int i=0; i<n; i++){
-					if(conexiones[top][i] == 2){
-						conexiones[top][i] = 1;
-						conexiones[i][top] = 1;
-					}
-				}
-			}
-		}
-		return true;
-	}else {
-		return no_fuertemente_conexo;
-	}
-}
-
-bool dame_arista_libre_ciclo(uint &nodo_salida, uint** conexiones, bool* nodos_ciclo, uint n){
-	bool arista_libre = false;
-	for(int i=0; (i<n)&&(!arista_libre) ;i++){
-		if(nodos_ciclo[i]){
-			for(int j=0; (j<n)&& (!arista_libre); j++){
-				if(conexiones[i][j] == 1){
-					conexiones[i][j] = 2;
-					conexiones[j][i] = 2;
-					arista_libre = true;
-					nodo_salida	 = j;	
-				}
-			}
-		}
-	}
-	return arista_libre;
-}
-
-bool dame_adyacentes_a(uint nodo_actual,uint** conexiones, lista &l_ady, uint n){
-	for(int j=0; j<n; j++){
-		if(conexiones[nodo_actual][j] == 1){
-			conexiones[nodo_actual][j] = 2;
-			conexiones[j][nodo_actual] = 2;
-			l_ady.push_back(j);
-		}
-	}
-	return !l_ady.empty();
-}
-
-void reseteo_matriz_salvo_ciclo(uint** conexiones, bool *nodos_ciclos, uint n){
-	for(int i=0; i<n; i++){
-		if(nodos_ciclos[i]==0){
-			for(int j=0;j<n;j++){
-				if(conexiones[i][j] == 2){ 
-					conexiones[i][j]=1;
-					conexiones[j][i]=1;
-				}
-			}
-		}
-	}
-}
-
-void buscar_y_marcar_ciclo(uint** conexiones, bool* nodos_ciclos, lista &l, uint n){
-	bool encontre_ciclo = false;
-	uint ultimo_int = l.back();
-	uint primer_int;
-	
-	while(!encontre_ciclo){
-		primer_int = l.front();
-		if(conexiones[ultimo_int][primer_int] == 2)
-			encontre_ciclo = true;
-		else
-			l.pop_front();
-	}
-	while(!l.empty()){
-		nodos_ciclos[l.front()] = true;
-		l.pop_front();
-	}
-	reseteo_matriz_salvo_ciclo(conexiones, nodos_ciclos, n);
-}
-
-uint nodos_en_ciclo(bool* nodos, uint n){
-	uint res=0;
-	for(int j=0; j<n; j++){
-		if(nodos[j]) res++;
-	}
-	return res;
-}
