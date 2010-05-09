@@ -63,19 +63,17 @@
 
 
 	\begin{subsection}{Análisis de complejidad}
-		Como mencionamos previamente, el algoritmo \textbf{no} podrá pasar más de una vez por cada vértice. Mientras quede algun vértice por ver y pueda accederse, seguirá intentando llegar al nodo $n$. Analizando la complejidad, vemos que si pudiera acceder a todos los vértices del grafo, tendría un costo de $n$ iteraciones.\\
+		Como mencionamos previamente, el algoritmo \textbf{no} podrá pasar más de una vez por cada vértice. Mientras quede algun vértice por ver y pueda accederse, seguirá intentando llegar al nodo $n$. Analizando la complejidad, vemos que si el $bfs$ pudiera acceder indistitamente a todos los vértices del grafo, el ciclo $while$ tendría un costo de $n$ iteraciones.\\
 		
 		Dentro del ciclo principal tenemos las primeras dos operaciones con costo constante (una asignación y quitar de la pila el primer elemento), y un ciclo anidado ($for$).\\
 		
-		Por lo tanto tenemos hasta el momento $n$ interaciones del ciclo $while$ donde dentro de el tenemos un ciclo $for$. Una primer aproximación a la complejidad final sería pensar que para cada una de las $n$ iteraciones tendremos un costo $h$ todavia no conocido por el ciclo $for$, descartando por complejidad el costo constante de la asignación y quitar el primer elemento de una pila. Tenemos hasta ahora, \Ode{$n*h$}.\\
+		Por lo tanto tenemos hasta el momento $n$ interaciones del ciclo $while$ donde dentro de él tenemos un ciclo $for$. Una primer aproximación a la complejidad final sería pensar que para cada una de las $n$ iteraciones tendremos un costo $h$ todavia no conocido por el ciclo $for$, descartando para complejidad el costo constante de la asignación y quitar el primer elemento de una pila. Tenemos hasta ahora, \Ode{n*h}.\\
 		
 		Analizemos ahora la cantidad de operaciones a la que equivale $h$ en el peor caso.\\
 		
-		El ciclo for itera en el peor caso desde $0$ hasta $n$ (puede salir antes si el valor de la variable bool $llegue$ se setea en verdadero). Por lo tanto tenemos que $h$ será $n$ por el costo de cada iteración del for.\\
+		El ciclo for itera en el peor caso desde $0$ hasta $n$ (puede salir antes si el valor de la variable bool $llegue$ se setea en verdadero). Por lo tanto tenemos que $h$ será a lo sumo $n*c$ (con $c$ constante) porque dentro de este ciclo anidado, se asignan valores a arreglos, matrices, se encolan parametros constantes a pilas, se setean valores booleanos y se chequea guardas de condicionales $if$ y todas estas operaciones tienen costo constante. Cabe aclarar que la cantidad de veces que se realizan estas operaciones por cada iteración también es constante, por lo que se puede deducir que una iteración del ciclo $for$ tiene costo constante. Es así entonces que $h = n*c$.\\
 		
-		Dentro de este ciclo anidado, se asignan valores a arreglos, matrices, se encolan parametros constantes a pilas, se setean valores booleanos y se chequea guardas de condicionales $if$. Todas estas operaciones tienen costo constante. Cabe aclarar que la cantidad de veces que se realizan estas operaciones por cada iteración también es constante, por lo que se puede deducir que una iteración del ciclo $for$ tiene costo constante. Es así entonces que $h = n*1 = n$.\\
-		
-		Continuando con el análisis de complejidad, teníamos que el algoritmo tenia complejidad de \Ode{n*h}, siendo ahora $h=n$. Por lo tanto, la complejidad de este algoritmo es \Ode{n*n} = \Ode{n^2} $\subset$ \Ode{n^3}\\
+		Continuando con el análisis de complejidad, teníamos que el algoritmo tenia complejidad de \Ode{n*h}, siendo ahora $h=n*c$. Por lo tanto, la complejidad de este algoritmo es \Ode{n*n*c} = \Ode{n^2} $\subset$ \Ode{n^3}\\
 	\end{subsection}
 
 
