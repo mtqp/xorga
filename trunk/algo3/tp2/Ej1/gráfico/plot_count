@@ -21,11 +21,14 @@ set style line 2 lt 2 pt 1 ps 1
 set style line 3 lt 3 pt 1 ps 1
 
 set output 'ps/count_test_unimodal.eps'
-plot	'data/count_test_unimodal.dat' title "Unimodal" linestyle 1,\
-	'data/count_test_random.dat' title "Random",\
-	8.5*x*x title "n^2"
+plot	'data/count_test_unimodal.dat' every 10 title "Unimodal",\
+	'data/count_test_random.dat' every 10 title "Random",\
+	'data/count_test_creciente.dat' every 10 pt 12  title "Creciente",\
+	'data/count_test_decreciente.dat' every 10 title "Decreciente",\
+	8*x*x title "n^2"
 
-set output 'ps/count_test_random.eps'
-plot	'data/count_test_random.dat' title "Random",\
-	8.5*x*x title "n^2"
-
+set output 'ps/count_test_n_bajo.eps'
+plot[980:1000]	'data/count_test_unimodal.dat' title "Unimodal",\
+		'data/count_test_random.dat' title "Random",\
+		'data/count_test_creciente.dat' pt 12  title "Creciente",\
+		'data/count_test_decreciente.dat' title "Decreciente"
