@@ -15,7 +15,24 @@
 		Generamos la matriz de adyacencia del grafo, de $n\times n$ donde $n$ es la cantidad de esquinas. Cada posición $(i,j)$ de la matriz contiene un $uno$ si la esquina $i$ está conectada con la esquina $j$ por medio de una calle, y $cero$ en caso contrario. Nos referiremos a la matriz como $conexiones$.
 
 
-		Para la resolución del problema recorrimos el grafo con una modificación del algoritmo $Depth\; First\; Search$. Nuestro algoritmo, en primera instancia, busca el primer ciclo que pueda encontrar. Si no llega a la solución y recorre todo los nodos del grafo, puede afirmar que el resultado es falso, ya que el grafo \textbf{no} es fuertemente conexo. En caso contrario, marca todos los nodos que componen el circuito simple como parte de los nodos que ya se encuentran conectados y entra a un ciclo ($while$). Este último, se encarga de buscar alguna arista que lleve a algún nodo todavía no perteneciente a la solución parcial. Si la encuentra, aplica $dfs$ hasta que vuelva al ciclo, si no la encuentra y todavía quedan nodos por recorrer, no hay solución (devuelve $falso$). El $dfs$ (en caso de que exista una arista libre) busca volver al ciclo original, y si lo hace, agrega todos los nodos por los que pasó como parte del ciclo. Vuelve a empezar hasta que haya pasado por todos los nodos ($devuelve\; fuertemente\; conexo$) o algún nodo no puede volver al ciclo ($devuelve\; no$). Cabe destacar que por cada vez que el $dfs$ encuentre un camino que sale y vuelve del ciclo, el nuevo ciclo crece (se agregan todos los nodos del camino resultante).
+		Para la resolución del problema recorrimos el grafo con una modificación del algoritmo $Depth\; First\; Search$. Nuestro algoritmo, en primera instancia, busca el primer ciclo que pueda encontrar. Si no llega a la solución y recorre todo los nodos del grafo, puede afirmar que el resultado es falso, ya que el grafo \textbf{no} es fuertemente conexo. En caso contrario, marca todos los nodos que componen el circuito simple como parte de los nodos que ya se encuentran conectados y entra a un ciclo ($while$). Este último, se encarga de buscar alguna arista que lleve a algún nodo todavía no perteneciente a la solución parcial. Si la encuentra, aplica $dfs$ hasta que vuelva al ciclo, si no la encuentra y todavía quedan nodos por recorrer, no hay solución (devuelve $falso$). El $dfs$ (en caso de que exista una arista libre) busca volver al ciclo original, y si lo hace, agrega todos los nodos por los que pasó como parte del ciclo. Vuelve a empezar hasta que haya pasado por todos los nodos ($devuelve\; fuertemente\; conexo$) o algún nodo no puede volver al ciclo ($devuelve\; no$). Cabe destacar que por cada vez que el $dfs$ encuentre un camino que sale y vuelve del ciclo, el nuevo ciclo crece (se agregan todos los nodos del camino resultante).\VSP
+
+		\begin{pseudo}
+		\func{ciudad}{$conexiones$}
+		\tab $ciclo[0...n] \leftarrow false$\\
+		\tab $encontre\_ciclo \leftarrow dfs\_primer\_ciclo(conexiones,ciclo)$\\
+		\tab \FOR $j$ \TO $n$\\
+		\tab \tab $termine \leftarrow termine$ \AND $ciclo[j]$\\
+		\tab \WHILE $!termine$ \AND $encontre\_ciclo$\\
+		\tab \tab $nodo\_busqueda,\;nodo\_salida \leftarrow adyacente\_extreno(coneciones,ciclo)$\\
+		\tab \tab $conexiones[nodo\_busqueda][nodo\_salida] \leftarrow 0$\\
+		\tab \tab $encontre\_ciclo \leftarrow dfs\_ciclo(conexiones,nodo\_busqueda,ciclo)$\\
+		\tab \tab $conexiones[nodo\_busqueda][nodo\_salida] \leftarrow 1$\\
+		\tab \tab $termine \leftarrow true$\\
+		\tab \tab \FOR $i$ \TO $n$\\
+		\tab \tab \tab $termine \leftarrow termine$ \AND $ciclo[i]$\\
+		\tab \RET $termine$\\
+		\end{pseudo}
 	\end{subsection}
 
 
