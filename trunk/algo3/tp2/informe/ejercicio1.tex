@@ -125,11 +125,21 @@
 
 
 	\begin{subsection}{Pruebas y Resultados}
-		
-		\gra{secuencia_unimodal/count_test_unimodal.pdf}
-		Textooo
+		Para probar correctitud tenemos un generador de secuencias unimodales, secuencias crecientes y decrecientes que nos devuelve en un archivo $test\_*.in$, donde $*$ se refiere a $unimodal,\; creciente\; o\; decreciente$ según corresponda. Para cada uno de ellos, existirá también el archivo $test\_secuencia.out$ con la salida esperada (todo en $cero$ porque son todas unimodales, ya que la creciente y la decreciente son un caso particular de secuencias unimodales). De esta forma, con una comparación de archivos (comando \texttt{make diffs} ) podemos saber para cada instancia si el resultado obtenido por nuestro algoritmo se condice con el resultado correspondiente a esa instancia en el archivo \texttt{test\_secuencia.out}.\\
 
-		\gra{secuencia_unimodal/count_test_random.pdf}
+		Para llevar a cabo las pruebas de este algoritmo en cuanto a operaciones realizadas por instancia, generamos secuencias unimodales, crecientes, decrecientes y random con el objeto de constatar si los gráficos (a continuación expuestos), se condicen con la complejidad teórica analizada.\\
+
+		En el siguiente gráfico, se ven sólo las instancias con $n$ múltiplo de $10$ para poder apreciar cada instancia para entrada unimodal, creciente, decreciente y random (si graficáramos todos los $n$ se vería una linea densa y no podríamos apreciar el comportamiento del algoritmo).
+
+		\gra{secuencia_unimodal/count_test_unimodal.pdf}
+		
+		Podemos observar que para un $n$ dado, todos los casos vistos, coinciden en la cantidad de operaciones. Además la curva $n^2$ parece ser una buena cota para el algoritmo. Se aprecia también que a medida que $n$ crece, la diferencia entre $n^2$ y la cantidad de operaciones para nuestro algoritmo es cada vez mayor. Podemos decir entonces, que $n^2$ es una buena cota, pero que a medida que $n$ crece, el valor de la constante $c$ que fue despreciado, así como también su término lineal y el constante  (en el análisis de complejidad) contribuye a que la diferencia entre las dos curvas siga creciendo.\\
+
+		El siguiente gráfico, muestra la cantidad de operaciones para $n$ entre $980$ y $1000$. Queremos ver si existe diferencia entre los distintos tipos de test, ya que en el gráfico anterior no pudimos ver estos resultados por la escala en la que trabajamos, y no podemos afirmar entonces que no existe tal diferencia.\\
+
+		\gra{secuencia_unimodal/count_test_n_bajo.pdf}
+
+		Corroboramos que a pesar de que es mínima, existe diferencia entre los distintos tipos de casos. Sabemos que la cantidad de operaciones para cada $n$ del gráfico es del orden de millones. La diferencia entre los diferentes tipos de secuencias para cada $n$ es de entre $1000$ y $10000$. A pesar de ser una gran diferencia de operaciones, en relación a la cantidad total, carece de importancia.
 
 	\end{subsection}
 
