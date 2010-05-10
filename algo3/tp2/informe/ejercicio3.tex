@@ -80,11 +80,24 @@
 	\begin{subsection}{Pruebas y Resultados}
 		Para probar correctitud contamos con un generador de instancias en las cuales Bernardo puede escapar y otras en las cuales no, que nos devuelve un archivo $test\_libre.in$ y $test\_no.in$ respectivamente. De esta forma, con una comparación de archivos (comando \texttt{make diffs} en la carpeta Ej3) podemos saber para cada instancia si el resultado obtenido por nuestro algoritmo es correcto.
 
-		Para analizar la complejidad temporal del algoritmo (cantidad de operaciones) tenemos un generador aleatorio de 'mapas' donde para cada número de habitaciones $n$ variamos el porcentaje de pasillos con respecto al máximo (es decir, variamos la densidad del grafo). Generamos para cada $n$ desde $4$ a $100$ ($4$ por enunciado y $100$ porque nos pareció suficente para comprobar el comportamiento del algoritmo), $10$ casos con densidad $0.3$ y $0.6$ y $1$ con densidad $0.9$, decidimos hacer sólo una instancia de densidad $0.9$ por cada $n$ porque la variedad de instancias posibles para esa densidad es baja y la probabilidad de que se repitan alta porque nos pareció que no tenia sentido hacer más.\\
-		Por otro lado, generamos peores casos para el algoritmo $\forall n\; 4 \leq n \leq 100$ por motivos ya mencionados. Para generar peores casos armamos un árbol donde la raíz es la habitación  $uno$, desde donde inicia $Bernardo$. Si $n$ es par, en el nivel $uno$  hay $\frac{(n-2)}{2} + 1$ habitaciones donde $\frac{(n-2)}{2}$ corresponden a las que tienen puertas y el restante tiene la llave de la habitación $\frac{(n-2)}{2} + 1$ y en el nivel $dos$ estan el resto de las habitaciones, es decir, las habitaciones que tienen las llaves y la habitación $n$. Si $n$ es impar, 
+		Para analizar la complejidad temporal del algoritmo (cantidad de operaciones) tenemos un generador aleatorio de 'mapas' donde para cada número de habitaciones $n$ variamos el porcentaje de pasillos con respecto al máximo (es decir, variamos la densidad del grafo). Generamos para cada $n$ desde $4$ a $100$ ($4$ por enunciado y $100$ porque nos pareció suficente para comprobar el comportamiento del algoritmo), $10$ casos con densidad $0.3$ y $0.6$ y $0.9$.
 
-		\gra{prision/count_test_peor_caso.pdf}		
+		A continuación se muestra para cada instancia la cantidad de operaciones en función de la cantidad de habitaciones y la cantidad de pasillos (densidad del grafo). Esperamos ver que cuánto mayor es la densidad mejor es el algoritmo.
+		
 		\gra{prision/count_test_densidades.pdf}
+
+		Podemos ver que se cumple lo predicho ya que para un $n$ fijo (para una cantidad de habitaciones fija), la función crece (la cantidad de operaciones aumenta) conforme aumenta la cantidad de pasillos. 
+		Además, vemos que cuanto mayor es la densidad más tienden a agruparse, consideramos que esto pasa porque a que a medida que aumenta la densidad la variedad de instancias posibles disminuye, siendo alta la probabilidad de que se repitan al generarlas y siendo las distintas configuraciones del grafo muy similares con respecto al costo.\VSP
+
+		Por otro lado, generamos peores casos para el algoritmo $\forall n\; (4 \leq n \leq 100)$. Para generar peores casos armamos un árbol donde la raíz es la habitación  $uno$. La cantidad de llaves/puertas es exactamente $\frac{(n-2)}{2}$ (división entera). Si $n$ es par, en el nivel $uno$  están todas las habitaciones con puerta y otra que tiene la llave de la habitación $\frac{(n-2)}{2} + 1$ . En el nivel $dos$ están el resto de las habitaciones, es decir, las habitaciones que tienen las llaves y la última habitación. Si $n$ es impar, en el nivel $uno$  están todas las habitaciones con puerta y otra que no tiene llave ni puerta. En el nivel $dos$ están el resto de las habitaciones, es decir, las habitaciones que tienen las llaves y la última habitación. En ambos casos, la llave correspondiente a la habitación $i$, $\forall i (2 \leq i \leq \frac{(n-2)}{2})$ está en la habitación $n-i+1$. Este tipo de mapa es uno de los peores casos del algoritmo porque para determinar que puede escapar, el $bfs$ visita necesariamente todos los nodos, dejando en espera a todos los bloqueados para luego visitarlos.
+
+		La siguiente figura muestra lo descripto anteriormente:\VSP
+
+		En el siguiente gráfico se muestra la cantidad de operaciones en función de la cantidad de habitaciones y la cantidad de pasillos (densidad del grafo). Ademas, graficamos la función $19*n^2$ ya que es la cota previamente calculada con una constante aproximada calculada empíricamente. El objetivo de esta prueba es poder constrastar los casos del gráfico anterior con los peores casos para el algoritmo y corroborar que la cota es correcta.
+			
+		\gra{prision/count_test_peor_caso.pdf}
+
+		Se puede ver que $19*n^2$ es la cota exacta para el algoritmo. Además, podemos afirmar que las instancias elegidas como peores casos se comportan como tal.
 
 		
 	\end{subsection}
