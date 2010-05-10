@@ -23,12 +23,12 @@ set style line 3 lt 3 pt 1 ps 1
 set output 'ps/count_test_densidades.eps'
 plot	'data/count_test_densidad_0.3.dat' title "Densidad 0.3" linestyle 1,\
 	'data/count_test_densidad_0.6.dat' title "Densidad 0.6",\
-	'data/count_test_densidad_0.9.dat' title "Densidad 0.9"
+	'data/count_test_densidad_0.9.dat' pt 7 ps 0.5 title "Densidad 0.9"
 
 set output 'ps/count_test_peor_caso.eps'
 plot	'data/count_test_densidad_0.3.dat' title "Densidad 0.3" linestyle 1,\
 	'data/count_test_densidad_0.6.dat' title "Densidad 0.6",\
-	'data/count_test_densidad_0.9.dat' title "Densidad 0.9",\
+	'data/count_test_densidad_0.9.dat' pt 7 ps 0.5 title "Densidad 0.9",\
 	'data/count_peor_caso.dat' title "Peor caso",\
 	19*x*x title "19*n^2"
 
