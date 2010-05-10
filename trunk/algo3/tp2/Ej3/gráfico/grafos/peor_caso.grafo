@@ -1,0 +1,25 @@
+graph G {
+	inicio [ shape=circle label="1" ];
+	fin [ shape=circle label="N" ];
+
+	p1 [ shape=doublecircle ];
+	p2 [ shape=doublecircle ];
+	pN1 [ shape=doublecircle label="pN-1" ];
+	pN [ shape=doublecircle label="pN" ];
+	
+	l1 [ shape=circle ];
+	lN2 [ shape=circle label="LN-2" ];
+	lN1 [ shape=circle label="LN-1" ];
+	lN [ shape=circle ];
+
+	inicio -- p1;
+	inicio -- p2;
+	inicio -- pN1;
+	inicio -- pN;
+	inicio -- lN;
+	
+	p1 -- fin;
+	p2 -- l1;
+	pN1 -- lN2;
+	pN -- lN1;
+}
