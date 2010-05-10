@@ -102,5 +102,13 @@
 		
 	\end{subsection}
 
+	\begin{subsection}{Conclusiones}
+		Modelar el problema con un grafo, permitió abstraernos de Bernado y la prisión, pudiendo pensar en técnicas para recorrerlos de forma eficiente. Así, realizar un $bfs$ sobre nodos (un algoritmo conocido) con cambios mínimos, satisfizo los requerimientos del problema.
+
+		Habiéndolo modelado con grafos y recorrido de forma ordenada, pudimos implementar un algoritmo polinomial de complejidad $n^2$. Podemos concluir que el problema está computacionalmente 'bien' resuelto.
+
+		Al tener muchas variables en el problema, como la cantidad de habitaciones, pasillos, llaves y el lugar donde estas estaban, complejizaron la realización de los gráficos. Terminamos realizando test con cantidad de habitaciones fijas, cantidad de pasillos fijos (la máxima cantidad de pasillos posibles para esa cantidad de habitaciones multiplicaba por una densidad entre 0 y 1) siendo aleatorios los extremos (las habitaciones que conectan), y llaves distribuídas de forma también aleatoria. Creemos que de esta forma, al realizar una cantidad significativa de tests, cubrimos una cantidad suficiente de casos.
+
+	\end{subsection}
 \end{section}
 
