@@ -130,7 +130,7 @@ def main():
 	#generar_libre(1000,100);
 	generar_densidad(100,0.3,10);
 	generar_densidad(100,0.6,10);
-	generar_densidad(100,0.9);
+	generar_densidad(100,0.9,10);
 
 if __name__=="__main__":
 	main()
