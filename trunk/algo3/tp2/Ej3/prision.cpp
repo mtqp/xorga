@@ -20,9 +20,6 @@ void print_matriz(uint** M, uint n){
 	}
 }
 
-#define sin_llave false;
-#define con_llave true;
-
 bool libre(uint** conexiones, bool* tengo_llave, uint* puertas, uint n){
 	reiniciar_contador();
 	cola q;
@@ -110,11 +107,7 @@ int main(int argc, char** argv){
 			conexiones[q-1][k-1]=1;	
 			conexiones[k-1][q-1]=1;
 		}
-		if(argc>1 && string(argv[1])=="time"){
-			medir_tiempo( ts, libre(conexiones,tengo_llave,puertas,n), 1, 0.5f );
-			cout << n << "\t" << ts << endl;
-		}
-		else if( argc > 1 && string(argv[1])=="count"){
+		if( argc > 1 && string(argv[1])=="count"){
 			libre(conexiones,tengo_llave,puertas,n);
 			cout << n << "\t" << contador << endl;
 		}

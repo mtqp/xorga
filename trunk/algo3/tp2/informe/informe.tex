@@ -70,34 +70,16 @@ Mariano De Sousa Bispo & 389/08 & marian\_sabianaa@hotmail.com \\
 	
 	\begin{section}{Mediciones}
 		\begin{itemize}
-			\item Para contar la cantidad aproximada de operaciones definimos una variable inicializada en $cero$ la cual incrementamos luego de cada operación.
-			\item Para medir tiempo tenemos una función que ejecuta el algoritmo por un mínimo de tiempo pasado como parametro, esto lo hacemos para obtener una mejor precisión. Una vez que se cumple el tiempo tenemos en una variable la cantidad de veces que se ejecutó el algoritmo, luego dividimos el tiempo medido por $c$. 
+			\item Para contar la cantidad aproximada de operaciones definimos una variable inicializada en $cero$ la cual incrementamos luego de cada operación. Preferimos contar operaciones en vez de medir tiempo porque a pesar de que es aproximada el error es siempre el mismo y así podemos hacer una mejor comparación entre las instancias.
 		\end{itemize}
 	\end{section}
 	\begin{section}{Compilación y ejecución de los programas}
 	Para compilar los programas se puede usar el comando \texttt{make} (Requiere el compilador \texttt{g++}).
 	Se pueden correr los programas de cada ejercicio ejecutando \texttt{./secuencia\_unimodal}, \texttt{./ciudad} y \texttt{./prision} respectivamente.
 		
-	Los programas leen la entrada de stdin y escriben la respuesta en stdout. 		Para leer la entrada de un archivo \texttt{Tp1EjX.in} y escribir la respuesta en un archivo \texttt{Tp1EjX.out} ses puede usar:\\ \texttt{./(ejecutable) < Tp1EjX.in > Tp1EjX.out}
-		
-	Para medir los tiempos de ejecución: \texttt{./(ejecutable) time}. Devuelve para cada instancia el tamaño seguido del tiempo trancurrido (en segundo) para procesar esa instancia.
+	Los programas leen la entrada de stdin y escriben la respuesta en stdout. Para leer la entrada de un archivo \texttt{Tp1EjX.in} y escribir la respuesta en un archivo \texttt{Tp1EjX.out} ses puede usar:\\ \texttt{./(ejecutable) < Tp1EjX.in > Tp1EjX.out}
 
 	Para contar la cantidad de operaciones: \texttt{./(ejecutable) count}. Devuelve para cada instancia el tamaño seguido de la cantidad de operaciones de cada instancia.
+	En el ejercicio 3 también se puede contar la cantidad de operaciones en función de la cantidad de llaves de la siguiente manera:\\ \texttt{./prision count\_llaves}. Devuelve para cada instancia la cantidad de llaves/puertas seguido de la cantidad de operaciones correspondientes. 
 	\end{section}
-	
-	\newpage
-	\begin{comment}
-	\begin{section}{Conclusiones}
-		Pudimos implementar las soluciones a los problemas propuestos utilizando diversas técnicas algorítmicas. En todos los casos las mediciones de tiempo y cantidad de operaciones se correspondieron con las complejidades teóricas calculadas. Esto indica que los modelos elegidos fueron adecuados.
-
-		En el ejercicio $uno$ nos encontramos con un problema donde debíamos operar valores enteros muy grandes, esto hizo que no pudiésemos considerar constante el costo de las operaciones elementales. Tuvimos así que analizar la complejidad en el modelo logaritmico. Al analizarla, tuvimos que diferenciarla en función de $n$ y del tamaño de entrada (lo que se hizo en todos los ejercicios), con la particularidad de que en función de $n$ resultó logarítmico, y en función del tamaño de la entrada, polinomial.
-		
-		Además, pudimos observar que en este caso la limitación del algoritmo no está dada por el tiempo de ejecución sino por el rango de valores admitidos ya que a partir de cierto $n$ hay que trabajar con números más grandes de lo que se puede almacenar en la variable. Dicho esto, nos parece un buen algoritmo porque como cualquier otro que opera con variables numéricas en algun punto hace $overflow$ para una entrada 'suficientemente grande', y este puede devolver un resultado para todas las instancias -donde esto no ocurre- con un costo temporal muy bajo.
-
-		En el problema $dos$ nos encontramos con un algoritmo de complejidad factorial que a partir de cierto tamaño de entrada 'relativamente chico' se torna inútil, ya que la ejecución para dichas instancias es extremadamente lenta y en la práctica muchas veces no es aceptable. Esto significa que el problema no está 'bien' resuelto para tamaños de entrada no necesariamente grandes, notándolo en las pruebas: a partir de $16$ chicas en casos 'malos' el algoritmo requeria de varias horas para devolver una respuesta.
-		
-		El problema $tres$ nos pareció un problema particularmente sencillo desde el punto de la implementación. Pudimos resolverlo con un algoritmo simple que tiene costo lineal tanto en función del tamaño de la entrada como de la cantidad de programadores. Se considera entonces un problema 'bien' resuelto desde el punto de vista computacional.
-	\end{section}
-	\end{comment}
-
 \end{document}

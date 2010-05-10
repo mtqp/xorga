@@ -60,13 +60,7 @@ int main(int argc, char** argv){
 	while(cin >> n && n!=(uint)-1){
 		int secuencia[n];
 		for(uint i=0; i<n; i++) cin >> secuencia[i];
-		if(argc>1 && string(argv[1])=="time"){
-			//empezar_medicion(ts);
-			medir_tiempo( ts, secuencia_unimodal(secuencia,n), 1, 0.5f );
-			//terminar_medicion(ts);
-			cout << n << "\t" << ts << endl;
-		}
-		else if( argc > 1 && string(argv[1])=="count"){
+		if( argc > 1 && string(argv[1])=="count"){
 			secuencia_unimodal(secuencia,n);
 			cout << n << "\t" << contador << endl;
 		}
