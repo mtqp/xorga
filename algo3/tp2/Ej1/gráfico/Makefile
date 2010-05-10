@@ -11,7 +11,7 @@ data_time := $(patsubst $(DATA_PATH)/%.dat,$(DATA_PATH)/time_%.dat,$(data))
 pdf_count := $(patsubst %.dat,%.pdf,$(subst $(DATA_PATH),$(OUT_PATH),$(data_count)) )
 pdf_time := $(patsubst %.dat,%.pdf,$(subst $(DATA_PATH),$(OUT_PATH),$(data_time)) )
 
-all: counts time
+all: counts
 
 time_%.eps: $(data_time)
 	./plot_time
@@ -28,8 +28,11 @@ $(DATA_PATH)/time_%.dat:$(TESTS_PATH)/%.in
 $(DATA_PATH)/count_%.dat: $(TESTS_PATH)/%.in
 	../$(EJ) count < $< > $@
 
-counts: plot_count $(data_count) $(pdf_count)
-time: plot_time $(data_time) $(pdf_time)
+counts: plot_count $(data_count)
+	./plot_count
+	ps2pdf ps/count_test_unimodal.eps ps/count_test_unimodal.pdf
+	ps2pdf ps/count_test_n_bajo.eps ps/count_test_n_bajo.pdf
+	rm ps/*.eps
 
 copy:
 	cp ps/*.pdf ../../informe/$(EJ)/
