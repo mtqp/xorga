@@ -63,8 +63,9 @@ bool dfs_primer_ciclo(uint** conexiones, bool* nodos_ciclo, uint n )
 					encontre_ciclo = true;
 					/* dejo al nodo que comienza el ciclo arriba */
 					p.push( i );
-					O(3+6);
+					O(2);
 				}
+				O(6+3+5);
 			}
 			O(8);
 		}
