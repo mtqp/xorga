@@ -41,7 +41,14 @@
 
 			\item \textbf{dfs\_primer\_ciclo:} La modificación que le hicimos al $dfs$ en este caso consiste en numerar los vértices. Esto nos permite determinar los vértices pertenecientes al circuito una vez que lo detectamos. Para encontrar el primer circuito, cada vez que se sacamos un vértice $i$ de la pila le asignamos el número de su predecesor más $uno$ y verificamos que cada vértice tenga algún adyacente todavía no numerado (podría ser que ya esté visitado), ya que si esto no ocurre sabemos que no existe tal ciclo porque lo que tenemos hasta ahí es un camino y no hay forma de volver (tiene conexión sólo con su predecesor). Si en algún momento un vértice adyacente a $i$ ya fue visitado y su número es menor al de $i$ menos $uno$ (es decir, el adyacente ya visitado no es su predecesor) decimos que hay un ciclo y este está formado por los vértices que tienen menor numeración que $i$ los cuales son marcados en el arreglo $ciclo$. Además, esta función devuelve un $bool$ que nos dice si encontró un circuito ($encontre\_ciclo$). Si $encontre\_ciclo$ es falso significa que no existen circuitos en el grafo por lo que ya podemos afirmar que no es fuertemente conexo.
 
-			\item \textbf{adyacente\_externo:} Esta función se encarga de buscar un vértice que todavía no pertenezca al circuito tal que sea adyacente a uno perteneciente. Seteando la variable $nodo\_busqueda$ con el vértice no perteneciente al circuito principal y $nodo\_salida$ con el vértice perteneciente.
+			\item \textbf{adyacente\_externo:} Esta función se encarga de buscar un vértice que todavía no pertenezca al circuito tal que sea adyacente a uno perteneciente. Seteando la variable $nodo\_busqueda$ con el vértice no perteneciente al circuito principal y $nodo\_salida$ con el vértice que si lo es.
+		
+			\item \textbf{dfs\_ciclo:} En este caso también numeramos los vértices para determinar cuáles son los pertenecientes al circuito, si es que se puede volver al circuito principal sin usar la arista que conecta el vértice $nodo\_busqueda$ con $nodo\_salida$. Garantizamos que no use esa arista para volver, marcándola como $0$ en la matriz de adyancencia previo ingreso a $dfs\_ciclo$. El valor original de la arista en la matriz de adyacencia es restaurado una vez que la función termina.
+			
+			La función apila el $nodo\_busqueda$. Apila sus adyacentes (si es que tiene alguno distinto al $nodo\_salida$) y continúa con el algoritmo $dfs$. Termina si: encuentra un vértice adyacente que no esta visitado por el $dfs\_ciclo$ y forma parte del circuito principal, o si la pila se vacía y todavía no logro volver al circuito.
+			
+
+
 		\end{itemize}
 		
 
