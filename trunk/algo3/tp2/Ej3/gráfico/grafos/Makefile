@@ -1,4 +1,4 @@
-GRAFOS=peor_caso.eps
+GRAFOS=peor_caso.eps peor_caso_impar.eps
 
 all: $(GRAFOS)
 
@@ -6,4 +6,8 @@ all: $(GRAFOS)
 	dot -Tps $< > $@
 
 clean:
-	rm peor_caso.ps
+	rm $(GRAFOS)
+
+copy:
+	cp *.png ../../../informe/prision/
+
