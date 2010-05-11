@@ -88,6 +88,8 @@
 
 		Podemos afirmar que el mejor caso se comporta como tal, y tiene costo lineal. Además, verificamos que nuestra hipótesis sobre el comportamiento observado en el primer gráfico es correcta (la escala no era la adecuada).
 
+		Queremos observar que no tomamos en cuenta el costo de la inicialización de la matriz de adyacencia (su costo es \Ode{n^2}), de esta forma podemos afirmar que nuestro mejor caso para la función ciudad es lineal (la complejidad se analizó sólo sobre la función principal -ciudad-).
+
 	\end{subsection}
 
 	\begin{subsection}{Conclusiones}
@@ -98,6 +100,7 @@
 		Nos resultó el problema más complicado de resolver, ya que en un principio todas nuestras posibles soluciones no resolvían el problema en todas las instancias posibles y/o no cumplían con la complejidad. La solución final necesito de un crecimiento por parte nuestra, en la forma de ver el problema. Primeramente queríamos buscar ciclos y tratar de unirlos entre sí hasta abarcar todos los vértices. Logramos resolverlo cuando observamos que nuestra primer idea, era lo mismo que tener un ciclo principal e intentar buscar ciclos conectados a él, ignorando si en el proceso, nos encontrabamos con un ciclo aislado. Aún así, nuestra primer implementación correcta mostraba que necesitabamos todavía refinar el algoritmo. Esta solución fue posible, aplicando la técnica $top\-down$.
 
 		Computacionalmente es un problema 'bien' resuelto, dado que la complejidad resultó ser \Ode{n^3}.
+
 	\end{subsection}
 \end{section}
 
