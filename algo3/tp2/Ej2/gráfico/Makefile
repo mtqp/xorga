@@ -11,16 +11,14 @@ pdf_count := $(patsubst %.dat,%.pdf,$(subst $(DATA_PATH),$(OUT_PATH),$(data_coun
 
 all: counts
 
-count_%.eps: $(data_count) 
-	./plot_count
-
-%.pdf: %.eps
-	ps2pdf $< $(patsubst %.eps,%.pdf,$<)
-
 $(DATA_PATH)/count_%.dat: $(TESTS_PATH)/%.in
 	../$(EJ) count < $< > $@
 
-counts: plot_count $(data_count) $(pdf_count)
+counts: plot_count $(data_count)
+	./plot_count
+	ps2pdf ps/count_completos.eps ps/count_completos.pdf
+	ps2pdf ps/count_test_mejor_caso.eps ps/count_test_mejor_caso.pdf
+	rm ps/*.eps
 
 copy:
 	cp ps/*.pdf ../../informe/$(EJ)/
