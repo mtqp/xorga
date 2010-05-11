@@ -69,14 +69,18 @@
 			\end{itemize}
 		\end{itemize}
 
+		\newpage
+
 		Podemos decir entonces que el ciclo del algoritmo $ciudad$ tiene costo del orden de $n^3$.
 
-		La complejidad del algoritmo $ciudad$ viene dada por el máximo entre el costo del ciclo ($while$), dos ciclos $for$ (iteran de $uno$ hasta $n$ con operaciones de costo constante dentro)y la llamada a al función $dfs\_primer\_ciclo$. Por lo tanto podemos afirmar que la complejidad asintóntica es \Ode{n^3}.
+		La complejidad del algoritmo $ciudad$ viene dada por el máximo entre el costo del ciclo ($while$), dos ciclos $for$ (iteran de $uno$ hasta $n$ con operaciones de costo constante dentro) y la llamada a al función $dfs\_primer\_ciclo$. Por lo tanto podemos afirmar que la complejidad asintóntica es \Ode{n^3}.
 	\end{subsection}
+
+	\newpage
 
 	\begin{subsection}{Pruebas y Resultados}
 	
-		Para probar correctitud contamos con un generador de instancias FUERTEMENTE CONEXO Y OTRO QUE DEVUELVEN LO CONTRARIO QUE ESTA EN LA CASA DE MARIAN, NO SABEMOS COMO GUARDA EL TEST.IN Y BLAH. De esta forma, con una comparación de archivos (comando \texttt{make diffs} en la carpeta Ej2 QUE DANI VA A SER RE JEDI) podemos saber para cada instancia si el resultado obtenido por nuestro algoritmo es correcto.
+		Para probar correctitud contamos con un generador de instancias con grafos fuertemente conexos y otras no fuertemente conexos. Estas entradas se guardan en los archivos \texttt{test\_fc.in} y  \texttt{test\_nofc.in}. De esta forma, con una comparación de archivos (comando \texttt{make diffs} en la carpeta Ej2) podemos saber para cada instancia si el resultado obtenido por nuestro algoritmo es correcto.
 
 		Para contar la cantidad de operaciones realizadas por el algoritmo tenemos un generador de instancias aleatorias, mejor y peor caso. La cantidad de esquinas varía de $0$ a $100$, siendo $una$ la cantidad de instancias para cada $n$ (cabe aclarar que es una instancia aleatoria, una mejor, y una peor).
 
@@ -84,7 +88,7 @@
 
 	\gra{ciudad/count_completos.pdf}
 
-		En el gráfico anterior podemos ver que la complejidad analizada de forma teórica se condice con las instancias generadas. De todas formas no podemos afirmar que el mejor caso es lineal ya que puede estarse tratando de costo constante. Creemos que la escala del eje $y$, es decir la gran cantidad de valores que puede admitir en un gráfico de ese tamaño, es la que nos da una impresión errónea.
+		En el gráfico anterior podemos ver que la complejidad analizada de forma teórica se condice con la cantidad de operaciones realizadas por las instancias generadas. De todas formas no podemos afirmar que el mejor caso es lineal ya que puede estarse tratando de costo constante. Creemos que la escala del eje $y$, es decir la gran cantidad de valores que puede admitir en un gráfico de ese tamaño, es la que nos da una impresión errónea.
 
 		Por lo tanto, el siguiente gráfico mostrará las mismas instancias, pero con un rango de valores del eje $y$ mucho menor. Esperamos ver que en realidad el mejor caso es una recta, y que tanto los casos aleatorios como el peor, se mantienen o igual, o por encima de ella.
 
@@ -92,16 +96,16 @@
 
 		Podemos afirmar que el mejor caso se comporta como tal, y tiene costo lineal. Además, verificamos que nuestra hipótesis sobre el comportamiento observado en el primer gráfico es correcta (la escala no era la adecuada).
 
-		Vale observar que no tomamos en cuenta el costo de la inicialización de la matriz de adyacencia (su costo es $n^2$), de esta forma podemos afirmar que nuestro mejor caso para la función ciudad es lineal (la complejidad se analizó sólo sobre la función principal ciudad).
+		Vale observar que no tomamos en cuenta el costo de la inicialización de la matriz de adyacencia (su costo es $n^2$), de esta forma podemos afirmar que nuestro mejor caso para la función ciudad es lineal (la complejidad se analizó sólo sobre la función principal -ciudad-).
 
 	\end{subsection}
 
 	\begin{subsection}{Conclusiones}
-		El modelado del problema mediante un grafo, nos facilitó la resolución del problema. Dejamos de pensar si podíamos asignar direcciones a las calles de una ciudad de manera tal de poder ir de una esquina a cualquiera, y nos dedicamos a verificar si se cumplía una propiedad en el grafo (esta propiedad es la de ser fuertemente conexo).
+		El modelado del problema mediante un grafo, nos facilitó la resolución del problema. Dejamos de pensar si podíamos asignar direcciones a las calles de una ciudad de manera tal de poder ir de una esquina a cualquier otra, y nos dedicamos a verificar si se cumplía una propiedad en el grafo (esta propiedad es la de ser fuertemente conexo).
 
 		La implementación de nuestro algoritmo resultó ser polinomial, gracias a las técnicas conocidas aplicadas a grafos, pudimos mediante un $dfs$ con ligeras modificaciones (las que mantuvieron las bases del algoritmo original), obtener un resultado correcto. 
 
-		Nos resultó el problema más complicado de resolver, ya que en un principio todas nuestras posibles soluciones no resolvían el problema en todas las instancias posibles y/o no cumplían con la complejidad. La solución final necesito de un crecimiento por parte nuestra, en la forma de ver el problema. Primeramente queríamos buscar ciclos y tratar de unirlos entre sí hasta abarcar todos los vértices. Logramos resolverlo cuando observamos que nuestra primer idea, era lo mismo que tener un ciclo principal e intentar buscar ciclos conectados a él, ignorando si en el proceso, nos encontrabamos con un ciclo aislado. Aún así, nuestra primer implementación correcta mostraba que necesitabamos todavía refinar el algoritmo. Esta solución fue posible, aplicando la técnica $top\-down$.
+		Nos resultó el problema más complicado de resolver, ya que en un principio todas nuestras posibles soluciones no resolvían el problema en todas las instancias posibles y/o no cumplían con la complejidad pedida. La solución final necesito de un crecimiento por parte nuestra, en la forma de ver el problema. Primeramente queríamos buscar ciclos y tratar de unirlos entre sí hasta abarcar todos los vértices. Logramos resolverlo cuando observamos que nuestra primer idea, era la misma que tener un ciclo principal e intentar buscar ciclos conectados a él, ignorando si en el proceso, nos encontrabamos con un ciclo aislado. Aún así, nuestra primer implementación correcta mostraba que necesitabamos todavía refinar el algoritmo. Esta solución fue posible, aplicando la técnica $top\;down$.
 
 		Computacionalmente es un problema 'bien' resuelto, dado que la complejidad resultó ser \Ode{n^3}.
 
