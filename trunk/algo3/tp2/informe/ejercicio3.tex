@@ -91,13 +91,19 @@
 
 		Por otro lado, generamos peores casos para el algoritmo $\forall n\; (4 \leq n \leq 100)$. Para generar peores casos armamos un árbol donde la raíz es la habitación  $uno$. La cantidad de llaves/puertas es exactamente $\frac{(n-2)}{2}$ (división entera). Si $n$ es par, en el nivel $uno$  están todas las habitaciones con puerta y otra que tiene la llave de la habitación $\frac{(n-2)}{2} + 1$ . En el nivel $dos$ están el resto de las habitaciones, es decir, las habitaciones que tienen las llaves y la última habitación. Si $n$ es impar, en el nivel $uno$  están todas las habitaciones con puerta y otra que no tiene llave ni puerta. En el nivel $dos$ están el resto de las habitaciones, es decir, las habitaciones que tienen las llaves y la última habitación. En ambos casos, la llave correspondiente a la habitación $i$, $\forall i (2 \leq i \leq \frac{(n-2)}{2})$ está en la habitación $n-i+1$. Este tipo de mapa es uno de los peores casos del algoritmo porque para determinar que puede escapar, el $bfs$ visita necesariamente todos los nodos, dejando en espera a todos los bloqueados para luego visitarlos.
 
-		La siguiente figura muestra lo descripto anteriormente:\VSP
+		La siguiente figura muestra lo descripto anteriormente:\VSP		
 
-		En el siguiente gráfico se muestra la cantidad de operaciones en función de la cantidad de habitaciones y la cantidad de pasillos (densidad del grafo). Ademas, graficamos la función $19*n^2$ ya que es la cota previamente calculada con una constante aproximada calculada empíricamente. El objetivo de esta prueba es poder constrastar los casos del gráfico anterior con los peores casos para el algoritmo y corroborar que la cota es correcta.
-			
+		Generamos mejores casos, en donde la habitación $1$ no está conectada por ningún pasillo a otra, o la única que está conectada a la primera, es la habitación $n$. El algoritmo necesita por lo menos, buscar entre todos los vértices los adyacentes al primero (la habitación de la que sale Bernardo) para poder afirmar que no tiene ninguno y terminar (para toda instacia, el algoritmo necesita de la inicialización de dos arreglos, previo a entrar al ciclo $while$). Deducimos que la cota inferior del algoritmo es $a*n$, con $a$ constante.
+
+		En el siguiente gráfico se muestra la cantidad de operaciones en función de la cantidad de habitaciones y la cantidad de pasillos (densidad del grafo). Ademas, graficamos la función $19*n^2$ ya que es la cota superior previamente calculada con una constante aproximada calculada empíricamente. El objetivo de esta prueba es poder constrastar los casos del gráfico anterior con los peores casos y mejores caso para el algoritmo, para corroborar que las cotas son correctas. 
+		
+		CAMBIAR ESTE GRAFICO
+	
 		\gra{prision/count_test_peor_caso.pdf}
 
-		Se puede ver que $19*n^2$ es la cota exacta para el algoritmo. Además, podemos afirmar que las instancias elegidas como peores casos se comportan como tal. En general, vemos que el algoritmo se comporta mucho mejor que la cota. Hicimos $1000$ test aleatorios por cada densidad y la cantidad de operaciones no superó las $40000$ en ninguno de ellos. En cambio los peores casos superan esta cantidad de operaciones con $n$ a partir de $45$ aproximadamente. Podemos concluir que cuanto mayor sea $n$, mayor será la diferencia de $performance$ entre el peor caso y los elegidos aleatoriamente (con la salvedad de que no se elija un peor caso).
+		Se puede ver que $19*n^2$ es la cota superior exacta para el algoritmo. Además, podemos afirmar que las instancias elegidas como peores casos se comportan como tal. En general, vemos que el algoritmo se comporta mucho mejor que la cota. Hicimos $1000$ test aleatorios por cada densidad y la cantidad de operaciones no superó las $40000$ en ninguno de ellos. En cambio los peores casos superan esta cantidad de operaciones con $n$ a partir de $45$ aproximadamente. Podemos concluir que cuanto mayor sea $n$, mayor será la diferencia de $performance$ entre el peor caso y los elegidos aleatoriamente (con la salvedad de que no se elija un peor caso).
+
+		Vemos que la cantidad de operaciones para los mejores casos crece linealmente como habíamos supuesto. Creemos entonces que la cota inferior para el algoritmo fue bien elegida.
 
 		
 	\end{subsection}
