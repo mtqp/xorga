@@ -72,6 +72,21 @@
 
 	\begin{subsection}{Pruebas y Resultados}
 	
+	Para probar correctitud contamos con un generador de instancias FUERTEMENTE CONEXO Y OTRO QUE DEVUELVEN LO CONTRARIO QUE ESTA EN LA CASA DE MARIAN, NO SABEMOS COMO GUARDA EL TEST.IN Y BLAH. De esta forma, con una comparación de archivos (comando \texttt{make diffs} en la carpeta Ej2 QUE DANI VA A SER RE JEDI) podemos saber para cada instancia si el resultado obtenido por nuestro algoritmo es correcto.
+
+	Para contar la cantidad de operaciones realizadas por el algoritmo tenemos un generador de instancias aleatorias, mejor y peor caso. La cantidad de esquinas varía de $0$ a $100$, siendo $una$ la cantidad de instancias para cada $n$ (cabe aclarar que es una instancia aleatoria, una mejor, y una peor).
+
+	A continuación se muestra para cada instancia la cantidad de operaciones en función de la cantidad esquinas. Esperamos ver como la función $c*n^3$ acota superiormente nuestro peor caso (con $c=5.8$), y como el mejor acota inferiormente (menor igual) a cualquiera, ya sea aleatoria o peor caso a partir de cierto $n$.
+
+	\gra{ciudad/count_completos.pdf}
+
+	En el gráfico anterior podemos ver que la complejidad analizada de forma teórica se condice con las instancias generadas. De todas formas no podemos afirmar que el mejor caso es lineal ya que puede estarse tratando de costo constante. Creemos que la escala del eje $y$, es decir la gran cantidad de valores que puede admitir en un gráfico de ese tamaño, es la que nos da una impresión errónea.
+
+	Por lo tanto, el siguiente gráfico mostrará las mismas instancias, pero con un rango de valores del eje $y$ mucho menor. Esperamos ver que en realidad el mejor caso es una recta, y que tanto los casos aleatorios como el peor, se mantienen o igual, o por encima de ella.
+
+	\gra{ciudad/count_test_mejor_caso.pdf}
+
+	Podemos afirmar que el mejor caso se comporta como tal, y tiene costo lineal. Además, verificamos que nuestra hipótesis sobre el comportamiento observado en el primer gráfico es correcta (la escala no era la adecuada).
 
 	\end{subsection}
 
