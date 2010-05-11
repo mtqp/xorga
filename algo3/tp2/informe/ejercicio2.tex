@@ -17,6 +17,8 @@
 
 		Para la resolución del problema recorrimos el grafo con una modificación del algoritmo $Depth\; First\; Search$. Nuestro algoritmo, en primera instancia, busca el primer ciclo que pueda encontrar. Si no llega a la solución y recorre todo los nodos del grafo, puede afirmar que el resultado es falso, ya que el grafo \textbf{no} es fuertemente conexo. En caso contrario, marca todos los nodos que componen el circuito simple como parte de los nodos que ya se encuentran conectados y entra a un ciclo ($while$). Este último, se encarga de buscar alguna arista que lleve a algún nodo todavía no perteneciente a la solución parcial. Si la encuentra, aplica $dfs$ hasta que vuelva al ciclo, si no la encuentra y todavía quedan nodos por recorrer, no hay solución (devuelve $falso$). El $dfs$ (en caso de que exista una arista libre) busca volver al ciclo original, y si lo hace, agrega todos los nodos por los que pasó como parte del ciclo. Vuelve a empezar hasta que haya pasado por todos los nodos ($devuelve\; fuertemente\; conexo$) o algún nodo no puede volver al ciclo ($devuelve\; no$). Cabe destacar que por cada vez que el $dfs$ encuentre un camino que sale y vuelve del ciclo, el nuevo ciclo crece (se agregan todos los nodos del camino resultante).\VSP
 
+		El siguiente pseudocódigo detalla lo explicado anteriormente.
+
 		\begin{pseudo}
 		\func{ciudad}{$conexiones$}
 		\tab $ciclo[0...n] \leftarrow false$\\
@@ -24,7 +26,7 @@
 		\tab \FOR $j$ \TO $n$\\
 		\tab \tab $termine \leftarrow termine$ \AND $ciclo[j]$\\
 		\tab \WHILE $!termine$ \AND $encontre\_ciclo$\\
-		\tab \tab $nodo\_busqueda,\;nodo\_salida \leftarrow adyacente\_extreno(coneciones,ciclo)$\\
+		\tab \tab $nodo\_busqueda,\;nodo\_salida \leftarrow adyacente\_extreno(conexiones,ciclo)$\\
 		\tab \tab $conexiones[nodo\_busqueda][nodo\_salida] \leftarrow 0$\\
 		\tab \tab $encontre\_ciclo \leftarrow dfs\_ciclo(conexiones,nodo\_busqueda,ciclo)$\\
 		\tab \tab $conexiones[nodo\_busqueda][nodo\_salida] \leftarrow 1$\\
@@ -33,6 +35,16 @@
 		\tab \tab \tab $termine \leftarrow termine$ \AND $ciclo[i]$\\
 		\tab \RET $termine$\\
 		\end{pseudo}
+
+		\begin{itemize}
+			\item Tenemos la variable de tipo $bool$ \textbf{termine}, que nos indica si todos los vértices del grafo ya son considerados parte del ciclo. Esta variable se setea, cada vez que encontramos un ciclo (ya sea el primero, o cuando se agregan vértices al principal).
+
+			\item \textbf{dfs\_primer\_ciclo:} La modificación que le hicimos al $dfs$ en este caso consiste en numerar los vértices. Esto nos permite determinar los vértices pertenecientes al circuito una vez que lo detectamos. Para encontrar el primer circuito, cada vez que se sacamos un vértice $i$ de la pila le asignamos el número de su predecesor más $uno$ y verificamos que cada vértice tenga algún adyacente todavía no numerado (podría ser que ya esté visitado), ya que si esto no ocurre sabemos que no existe tal ciclo porque lo que tenemos hasta ahí es un camino y no hay forma de volver (tiene conexión sólo con su predecesor). Si en algún momento un vértice adyacente a $i$ ya fue visitado y su número es menor al de $i$ menos $uno$ (es decir, el adyacente ya visitado no es su predecesor) decimos que hay un ciclo y este está formado por los vértices que tienen menor numeración que $i$ los cuales son marcados en el arreglo $ciclo$. Además, esta función devuelve un $bool$ que nos dice si encontró un circuito ($encontre\_ciclo$). Si $encontre\_ciclo$ es falso significa que no existen circuitos en el grafo por lo que ya podemos afirmar que no es fuertemente conexo.
+
+			\item \textbf{adyacente\_externo:} Esta función se encarga de buscar un vértice que todavía no pertenezca al circuito tal que sea adyacente a uno perteneciente. Seteando la variable $nodo\_busqueda$ con el vértice no perteneciente al circuito principal y $nodo\_salida$ con el vértice perteneciente.
+		\end{itemize}
+		
+
 	\end{subsection}
 
 
