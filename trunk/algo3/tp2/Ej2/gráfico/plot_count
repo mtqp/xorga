@@ -18,11 +18,13 @@ set key left box
 #(para ver los distintos point types pongan "test" en el gnuplot)
 set style line 1 lt 1 pt 1 ps 1
 
-set output 'ps/count_test_fc_ciclos3.eps'
-plot	'data/count_test_fc_ciclos3.dat' title "Ciclos 3" linestyle 1,\
-	2*x*x*x title "n^3"
-
 set output 'ps/count_completos.eps'
 plot	'data/count_completos.dat' title "Completos",\
+	'data/count_test_mejor_caso.dat' title "Mejor caso",\
+	'data/count_test_random.dat' title "Random",\
 	5.8*x*x*x title "5.8n^3"
 
+set output 'ps/count_test_mejor_caso.eps'
+plot[][0:3500]	'data/count_completos.dat' title "Completos",\
+	'data/count_test_mejor_caso.dat' title "Mejor caso",\
+	'data/count_test_random.dat' title "Random"
