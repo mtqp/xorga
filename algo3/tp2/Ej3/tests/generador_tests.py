@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 from random import randint, seed, choice
+import sys
 
 def generar_random(casos, habitaciones):
 	fIn = open('test.in','w')
@@ -123,12 +124,50 @@ def generar_densidad(n,densidad, muestras_por_n=1):
 	fIn.write("-1 -1 -1")
 	fIn.close()	
 
+def generar_no_libre( n ):
+	mapa = generar_random_por_n(n-3,1)
+	puertas, pasillos = mapa
+	pasillos += [ (n-3,n-2), (n-2,n-1), (n-1,n) ]
+	puertas.append( (n-1,n-2) )
+	return (n,puertas,pasillos)
+
+def generar_input( nombre, instancias ):
+	fIn = open(nombre,'w')
+	for instancia in instancias:
+		n,puertas,pasillos = instancia
+		fIn.write( "%d %d %d\n"%(n,len(puertas),len(pasillos)) )
+		for puerta in puertas:
+			esta, abre = puerta
+			fIn.write( "  %d %d\n"%(esta, abre) )
+		for pasillo in pasillos:
+			extremo1, extremo2 = pasillo
+			fIn.write( "    %d %d\n"%(extremo1, extremo2) )
+	fIn.write("-1 -1 -1")
+	fIn.close()	
+
+
 def main():
 	seed()
 	
 	#generar_random(1000, 100);
-	generar_libre(1000,100);
+	print "Generando instancias libre...",
+	sys.stdout.flush()
+	generar_libre(1000,100)
+	print "OK"
+	instancias = []
+	print "Generando instancias no-libre",
+	sys.stdout.flush()
+	for i in range(6,106):
+		instancias.append( generar_no_libre(i) )
+		sys.stdout.write(".")
+		sys.stdout.flush()
+	print "OK"
+	print "Generando input...",
+	sys.stdout.flush()
+	generar_input( 'test_no_libre.in', instancias )
+	print "OK"
 	#generar_densidad(100,0.3,10);
+
 	#generar_densidad(100,0.6,10);
 	#generar_densidad(100,0.9,10);
 
