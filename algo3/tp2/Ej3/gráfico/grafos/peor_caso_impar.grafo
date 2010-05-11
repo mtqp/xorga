@@ -10,7 +10,8 @@ graph G {
 	l1 [ shape=circle label="L1"];
 	lN2 [ shape=circle label="Ln-2" ];
 	lN1 [ shape=circle label="Ln-1" ];
-	lN [ shape=circle label="Ln" ];
+	lN [ shape=circle label="" ];
+	lNI [ shape=circle label="Ln" ];
 
 	inicio -- p1;
 	inicio -- p2;
@@ -22,4 +23,5 @@ graph G {
 	p2 -- l1;
 	pN1 -- lN2;
 	pN -- lN1;
+	lN -- lNI
 }
