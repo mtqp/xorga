@@ -106,12 +106,21 @@ def graphviz( nombre, grafo ):
 if __name__=="__main__":
 	#ciclo = unir_ciclos(ciclo_minimo(3),ciclo_minimo(4))
 	#print unir_ciclos(ciclo,todos_con_todos(5))
-
-	#instancias = [ [(x,grafo_random)] for x in range(1,100) ]
-	#ciclos=generar_instancias( instancias )
-	#generar_input( "test_random.in", ciclos )
-	
-	instancias = [ [(x,mejor_caso)] for x in range(1,100) ]
+	instancias = []
+	for n in range(15,115):
+		print "Eligiendo instancias con n=%d:"%(n),
+		k = [ [a,b,c] for a in range(random.randint(3,n-10),n) for b in range(3,n) for c in range(3,n) if a+b+c == n ]
+		s = random.sample(k,3)
+		instancias += s
+		print s
+	print "Generando grafos...",
 	ciclos=generar_instancias( instancias )
-	generar_input( "test_mejor_caso.in", ciclos )
+	print "OK"
+	print "Generando input...",
+	generar_input( "test_fc.in", ciclos )
+	print "OK"
+	
+	#instancias = [ [(x,mejor_caso)] for x in range(1,100) ]
+	#ciclos=generar_instancias( instancias )
+	#generar_input( "test_mejor_caso.in", ciclos )
 	
