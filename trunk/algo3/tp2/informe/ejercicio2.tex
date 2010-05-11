@@ -46,16 +46,18 @@
 			\item \textbf{dfs\_ciclo:} En este caso también numeramos los vértices para determinar cuáles son los pertenecientes al circuito, si es que se puede volver al circuito principal sin usar la arista que conecta el vértice $nodo\_busqueda$ con $nodo\_salida$. Garantizamos que no use esa arista para volver, marcándola como $0$ en la matriz de adyancencia previo ingreso a $dfs\_ciclo$. El valor original de la arista en la matriz de adyacencia es restaurado una vez que la función termina.
 			
 			La función apila el $nodo\_busqueda$. Apila sus adyacentes (si es que tiene alguno distinto al $nodo\_salida$) y continúa con el algoritmo $dfs$. Termina si: encuentra un vértice adyacente que no esta visitado por el $dfs\_ciclo$ y forma parte del circuito principal, o si la pila se vacía y todavía no logro volver al circuito.
-			
-
-
 		\end{itemize}
-		
-
 	\end{subsection}
 
 
 	\begin{subsection}{Análisis de complejidad}
+		Al inicio el algoritmo tiene un ciclo $for$ para inicializar el arreglo $ciclo$ (de tamaño $n$) el cual tiene un costo de $n$.
+		
+		La función $dfs\_primer\_ciclo$ tiene un costo de $n^2$ ya que a lo sumo visita una vez cada vértice recorriendo para cada uno de estos la columna correspondiente en la matriz de adyacencia.
+	
+		Luego de setear la variable $encontre\_ciclo$ con el resultado de la función $dfs\_primer\_ciclo$ el algoritmo verifica si todos los vértices ya pertenecen a un circuito, esto lo hace con un ciclo $for$ el cual recorre todo el arreglo $ciclo$ de tamaño $n$. Por lo que el costo de este ciclo es $n$.
+
+		La función $adyacente\_externo$ tiene un costo del orden de $n^2$ porque recorre todos los vértices y para cada uno de estos que pertenece al circuito busca entre todos los vértices alguno que sea adyacente a él y no pertenezca al circuito (no termina apenas encuentre uno, sino que ).
 		
 	\end{subsection}
 
