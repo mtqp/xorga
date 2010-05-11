@@ -27,7 +27,7 @@ def generar_random_por_n(habitaciones, densidad):
 		pasillos.append((extremo1,extremo2))
 	return (puertas,pasillos)
 
-def mejor_caso( n, caso ):
+def mejor_caso( n ):
 	mapa = generar_random_por_n(n-1,uniform(0,1))
 	puertas, pasillos = mapa
 	pasillos = [ (x+1,y+1) for (x,y) in pasillos ]
@@ -60,8 +60,7 @@ def generar_input( nombre, instancias ):
 
 if __name__=="__main__":	
 	instancias = []
-	#graphviz( "random.dot", mejor_caso(10) )
-	for i in range(4,100):
+	for i in range(4,104):
 		instancias.append( mejor_caso(i) )
 	generar_input( "test_mejor_caso.in", instancias )
 
