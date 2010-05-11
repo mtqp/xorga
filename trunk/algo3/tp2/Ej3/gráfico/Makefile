@@ -23,6 +23,7 @@ $(DATA_PATH)/count_%.dat: $(TESTS_PATH)/%.in
 counts: plot_count $(data_count)
 	./plot_count
 	ps2pdf ps/count_test_peor_caso.eps ps/count_test_peor_caso.pdf
+	ps2pdf ps/count_test_mejor_caso.eps ps/count_test_mejor_caso.pdf
 	ps2pdf ps/count_test_densidades.eps ps/count_test_densidades.pdf
 	rm ps/*.eps
 
