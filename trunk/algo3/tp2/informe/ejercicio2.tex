@@ -57,12 +57,21 @@
 	
 		Luego de setear la variable $encontre\_ciclo$ con el resultado de la función $dfs\_primer\_ciclo$ el algoritmo verifica si todos los vértices ya pertenecen a un circuito, esto lo hace con un ciclo $for$ el cual recorre todo el arreglo $ciclo$ de tamaño $n$. Por lo que el costo de este ciclo es $n$.
 
-		La función $adyacente\_externo$ tiene un costo del orden de $n^2$ porque recorre todos los vértices y para cada uno de estos que pertenece al circuito busca entre todos los vértices alguno que sea adyacente a él y no pertenezca al circuito (no termina apenas encuentre uno, sino que ).
-		
+		Dentro el algoritmo $ciudad$ tenemos un ciclo $while$ que itera a lo sumo $n-3$ veces (encuentra el ciclo principal de tres vértices y dentro del ciclo el $dfs_ciclo$ agrega un vértice por iteración). Dentro de este ciclo, hay dos llamadas a funciones ($adyacente\_externo$ y $dfs\_ciclo$), un ciclo $for$ de $uno$ hasta $n$ (con costo lineal),y una cantidad constante de asignaciones, comparaciones e indexación con costo constante. Entonces el costo del $while$ resulta ser el máximo entre los costos mencionados y el costo de las funciones por $n$ (ya que es el orden de la cantidad de iteraciones del while).
+				
+		\begin{itemize}
+		\item La función $adyacente\_externo$ tiene un costo del orden de $n^2$ porque recorre todos los vértices y para cada uno de estos que pertenece al circuito busca entre todos los vértices alguno que sea adyacente a él y no pertenezca al circuito (no termina apenas encuentre uno, sino que los recorre todos y se queda con el último que cumple la condición).
+
+		\item Por otro lado, la función $dfs\_ciclo$ posee la misma complejidad que $dfs\_primer\_ciclo$. Dado un vértice, a lo sumo visitará todo los demás menos los que ya pertenecen al circuito principal (a lo sumo serán $n-3$ vértices). Para cada uno de estos, deberá obtener sus adyacentes, los que pueden ser $n$.
+		\end{itemize}
+
+		Podemos decir entonces que el ciclo del algoritmo $ciudad$ tiene costo del orden de $n^3$.
+
+		La complejidad del algoritmo $ciudad$ viene dada por el máximo entre el costo del ciclo ($while$), dos ciclos $for$ (iteran de $uno$ hasta $n$ con operaciones de costo constante dentro)y la llamada a al función $dfs\_primer\_ciclo$. Por lo tanto podemos afirmar que la complejidad asintóntica es \Ode{n^3}.
 	\end{subsection}
 
-
 	\begin{subsection}{Pruebas y Resultados}
+	
 
 	\end{subsection}
 
