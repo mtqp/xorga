@@ -58,12 +58,12 @@
 
 	\begin{subsection}{Análisis de complejidad}
 		Como hemos visto anteriormente, nuestro algoritmo utiliza la técnica de programación dinámica. Esta consta de 
-		reutilizar información previa para llegar al resultado final. En el análisis de la complejidad veremos como la
+		reutilizar información previamente calculada para llegar al resultado final. En el análisis de la complejidad veremos como la
 		aplicación de la técnica previamente mencionada, ha permitido conseguir un algoritmo polinomial.
 	
-		El algoritmo $long\_max\_creciente$ utiliza la técnica de programación dinámica, calculando para cada elemento 
+		El algoritmo $long\_max\_creciente$ es el que utiliza la técnica de programación dinámica, calculando para cada elemento 
 		$i$ de la secuencia original la máxima longitud de la subsecuencia creciente y decreciente que lo incluye, iterando 
-		por todos los índices $j<i$ ($\forall\; 0 \leq i < n$), sabiendo que para cada $j$ ya esta calculada la longitud de 
+		por todos los índices $j<i$ ($\forall i\; 0 \leq i < n$), sabiendo que para cada $j$ ya esta calculada la longitud de 
 		la subsecuencia creciente más larga que lo incluye.\\
 
 		Sea $n$ la longitud de la secuencia dada, $max\_long\_creciente$ la secuencia que guarda en cada posición la máxima 
@@ -80,9 +80,9 @@
 			\tab \tab $max\_long\_creciente[i] \leftarrow max\_long+1$ 			\Ode{1} \\
 		\end{pseudo}
 
-		Podemos ver dentro de cada ciclo ($for$) que todas las asignaciones tienen costo constante, así como también la guardar 
-		del ($if$). De esta manera podemos concluir que por cada iteración del ($for$) anidado tenemos en el peor caso el costo 
-		de la guarda del if, más el costo de la asignación adentro del mismo, con costo constante.
+		Podemos ver dentro de cada ciclo ($for$) que todas las asignaciones tienen costo constante, así como también la guarda 
+		del $if$. De esta manera podemos concluir que por cada iteración del $for$ anidado tenemos en el peor caso el costo 
+		de la guarda del if, más el costo de la asignación dentro del mismo, con costo constante.
 
 		El ciclo anidado iterará para cada $i$, $i-1$ veces, siendo los valores posibles de $i$ desde $1$ hasta $n$.
 
@@ -133,7 +133,7 @@
 
 		\gra{secuencia_unimodal/count_test_unimodal.pdf}
 		
-		Podemos observar que para un $n$ dado, todos los casos vistos, coinciden en la cantidad de operaciones. Además la curva $n^2$ parece ser una buena cota para el algoritmo. Se aprecia también que a medida que $n$ crece, la diferencia entre $n^2$ y la cantidad de operaciones para nuestro algoritmo es cada vez mayor. Podemos decir entonces, que $n^2$ es una buena cota, pero que a medida que $n$ crece, el valor de la constante $c$ que fue despreciado, así como también su término lineal y el constante  (en el análisis de complejidad) contribuye a que la diferencia entre las dos curvas siga creciendo.\\
+		Podemos observar que para un $n$ dado, todos los casos vistos, coinciden en la cantidad de operaciones. Además la curva $n^2$ parece ser una buena cota para el algoritmo. Se aprecia también que a medida que $n$ crece, la diferencia entre $n^2$ y la cantidad de operaciones para nuestro algoritmo es cada vez mayor. Podemos decir entonces, que $n^2$ es una buena cota, pero que a medida que $n$ crece, el valor de la constante $c$ (coeficiente cuadrático) que fue despreciado, así como también su término lineal y el constante  (en el análisis de complejidad) contribuye a que la diferencia entre las dos curvas siga creciendo.\\
 
 		El siguiente gráfico, muestra la cantidad de operaciones para $n$ entre $980$ y $1000$. Queremos ver si existe diferencia entre los distintos tipos de test, ya que en el gráfico anterior no pudimos ver estos resultados por la escala en la que trabajamos, y no podemos afirmar entonces que no existe tal diferencia.\\
 
@@ -145,9 +145,9 @@
 
 	\begin{subsection}{Concluciones}
 
-		Como antes expusimos, para resolver el ejercicio, se utilizo la técnica de Programacion Dinámica, sin la cual no podríamos haber cumplido la de complejidad impuesta, utilizando su gran ventaja de poder guardar los resultados anteriores en estructuras poco costosas.
+		Como antes expusimos, para resolver el ejercicio, se utilizó la técnica de Programacion Dinámica, sin la cual no podríamos haber cumplido la complejidad impuesta, utilizando su gran ventaja de poder guardar los resultados anteriores en estructuras poco costosas.
 		
-		Luego de analizar el algoritmo de forma teórica y apreciar el comportamiento de este en diversas instancias en los gráficos, podemos concluir que el algoritmo encontrado para resolver el problema de la secuencia unimodal es adecuado, ya que pudimos mostrar que trabaja en complejidad polinomial,del orden de $n^2$, lo que significa que esta bien resuelto computacionalmente.
+		Luego de analizar el algoritmo de forma teórica y apreciar el comportamiento de este en diversas instancias en los gráficos, podemos concluir que el algoritmo encontrado para resolver el problema de la secuencia unimodal es adecuado, ya que pudimos mostrar que trabaja en complejidad polinomial, del orden de $n^2$, lo que significa que está 'bien' resuelto computacionalmente.
 	\end{subsection}
 \end{section}
 
