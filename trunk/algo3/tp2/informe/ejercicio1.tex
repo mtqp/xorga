@@ -16,6 +16,7 @@
 
 	\end{subsection}
 
+	\newpage
 
 	\begin{subsection}{Detalles de la implementación}
 		
@@ -55,6 +56,7 @@
 
 	\end{subsection}
 
+	\newpage
 
 	\begin{subsection}{Análisis de complejidad}
 		Como hemos visto anteriormente, nuestro algoritmo utiliza la técnica de programación dinámica. Esta consta de 
@@ -123,6 +125,7 @@
 		
 	\end{subsection}
 
+	\newpage
 
 	\begin{subsection}{Pruebas y Resultados}
 		Para probar correctitud tenemos un generador de secuencias unimodales, secuencias crecientes y decrecientes que nos devuelve en un archivo $test\_*.in$, donde $*$ se refiere a $unimodal,\; creciente\; o\; decreciente$ según corresponda. De esta forma, con una comparación de archivos (comando \texttt{make diffs} en la carpeta Ej1) podemos saber para cada instancia si el resultado obtenido por nuestro algoritmo es correcto.
@@ -138,6 +141,8 @@
 		El siguiente gráfico, muestra la cantidad de operaciones para $n$ entre $980$ y $1000$. Queremos ver si existe diferencia entre los distintos tipos de test, ya que en el gráfico anterior no pudimos ver estos resultados por la escala en la que trabajamos, y no podemos afirmar entonces que no existe tal diferencia.\\
 
 		\gra{secuencia_unimodal/count_test_n_bajo.pdf}
+
+		\newpage
 
 		Corroboramos que a pesar de que es mínima, existe diferencia entre los distintos tipos de casos. Sabemos que la cantidad de operaciones para cada $n$ del gráfico es del orden de millones. La diferencia entre los diferentes tipos de secuencias para cada $n$ es de entre $1000$ y $10000$. A pesar de ser una gran diferencia de operaciones, en relación a la cantidad total, es {\em despreciable}.
 
