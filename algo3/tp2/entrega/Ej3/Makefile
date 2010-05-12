@@ -2,16 +2,15 @@ EJ = prision
 
 all: $(EJ)
 
-test/test_libre.in:
-test/test_no_libre.in:
-	tests/generador_tests.py
-	mv test_libre.in tests/
-	mv test_no_libre.in tests/
+pruebas/test_libre.in:
+pruebas/test_no_libre.in:
+	pruebas/generador_tests.py
+	mv test_libre.in pruebas/
+	mv test_no_libre.in pruebas/
 
-diffs:test/test_libre.in test/test_no_libre.in
-	./$(EJ) < tests/test_libre.in | grep -c libre
-	./$(EJ) < tests/test_no_libre.in | grep -c no
-	./$(EJ) < tests/test_mejor_caso.in | grep -c no
+diffs:pruebas/test_libre.in pruebas/test_no_libre.in
+	./$(EJ) < pruebas/test_libre.in | grep -c libre
+	./$(EJ) < pruebas/test_no_libre.in | grep -c no
 
 %:%.cpp
 	g++ -o $@ $<
