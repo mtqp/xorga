@@ -65,7 +65,7 @@
 
 
 	\begin{subsection}{Análisis de complejidad}
-		Como mencionamos previamente, el algoritmo \textbf{no} podrá pasar más de una vez por cada vértice. Mientras quede algun vértice por ver y pueda accederse, seguirá intentando llegar al nodo $n$. Analizando la complejidad, vemos que si el $bfs$ pudiera acceder indistintamente a todos los vértices del grafo, el ciclo $while$ tendría un costo de $n$ iteraciones.
+		Como mencionamos previamente, el algoritmo \textbf{no} podrá pasar más de una vez por cada vértice. Mientras quede algun vértice por ver y pueda accederse, seguirá intentando llegar al vértice $n$. Analizando la complejidad, vemos que si el $bfs$ pudiera acceder indistintamente a todos los vértices del grafo, el ciclo $while$ tendría un costo de $n$ iteraciones.
 		
 		Dentro del ciclo principal tenemos las primeras dos operaciones con costo constante (una asignación y quitar de la pila el primer elemento), y un ciclo anidado ($for$).
 		
@@ -80,7 +80,7 @@
 
 
 	\begin{subsection}{Pruebas y Resultados}
-		Para probar correctitud contamos con un generador de instancias en las cuales Bernardo puede escapar y otras en las cuales no, que nos devuelve un archivo $test\_libre.in$ y $test\_no.in$ respectivamente. De esta forma, con una comparación de archivos (comando \texttt{make diffs} en la carpeta Ej3) podemos saber para cada instancia si el resultado obtenido por nuestro algoritmo es correcto.
+		Para probar correctitud contamos con un generador de instancias en las cuales Bernardo puede escapar y otras en las cuales no, que nos devuelve un archivo $test\_libre.in$ y $test\_no\_libre.in$ respectivamente. De esta forma, con una comparación de archivos (comando \texttt{make diffs} en la carpeta Ej3) podemos saber para cada instancia si el resultado obtenido por nuestro algoritmo es correcto.
 
 		Para analizar la complejidad temporal del algoritmo (cantidad de operaciones) tenemos un generador aleatorio de 'mapas' donde para cada número de habitaciones $n$ variamos el porcentaje de pasillos con respecto al máximo (es decir, variamos la densidad del grafo). Generamos para cada $n$ desde $4$ a $100$ ($4$ por enunciado y $100$ porque nos pareció suficente para comprobar el comportamiento del algoritmo), $10$ casos con densidad $0.3$ y $0.6$ y $0.9$. También, generamos mejores casos, en donde la habitación $1$ no está conectada por ningún pasillo a otra. El algoritmo necesita por lo menos, buscar entre todos los vértices los adyacentes al primero (la habitación de la que sale Bernardo) para poder afirmar que no tiene ninguno y terminar (para toda instacia, el algoritmo necesita de la inicialización de dos arreglos, previo a entrar al ciclo $while$). Deducimos que el costo para estos casos es lineal.
 
@@ -95,11 +95,9 @@
 
 		\newpage
 
-		Por otro lado, generamos peores casos para el algoritmo $\forall n\; (4 \leq n \leq 100)$. Para generarlos, armamos un árbol donde la raíz es la habitación  $uno$. La cantidad de llaves/puertas es exactamente $\lfloor \frac{(n-2)}{2}\rfloor$ . Si $n$ es par, en el nivel $uno$  están todas las habitaciones con puerta y otra que tiene la llave de la habitación $\frac{(n-2)}{2} + 1$ . En el nivel $dos$ están el resto de las habitaciones, es decir, las habitaciones que tienen las llaves y la última habitación. Si $n$ es impar, en el nivel $uno$  están todas las habitaciones con puerta y otra que no tiene llave ni puerta. En el nivel $dos$ están el resto de las habitaciones, es decir, las habitaciones que tienen las llaves y la última habitación. En ambos casos, la llave correspondiente a la habitación $i$, $\forall i (2 \leq i \leq \frac{(n-2)}{2})$ está en la habitación $n-i+1$. Este tipo de mapa es uno de los peores casos del algoritmo porque para determinar que puede escapar, el $bfs$ visita necesariamente todos los nodos, dejando en espera a todos los bloqueados para luego visitarlos.
+		Por otro lado, generamos peores casos para el algoritmo $\forall n\; (4 \leq n \leq 100)$. Para generarlos, armamos un árbol donde la raíz es la habitación  $uno$. La cantidad de llaves/puertas es exactamente $\lfloor \frac{(n-2)}{2}\rfloor$ . Si $n$ es par, en el nivel $uno$  están todas las habitaciones con puerta y otra que tiene la llave de la habitación $\frac{(n-2)}{2} + 1$ . En el nivel $dos$ están el resto de las habitaciones, es decir, las habitaciones que tienen las llaves y la última habitación. Si $n$ es impar, en el nivel $uno$  están todas las habitaciones con puerta y otra que no tiene llave ni puerta. En el nivel $dos$ están el resto de las habitaciones, es decir, las habitaciones que tienen las llaves y la última habitación. En ambos casos, la llave correspondiente a la habitación $i$, $\forall i (2 \leq i \leq \frac{(n-2)}{2})$ está en la habitación $n-i+1$. Este tipo de mapa es uno de los peores casos del algoritmo porque para determinar que puede escapar, el $bfs$ visita necesariamente todos los vértices, dejando en espera a todos los bloqueados para luego visitarlos.\Pa
 
-		La siguiente figura muestra lo descripto anteriormente para $n$ par, siendo la habitación $2$ la que contiene la puerta uno:
-	
-		\begin{center}\includegraphics[width=9cm]{prision/peor_caso.png}\end{center}
+		A continuación se ejemplifica lo explicado anteriormente con las siguientes referencias:
 
 		\begin{itemize}
 		\item La letra 'P' se refiere a 'puerta'.
@@ -110,7 +108,13 @@
 
 		\newpage
 
-		La siguiente figura muestra lo descripto anteriormente para $n$ impar, siendo la habitación $2$ la que contiene la puerta uno:
+		La siguiente figura muestra lo descripto anteriormente para $n$ par, siendo la habitación $2$ la que contiene la puerta uno:\VSP
+	
+		\begin{center}\includegraphics[width=9cm]{prision/peor_caso.png}\end{center}
+		
+		\VSP
+
+		La siguiente figura muestra lo descripto anteriormente para $n$ impar, siendo la habitación $2$ la que contiene la puerta uno:\VSP
 
 		\begin{center}\includegraphics[width=9cm]{prision/peor_caso_impar.png}\end{center}
 
@@ -130,7 +134,7 @@
 	\end{subsection}
 
 	\begin{subsection}{Conclusiones}
-		Modelar el problema con un grafo, permitió abstraernos de Bernado y la prisión, pudiendo pensar en técnicas para recorrerlos de forma eficiente. Así, realizar un $bfs$ sobre nodos (un algoritmo conocido) con cambios mínimos, satisfizo los requerimientos del problema.
+		Modelar el problema con un grafo, permitió abstraernos de Bernado y la prisión, pudiendo pensar en técnicas para recorrerlos de forma eficiente. Así, realizar un $bfs$ sobre vértices (un algoritmo conocido) con cambios mínimos, satisfizo los requerimientos del problema.
 
 		Habiéndolo modelado con grafos y recorrido de forma ordenada, pudimos implementar un algoritmo polinomial de complejidad $n^2$. Podemos concluir que el problema está computacionalmente 'bien' resuelto.
 
