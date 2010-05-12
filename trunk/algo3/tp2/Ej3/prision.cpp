@@ -38,18 +38,14 @@ bool libre(uint** conexiones, bool* tengo_llave, uint* puertas, uint n){
 	while( !q.empty() && !llegue ){
 		actual=q.front();
 		q.pop();
-		//cout << actual << endl;
 		for( uint i=0 ; i < n && !llegue ; i++ ){
 			if( conexiones[actual][i] && tengo_llave[i] && !visitados[i]){
 				tengo_llave[puertas[i]] = true;
 				q.push(i);
-				//cout << "pusheado i"  << i << endl;
 				visitados[i]=true;
 				llegue = (i == n-1);
 				if(enEspera[puertas[i]]){
-					//cout << "puertas de i" << puertas[i] << endl;
 					q.push(puertas[i]);
-					//cout << "pusheado puerta"  << puertas[i] << endl;
 					visitados[puertas[i]]=true;
 					llegue = (n-1==puertas[i]);
 					O(9);
