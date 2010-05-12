@@ -150,14 +150,15 @@ def main():
 	seed()
 	
 	#generar_random(1000, 100);
-	print "Generando instancias libre...",
+	print "Generando %d instancias libre..."%(1000),
 	sys.stdout.flush()
 	generar_libre(1000,100)
 	print "OK"
 	instancias = []
-	print "Generando instancias no-libre",
+	n = 100
+	print "Generando %d instancias no-libre"%(n),
 	sys.stdout.flush()
-	for i in range(6,106):
+	for i in range(6,6+n):
 		instancias.append( generar_no_libre(i) )
 		sys.stdout.write(".")
 		sys.stdout.flush()

@@ -109,7 +109,7 @@ if __name__=="__main__":
 	#print unir_ciclos(ciclo,todos_con_todos(5))
 	instancias = []
 	cantidad_instancias = 100
-	print "Cantidad de instancias: %d"%(cantidad_instancias)
+	print "Cantidad de instancias: %d"%(cantidad_instancias*3)
 	print "Eligiendo instancias para generar",
 	for n in range(15,15+cantidad_instancias):
 		k = [ [a,b,c] for a in range(random.randint(3,n-10),n) for b in range(3,n) for c in range(3,n) if a+b+c == n ]
