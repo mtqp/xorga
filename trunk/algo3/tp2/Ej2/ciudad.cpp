@@ -208,7 +208,6 @@ bool ciudad( uint** conexiones, int n )
 
 int main (int argc, char** argv){
 	ullint n;
-	double ts;
 	uint cantidad_de_calles;
 	uint esquina;
 	while(cin >> n && n!=(ullint)-1){
@@ -225,12 +224,7 @@ int main (int argc, char** argv){
 				conexiones[i][esquina-1]=1;
 			}
 		}
-		if(argc>1 && string(argv[1])=="time"){	//si el argumento es "time", mido el tiempo
-			ts=0;
-			medir_tiempo( ts, ciudad(conexiones,n), 1, 0.5f);
-			cout << n << "\t" << ts << endl;
-		}
-		else if(argc>1 && string(argv[1])=="count"){	//si el argumento es "count", cuento cantidad de operaciones
+		if(argc>1 && string(argv[1])=="count"){	//si el argumento es "count", cuento cantidad de operaciones
 			ciudad(conexiones,n);
 			cout << n << "\t" << contador << endl;	//imprimo la cuenta
 		}

@@ -3,8 +3,7 @@ CFLAGS = -Wall -O3
 TESTS = $(patsubst tests/%.in,tests/%.out,$(wildcard tests/*.in))
 TESTS_IN = $(wildcard tests/*.in)
 
-all: $(EJ) 
-tests: tests/secuencia_unimodal.out $(TESTS)
+all: $(EJ)
 
 diffs:
 	./$(EJ) < tests/test_creciente.in | grep -c 0

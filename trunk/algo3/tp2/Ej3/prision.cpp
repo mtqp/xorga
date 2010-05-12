@@ -66,7 +66,6 @@ bool libre(uint** conexiones, bool* tengo_llave, uint* puertas, uint n){
 }
 
 int main(int argc, char** argv){
-	double ts;
 	uint n;
 	uint p;
 	uint m;

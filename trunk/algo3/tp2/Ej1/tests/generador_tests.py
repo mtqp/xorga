@@ -53,9 +53,3 @@ if __name__ == "__main__":
 	generar_input( "test_creciente.in", instancias )
 	instancias = generar_instancias( n, secuencia_decreciente )
 	generar_input( "test_decreciente.in", instancias )
-
-	fOut = open('secuencia_unimodal.out','w')
-	for i in range(n):
-		fOut.write("0\n")
-	fOut.close()
-
