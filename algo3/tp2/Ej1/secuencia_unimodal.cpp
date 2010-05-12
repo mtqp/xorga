@@ -56,7 +56,6 @@ uint secuencia_unimodal(int* secuencia, uint n){
 
 int main(int argc, char** argv){
 	uint n;
-	double ts;
 	while(cin >> n && n!=(uint)-1){
 		int secuencia[n];
 		for(uint i=0; i<n; i++) cin >> secuencia[i];
