@@ -26,7 +26,7 @@
 		\tab \FOR $j$ \TO $n$\\
 		\tab \tab $termine \leftarrow termine$ \AND $ciclo[j]$\\
 		\tab \WHILE $!termine$ \AND $encontre\_ciclo$\\
-		\tab \tab $nodo\_busqueda,\;nodo\_salida \leftarrow adyacente\_extreno(conexiones,ciclo)$\\
+		\tab \tab $nodo\_busqueda,\;nodo\_salida \leftarrow \nolinebreak adyacente\_externo(conexiones,ciclo)$\\
 		\tab \tab $conexiones[nodo\_busqueda][nodo\_salida] \leftarrow 0$\\
 		\tab \tab $encontre\_ciclo \leftarrow dfs\_ciclo(conexiones,nodo\_busqueda,ciclo)$\\
 		\tab \tab $conexiones[nodo\_busqueda][nodo\_salida] \leftarrow 1$\\

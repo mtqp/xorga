@@ -73,13 +73,14 @@
 
 		\begin{pseudo}
 			\func{long\_max\_creciente}{$secuencia, max\_long\_creciente$}
-			\tab $max\_long\_creciente[0] \leftarrow 0$ 		\Ode{1} \\
+			\tab $max\_long\_creciente[0] \leftarrow 0$ 	&\Ode{1} \\
 			\tab \FOR $i=1$ \TO $n$ \\
-			\tab \tab $max\_long \leftarrow 0$ 			\Ode{1} \\
-			\tab \tab \FOR $j=i-1$ \TO $0$ 				\Ode{i}\\
-			\tab \tab \tab \IF $ secuencia[j] <  secuencia[i] \AND max\_long\_creciente [j] > max\_long)$ \Ode{1} \\
-			\tab \tab \tab \tab  $max\_long \leftarrow max\_long\_creciente[j] $ 		\Ode{1} \\
-			\tab \tab $max\_long\_creciente[i] \leftarrow max\_long+1$ 			\Ode{1} \\
+			\tab \tab $max\_long \leftarrow 0$ 				& \Ode{1} \\
+			\tab \tab \FOR $j=i-1$ \TO $0$ 					& \Ode{i}\\
+			\tab \tab \tab \IF $ secuencia[j] <  secuencia[i] \AND \linebreak
+			\tab \tab \tab max\_long\_creciente [j] > max\_long)$ & \Ode{1} \\
+			\tab \tab \tab \tab  $max\_long \leftarrow max\_long\_creciente[j] $ 	& \Ode{1} \\
+			\tab \tab $max\_long\_creciente[i] \leftarrow max\_long+1$ 				&\Ode{1} \\
 		\end{pseudo}
 
 		Podemos ver dentro de cada ciclo ($for$) que todas las asignaciones tienen costo constante, así como también la guarda 
@@ -102,15 +103,15 @@
 			\func{secuencia\_unimodal}{$secuencia, n$}
 			\tab $C[n]$\\
 			\tab $D[n]$\\
-			\tab $R \leftarrow reverso(secuencia)$ 		\Ode{n} \\
-			\tab $long\_max\_creciente(secuencia,C)$ 	\Ode{n^2}\\
-			\tab $long\_max\_creciente(R,D)$		\Ode{n^2}\\
-			\tab $max\_long \leftarrow 0$			\Ode{1}\\
-			\tab \FOR $i=1$ \TO $n$				\Ode{n}\\
-			\tab \tab $long\_secuencia\_unimodal\leftarrow C[i]+D[n-i]-1$ 	\Ode{1}\\
-			\tab \tab \IF $ long\_secuencia\_unimodal >  max\_long$ 	\Ode{1}\\
-			\tab \tab \tab $max\_long \leftarrow long\_secuencia\_unimodal$ \Ode{1}\\
-			\tab \RET longitud($secuencia$)-$max\_long$ 			\Ode{1}\\
+			\tab $R \leftarrow reverso(secuencia)$ 		& \Ode{n} \\
+			\tab $long\_max\_creciente(secuencia,C)$	& \Ode{n^2}\\
+			\tab $long\_max\_creciente(R,D)$			& \Ode{n^2}\\
+			\tab $max\_long \leftarrow 0$				& \Ode{1}\\
+			\tab \FOR $i=1$ \TO $n$						& \Ode{n}\\
+			\tab \tab $long\_secuencia\_unimodal\leftarrow C[i]+D[n-i]-1$	& \Ode{1}\\
+			\tab \tab \IF $ long\_secuencia\_unimodal >  max\_long$			& \Ode{1}\\
+			\tab \tab \tab $max\_long \leftarrow long\_secuencia\_unimodal$ & \Ode{1}\\
+			\tab \RET longitud($secuencia$)-$max\_long$ 					& \Ode{1}\\
 		\end{pseudo}
 		
 		La función reverso que toma una secuencia y devuelve otra con los elementos en orden inverso tiene costo lineal, en función 
