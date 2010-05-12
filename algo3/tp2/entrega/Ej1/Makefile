@@ -11,6 +11,7 @@ pruebas/%.in:
 	@mv test_creciente.in pruebas/
 	@mv test_decreciente.in pruebas/
 	@mv test_unimodal.in pruebas/
+	@mv test_random.in pruebas/
 
 diffs: $(EJ) pruebas/test_creciente.in pruebas/test_decreciente.in pruebas/test_unimodal.in
 	@echo "--- Ejecutando casos de prueba ---"
