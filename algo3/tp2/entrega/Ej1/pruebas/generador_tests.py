@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 from random import randint
+import sys
 
 def secuencia_random( n ):
 	return [ randint(-50,50) for i in range(n) ]
@@ -45,11 +46,24 @@ def generar_instancias( n, generador=secuencia_random ):
 
 if __name__ == "__main__":
 	n = 1000
+	print "Cantidad de instancias: %d"%(n)
+	print "Generando instancias de secuencia unimodal..",
+	sys.stdout.flush()
 	instancias = generar_instancias( n, secuencia_unimodal )
 	generar_input( "test_unimodal.in", instancias )
+	print "OK"
+	print "Generando instancias de secuencia random..",
+	sys.stdout.flush()
 	instancias = generar_instancias( n, secuencia_random )
 	generar_input( "test_random.in", instancias )
+	print "OK"
+	print "Generando instancias de secuencia creciente..",
+	sys.stdout.flush()
 	instancias = generar_instancias( n, secuencia_creciente )
 	generar_input( "test_creciente.in", instancias )
+	print "OK"
+	print "Generando instancias de secuencia decreciente..",
+	sys.stdout.flush()
 	instancias = generar_instancias( n, secuencia_decreciente )
 	generar_input( "test_decreciente.in", instancias )
+	print "OK"
