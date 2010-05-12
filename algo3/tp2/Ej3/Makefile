@@ -11,7 +11,6 @@ test/test_no_libre.in:
 diffs:test/test_libre.in test/test_no_libre.in
 	./$(EJ) < tests/test_libre.in | grep -c libre
 	./$(EJ) < tests/test_no_libre.in | grep -c no
-	./$(EJ) < tests/test_mejor_caso.in | grep -c no
 
 %:%.cpp
 	g++ -o $@ $<
