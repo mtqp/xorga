@@ -1,6 +1,5 @@
 #include <iostream>
 #include <cstdlib>
-#include <utility>
 #include "../medicion.h"
 
 using namespace std;
@@ -30,8 +29,8 @@ ostream& operator<<(ostream& out, const pair<int,int>& p )
 
 int comparar( const void* _a, const void* _b )
 {
-	const pair<int, int>* a = (const pair<int,int>*)_a;
-	const pair<int, int>* b = (const pair<int,int>*)_b;
+	const pair<int,int>* a = (const pair<int,int>*)_a;
+	const pair<int,int>* b = (const pair<int,int>*)_b;
 	if( a->second == b->second )
 		return 0;
 	else if( a->second < b->second )
@@ -40,20 +39,34 @@ int comparar( const void* _a, const void* _b )
 		return -1;
 }
 
-int max_clique(bool* pertenece, int** adyacencia, int n){
+bool forma_completo(bool* pertenece, const int nodo, int** adyacencia, const int n){
+	bool forma_completo = true;
+	for( int j = 0 ; j < n ; j++ )
+		if(pertenece[j] && j!= nodo) forma_completo &= adyacencia[nodo][j];
+	return forma_completo;
+}
 
-	/** CASOS EN LOS QUE NO ANDA **
-	 * - Cuando el nodo que tiene grado máximo no está en la clique máxima
-	 * - El de grado máximo conectado a todos de grado 1 y a una clique de tamaño > 2
-	 **/
-
+int constructivo(bool* pertenece, const pair<int,int>* d, int** adyacencia, const int n){
 	int tamanyo = 1;
+	int actual = d[0].first;
+	pertenece[actual] = true;
+	
+	for(int i=0;i<n;i++){
+		int nodo = d[i].first;
+		if(!pertenece[nodo])
+			if(forma_completo(pertenece,nodo,adyacencia,n)){
+				pertenece[nodo] = true;
+				tamanyo++;
+			}
+	}
+	return tamanyo;
+}
 
+int max_clique(bool* pertenece, int** adyacencia, int n){
 	// tupla (nodo, grado)
 	pair<int,int> d[n];
 
-	for( int i = 0 ; i < n ; i++ )
-	{
+	for(int i=0;i<n;i++){
 		d[i].first  = i;
 		d[i].second = 0;
 		for( int j = 0 ; j < n ; j++ )
@@ -63,27 +76,42 @@ int max_clique(bool* pertenece, int** adyacencia, int n){
 
 	qsort( d, n, sizeof(pair<int,int>), &comparar );
 
-	int actual = d[0].first;
-	pertenece[actual] = true;
-
-	//for( int k = 0 ; k < n ; k++ ) no tiene sentido...si en algun momento no puedo meter un nodo cuando es elegido por primera vez, nunca voy a poder meterlo ya que los que estan en el conj son definitivos
-	for( int i = 0 ; i < n ; i++ )
-	{
-		int nodo = d[i].first;
-		if( !pertenece[nodo] )
-		{
-			bool forma_completo = true;
-			for( int j = 0 ; j < n ; j++ )
-				if( pertenece[j] && j != nodo )
-					forma_completo &= adyacencia[nodo][j];
-
-			pertenece[nodo] = forma_completo;
-			if( forma_completo )
-				tamanyo++;
+	//Solución inicial
+	int tamanyo = constructivo(pertenece,d,adyacencia,n);
+	int tam_actual = tamanyo;
+	bool actual[n];
+	for(int i=0;i<n;i++) actual[i]=pertenece[i];
+	
+	bool mejore=true;
+	int k=0;
+	while(mejore && k<n){
+		mejore=false;
+		for(int i=0;i<n;i++){
+			bool agregue=false;
+			if(actual[i]){		//saco un nodo perteneciente a la solución actual
+				actual[i]=false;
+				tam_actual--;
+				for(int j=0;j<n;j++){
+					if(!actual[j] && j!=i)
+						if(forma_completo(actual,j,adyacencia,n)){
+							agregue=true;
+							actual[j] = true;
+							tam_actual++;
+						}
+				}
+				if(tam_actual>tamanyo){		//si mejore, actualizo
+					mejore=true;
+					tamanyo=tam_actual;
+					for(int j=0;j<n;j++) pertenece[j]=actual[j];
+				}
+				else if(!agregue){
+					tam_actual=tamanyo;
+					actual[i]=true;
+				}
+			}
 		}
 	}
 	return tamanyo;
-
 }
 
 int main(int argc, char** argv){
