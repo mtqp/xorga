@@ -39,11 +39,14 @@ int comparar( const void* _a, const void* _b )
 		return -1;
 }
 
-bool forma_completo(bool* pertenece, const int nodo, int** adyacencia, const int n){
+void formar_completo(bool* pertenece, int** adyacencia, const int nodo, int& tamanyo, const int n){
 	bool forma_completo = true;
 	for( int j = 0 ; j < n ; j++ )
 		if(pertenece[j] && j!= nodo) forma_completo &= adyacencia[nodo][j];
-	return forma_completo;
+		if(forma_completo){
+			pertenece[nodo] = true;
+			tamanyo++;
+		}
 }
 
 int constructivo(bool* pertenece, const pair<int,int>* d, int** adyacencia, const int n){
@@ -53,11 +56,7 @@ int constructivo(bool* pertenece, const pair<int,int>* d, int** adyacencia, cons
 	
 	for(int i=0;i<n;i++){
 		int nodo = d[i].first;
-		if(!pertenece[nodo])
-			if(forma_completo(pertenece,nodo,adyacencia,n)){
-				pertenece[nodo] = true;
-				tamanyo++;
-			}
+		if(!pertenece[nodo]) formar_completo(pertenece,adyacencia,nodo,tamanyo,n);
 	}
 	return tamanyo;
 }
@@ -83,30 +82,19 @@ int max_clique(bool* pertenece, int** adyacencia, int n){
 	for(int i=0;i<n;i++) actual[i]=pertenece[i];
 	
 	bool mejore=true;
-	int k=0;
-	while(mejore && k<n){
+	for(int k=0; k<n && mejore; k++){
 		mejore=false;
 		for(int i=0;i<n;i++){
-			bool agregue=false;
 			if(actual[i]){		//saco un nodo perteneciente a la solución actual
 				actual[i]=false;
 				tam_actual--;
 				for(int j=0;j<n;j++){
-					if(!actual[j] && j!=i)
-						if(forma_completo(actual,j,adyacencia,n)){
-							agregue=true;
-							actual[j] = true;
-							tam_actual++;
-						}
+					if(!actual[j] && j!=i) formar_completo(actual,adyacencia,j,tam_actual,n);
 				}
 				if(tam_actual>tamanyo){		//si mejore, actualizo
 					mejore=true;
 					tamanyo=tam_actual;
 					for(int j=0;j<n;j++) pertenece[j]=actual[j];
-				}
-				else if(!agregue){
-					tam_actual=tamanyo;
-					actual[i]=true;
 				}
 			}
 		}

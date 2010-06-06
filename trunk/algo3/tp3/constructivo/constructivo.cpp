@@ -76,10 +76,10 @@ int max_clique(bool* pertenece, int** adyacencia, int n){
 			for( int j = 0 ; j < n ; j++ )
 				if( pertenece[j] && j != nodo )
 					forma_completo &= adyacencia[nodo][j];
-
-			pertenece[nodo] = forma_completo;
-			if( forma_completo )
+			if( forma_completo ){
+				pertenece[nodo] = true;
 				tamanyo++;
+			}
 		}
 	}
 	return tamanyo;

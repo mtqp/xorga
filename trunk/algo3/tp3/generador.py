@@ -57,13 +57,16 @@ def generar_input(nombre, instancias):
 	
 def generar_output(nombre, instancias):
 	fOut = open(nombre, 'w')
+	f = open("tamano", 'w')
 	for instancia in instancias:
 		maxima, max_clique = instancia[2:4]
 		fOut.write("%d\nN"%maxima)
+		f.write("%d\n"%maxima)
 		for v in max_clique:
 			fOut.write(" %d"%(v+1))
 		fOut.write("\n")
 	fOut.close()
+	f.close()
 
 if __name__=="__main__":
 	instancias = []
