@@ -1,0 +1,95 @@
+\documentclass[12pt,titlepage]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{color}
+\usepackage{graphicx} % para insertar imagenes
+\usepackage{verbatim}
+
+
+\newcommand{\func}[2]{\texttt{#1}(#2)\\}
+\newcommand{\tab}{\hspace*{2em}}
+\newcommand{\FOR}{\textbf{for }}
+\newcommand{\TO}{\textbf{ to }}
+\newcommand{\IF}{\textbf{if }}
+\newcommand{\WHILE}{\textbf{while }}
+\newcommand{\THEN}{\textbf{then }}
+\newcommand{\ELSE}{\textbf{else }}
+\newcommand{\RET}{\textbf{return }}
+\newcommand{\MOD}{\textbf{ \% }}
+\newcommand{\OR}{\textbf{ or }}
+\newcommand{\AND}{\textbf{ and }}
+\newcommand{\tOde}[1]{\tab \small{O($#1$)}}
+\newcommand{\Ode}[1]{O($#1$)}
+\newcommand{\Thetade}[1]{{\small$\Theta$($#1$)}}
+\newcommand{\Omegade}[1]{{\small$\Omega$($#1$)}}
+\newcommand{\VSP}{\vspace*{3em}}
+\newcommand{\Pa}{\vspace{5mm}}
+\newenvironment{pseudo}{\begin{tabular}{p{11cm}l}}{\end{tabular}\VSP}
+
+\newcommand{\gra}[1]{{\noindent\centering\includegraphics[width=14cm]{#1}}\\}
+
+\title{{\sc\normalsize Algoritmos y estructuras de datos III}\\{\bf Trabajo Práctico Nº3}}
+\author{\begin{tabular}{lcr}
+De Sousa Bispo Mariano & 389/08 & marian\_sabianaa@hotmail.com \\
+Grosso Daniel & 694/08 & dgrosso@gmail.com\\
+Livorno Carla & 424/08 & carlalivorno@hotmail.com\\
+Raffo Diego & 423/08 & enanodr@hotmail.com \\
+\end{tabular}}
+\date{\VSP \normalsize{Junio 2010}}
+%\date{}
+\begin{document}
+\begin{titlepage}
+\maketitle
+\end{titlepage}
+\tableofcontents
+\newpage
+
+
+	\begin{section}*{Introducción}	\addcontentsline{toc}{section}{Introducción}
+		Este trabajo tiene como objetivo la aplicación de diferentes técnicas algorítmicas para la resolución de tres problemas particulares, el cálculo de complejidad teórica en el peor caso de cada algoritmo implementado, y la posterior verificación empírica.
+	
+		El lenguaje utilizado para implementar los algoritmos de todos los problemas fue C/C++
+	\end{section}
+
+
+	\begin{section}{Situaciones de la vida real}
+	\end{section}
+	
+	\input{exacto.tex}
+
+	\newpage
+
+	\input{constructiva.tex}
+
+	\newpage
+
+	\input{busqueda_local.tex}
+	
+	\newpage
+	
+	\input{busqueda_tabu.tex}
+	%\input{anexo.tex}
+	
+	\newpage
+		
+	\begin{section}{Resultados}
+		\begin{subsection}{Parametros de la heurística tabú}
+		\end{subsection}		
+
+		\begin{subsection}{Comparacion de tiempos}
+		\end{subsection}
+
+		\begin{subsection}{Comparacion de calidad}
+		\end{subsection}
+	\end{section}
+
+
+	\begin{section}{Compilación y ejecución de los programas}
+	\end{section}
+	
+	\begin{section}{Conclusiones}
+	\end{section}
+\end{document}

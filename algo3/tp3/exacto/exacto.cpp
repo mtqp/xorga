@@ -21,8 +21,8 @@ template<class T> void print_vector(T V, int n){
 	cout << endl;
 }
 
-void construir_solucion(bool* actual, int** adyacencia, int& cant, int& ult, const int sig, const int n){  //construyo una solución a partir de 'ult' considerendo desde 'sig'
-	for(int j=sig;j<n;j++){
+void construir_solucion(bool* actual, int** adyacencia, const int res, int& cant, int& ult, const int sig, const int n){  //construyo una solución a partir de 'ult' considerendo desde 'sig'
+	for(int j=sig;j<n && res<cant+n-j;j++){
 		if(adyacencia[ult][j]){	//si son adyacentes
 			bool completo=true;
 			for(int k=0;k<j && completo;k++){ //veo que este conectado a todos los que conforman la solución parcial
@@ -64,7 +64,7 @@ int max_clique(bool* pertenece, int** adyacencia, int n){
 		sig=ult+1;
 		bool encontre_ant=true;
 		while(encontre_ant){			//cuando retrocedo..veo si lo que intente sacar es el nodo inicial
-			construir_solucion(actual, adyacencia, cant, ult, sig, n);
+			construir_solucion(actual, adyacencia, res, cant, ult, sig, n);
 			if(cant>res){ 		//si la solucián parcial tiene más nodos que la mejor solución encontrada hasta el momento, actualizo 
 				res=cant;
 				for(int j=0;j<n;j++) pertenece[j]=actual[j]; //'pertenece' es la solución final, por lo que guarda la mejor solución encontrada hasta el momento
