@@ -29,6 +29,10 @@ class Grafo
 
 		// función auxiliar usada para comparar las tuplas de grados
 		static int _compararGrados( const void* _a, const void* _b );
+		
+		// esto va a ser reemplazado por un function pointer (algún día..)
+		Subgrafo _max_clique_constructivo( );
+		
 };
 
 class Subgrafo
@@ -42,5 +46,5 @@ class Subgrafo
 		int n;
 };
 
-ostream& operator<<( ostream& out, const Grafo& g );
+ostream& operator<<( ostream& out, const Subgrafo& g );
 
