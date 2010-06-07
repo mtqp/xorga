@@ -51,20 +51,21 @@ void formar_completo(bool* pertenece, int** adyacencia, const int nodo, int& tam
 
 int constructivo(bool* pertenece, const pair<int,int>* d, int** adyacencia, const int n){
 	int tamanyo = 1;
-	int actual = d[0].first;
-	pertenece[actual] = true;
+	int nodo = d[0].first;
+
+	pertenece[nodo] = true;
 	
 	for(int i=0;i<n;i++){
-		int nodo = d[i].first;
+		nodo = d[i].first;
 		if(!pertenece[nodo]) formar_completo(pertenece,adyacencia,nodo,tamanyo,n);
 	}
 	return tamanyo;
 }
 
 int max_clique(bool* pertenece, int** adyacencia, int n){
-	// tupla (nodo, grado)
+	// arreglo de tupla (nodo, grado)
 	pair<int,int> d[n];
-
+	// inicializo el arreglo
 	for(int i=0;i<n;i++){
 		d[i].first  = i;
 		d[i].second = 0;
@@ -72,10 +73,10 @@ int max_clique(bool* pertenece, int** adyacencia, int n){
 			if( adyacencia[i][j] )
 				d[i].second++;
 	}
-
+	// ordeno el arreglo por grado
 	qsort( d, n, sizeof(pair<int,int>), &comparar );
 
-	//Solución inicial
+	// busco una solución del problema mediante la heurística constructiva 
 	int tamanyo = constructivo(pertenece,d,adyacencia,n);
 	int tam_actual = tamanyo;
 	bool actual[n];
@@ -133,6 +134,9 @@ int main(int argc, char** argv){
 		else if(argc>1 && string(argv[1])=="count"){	//si el argumento es "count", cuento cantidad de operaciones
 			max_clique(pertenece,adyacencia,n);
 			cout << n << "\t" << contador << endl;	//imprimo la cuenta
+		}
+		else if(argc>1 && string(argv[1])=="tamaño"){
+			cout << max_clique(pertenece,adyacencia,n) << endl;
 		}
 		else{
 			cout << max_clique(pertenece,adyacencia,n) << endl;

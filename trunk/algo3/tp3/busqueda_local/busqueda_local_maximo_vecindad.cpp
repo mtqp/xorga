@@ -87,7 +87,7 @@ int max_clique(bool* pertenece, int** adyacencia, int n){
 	}
 	
 	bool mejore=true;
-	for(int k=0; k<n; k++){
+	for(int k=0; k<n && mejore; k++){
 		mejore=false;
 		for(int i=0;i<n;i++){
 			if(actual[i]){		//saco un nodo perteneciente a la solución actual
@@ -103,6 +103,7 @@ int max_clique(bool* pertenece, int** adyacencia, int n){
 			}
 		}
 		if(tam_mejor_vecindad>tamanyo){		//si mejore, actualizo
+			mejore=true;
 			tamanyo=tam_mejor_vecindad;
 			for(int j=0;j<n;j++) pertenece[j]=mejor_vecindad[j];
 		}
@@ -141,6 +142,9 @@ int main(int argc, char** argv){
 		else if(argc>1 && string(argv[1])=="count"){	//si el argumento es "count", cuento cantidad de operaciones
 			max_clique(pertenece,adyacencia,n);
 			cout << n << "\t" << contador << endl;	//imprimo la cuenta
+		}
+		else if(argc>1 && string(argv[1])=="tamaño"){
+			cout << max_clique(pertenece,adyacencia,n) << endl;
 		}
 		else{
 			cout << max_clique(pertenece,adyacencia,n) << endl;

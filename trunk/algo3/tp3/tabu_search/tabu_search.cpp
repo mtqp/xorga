@@ -78,33 +78,33 @@ int max_clique(bool* pertenece, int** adyacencia, int n){
 	//Solución inicial
 	int tamanyo = constructivo(pertenece,d,adyacencia,n);
 	int tam_actual = tamanyo;
-	int tam_mejor_vecindad = tam_actual;
 	bool actual[n];
-	bool mejor_vecindad[n];
+	int tabu[n];
 	for(int i=0;i<n;i++){
 		actual[i]=pertenece[i];
-		mejor_vecindad[i] = pertenece[i];
+		tabu[i]=0;
 	}
 	
 	bool mejore=true;
-	for(int k=0; k<n; k++){
+	for(int k=0; k<n && mejore; k++){
 		mejore=false;
 		for(int i=0;i<n;i++){
 			if(actual[i]){		//saco un nodo perteneciente a la solución actual
+				//cout << "saco: " << i+1 << endl;
+				tabu[i]=tamanyo-2;
 				actual[i]=false;
 				tam_actual--;
 				for(int j=0;j<n;j++){
-					if(!actual[j] && j!=i) formar_completo(actual,adyacencia,j,tam_actual,n);
+					//cout << "miro: " << j+1 <<  " " << tabu[j] << endl;
+					if(!actual[j] && tabu[j]==0) formar_completo(actual,adyacencia,j,tam_actual,n);
 				}
-				if(tam_actual>tam_mejor_vecindad){		//si mejore, actualizo
-					tam_mejor_vecindad=tam_actual;
-					for(int j=0;j<n;j++) mejor_vecindad[j]=actual[j];
+				if(tam_actual>tamanyo){		//si mejore, actualizo
+					mejore=true;
+					tamanyo=tam_actual;
+					for(int j=0;j<n;j++) pertenece[j]=actual[j];
 				}
 			}
-		}
-		if(tam_mejor_vecindad>tamanyo){		//si mejore, actualizo
-			tamanyo=tam_mejor_vecindad;
-			for(int j=0;j<n;j++) pertenece[j]=mejor_vecindad[j];
+			for(int j=0;j<n;j++) if(tabu[j]>0) tabu[j]--;
 		}
 	}
 	return tamanyo;
@@ -141,6 +141,9 @@ int main(int argc, char** argv){
 		else if(argc>1 && string(argv[1])=="count"){	//si el argumento es "count", cuento cantidad de operaciones
 			max_clique(pertenece,adyacencia,n);
 			cout << n << "\t" << contador << endl;	//imprimo la cuenta
+		}
+		else if(argc>1 && string(argv[1])=="tamaño"){
+			cout << max_clique(pertenece,adyacencia,n) << endl;
 		}
 		else{
 			cout << max_clique(pertenece,adyacencia,n) << endl;
