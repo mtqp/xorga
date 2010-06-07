@@ -112,21 +112,45 @@ int max_clique(bool* pertenece, int** adyacencia, int n){
 					//print_res(actual,n);
 				}
 				//cout << "Antes tam_actual: " << tam_actual << endl;
+				//cout << "Actual: " << endl;
+				//print_vector(actual,n);
+				//cout << "elem_tabu: " << endl;
+				//print_lista(elem_tabu);
+				it=elem_tabu.begin();
+				while(it!=elem_tabu.end()){
+					int nodo=*it;
+					//cout << "nodo: " << nodo << endl;
+					//cout << "antes de formar completo == " << tam_actual << endl;
+					formar_completo(actual,adyacencia,nodo,tam_actual,n);
+					//cout << "dsp de formar completo == " << tam_actual << endl;
+					it++;
+					if(actual[nodo]){
+						elem_tabu.remove(nodo);
+						tabu[nodo]=0;
+					}
+				}
+				/*
 				for(it=elem_tabu.begin(); it!=elem_tabu.end(); it++){
 					int nodo=*it;
 					//cout << "nodo: " << nodo << endl;
 					formar_completo(actual,adyacencia,nodo,tam_actual,n);
 					if(actual[nodo]){
-						//cout << "lista: ";
-						print_lista(elem_tabu);
 						it--;
 						elem_tabu.remove(nodo);
 						tabu[nodo]=0;
 					}
-				}
+				}*/
 				//cout << "Despues tam_actual: " << tam_actual << endl;
+				//cout << "i: " << i << endl;
+				//cout << "elem_tabu: " << endl;
 				elem_tabu.push_back(i);
-				for(int j=0;j<n;j++) if(tabu[j]>0) tabu[j]--;
+				//print_lista(elem_tabu);
+				for(int j=0;j<n;j++)
+					if(tabu[j]>0){
+						tabu[j]--;
+						if(tabu[j]==0) elem_tabu.remove(j);
+					}
+				//cout << "tam_actual: " << tam_actual << "tamanyo: " << tamanyo << endl;
 				if(tam_actual>tamanyo){		//si mejore, actualizo
 					mejore=true;
 					tamanyo=tam_actual;

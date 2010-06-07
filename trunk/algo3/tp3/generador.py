@@ -75,6 +75,6 @@ if __name__=="__main__":
 		instancias.append(grafos_random(i))
 		for j in range(1,i+1):
 			instancias_max.append(grafos_max_clique(i,j))
-	generar_input("test_random.in", instancias)
-	generar_input("test_max_clique.in", instancias_max)
-	generar_output("test_max_clique.out", instancias_max)
+	generar_input("test/test_random.in", instancias)
+	generar_input("test/test_max_clique.in", instancias_max)
+	#generar_output("test_max_clique.out", instancias_max)
