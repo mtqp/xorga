@@ -1,8 +1,11 @@
 #include <iostream>
 #include <cstdlib>
+#include <list>
 #include "../medicion.h"
 
 using namespace std;
+
+#define lista list<int>
 
 template<class T> void print_res(const T V, int n){
 	for(int i=0; i<n; i++)
@@ -19,6 +22,12 @@ template<class T> void print_matriz(T M, int n){
 
 template<class T> void print_vector(T V, int n){
 	for(int i=0; i<n; i++) cout << V[i];
+	cout << endl;
+}
+
+template<class T> void print_lista(T l){
+	lista::iterator it;
+	for(it=l.begin(); it!=l.end(); it++) cout << *it << " ";
 	cout << endl;
 }
 
@@ -80,31 +89,50 @@ int max_clique(bool* pertenece, int** adyacencia, int n){
 	int tam_actual = tamanyo;
 	bool actual[n];
 	int tabu[n];
+	lista elem_tabu;
+	lista::iterator it;
 	for(int i=0;i<n;i++){
 		actual[i]=pertenece[i];
 		tabu[i]=0;
 	}
-	
+	int cant_iter=tamanyo-2;
 	bool mejore=true;
 	for(int k=0; k<n && mejore; k++){
 		mejore=false;
 		for(int i=0;i<n;i++){
 			if(actual[i]){		//saco un nodo perteneciente a la solución actual
-				//cout << "saco: " << i+1 << endl;
-				tabu[i]=tamanyo-2;
+				//cout << "saco: " << i+1 << "tabu: " << tamanyo-2 << endl;
 				actual[i]=false;
 				tam_actual--;
+				tabu[i]=cant_iter;
 				for(int j=0;j<n;j++){
 					//cout << "miro: " << j+1 <<  " " << tabu[j] << endl;
 					if(!actual[j] && tabu[j]==0) formar_completo(actual,adyacencia,j,tam_actual,n);
+					//poner tabu al agregar??
+					//print_res(actual,n);
 				}
+				//cout << "Antes tam_actual: " << tam_actual << endl;
+				for(it=elem_tabu.begin(); it!=elem_tabu.end(); it++){
+					int nodo=*it;
+					//cout << "nodo: " << nodo << endl;
+					formar_completo(actual,adyacencia,nodo,tam_actual,n);
+					if(actual[nodo]){
+						//cout << "lista: ";
+						print_lista(elem_tabu);
+						it--;
+						elem_tabu.remove(nodo);
+						tabu[nodo]=0;
+					}
+				}
+				//cout << "Despues tam_actual: " << tam_actual << endl;
+				elem_tabu.push_back(i);
+				for(int j=0;j<n;j++) if(tabu[j]>0) tabu[j]--;
 				if(tam_actual>tamanyo){		//si mejore, actualizo
 					mejore=true;
 					tamanyo=tam_actual;
 					for(int j=0;j<n;j++) pertenece[j]=actual[j];
 				}
 			}
-			for(int j=0;j<n;j++) if(tabu[j]>0) tabu[j]--;
 		}
 	}
 	return tamanyo;
