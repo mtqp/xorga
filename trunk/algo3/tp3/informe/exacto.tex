@@ -1,0 +1,12 @@
+\begin{section}{Algoritmo exacto}
+		\begin{subsection}{Optimizacion}
+			Dado que se trata de un algoritmo de backtracking, la optimzación se basa en podar las ramas en las que estamos seguros que no va a aparecer el óptimo. Para esto tenemos que poder predecir, dado un estado actual, si es posible mejorar el óptimo encontrado hasta el momento.
+			
+			Por un lado, podamos las ramas que no forman un grafo completo, ya que no es solución.
+			
+			Por otro lado, evaluamos en cada paso del algoritmo la cantidad de vértices que falta explorar. Es decir, calculamos el tamaño de la clique máxima que podriamos formar considerando los vértices que ya estan incluidos en la solución actual. Si la cantidad de vértices que todavía no fueron evaluados más la cantidad de vértices ya pertenecientes a la clique actual es menor a la cantidad de vértices de la clique máxima encontrada hasta el momento, no tiene sentido seguir explorando esa rama ya que el tamaño de la clique máxima que se puede encontrar por ese camino es menor al tamaño de la máxima encontrada. Por este motivo, podamos esta rama.
+		\end{subsection}
+		\begin{subsection}{Complejidad temporal}
+		\end{subsection}
+\end{section}
+
