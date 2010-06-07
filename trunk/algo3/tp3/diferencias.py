@@ -17,8 +17,8 @@ if __name__=="__main__":
 	soluciones2 = cargarOutput( "%s/%s.out"%(metodo2,os.path.basename(entrada)[0:-3]) )
 	for i in range(len(soluciones1)):
 		if len(soluciones1[i]) != len(soluciones2[i]) :
-			print "La %da instancia difiere - tamanyo1: %d  tamanyo2: %d"%(i+1,len(soluciones1[i]),len(soluciones2[i]))
-			print "\t Solucion1: %s"%(str(soluciones1[i]))
-			print "\t Solucion2: %s"%(str(soluciones2[i]))
+			print "La %da instancia difiere - tamanyo %s: %d  tamanyo %s: %d"%(i+1,metodo1,len(soluciones1[i]),metodo2,len(soluciones2[i]))
+			print "\t %s: %s"%(metodo1,str(soluciones1[i]))
+			print "\t %s: %s"%(metodo2,str(soluciones2[i]))
 			print "\t Linea: %d"%(lineaInstancia(instancias,i))
 			print "-------------------------------------------------------------"
