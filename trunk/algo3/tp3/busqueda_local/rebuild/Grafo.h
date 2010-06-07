@@ -41,4 +41,4 @@ class Subgrafo
 		int n;
 };
 
-ostream& operator<<( ostream& out, Grafo& g );
+ostream& operator<<( ostream& out, const Grafo& g );

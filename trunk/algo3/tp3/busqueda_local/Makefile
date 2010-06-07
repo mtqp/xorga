@@ -1,4 +1,5 @@
-EJ = $(patsubst %.cpp,%,$(wildcard *.cpp))
+EJ = busqueda_local
+#EJ = $(patsubst %.cpp,%,$(wildcard *.cpp))
 FLAGS = -Wall
 TEST_PATH = ../test/
 
