@@ -37,8 +37,10 @@ class Subgrafo
 		Subgrafo( const Grafo& grafo, bool* nodos );
 
 	private:
+		bool* nodos;
 		const Grafo* grafo;
 		int n;
 };
 
 ostream& operator<<( ostream& out, const Grafo& g );
+

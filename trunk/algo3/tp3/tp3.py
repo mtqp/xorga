@@ -58,4 +58,4 @@ def lineaInstancia( instancias, numero_instancia ):
 	linea = 0
 	for i in range(numero_instancia):
 		linea += len( instancias[i] )
-	return linea + i + 2
+	return linea + numero_instancia + 2
