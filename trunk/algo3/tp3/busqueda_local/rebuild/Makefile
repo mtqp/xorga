@@ -9,3 +9,6 @@ main.o: main.cpp
 
 %.o: %.cpp %.h
 	g++ -c $< $(FLAGS)
+
+clean:
+	rm $(OBJECTS) main

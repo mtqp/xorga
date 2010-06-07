@@ -50,4 +50,11 @@ int Grafo::_compararGrados( const void* _a, const void* _b )
 
 Subgrafo Grafo::maxClique()
 {
+	Subgrafo subgrafo( *this, NULL );
+	return subgrafo;
+}
+
+ostream& operator<<( ostream& out, const Subgrafo& s )
+{
+	out << "Not yet implemented!" << endl;
 }
