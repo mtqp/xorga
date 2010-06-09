@@ -88,14 +88,24 @@ int busqueda_local(bool* pertenece, pair<int,int>* d, int** adyacencia, int n){
 		mejore=false;
 		for(int i=0;i<n;i++){
 			if(actual[i]){		//saco un nodo perteneciente a la solución actual
+				//cout << "saco: " << i+1 << endl;
 				actual[i]=false;
 				tam_actual--;
+				int nodo=-1;
 				for(int j=0;j<n;j++){
-					if(!actual[j] && j!=i) formar_completo(actual,adyacencia,j,tam_actual,n);
+					if(!actual[j] && j!=i){
+						formar_completo(actual,adyacencia,j,tam_actual,n);
+						if(actual[j]) nodo=j;
+					}
 				}
+				//cout << "Actual: " << endl;
+				//print_vector(actual,n);
 				if(tam_actual>tam_mejor_vecindad){		//si mejore, actualizo
 					tam_mejor_vecindad=tam_actual;
 					for(int j=0;j<n;j++) mejor_vecindad[j]=actual[j];
+				} else{
+					if(nodo!=-1) actual[nodo]=false;
+					actual[i]=true;
 				}
 			}
 		}

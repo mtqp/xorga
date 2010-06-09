@@ -18,7 +18,9 @@ template<class T> void print_matriz(T M, int n){
 }
 
 template<class T> void print_vector(T V, int n){
-	for(int i=0; i<n; i++) cout << V[i];
+	for(int i=0; i<n; i++){
+		if(V[i]) cout << "(" << i+1 <<"," << V[i] << ")";
+	}
 	cout << endl;
 }
 
@@ -51,21 +53,20 @@ void formar_completo(bool* pertenece, int** adyacencia, const int nodo, int& tam
 
 int constructivo(bool* pertenece, const pair<int,int>* d, int** adyacencia, const int n){
 	int tamanyo = 1;
-	int nodo = d[0].first;
-
-	pertenece[nodo] = true;
+	int actual = d[0].first;
+	pertenece[actual] = true;
 	
 	for(int i=0;i<n;i++){
-		nodo = d[i].first;
+		int nodo = d[i].first;
 		if(!pertenece[nodo]) formar_completo(pertenece,adyacencia,nodo,tamanyo,n);
 	}
 	return tamanyo;
 }
 
 int max_clique(bool* pertenece, int** adyacencia, int n){
-	// arreglo de tupla (nodo, grado)
+	// tupla (nodo, grado)
 	pair<int,int> d[n];
-	// inicializo el arreglo
+
 	for(int i=0;i<n;i++){
 		d[i].first  = i;
 		d[i].second = 0;
@@ -73,31 +74,50 @@ int max_clique(bool* pertenece, int** adyacencia, int n){
 			if( adyacencia[i][j] )
 				d[i].second++;
 	}
-	// ordeno el arreglo por grado
+
 	qsort( d, n, sizeof(pair<int,int>), &comparar );
 
-	// busco una solución del problema mediante la heurística constructiva 
+	//Solución inicial
 	int tamanyo = constructivo(pertenece,d,adyacencia,n);
 	int tam_actual = tamanyo;
+	int tam_mejor_vecindad = tam_actual;
 	bool actual[n];
-	for(int i=0;i<n;i++) actual[i]=pertenece[i];
+	bool mejor_vecindad[n];
+	for(int i=0;i<n;i++){
+		actual[i]=pertenece[i];
+		mejor_vecindad[i] = pertenece[i];
+	}
 	
 	bool mejore=true;
 	for(int k=0; k<n && mejore; k++){
 		mejore=false;
 		for(int i=0;i<n;i++){
 			if(actual[i]){		//saco un nodo perteneciente a la solución actual
+				//cout << "saco: " << i+1 << endl;
 				actual[i]=false;
 				tam_actual--;
+				int nodo=-1;
 				for(int j=0;j<n;j++){
-					if(!actual[j] && j!=i) formar_completo(actual,adyacencia,j,tam_actual,n);
+					if(!actual[j] && j!=i){
+						formar_completo(actual,adyacencia,j,tam_actual,n);
+						if(actual[j]) nodo=j;
+					}
 				}
-				if(tam_actual>tamanyo){		//si mejore, actualizo
-					mejore=true;
-					tamanyo=tam_actual;
-					for(int j=0;j<n;j++) pertenece[j]=actual[j];
+				//cout << "Actual: " << endl;
+				//print_vector(actual,n);
+				if(tam_actual>tam_mejor_vecindad){		//si mejore, actualizo
+					tam_mejor_vecindad=tam_actual;
+					for(int j=0;j<n;j++) mejor_vecindad[j]=actual[j];
+				} else{
+					if(nodo!=-1) actual[nodo]=false;
+					actual[i]=true;
 				}
 			}
+		}
+		if(tam_mejor_vecindad>tamanyo){		//si mejore, actualizo
+			mejore=true;
+			tamanyo=tam_mejor_vecindad;
+			for(int j=0;j<n;j++) pertenece[j]=mejor_vecindad[j];
 		}
 	}
 	return tamanyo;
