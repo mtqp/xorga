@@ -25,7 +25,7 @@ class Grafo
 		int n;
 
 		// matriz de adyacencia
-		int **adyacencia;
+		int** adyacencia;
 
 		// arreglo de tupla (nodo, grado) ordenado de mayor grado a menor grado
 		pair<int,int>* grados;
@@ -38,12 +38,18 @@ class Grafo
 		
 };
 
-class Subgrafo : public Grafo
+class Subgrafo
 {
 	public:
+		Subgrafo();
 		Subgrafo( const Grafo& grafo, bool* nodos );
 		Subgrafo( const Subgrafo& subgrafo );
 		~Subgrafo();
+
+		inline int cantidadNodos() const
+		{
+			return n;
+		}
 
 	private:
 		bool* nodos;

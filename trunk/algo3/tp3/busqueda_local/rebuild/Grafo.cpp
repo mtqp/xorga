@@ -55,14 +55,20 @@ int Grafo::_compararGrados( const void* _a, const void* _b )
 
 Subgrafo Grafo::maxClique()
 {
-	Subgrafo subgrafo( *this, NULL );
-	return subgrafo;
+	bool a[n];
+	//Subgrafo subgrafo( *this, a );
+	return Subgrafo();
 }
 
 ostream& operator<<( ostream& out, const Subgrafo& s )
 {
 	out << "Not yet implemented!" << endl;
 	return out;
+}
+
+Subgrafo::Subgrafo()
+{
+	
 }
 
 Subgrafo::Subgrafo( const Grafo& grafo, bool* nodos )
@@ -80,15 +86,16 @@ Subgrafo::Subgrafo( const Grafo& grafo, bool* nodos )
 
 Subgrafo::Subgrafo( const Subgrafo& subgrafo )
 {
-	n = subgrafo.cantidadNodos();
+	cout << "Copia" << endl;
+	/*n = subgrafo.cantidadNodos();
 	this->nodos = new bool[n];
-	this->grafo = &grafo;
+	this->grafo = subgrafo.grafo;
 	if( nodos != NULL )
 	{
 		for( int i = 0 ; i < n ; i++ )
 			for( int j = 0 ; j < n ; j++ )
-				this->nodos[i] = nodos[i];
-	}
+				this->nodos[i] = subgrafo.nodos[i];
+	}*/
 }
 
 Subgrafo::~Subgrafo()

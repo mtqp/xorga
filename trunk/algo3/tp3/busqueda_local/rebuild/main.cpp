@@ -40,7 +40,8 @@ int main(int argc, char** argv)
 		else{
 			cout << "entra" << endl;
 			Grafo g( n, adyacencia );
-			cout << g.maxClique() << endl;
+			Subgrafo maxClique(g.maxClique());
+			//cout <<  << endl;
 			cout << "N";
 			//print_res(solucion,n);
 		}
