@@ -9,16 +9,16 @@ test: $(patsubst $(TEST_PATH)%.in,%.out,$(wildcard $(TEST_PATH)*.in) )
 all: $(EJ) grafos
 
 %:%.cpp
-	@g++ -o $@ $< $(FLAGS)
+	g++ -o $@ $< $(FLAGS)
 
 %.out: $(TEST_PATH)%.in
 	./$(EJ) < $< > $@
 	
 %.eps: %.out
-	@../graficar-grafos.py $(TEST_PATH)$(patsubst %.out,%.in,$<) $<
-	@echo "Generando $@"
-	@dot -Tps $<.dot > $@
-	@rm $<.dot
+#	@../graficar-grafos.py $(TEST_PATH)$(patsubst %.out,%.in,$<) $<
+	echo "Generando $@"
+	dot -Tps $<.dot > $@
+	rm $<.dot
 
 grafos: $(EJ) test $(patsubst $(TEST_PATH)%.in,%.eps,$(wildcard $(TEST_PATH)*.in))
 
