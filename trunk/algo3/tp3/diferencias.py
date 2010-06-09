@@ -23,7 +23,7 @@ if __name__=="__main__":
 	for i in range(len(soluciones1)):
 		if len(soluciones1[i]) != len(soluciones2[i]) :
 			diferentes.append( i )
-			print "La %da instancia difiere - tamanyo %s: %d  tamanyo %s: %d"%(i+1,metodo1,len(soluciones1[i]),metodo2,len(soluciones2[i]))
+			print "[%d] La %da instancia difiere - tamanyo %s: %d  tamanyo %s: %d"%(len(diferentes),i+1,metodo1,len(soluciones1[i]),metodo2,len(soluciones2[i]))
 			print "\t %s: %s"%(metodo1,str(soluciones1[i]))
 			print "\t %s: %s"%(metodo2,str(soluciones2[i]))
 			print "\t Linea: %d"%(lineaInstancia(instancias,i))
