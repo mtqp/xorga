@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <list>
+#include <algorithm>
 #include "../medicion.h"
 
 using namespace std;
@@ -27,7 +28,7 @@ template<class T> void print_vector(T V, int n){
 
 template<class T> void print_lista(T l){
 	lista::iterator it;
-	for(it=l.begin(); it!=l.end(); it++) cout << *it << " ";
+	for(it=l.begin(); it!=l.end(); it++) cout << *it+1 << " ";
 	cout << endl;
 }
 
@@ -95,62 +96,43 @@ int max_clique(bool* pertenece, int** adyacencia, int n){
 		actual[i]=pertenece[i];
 		tabu[i]=0;
 	}
-	int cant_iter=tamanyo-2;
+	int cant_iter=max(tamanyo-2,3);
 	bool mejore=true;
 	for(int k=0; k<n && mejore; k++){
 		mejore=false;
-		for(int i=0;i<n;i++){
-			if(actual[i]){		//saco un nodo perteneciente a la solución actual
-				//cout << "saco: " << i+1 << "tabu: " << tamanyo-2 << endl;
-				actual[i]=false;
+		for(int i=n-1;i>=0;i--){
+			int v1=d[i].first;
+			if(actual[v1]){		//saco un nodo perteneciente a la solución actual
+				//cout << "saco: " << i+1 << "tabu: " << cant_iter << endl;
+				actual[v1]=false;
 				tam_actual--;
-				tabu[i]=cant_iter;
+				tabu[v1]=cant_iter;
 				for(int j=0;j<n;j++){
+					int v2=d[j].first;
 					//cout << "miro: " << j+1 <<  " " << tabu[j] << endl;
-					if(!actual[j] && tabu[j]==0) formar_completo(actual,adyacencia,j,tam_actual,n);
+					if(!actual[v2] && tabu[v2]==0) formar_completo(actual,adyacencia,v2,tam_actual,n);
 					//poner tabu al agregar??
-					//print_res(actual,n);
 				}
-				//cout << "Antes tam_actual: " << tam_actual << endl;
-				//cout << "Actual: " << endl;
-				//print_vector(actual,n);
-				//cout << "elem_tabu: " << endl;
-				//print_lista(elem_tabu);
 				it=elem_tabu.begin();
 				while(it!=elem_tabu.end()){
 					int nodo=*it;
-					//cout << "nodo: " << nodo << endl;
-					//cout << "antes de formar completo == " << tam_actual << endl;
 					formar_completo(actual,adyacencia,nodo,tam_actual,n);
-					//cout << "dsp de formar completo == " << tam_actual << endl;
 					it++;
 					if(actual[nodo]){
 						elem_tabu.remove(nodo);
 						tabu[nodo]=0;
 					}
 				}
-				/*
-				for(it=elem_tabu.begin(); it!=elem_tabu.end(); it++){
-					int nodo=*it;
-					//cout << "nodo: " << nodo << endl;
-					formar_completo(actual,adyacencia,nodo,tam_actual,n);
-					if(actual[nodo]){
-						it--;
-						elem_tabu.remove(nodo);
-						tabu[nodo]=0;
-					}
-				}*/
-				//cout << "Despues tam_actual: " << tam_actual << endl;
-				//cout << "i: " << i << endl;
-				//cout << "elem_tabu: " << endl;
-				elem_tabu.push_back(i);
-				//print_lista(elem_tabu);
+				//cout << "Actual: " << endl;
+				//print_res(actual,n);
+				elem_tabu.push_back(v1);
 				for(int j=0;j<n;j++)
 					if(tabu[j]>0){
 						tabu[j]--;
 						if(tabu[j]==0) elem_tabu.remove(j);
 					}
-				//cout << "tam_actual: " << tam_actual << "tamanyo: " << tamanyo << endl;
+				//cout << "Lista tabu: " << endl;
+				//print_lista(elem_tabu);
 				if(tam_actual>tamanyo){		//si mejore, actualizo
 					mejore=true;
 					tamanyo=tam_actual;

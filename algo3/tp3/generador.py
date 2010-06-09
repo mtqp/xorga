@@ -69,12 +69,17 @@ def generar_output(nombre, instancias):
 	f.close()
 
 if __name__=="__main__":
+	tam = raw_input("")
+	tamanyo = int(tam)+1	
+	cant = raw_input("")
+	cantidad = int(cant)
 	instancias = []
 	instancias_max = []
-	for i in range(2,15):
+	for i in range(2,tamanyo):
 		instancias.append(grafos_random(i))
 		for j in range(1,i+1):
-			instancias_max.append(grafos_max_clique(i,j))
+			for k in range(cantidad):
+				instancias_max.append(grafos_max_clique(i,j))
 	generar_input("test/test_random.in", instancias)
 	generar_input("test/test_max_clique.in", instancias_max)
 	#generar_output("test_max_clique.out", instancias_max)
