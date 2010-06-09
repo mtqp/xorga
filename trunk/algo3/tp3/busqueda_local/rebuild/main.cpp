@@ -38,6 +38,7 @@ int main(int argc, char** argv)
 			cout << n << "\t" << contador << endl;	//imprimo la cuenta
 		}
 		else{
+			cout << "entra" << endl;
 			Grafo g( n, adyacencia );
 			cout << g.maxClique() << endl;
 			cout << "N";

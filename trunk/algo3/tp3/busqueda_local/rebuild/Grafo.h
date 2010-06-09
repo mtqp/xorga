@@ -38,10 +38,11 @@ class Grafo
 		
 };
 
-class Subgrafo
+class Subgrafo : public Grafo
 {
 	public:
 		Subgrafo( const Grafo& grafo, bool* nodos );
+		Subgrafo( const Subgrafo& subgrafo );
 		~Subgrafo();
 
 	private:
