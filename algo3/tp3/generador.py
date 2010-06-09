@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
+import sys
 from random import randint, seed, choice, uniform
 
 def grafos_random(n):
@@ -69,9 +70,11 @@ def generar_output(nombre, instancias):
 	f.close()
 
 if __name__=="__main__":
-	tam = raw_input("")
+	tam = sys.argv[1]
+	#tam = raw_input("")
 	tamanyo = int(tam)+1	
-	cant = raw_input("")
+	#cant = raw_input("")
+	cant = sys.argv[2]
 	cantidad = int(cant)
 	instancias = []
 	instancias_max = []

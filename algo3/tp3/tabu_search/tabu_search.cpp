@@ -71,6 +71,43 @@ int constructivo(bool* pertenece, const pair<int,int>* d, int** adyacencia, cons
 	return tamanyo;
 }
 
+int busqueda_local(bool* pertenece, pair<int,int>* d, int** adyacencia, int n){
+	//Solución inicial
+	int tamanyo = constructivo(pertenece,d,adyacencia,n);
+	int tam_actual = tamanyo;
+	int tam_mejor_vecindad = tam_actual;
+	bool actual[n];
+	bool mejor_vecindad[n];
+	for(int i=0;i<n;i++){
+		actual[i]=pertenece[i];
+		mejor_vecindad[i] = pertenece[i];
+	}
+	
+	bool mejore=true;
+	for(int k=0; k<n && mejore; k++){
+		mejore=false;
+		for(int i=0;i<n;i++){
+			if(actual[i]){		//saco un nodo perteneciente a la solución actual
+				actual[i]=false;
+				tam_actual--;
+				for(int j=0;j<n;j++){
+					if(!actual[j] && j!=i) formar_completo(actual,adyacencia,j,tam_actual,n);
+				}
+				if(tam_actual>tam_mejor_vecindad){		//si mejore, actualizo
+					tam_mejor_vecindad=tam_actual;
+					for(int j=0;j<n;j++) mejor_vecindad[j]=actual[j];
+				}
+			}
+		}
+		if(tam_mejor_vecindad>tamanyo){		//si mejore, actualizo
+			mejore=true;
+			tamanyo=tam_mejor_vecindad;
+			for(int j=0;j<n;j++) pertenece[j]=mejor_vecindad[j];
+		}
+	}
+	return tamanyo;
+}
+
 int max_clique(bool* pertenece, int** adyacencia, int n){
 	// tupla (nodo, grado)
 	pair<int,int> d[n];
@@ -86,7 +123,7 @@ int max_clique(bool* pertenece, int** adyacencia, int n){
 	qsort( d, n, sizeof(pair<int,int>), &comparar );
 
 	//Solución inicial
-	int tamanyo = constructivo(pertenece,d,adyacencia,n);
+	int tamanyo = busqueda_local(pertenece,d,adyacencia,n);
 	int tam_actual = tamanyo;
 	bool actual[n];
 	int tabu[n];
@@ -100,19 +137,26 @@ int max_clique(bool* pertenece, int** adyacencia, int n){
 	bool mejore=true;
 	for(int k=0; k<n && mejore; k++){
 		mejore=false;
-		for(int i=n-1;i>=0;i--){
-			int v1=d[i].first;
+		for(int i=n-1;i>=0;i--){ //itero los nodos de menor grado a mayor grado
+			int v1=d[i].first;	
 			if(actual[v1]){		//saco un nodo perteneciente a la solución actual
 				//cout << "saco: " << i+1 << "tabu: " << cant_iter << endl;
 				actual[v1]=false;
 				tam_actual--;
 				tabu[v1]=cant_iter;
+				/** agrega cualquier nodo que no esté en la lista tabú 
+				  * y que no pertenezca a la solución original
+				  */
 				for(int j=0;j<n;j++){
 					int v2=d[j].first;
 					//cout << "miro: " << j+1 <<  " " << tabu[j] << endl;
 					if(!actual[v2] && tabu[v2]==0) formar_completo(actual,adyacencia,v2,tam_actual,n);
 					//poner tabu al agregar??
 				}
+				
+				/** agrega los elementos de la lista tabú que 
+				  * se puedan agregar, y los saca de la lista
+				  */
 				it=elem_tabu.begin();
 				while(it!=elem_tabu.end()){
 					int nodo=*it;
@@ -125,6 +169,9 @@ int max_clique(bool* pertenece, int** adyacencia, int n){
 				}
 				//cout << "Actual: " << endl;
 				//print_res(actual,n);
+				/** agrega el nodo actual a la lista tabú y actualiza
+				  * los valores de tabú de cada elemento
+				  */
 				elem_tabu.push_back(v1);
 				for(int j=0;j<n;j++)
 					if(tabu[j]>0){
@@ -133,6 +180,9 @@ int max_clique(bool* pertenece, int** adyacencia, int n){
 					}
 				//cout << "Lista tabu: " << endl;
 				//print_lista(elem_tabu);
+				/** si encontró una solución mejor a la inicial,
+				  * la establece como solución actual
+				  */
 				if(tam_actual>tamanyo){		//si mejore, actualizo
 					mejore=true;
 					tamanyo=tam_actual;

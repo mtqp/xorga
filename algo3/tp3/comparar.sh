@@ -1,8 +1,15 @@
-./generador.py
+echo "Generando casos"
+./generador.py 100 5
 cd $2
-make grafos
+echo "Generando grafos"
+make
+make test
+#make grafos
 cd ..
 cd $3
-make grafos
+make
+make test
+#make grafos
 cd ..
+echo "Calculando diferencias"
 ./diferencias.py $1 $2 $3
