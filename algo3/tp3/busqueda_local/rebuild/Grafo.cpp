@@ -36,6 +36,11 @@ Grafo::~Grafo()
 	delete[] adyacencia;
 }
 
+int Grafo::cantidadNodos( ) const
+{
+	return n;
+}
+
 int Grafo::_compararGrados( const void* _a, const void* _b )
 {
 	const std::pair<int,int>* a = (const std::pair<int,int>*)_a;
@@ -57,4 +62,24 @@ Subgrafo Grafo::maxClique()
 ostream& operator<<( ostream& out, const Subgrafo& s )
 {
 	out << "Not yet implemented!" << endl;
+	return out;
 }
+
+Subgrafo::Subgrafo( const Grafo& grafo, bool* nodos )
+{
+	n = grafo.cantidadNodos();
+	this->nodos = new bool[n];
+	this->grafo = &grafo;
+	if( nodos != NULL )
+	{
+		for( int i = 0 ; i < n ; i++ )
+			for( int j = 0 ; j < n ; j++ )
+				this->nodos[i] = nodos[i];
+	}
+}
+
+Subgrafo::~Subgrafo()
+{
+	delete[] nodos;
+}
+

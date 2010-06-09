@@ -13,6 +13,9 @@ class Grafo
 		Grafo( int n, int** adyacencia );
 		~Grafo();
 
+		// devuelve la cantidad de nodos del grafo
+		int cantidadNodos() const;
+
 		// devuelve un subgrafo que son los nodos que pertenecen al clique máximo
 		Subgrafo maxClique();
 
@@ -39,6 +42,7 @@ class Subgrafo
 {
 	public:
 		Subgrafo( const Grafo& grafo, bool* nodos );
+		~Subgrafo();
 
 	private:
 		bool* nodos;
