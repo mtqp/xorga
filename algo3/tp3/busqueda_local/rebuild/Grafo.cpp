@@ -78,6 +78,19 @@ Subgrafo::Subgrafo( const Grafo& grafo, bool* nodos )
 	}
 }
 
+Subgrafo::Subgrafo( const Subgrafo& subgrafo )
+{
+	n = subgrafo.cantidadNodos();
+	this->nodos = new bool[n];
+	this->grafo = &grafo;
+	if( nodos != NULL )
+	{
+		for( int i = 0 ; i < n ; i++ )
+			for( int j = 0 ; j < n ; j++ )
+				this->nodos[i] = nodos[i];
+	}
+}
+
 Subgrafo::~Subgrafo()
 {
 	delete[] nodos;
