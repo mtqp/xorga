@@ -16,6 +16,9 @@ if __name__=="__main__":
 	archivo     = os.path.basename(entrada)[0:-3]
 	soluciones1 = cargarOutput( "%s/%s.out"%(metodo1,archivo) )
 	soluciones2 = cargarOutput( "%s/%s.out"%(metodo2,archivo) )
+	if len(soluciones1) != len(soluciones2) :
+		print "La cantidad de instancias de los archivos de soluciones son diferentes.\nHay %d soluciones en %s y %d soluciones en %s."%(len(soluciones1),metodo1,len(soluciones2,metodo2))
+		exit(1)
 	diferentes  = []
 	for i in range(len(soluciones1)):
 		if len(soluciones1[i]) != len(soluciones2[i]) :
