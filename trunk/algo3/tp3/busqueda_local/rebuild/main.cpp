@@ -1,4 +1,5 @@
 #include "Grafo.h"
+#include "../../medicion.h"
 #include <string>
 
 using namespace std;
@@ -38,9 +39,9 @@ int main(int argc, char** argv)
 		}
 		else{
 			Grafo g( n, adyacencia );
-			cout << g.max_clique(solucion,adyacencia,n) << endl;
+			cout << g.maxClique() << endl;
 			cout << "N";
-			print_res(solucion,n);
+			//print_res(solucion,n);
 		}
 		for(int i=0; i<n; i++){	//libero la memoria
 			delete [] adyacencia[i];
