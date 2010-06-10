@@ -4,11 +4,12 @@
 
 using namespace std;
 
-void construir_solucion(bool* actual, int** adyacencia, const int n_maximo, int& n_actual, int& nodo, const int n){  //construyo una solución a partir de 'ult' considerendo desde 'sig'
+void construir_solucion(bool* actual, int& n_actual, int** adyacencia, const int n, int& nodo, const int siguiente, const int n_maximo){  
 	/**
-	  * Construye una solución a partir del nodo actual
+	  * Construye un clique a partir del nodo actual, considerando desde
+	  * el siguiente nodo a revisar en el backtracking
 	  **/
-	for(int j=nodo+1 ; j<n && n_maximo < n_actual+n-j ; j++){
+	for(int j=siguiente ; j<n && n_maximo < n_actual+n-j ; j++){
 		if(adyacencia[nodo][j]){	//si son adyacentes
 			bool completo=true;
 			for(int k=0;k<j && completo;k++) { //veo que este conectado a todos los que conforman la solución parcial
@@ -24,14 +25,14 @@ void construir_solucion(bool* actual, int** adyacencia, const int n_maximo, int&
 	}
 }
 
-bool retroceder(bool* actual, int& cant, int& ult, int& sig){
-	actual[ult]=false; 	//saco el último, 'retrocedo'
-	cant--;
-	sig=ult+1;		//sigo viendo a partir del que acabo de sacar
+bool retroceder(bool* actual, int& n_actual, int& nodo, int& sig){
+	actual[nodo]=false; 	//saco el último, 'retrocedo'
+	n_actual--;
+	sig=nodo+1;		//sigo viendo a partir del que acabo de sacar
 	bool encontre_ant=false;
-	for(int j=ult-1;j>=0 && !encontre_ant;j--){	//busco el nuevo ultimo
+	for(int j=nodo-1 ; j>=0 && !encontre_ant ; j--){	//busco el nuevo ultimo
 		if(actual[j]){
-			ult=j;
+			nodo=j;
 			encontre_ant=true;
 		}
 	}
@@ -42,12 +43,8 @@ int max_clique(bool* solucion, int** adyacencia, int n){
 	int  n_maximo=0;	//indica la cantidad de nodos que tiene la clique máxima hasta el momento
 	bool actual[n];		//contiene el subgrafo completo actual
 	int  nodo;			//señala el nodo del cual busco un adyacente
-	int  sig;			//indica a partir de cual lo busco
+	int  siguiente;		//indica a partir de cual lo busco
 
-	/**
-	  * Busca cliques a partir de cada nodo ya que si fijara un nodo
-	  * inicial, la solución podría no incluir ese nodo
-	  */
 	for( int i=0 ; i < n ; i++ ){	//tengo que empezar una vez por cada uno ya que la solución final podría no incluir el nodo inicial
 		for(int j=0 ; j<n ; j++) 
 			actual[j]=false;		//reseteo la solución parcial
@@ -55,16 +52,17 @@ int max_clique(bool* solucion, int** adyacencia, int n){
 		int n_actual=1;				//cantidad de nodos de la solución parcial
 		actual[i]=true;				//lo marco como parte de la solución
 		nodo=i;						//último nodo en la rama que se esta explorando, en este momento el inicial
-		sig=nodo+1;
-		bool encontre_ant=true;
-		while(encontre_ant){		//cuando retrocedo..veo si lo que intente sacar es el nodo inicial
-			construir_solucion(actual, adyacencia, n_maximo, n_actual, nodo, n);
+		siguiente=nodo+1;
+		bool faltan_ver=true;
+		/** backtracking **/
+		while(faltan_ver){		//cuando retrocedo..veo si lo que intente sacar es el nodo inicial
+			construir_solucion(actual, n_actual, adyacencia, n, nodo, siguiente, n_maximo);
 			if(n_actual > n_maximo){ 		//si la solucián parcial tiene más nodos que la mejor solución encontrada hasta el momento, actualizo 
 				n_maximo=n_actual;
 				for(int j=0;j<n;j++) 
 					solucion[j]=actual[j]; //establece la solución encontrada como la mejor hasta el momento
 			}
-			encontre_ant=retroceder(actual,n_actual,nodo,sig);
+			faltan_ver=retroceder(actual,n_actual,nodo,siguiente);
 		}
 	}
 	return n_maximo;

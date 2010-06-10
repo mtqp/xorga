@@ -25,6 +25,16 @@ def cargarOutput( archivo ):
 			subgrafos.append( subgrafo )
 	return subgrafos
 	
+def cargarCounts( archivo ):
+	counts = []
+	nro_linea = 0
+	f = open(archivo,'r')
+	for linea in f:
+		s = linea.strip()
+		n,count = s.split()
+		counts.append( (nro_linea,n,count) )
+		nro_linea += 1
+	return counts
 
 def graphviz( archivo, grafos, soluciones ):
 	f = open(archivo,'w')
