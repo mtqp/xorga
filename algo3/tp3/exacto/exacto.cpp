@@ -26,14 +26,21 @@ void construir_solucion(bool* actual, int** adyacencia, const int res, int& cant
 		if(adyacencia[ult][j]){	//si son adyacentes
 			bool completo=true;
 			for(int k=0;k<j && completo;k++){ //veo que este conectado a todos los que conforman la solución parcial
-				if(actual[k] && !adyacencia[k][j]) completo=false;
+				if(actual[k] && !adyacencia[k][j]){
+					completo=false;
+					O(5);
+				}
+				O(4);
 			}
 			if(completo){
 				actual[j]=true;	//lo agrego a la solución
 				ult=j;		//pasa a ser el último en la rama
 				cant++;
+				O(5);
 			}
+			O(2);
 		}
+		O(6);
 	}
 }
 
@@ -42,35 +49,45 @@ bool retroceder(bool* actual, int& cant, int& ult, int& sig){
 	cant--;
 	sig=ult+1;		//sigo viendo a partir del que acabo de sacar
 	bool encontre_ant=false;
+	O(6);
 	for(int j=ult-1;j>=0 && !encontre_ant;j--){	//busco el nuevo ultimo
 		if(actual[j]){
 			ult=j;
 			encontre_ant=true;
+			O(4);
 		}
+		O(4);
 	}
 	return encontre_ant;
 }
 
 int max_clique(bool* pertenece, int** adyacencia, int n){
+	reiniciar_contador();
 	int res=0;		//indica la cantidad de nodos que tiene la clique máxima
 	bool actual[n];		//contiene el subgrafo completo actual
 	int ult;		//señala el nodo del cual busco un ady
 	int sig;		//indica a partir de cual lo busco
+	O(4);
 	for(int i=0;i<n;i++){	//tengo que empezar una vez por cada uno ya que la solución final podria no incluir el nodo inicial
 		for(int j=0;j<n;j++) actual[j]=false;	//reseteo la solución parcial
+		O(4*n);
 		int cant=1;				//indica la cantidad de nodos de la solución parcial
 		actual[i]=true;				//lo marco como parte de la solución
 		ult=i;					//'representa el último nodo en la rama que se esta explorando', en este momento el inicial
 		sig=ult+1;
 		bool encontre_ant=true;
+		O(9);
 		while(encontre_ant){			//cuando retrocedo..veo si lo que intente sacar es el nodo inicial
 			construir_solucion(actual, adyacencia, res, cant, ult, sig, n);
 			if(cant>res){ 		//si la solucián parcial tiene más nodos que la mejor solución encontrada hasta el momento, actualizo 
 				res=cant;
 				for(int j=0;j<n;j++) pertenece[j]=actual[j]; //'pertenece' es la solución final, por lo que guarda la mejor solución encontrada hasta el momento
+				O(5*n+2);
 			}
 			encontre_ant=retroceder(actual,cant,ult,sig);
+			O(2);
 		}
+		O(1);
 	}
 	return res;
 }
