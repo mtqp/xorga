@@ -76,13 +76,32 @@ if __name__=="__main__":
 	#cant = raw_input("")
 	cant = sys.argv[2]
 	cantidad = int(cant)
+	
+	instancias_menores = raw_input("Presione 1 para generar todas las instancias menores, presione 0 si quiere hacer solo esa instancia.\n")
+	instancias_menores = int(instancias_menores)
 	instancias = []
 	instancias_max = []
-	for i in range(2,tamanyo):
-		instancias.append(grafos_random(i))
-		for j in range(1,i+1):
+	
+	if(instancias_menores == 1):
+		for i in range(2,tamanyo):
 			for k in range(cantidad):
-				instancias_max.append(grafos_max_clique(i,j))
+				instancias.append(grafos_random(i))
+			for j in range(1,i+1):
+				for k in range(cantidad):
+					instancias_max.append(grafos_max_clique(i,j))
+	else:
+		if(instancias_menores == 0):
+			for k in range(cantidad):
+				print "Calculando grafo random numero ", k
+				instancias.append(grafos_random(tamanyo))
+			'''print "Calculando grafos Max_clique"
+			for j in range(1,tamanyo+1):
+				for k in range(cantidad):
+					instancias_max.append(grafos_max_clique(tamanyo,j))'''
+		else:
+			print "No es opcion valida."
+	
+	print "Generando Input"
 	generar_input("test/test_random.in", instancias)
 	generar_input("test/test_max_clique.in", instancias_max)
 	#generar_output("test_max_clique.out", instancias_max)
