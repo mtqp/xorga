@@ -1,5 +1,43 @@
 \begin{section}{Heurística constructiva}
+		\begin{subsection}{Explicación}
+			Como Primera Heurística, en este caso constructiva, desarrollamos un algoritmo goloso para resolver el problema \texttt{MAX-CLIQUE} de manera aproximada.
+			
+			El mismo funciona de la siguiente manera:
+
+			Sea $grados$ un arreglo de tamaño $n$, donde $n$ es la cantidad de vértices del grafo. En cada posición $j\; \forall 	1\leq j \leq n$ del arreglo está el grado correspondiente al vértice $j$.
+			Para construir una clique ordenamos $grados$ en forma decreciente. El primer vértice del arreglo, es decir, el de mayor grado del grafo se considera parte de la solución final del algoritmo.
+			Para completar la clique recorremos $grados$ en forma completa, y cada vértice que forma un completo con la solución parcial se agrega a la misma.
+			Al terminar de recorrer $grados$ el algoritmo termina siendo la solución parcial, el resultado final.
+
+			Al ser un algoritmo goloso, en este problema como en tantos otros, no devuelve necesariamente el óptimo. Particularmente, la clique está condicionada al vértice de mayor grado, y no necesariamente la solución óptima lo contiene.\VSP
+		\end{subsection}
+		\begin{subsection}{Detalles de la implementación}
+			A continuación, se muestra el pseudocódigo del algoritmo de heurística constructiva.\\
+
+			\begin{pseudo}
+				\func{constructivo}{matriz\_adyacencia,n}
+				\tab $grados[n] \leftarrow ordenar\_grados(matriz\_adyacencia)$\\
+				\tab $solucion[n]$\\
+				\tab $solucion[0] \leftarrow grados[0]$\\
+				\tab $tamanyo \leftarrow 1$\\
+				\tab $\FOR i \TO n$\\
+				\tab \tab $\IF \neg solucion[i]$\\
+				\tab \tab \tab $completo \leftarrow forma\_completo(solucion,i,matriz\_adyacencia)$\\
+				\tab \tab \tab $\IF completo$\\
+				\tab \tab \tab \tab $solucion[i] \leftarrow true$\\
+				\tab \tab \tab \tab $tamanyo \leftarrow tamanyo + 1$\\
+				\RET $tamanyo$\\
+			\end{pseudo}
+
+			\begin{itemize}
+				\item \texttt{ordenar\_grados: } En la implementación, el arreglo $grados$ es de tipo tupla donde la primer componente representa el vértice y la segunda el grado. Dicho arreglo está ordenado según la segunda componente en forma decreciente. Lo ordenamos con el algoritmo de Quick Sort de $STL$.
+				
+					Para setear el grado de un vértice $i$ tenemos un contador inicializado en $cero$. Recorremos la columna de la matriz de adyacencia correspondiente a dicho vértice e incrementamos el contador por cada posición $(i,j)$ igual $uno$.
+				\item \texttt{forma\_completo: } Para saber si agregar un vértice $v$ determina una solución al problema debemos verificar que forme un completo con los vértices ya incluídos. Para esto recorremos todos los vértices del grafo y para cada uno que pertenezca a la solución parcial chequeamos que sea adyacente a $v$. Si esto ocurre podemos agregar el vértice $v$ y agrandar la clique.
+			\end{itemize}
+		\end{subsection}
 		\begin{subsection}{Complejidad temporal}
+			El algoritmo empieza inicializando el arreglo $grados$ lo que tiene un costo de $n^2$ ya que para cada vértice recorre la columna correspondiente en la matriz de adyacencia.
 		\end{subsection}
 
 \end{section}
