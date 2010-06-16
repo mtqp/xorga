@@ -234,6 +234,11 @@ int max_clique(bool* pertenece, int** adyacencia, int n){
 				actual[v1]=false;
 				tam_actual--;
 				tabu[v1]=cant_iter;
+				/*while(n-1-elem_tabu.size()<=tamanyo && !elem_tabu.empty()){
+					tabu[elem_tabu.front()]=0;
+					elem_tabu.pop_front();
+				}
+				*/
 				//agrega cualquier nodo que no esté en la lista tabú 
 				// y que no pertenezca a la solución original
 			
@@ -320,8 +325,8 @@ int main(int argc, char** argv){
 		}
 		else{
 			cout << max_clique(pertenece,adyacencia,n) << endl;
-			cout << "N";
-			print_res(pertenece,n);
+			//cout << "N";
+			//print_res(pertenece,n);
 		}
 		for(int i=0; i<n; i++){	//libero la memoria
 			delete [] adyacencia[i];
