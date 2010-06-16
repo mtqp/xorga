@@ -1,5 +1,9 @@
 \begin{section}{Busqueda local}
+		\begin{subsection}{Explicación}
+			La heuristica de busqueda local actua a partir de una solución inicial $S$, en este caso, a partir de la solución dada por la heuristica constructiva. El algoritmo busca en la vecindad de la soluición dada, $N(S)$, una solución mejor que ésta. Si no encuentra ninguna mejor, nos encontramos en un óptimo local (de la vecindad) que tomamos como solución del algoritmo.
+			La vecindad $N(S)$ que elegimos en este problema es el conjunto de soluciones tales que no tienen uno y sólo uno de los vértices pertenecientes a $S$, es decir, $S \setminus \{v\} \cup L$ donde $L$ es un conjunto de vértices tal que $u \in L \Longleftrightarrow S \setminus \{v\} \cup \{u\}$ forma un completo.
+			Para revisar la vecindad, sacamos 
+		\end{subsection}
 		\begin{subsection}{Complejidad temporal}
 		\end{subsection}
-
 \end{section}
