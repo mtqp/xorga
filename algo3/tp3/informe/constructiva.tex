@@ -37,7 +37,18 @@
 			\end{itemize}
 		\end{subsection}
 		\begin{subsection}{Complejidad temporal}
-			El algoritmo empieza inicializando el arreglo $grados$ lo que tiene un costo de $n^2$ ya que para cada vértice recorre la columna correspondiente en la matriz de adyacencia.
+			El algoritmo empieza inicializando el arreglo $grados$ lo que tiene un costo de $n^2$ ya que para cada vértice recorre la columna correspondiente en la matriz de adyacencia (diseñada como un arreglo de arreglos).
+			
+			Como mencionamos anteriormente, $grados$ es ordenado con un algoritmo de QuickSort dado por la librería estándar de C++. El costo del algoritmo es CUADRATICO APARENTEMENTE, OJO AHI LA VIDA FIJATE Q DICE LA STL.
+			
+			El algoritmo constructivo, una vez realizadas las operaciones antes mencionadas, entra a un ciclo $for$ que itera desde $0$ hasta $n$. En cada iteración, debe en primera instancia, analizar una guarda $if$. De ser $falsa$, procederá a la siguiente iteración del ciclo (teniendo así costo constante). De ser $verdadera$ (es decir, el vértice $i$ no forma parte de la solución parcial), analizará si puede formar una nueva clique mayor, ahora con el vértice $i$ (en nuestro pseudo-código, la función $forma\_completo$ es la encargada de analizarlo). Con el resultado de $forma\_completo$ la iteración del $for$ principal analiza una guarda $if$ más de costo constante (en el peor caso realiza dos asignaciones y una suma). Sabemos entonces que el costo de este ciclo será como mínimo $n$. Analizaremos a continuación el costo de $forma\_completo$, para concluir el costo total del algoritmo.
+			
+			$forma\_completo$, como ya dijimos antes, recorre todos los vértices del grafo analizando que, los vértices que pertenecen a la solución parcial, sean adyacentes al que queremos agregar. Esta función itera por todos los vértices del grafo, teniendo así un costo lineal a la cantidad de vértices.
+			
+			Como el ciclo $for$ del algoritmo constructivo, en el peor caso, llamaría una vez por cada una de las $n$ iteraciones a la función $forma\_completo$, el costo del ciclo entonces es cuadrático a la cantidad de vértices.
+			
+			Tenemos entonces en el algoritmo constructivo, la inicialización del arreglo con costo de $n^2$, el QuickSort de STL, costo AOISJDOAISJD$N^2$ y el ciclo $for$ también con costo a lo sumo cuadrático. La complejidad asintótica del problema viene dada entonces por la suma de las complejidades anteriormente descriptas. Podemos afirmar que el costo es \Ode($n^2$), ya que \Ode($n^2 + n^2 + n^2$) = \Ode($3*n^2$) = \Ode($n^2$).
+			
 		\end{subsection}
 
 \end{section}
