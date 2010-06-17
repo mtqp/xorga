@@ -13,15 +13,25 @@
 
 			Además, para cada vértice que inicia la clique se intenta agregar los de mayor numeración tal que forman un completo. Por lo tanto, se evita repetir combinaciones. Supongamos que tenemos una clique de tres vértices, siendo estos el $<1,2,3>$. Con esta optimización, nunca han de analizarse los casos $<2,3,1>$; $<2,1,3>$; $<3,1,2>$ y $<3,2,1>$.
 		\end{subsection}
+
+		\newpage
+		
 		\begin{subsection}{Complejidad temporal}
 
-		El algoritmo de Max_Clique exacto utiliza la técnica de backtracking, con lo que genera un arbol donde cada rama es una posible solucion, y esta se desarrolla hasta que encuentra una solucion o el algoritmo mediante una optimizacion "se da cuenta" que no hay forma de encontrar el clique $óptimo$ y la "poda". 
-		Ya que las optimizaciones podan constantemente las ramas donde los cliques que no lleguen a ser el óptimos se hace muy difícil encontrar el $peor$ $caso$ del algoritmo, donde las podas sean las mínimas posibles, con lo que decidimos hacer plantear una caso hipotético donde el árbol de backtracking se genere realizando todas las podas correspondientes SARASA SARASA SASRASA SARASA SARASA SARASA ASARASA ASARASA ASARASA SARASA SARASA, lo que nos da una cota un tanto gruesa con respecto a la cota real, pero que a fines prácticos describe el comportamiento del algorítmo en cuanto a la complejidad que analizaremos a continuación.
+		%PONELE QUE ESTA SEA LA COMPLEJIDAD... HABRÍA QUE CONSULTAR, PORQUE ES ME DIO FEA
+		%ROCK, DAME NENA. NENA, DAME ROCK! ROCK'N ROLLENNENNENNNNNN
+
+		El algoritmo de Max\_Clique exacto utiliza la técnica de backtracking, con lo que genera un árbol donde cada rama es una posible solución, y esta se desarrolla hasta que encuentra una solucion o el algoritmo mediante una optimizacion "se da cuenta" que no hay forma de encontrar el clique óptimo y la "poda".
+		Ya que las optimizaciones podan constantemente las ramas donde los cliques que no lleguen a ser el óptimo, se hace muy difícil encontrar el $peor$ $caso$ del algoritmo, que sería el caso donde las podas sean las mínimas posibles, con una cantidad máxima de cliques máximos, con lo que decidimos plantear un caso hipotético donde el árbol de backtracking se genere sin podas, verifícando para cada nodo $i$ las posibles cliques que contengan a $i$, y todos los nodos posibles entre $i$ y $n$. Como dijimos, esto es un caso hipotético, donde el algoritmo tiene un comportamiento menos eficiente, y de esta forma lo que nos da es una cota un tanto $gruesa$ con respecto a la real, pero que a fines prácticos nos da una idea de que aún en el peor caso, el algoritmo será un tanto mas eficiente respecto a la cota calculada. 
 
 		Sea $G$ un grafo con conexo, con $n$ nodos y relaciones máximas, es decir, siendo $m$ la cantidad de ejes del grafo, $m = n(n-1)$. $Es decir, G = K_n$
-		Al un comportamiento hipotético, donde no existen las "podas", el algorítmo verificara todos los cliques posibles para todos los nodos, y al ser este un grafo completo, el árbol tendra la pinta de un arbol $n-ario$ completo. 
+		Al tratarse de un caso hipotético asumiremos que el algoritmo no efectua podas ni utiliza las optimizaciones que ayudan a terminar el algoritmo antes que recorra todos los nodos, es decir, que solo verificará para cada nodo $i$, con $0 < i < n$, los cliques posibles que contengan a $i$, junto con todos los nodos posibles entre $i$ y $n$, y terminara cuando $i$ sea igual a $n$
 
-		\end{itemize} 
+		De esta forma, para cada nodo $i$ generará su arbol de cliques correspondiente,y así tendremos un arbol de $n-i$ factorial nodos, que son todas las posibles cliques máximas de $n$-$i$ nodos, con $i$ como raiz.
+
+		Como este procedimiento se repite con $i$ desde 1 a $n$ nos queda planteada una sumatoria: $\sum_{i=1}^{n}{i!}$ = $1 + 2 + 3! + ... + n!$ $\leq$  $n.n!$
+		
+		
 		
 		\end{subsection}
 \end{section}
