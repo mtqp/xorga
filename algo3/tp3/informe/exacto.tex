@@ -14,6 +14,14 @@
 			Además, para cada vértice que inicia la clique se intenta agregar los de mayor numeración tal que forman un completo. Por lo tanto, se evita repetir combinaciones. Supongamos que tenemos una clique de tres vértices, siendo estos el $<1,2,3>$. Con esta optimización, nunca han de analizarse los casos $<2,3,1>$; $<2,1,3>$; $<3,1,2>$ y $<3,2,1>$.
 		\end{subsection}
 		\begin{subsection}{Complejidad temporal}
+
+		El algoritmo de Max_Clique exacto utiliza la técnica de backtracking, con lo que genera un arbol donde cada rama es una posible solucion, y esta se desarrolla hasta que encuentra una solucion o el algoritmo mediante una optimizacion "se da cuenta" que no hay forma de encontrar el clique $óptimo$ y la "poda". 
+		Ya que las optimizaciones podan constantemente las ramas donde los cliques que no lleguen a ser el óptimos se hace muy difícil encontrar el $peor$ $caso$ del algoritmo, donde las podas sean las mínimas posibles, con lo que decidimos hacer plantear una caso hipotético donde el árbol de backtracking se genere realizando todas las podas correspondientes SARASA SARASA SASRASA SARASA SARASA SARASA ASARASA ASARASA ASARASA SARASA SARASA, lo que nos da una cota un tanto gruesa con respecto a la cota real, pero que a fines prácticos describe el comportamiento del algorítmo en cuanto a la complejidad que analizaremos a continuación.
+
+		Sea $G$ un grafo con conexo, con $n$ nodos y relaciones máximas, es decir, siendo $m$ la cantidad de ejes del grafo, $m = n(n-1)$. $Es decir, G = K_n$
+		Al un comportamiento hipotético, donde no existen las "podas", el algorítmo verificara todos los cliques posibles para todos los nodos, y al ser este un grafo completo, el árbol tendra la pinta de un arbol $n-ario$ completo. 
+
+		\end{itemize} 
 		
 		\end{subsection}
 \end{section}
