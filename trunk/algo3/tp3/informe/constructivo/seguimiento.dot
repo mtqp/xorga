@@ -1,0 +1,33 @@
+
+graph G {
+	Node[shape=circle];
+	Edge[constraint=false];
+	4 -- 3 [constraint=true];
+	4 -- 6;
+	4 -- 7 [constraint=true];
+	3 -- 7;
+	6 -- 7 [constraint=true];
+	6 -- 3 [constraint=true];
+
+
+
+};
+
+graph G {
+	Node[shape=circle];
+
+	3 -- 4;
+	4 -- 6;
+	6 -- 7;
+	3 -- 6;
+	4 -- 7;
+
+
+	1 -- 2;
+	1 -- 3;
+	
+	2 -- 3;
+
+
+
+};
