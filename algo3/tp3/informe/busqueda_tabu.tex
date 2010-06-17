@@ -1,5 +1,75 @@
 \begin{section}{Tabu-Search}
-		\begin{subsection}{Complejidad temporal}		
-		\end{subsection}
+	\begin{subsection}{Explicación}
+		Finalmente implementamos una metaheuristica, es decir, una heurística que guía otra heurística, en este caso la búsqueda local del ejercicio anterior.
+
+		El \texttt{Tabu-Search} permite evitar que la heurística de búsqueda local se estanque en óptimos locales cuando en realidad fuera de la vecindad existía una solución óptima global (mejor que la local).
+		Para lograrlo, permite al algoritmo perseguir una solución peor que la mejor obtenida mediante búsqueda local, por una cantidad máxima de iteraciones.
+		Pasada esta cantidad, consideramos que el algoritmo ya buscó lo suficiente y la mejor solución encontrada hasta el momento debe ser la óptima.
+
+		Para no revisar las vecindades que se revisaron anteriormente (que son muy cercanas a la vecindad actual),
+		cada vez que decidimos movernos a otra vecindad porque tenemos un nuevo aspirante a óptimo (más allá de que sea peor que la mejor solución que encontramos hasta el momento, pero lo llamamos así por su similitud con el mismo en la búsqueda local)
+		prohibimos revertir el cambio que hicimos para llegar del aspirante anterior al nuevo, o sea, prohibimos volver a agregar el vértice que sacamos.
+
+		Esto lo implementamos mediante un arreglo de vértices (los índices representan los vértices), donde para cada uno guardamos la iteración en el que el mismo deja de ser tabú (el algoritmo lleva la cuenta de las iteraciones).
+		Luego, cuando revisamos las vecindades de un aspirante, evitamos aquellas donde la modificación implica agregar un vértice tabú.
+
+		Los parámetros que indican cuanto tiempo una variable queda tabú y cuantas veces se puede iterar sin encontrar un nuevo óptimo antes de cortar el algoritmo, los buscamos empíricamente viendo los resultados obtenidos con distintos parámetros, y son bla y bla respectivamente.
+
+		CAMBIAR LOS PARAMETROS!!!
+	\end{subsection}
+	\begin{subsection}{Detalles de la implementación}		
+		A continuación, se muestra el pseudocódigo del algoritmo de heurística de búsqueda tabú.\\
+
+			\begin{pseudo}
+				\func{busqueda\_tabu}{solucion,tamanyo,matriz\_adyacencia,n}
+				\tab $grados[n] \leftarrow ordenar\_grados(matriz\_adyacencia)$\\
+				\tab $tam\_actual \leftarrow tamanyo$\\
+				\tab $actual[1..n] \leftarrow solucion[1..n]$\\
+				\tab $tabu[1..n] \leftarrow 0$\\
+				\tab $lista\_tabu \leftarrow vacia$\\
+				\tab $cant\_iter \leftarrow max(tamanyo-2,3);$\\
+				\tab $mejore \leftarrow true$\\
+				\tab $\WHILE i<n \AND mejore$\\
+				\tab \tab \tab $mejore \leftarrow false$\\
+				\tab \tab \tab $\FOR n-1 \TO 0$\\
+				\tab \tab \tab \tab $v1 \leftarrow grados[i]$\\
+				\tab \tab \tab \tab $sacar\_de\_clique(actual,i)$\\
+				\tab \tab \tab \tab $agrandar\_clique(actual,matriz\_adyacencia)$\\
+				\tab \tab \tab $\FOR nodo \in lista\_tabu$\\
+				\tab \tab \tab \tab $formar\_completo(actual,matriz\_adyacencia,nodo)$\\
+				\tab \tab \tab \tab $\IF actual[nodo]$\\
+				\tab \tab \tab \tab \tab $eliminar(lista\_tabu,nodo)$\\
+				\tab \tab \tab \tab \tab $tabu[nodo]=0$\\
+				\tab $agregar(lista\_tabu, v1)$\\
+				\tab $restar\_tabu(tabu,lista\_tabu)$\\
+				\tab \tab \tab \IF $tam\_actual>tamanyo$\\
+				\tab \tab \tab \tab $mejore \leftarrow true$\\
+				\tab \tab \tab \tab $tamanyo \leftarrow tam\_actual$\\
+				\tab \tab \tab \tab $solucion[1..n] \leftarrow actual[1..n]$\\
+				\RET $tamanyo$\\
+			\end{pseudo}
+
+		\begin{itemize}
+			\item \texttt{sacar\_de\_clique: } Esta función setea en $falso$ la posición $i$ del arreglo $actual$, es decir, excluye el vértice $i$ de la solución actual. Además, decrementa el tamaño de la clique, variable $tam\_actual$ y resetea una variable $nodo$ que indica si despues logra agregar algún vértice, esto sirve para reconstruir la solución en caso de ser necesario (conseguir un tamaño de clique igual al tamaño de la clique desde la que partió).
+			
+			\item \texttt{agrandar\_clique: } Esta función se encarga de buscar entre los vértices que actualmente no pertenecen a la clique e intenta agregarlos (agrega todo vértice que forma un completo con los ya pertenecientes), con el objeto de conseguir una de tamaño mayor. Por otro lado, setea $nodo$ con el valor del último vértice que agrega.
+		
+			\item \texttt{forma\_completo: } Para saber si agregar un vértice $v$ determina una solución al problema debemos verificar que forme un completo con los vértices ya incluídos. Para esto recorremos todos los vértices del grafo y para cada uno que pertenezca a la solución parcial chequeamos que sea adyacente a $v$. Si esto ocurre podemos agregar el vértice $v$ y agrandar la clique.
+
+			\item \texttt{restar\_tabu: } Para cada vértice tal que tiene tabú mayor a $cero$ decrementa la cantidad de iteraciones que va a permanecer tabú. Si al decrementarlo deja de ser tabú lo elimina de $lista\_tabu$.
+		\end{itemize}
+
+	\end{subsection}
+	\begin{subsection}{Complejidad temporal}
+			En un pricipio el algoritmo inicializa el arreglo de los $grados$ y lo ordena, lo que tiene un costo de $n^2$. Luego, obtiene la solución inicial mediante la heurística de busqueda local que como ya vimos tiene también un costo de $n^4$ e inicializa los arreglos $actual$ y $tabu$ con costo lineal.
+
+			La función $sacar\_de\_clique$ tiene costo constante ya que consta sólo de indexaciones, asignaciones y otras operaciones elementales.
+
+			La función $agrandar\_clique$ tiene costo $n^2$ porque recorre todos los vértices y para cada uno de los que todavía no pertenece a la clique, verifica si puede agregarlo. Para esto, recorre nuevamente todos los vértices y corrobora que sea adyacente a cada uno de los pertenecientes a la clique.
+
+			 El primer ciclo \texttt{for} itera exactamente $n$ veces y en cada una de estas iteraciones hay una llamada a la función $sacar\_de\_clique$ y $agrandar\_clique$ las cuales tienen un costo de $n^2$, por lo que el costo del ciclo es $n^3$. El otro ciclo \texttt{for} itera tantas veces como elementos tenga la lista tabú, es decir, a lo sumo $n$ veces. Cada iteración de este ciclo tiene un costo lineal por la llamada a la función $formar\_completo$, por lo que este ciclo \texttt{for} cuesta $n^2$.
+			 Finalmente, se deduce que la complejidad final del algoritmo es $n^4$ porque el ciclo \texttt{while} itera a lo sumo $n$ veces y en cada una de estas iteraciones ejecuta ambos ciclos \texttt{for} (con complejidades $n^3$ y $n^2$). Cabe destacar que además del ciclo \texttt{while} la heurística de tabú search llama a búsqueda local una vez, la que tiene la misma complejidad que el \texttt{while}, sin modificar así, el costo asíntotico del análisis de peor caso.
+
+	\end{subsection}
 
 \end{section}
