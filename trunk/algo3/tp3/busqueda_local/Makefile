@@ -15,7 +15,7 @@ all: $(EJ) grafos
 	./$(EJ) < $< > $@
 	
 %.eps: %.out
-#	@../graficar-grafos.py $(TEST_PATH)$(patsubst %.out,%.in,$<) $<
+	@../graficar-grafos.py $(TEST_PATH)$(patsubst %.out,%.in,$<) $<
 	echo "Generando $@"
 	dot -Tps $<.dot > $@
 	rm $<.dot

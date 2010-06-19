@@ -1,10 +1,8 @@
 \begin{section}{Algoritmo exacto}
 		\begin{subsection}{Explicación}
-			El Algoritmo busca todas las formas de armar una clique utilizando la técnica de backtracking. Para esto, inicia la clique una vez desde cada vértice probando todas las combinaciones que lo incluyan agregando vértices tal que forman un completo con los ya incluídos. De esta forma, se genera un árbol de backtracking teórico para cada vértice inicial.
+			El Algoritmo busca todas las formas de armar una clique utilizando la técnica de backtracking. Para esto, inicia la clique una vez desde cada vértice probando todas las combinaciones que lo incluyan, agregando vértices tal que forman un completo con los ya incluídos. Se necesita empezar una vez por cada nodo ya que la solución final podría no incluir el nodo inicial. De esta forma, se genera un árbol de backtracking teórico para cada vértice inicial. Mediante podas, evita recorrer el árbol por completo, siendo la solución final la máxima de las cliques encontradas. Como el algoritmo busca todas las cliques del grafo, la solución es la clique máxima del grafo.
 
-			Almacenamos las relaciones entre los vértices en una matriz de $n \times n$, donde $n$ es la cantidad de vértices. Cada posición $(i,j)$ de la matriz contiene un $uno$ si existe la arista $(i,j)$ y un $cero$ en caso contrario. De esta forma se le asigna un número a cada vértice.\VSP
-		\end{subsection}
-		\begin{subsection}{Optimización}
+		\begin{subsubsection}{Optimizaciones}
 			Dado que se trata de un algoritmo de backtracking, la optimzación se basa en podar las ramas en las que estamos seguros que no va a aparecer el óptimo. Para esto tenemos que poder predecir, dado un estado actual, si es posible mejorar el óptimo encontrado hasta el momento.
 			
 			Por un lado, podamos las ramas que no forman un grafo completo, ya que no es solución.
@@ -12,7 +10,31 @@
 			Por otro lado, evaluamos en cada paso del algoritmo la cantidad de vértices que falta explorar. Es decir, calculamos el tamaño de la clique máxima que podríamos formar considerando los vértices que ya estan incluídos en la solución actual. Si la cantidad de vértices que todavía no fueron evaluados más la cantidad de vértices ya pertenecientes a la clique actual es menor a la cantidad de vértices de la clique máxima encontrada hasta el momento, no tiene sentido seguir explorando esa rama ya que el tamaño de la clique máxima que se puede encontrar por ese camino es menor al tamaño de la máxima encontrada. Por este motivo, podamos esta rama.
 
 			Además, para cada vértice que inicia la clique se intenta agregar los de mayor numeración tal que forman un completo. Por lo tanto, se evita repetir combinaciones. Supongamos que tenemos una clique de tres vértices, siendo estos el $<1,2,3>$. Con esta optimización, nunca han de analizarse los casos $<2,3,1>$; $<2,1,3>$; $<3,1,2>$ y $<3,2,1>$.
+		\end{subsubsection}
+
 		\end{subsection}
+		\begin{subsection}{Detalles de la implementación}
+			
+			Almacenamos las relaciones entre los vértices en una matriz de $n \times n$, donde $n$ es la cantidad de vértices. Cada posición $(i,j)$ de la matriz contiene un $uno$ si existe la arista $(i,j)$ y un $cero$ en caso contrario. De esta forma se le asigna un número a cada vértice.\VSP
+
+			A continuación, se muestra el pseudocódigo del algoritmo exacto.\\
+			
+			\begin{pseudo}
+				\func{exacto}{matriz\_adyacencia,n}
+				\tab $solucion \leftarrow \emptyset$\\
+				\tab $\FOR i \TO n$\\
+				\tab \tab buscar clique máxima desde el vértice $i$\\
+				\tab \tab $\IF$ tiene más vértices que $solucion$\\
+				\tab \tab \tab $solucion \leftarrow $ clique encontrada\\
+				\RET $\#(solucion)$\\
+			\end{pseudo}
+			
+			El algoritmo de backtracking recorre todos los vértices. Para cada uno de estos verifica si es adyacente con todos los vértices de la solución actual y si todavía no pertenece a la misma. Si es así lo agrega y repite este procedimiento (avanza). Si no, significa que recorrió todos los vértices y no logró formar una clique mayor a la encontrada, por lo que comienza a retroceder.
+
+			Cuando retrocede, saca el último vértice $v$ que agregó a la solución y prosigue la búsqueda desde el vértice siguiente a $v$ en numeración. Si no hay un vértice que se pueda agregar, es decir, si ninguno de los siguientes forma una clique, el algoritmo sigue retrocediendo.
+			
+		\end{subsection}
+
 
 		\newpage
 		
