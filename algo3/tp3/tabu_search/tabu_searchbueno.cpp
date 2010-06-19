@@ -227,72 +227,66 @@ int max_clique(bool* pertenece, int** adyacencia, int n, int CANTIDAD_ITERACIONE
 	bool mejore=true;
 	for(int k=0; k<CANTIDAD_ITERACIONES && mejore; k++){
 		mejore=false;
-			for(int c=0; c<n; c++){
-			for(int i=n-1;i>=0;i--){ //itero los nodos de menor grado a mayor grado
-				int v1=d[i].first;	
-				if(actual[v1]){		//saco un nodo perteneciente a la solución actual
-					//cout << "saco: " << i+1 << "tabu: " << cant_iter << endl;
-					actual[v1]=false;
-					tam_actual--;
-					tabu[v1]=max(tamanyo-TABU_K,3);
-
-					//agrega cualquier nodo que no esté en la lista tabú 
-					// y que no pertenezca a la solución original
-		
-					for(int j=0;j<n;j++){
-						int v2=d[j].first;
-						//cout << "miro: " << j+1 <<  " " << tabu[j] << endl;
-						if(!actual[v2] && tabu[v2]==0) formar_completo(actual,adyacencia,v2,tam_actual,n);
-						//poner tabu al agregar??
-					}
+		for(int i=n-1;i>=0;i--){ //itero los nodos de menor grado a mayor grado
+			int v1=d[i].first;	
+			if(actual[v1]){		//saco un nodo perteneciente a la solución actual
+				//cout << "saco: " << i+1 << "tabu: " << cant_iter << endl;
+				actual[v1]=false;
+				tam_actual--;
+				tabu[v1]=max(tamanyo-TABU_K,3);
+				/*while(n-1-elem_tabu.size()<=tamanyo && !elem_tabu.empty()){
+					tabu[elem_tabu.front()]=0;
+					elem_tabu.pop_front();
+				}
+				*/
+				//agrega cualquier nodo que no esté en la lista tabú 
+				// y que no pertenezca a la solución original
 			
-					//agrega los elementos de la lista tabú que 
-					//se puedan agregar, y los saca de la lista
-					  
-					//cout << "Actual: " << endl;
-					//print_res(actual,n);
-					//agrega el nodo actual a la lista tabú y actualiza
-					//los valores de tabú de cada elemento
-					elem_tabu.push_back(v1);
-					for(int j=0;j<n;j++)
-						if(tabu[j]>0){
-							tabu[j]--;
-							if(tabu[j]==0) elem_tabu.remove(j);
-						}
-					//cout << "Lista tabu: " << endl;
-					//print_lista(elem_tabu);
-					//si encontró una solución mejor a la inicial,
-					//la establece como solución actual
-					if(tam_actual==1){
-						for(int h=0; h<n; h++){
-							actual[h]=pertenece[h];
-							tabu[h]=0;
-						}
-						//limpio la lista
-						while(!elem_tabu.empty()) elem_tabu.pop_front();
-						i=-1;
-					}
-					if(tam_actual>tamanyo){		//si mejore, actualizo
-						it=elem_tabu.begin();
-						while(it!=elem_tabu.end()){
-							int nodo=*it;
-							formar_completo(actual,adyacencia,nodo,tam_actual,n);
-							it++;
-							if(actual[nodo]){
-								elem_tabu.remove(nodo);
-								tabu[nodo]=0;
-							}
-						}
-						mejore=true;
-						tamanyo=tam_actual;
-						for(int j=0;j<n;j++) pertenece[j]=actual[j];
+				for(int j=0;j<n;j++){
+					int v2=d[j].first;
+					//cout << "miro: " << j+1 <<  " " << tabu[j] << endl;
+					if(!actual[v2] && tabu[v2]==0) formar_completo(actual,adyacencia,v2,tam_actual,n);
+					//poner tabu al agregar??
+				}
+				
+				//agrega los elementos de la lista tabú que 
+				//se puedan agregar, y los saca de la lista
+				  
+				it=elem_tabu.begin();
+				while(it!=elem_tabu.end()){
+					int nodo=*it;
+					formar_completo(actual,adyacencia,nodo,tam_actual,n);
+					it++;
+					if(actual[nodo]){
+						elem_tabu.remove(nodo);
+						tabu[nodo]=0;
 					}
 				}
+				//cout << "Actual: " << endl;
+				//print_res(actual,n);
+				//agrega el nodo actual a la lista tabú y actualiza
+				//los valores de tabú de cada elemento
+				elem_tabu.push_back(v1);
+				for(int j=0;j<n;j++)
+					if(tabu[j]>0){
+						tabu[j]--;
+						if(tabu[j]==0) elem_tabu.remove(j);
+					}
+				//cout << "Lista tabu: " << endl;
+				//print_lista(elem_tabu);
+				//si encontró una solución mejor a la inicial,
+				//la establece como solución actual  
+				if(tam_actual>tamanyo){		//si mejore, actualizo
+					mejore=true;
+					tamanyo=tam_actual;
+					for(int j=0;j<n;j++) pertenece[j]=actual[j];
+				}
+			}
 		}
-	}
 	}
 	return tamanyo;
 }
+
 
 int main(int argc, char** argv){
 	double ts;

@@ -29,7 +29,8 @@ def grafos_max_clique(n,maxima):
 	candidatos = [[y for y in range(n) if (y!=x) and not(x in max_clique and y in max_clique)] for x in range(n)]
 	for i in range(n):
 		if i not in max_clique:
-			cant_ady = randint(0,min(len(candidatos[i]), maxima-1))
+			#cant_ady = randint(0,min(len(candidatos[i]), maxima-1))
+			cant_ady = len(candidatos[i])
 			if cant_ady+len(nodos[i])>=maxima:
 				cant_ady = maxima - len(nodos[i])
 			for j in range(cant_ady):
@@ -94,10 +95,9 @@ if __name__=="__main__":
 			for k in range(cantidad):
 				print "Calculando grafo random numero ", k
 				instancias.append(grafos_random(tamanyo))
-			'''print "Calculando grafos Max_clique"
-			for j in range(1,tamanyo+1):
-				for k in range(cantidad):
-					instancias_max.append(grafos_max_clique(tamanyo,j))'''
+			print "Calculando grafos Max_clique"
+			for k in range(cantidad):
+				instancias_max.append(grafos_max_clique(tamanyo,15))
 		else:
 			print "No es opcion valida."
 	
