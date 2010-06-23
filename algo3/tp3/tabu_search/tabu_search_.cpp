@@ -147,18 +147,19 @@ int busqueda_local(bool* pertenece, pair* d, int** adyacencia, int n){
 	}
 	
 	bool mejore=true;
-	for(int k=0; k<n && mejore; k++){
+	while(mejore){
 		mejore=false;
-		for(int i=0;i<n;i++){
-			if(actual[i]){
-				//cout << "saco: " << i+1 << endl;
-				actual[i]=false;
+		for(int i=n-1;i>=0;i--){
+			int v1=d[i].first;
+			if(actual[v1]){		//saco un nodo perteneciente a la solución actual
+				actual[v1]=false;
 				tam_actual--;
 				int nodo=-1;
 				for(int j=0;j<n;j++){
-					if(!actual[j] && j!=i){
-						formar_completo(actual,adyacencia,j,tam_actual,n);
-						if(actual[j]) nodo=j;
+					int v2=d[j].first;
+					if(!actual[v2] && v2!=v1){
+						formar_completo(actual,adyacencia,v2,tam_actual,n);
+						if(actual[v2]) nodo=v2;
 					}
 				}
 				//cout << "Actual: " << endl;
@@ -168,7 +169,7 @@ int busqueda_local(bool* pertenece, pair* d, int** adyacencia, int n){
 					for(int j=0;j<n;j++) mejor_vecindad[j]=actual[j];
 				} else{
 					if(nodo!=-1) actual[nodo]=false;
-					actual[i]=true;
+					actual[v1]=true;
 				}
 			}
 		}
