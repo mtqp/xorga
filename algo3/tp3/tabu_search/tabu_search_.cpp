@@ -50,11 +50,6 @@ int comparar( const void* _a, const void* _b ){
 		return -1;
 }
 
-/*
-bool comparar_lista(const pair a, const pair b){
- return (a.second<b.second);
-}
-*/
 
 void formar_completo(bool* pertenece, int** adyacencia, const int nodo, int& tamanyo, const int n){
 	bool forma_completo = true;
@@ -84,28 +79,7 @@ void concatenar(bool* pertenece,list_pair& l,list_pair tmp,int& tamanyo){
 	it=l.begin();
 	l.splice(it,tmp);
 }
-/*
-void agregar_clique(bool* pertenece,list_pair& l,list_pair tmp,int& tamanyo){
-	cout << "voy a agregar: ";
-	print_lista(tmp);
-	list_pair::reverse_iterator it_tmp;
-	list_pair::iterator it;
-	it=l.begin();
-	for(it_tmp=tmp.rbegin();it_tmp!=tmp.rend();it_tmp++){
-		pair par=*it_tmp;
-		//cout << "inserto: " << par << endl;
-		while(it!=l.end() && par.second<(*it).second) it++;
-		l.insert(it,par);
-		int nodo=par.first;
-		pertenece[nodo] = true;
-		tamanyo++;
-		//cout << "insertado" << endl;
-		//print_lista(l);
-	}
-	cout << "agregados: ";
-	print_lista(l);
-}
-*/
+
 void formar_completo_lista(bool* pertenece,list_pair& l,pair* d,int* tabu,int** adyacencia,int& tam_actual,const int tamanyo,const int n){
 	bool copia[n];
 	for(int k=0;k<n;k++) copia[k]=pertenece[k];
@@ -206,8 +180,12 @@ int busqueda_local(bool* pertenece, pair* d, int** adyacencia, int n){
 	}
 	return tamanyo;
 }
+/*
+**CANTIDAD_ITERACIONES es la cantidad maxima de veces que dejo que mejore
+**ITER_TABU es la cantidad de iteraciones que prohibo el atributo
+**CANT_ITER es la cantidad maxima de iteraciones sin mejorar*/
 
-int max_clique_actual(bool* pertenece, int** adyacencia, int n, int CANTIDAD_ITERACIONES, int ITER_TABU ){
+int max_clique_actual(bool* pertenece, int** adyacencia, int n, int CANTIDAD_ITERACIONES, int ITER_TABU, int CANT_ITER){
 	// tupla (nodo, grado)
 	pair d[n];
 
@@ -257,7 +235,7 @@ int max_clique_actual(bool* pertenece, int** adyacencia, int n, int CANTIDAD_ITE
 				//cout << "tam_actual: " << tam_actual << endl;
 				//cout << "Lista clique_actual";
 				//print_lista(clique_actual);
-				while(tam_actual!=1 && !mejore && iteracion<n){
+				while(tam_actual!=1 && !mejore && iteracion<CANT_ITER){
 					pair par=clique_actual.back();
 					int nodo = par.first;
 					
@@ -325,22 +303,22 @@ int main(int argc, char** argv){
 		}
 		if(argc>1 && string(argv[1])=="time"){	//si el argumento es "time", mido el tiempo
 			ts=0;
-			medir_tiempo( ts, max_clique_actual(pertenece,adyacencia,n,n,2), 1, 0.5f);
+			medir_tiempo( ts, max_clique_actual(pertenece,adyacencia,n,n,2,2), 1, 0.5f);
 			cout << n << "\t" << ts << endl;
 		}
 		else if(argc>1 && string(argv[1])=="count"){	//si el argumento es "count", cuento cantidad de operaciones
-			max_clique_actual(pertenece,adyacencia,n,n,2);
+			max_clique_actual(pertenece,adyacencia,n,n,2,2);
 			cout << n << "\t" << contador << endl;	//imprimo la cuenta
 		}
 		else if(argc>1 && string(argv[1])=="tamaño"){
-			cout << max_clique_actual(pertenece,adyacencia,n,n,2) << endl;
+			cout << max_clique_actual(pertenece,adyacencia,n,n,2,2) << endl;
 		}
 		else{
-			/*for( int z=0; z<n; z++ )
-				cout << z << "\t" << max_clique_actual(pertenece,adyacencia,n,z,2) << endl;*/
-			cout << max_clique_actual(pertenece,adyacencia,n,n,1) << endl;
-			cout << "N";
-			print_res(pertenece,n);
+			for( int z=0; z<n; z++ )
+				cout << z << "\t" << max_clique_actual(pertenece,adyacencia,n,z,n,n) << endl;
+			//cout << max_clique_actual(pertenece,adyacencia,n,n,1,1) << endl;
+			//cout << "N";
+			//print_res(pertenece,n);
 		}
 		for(int i=0; i<n; i++){	//libero la memoria
 			delete [] adyacencia[i];

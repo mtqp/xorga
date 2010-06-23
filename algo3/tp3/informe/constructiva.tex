@@ -39,7 +39,7 @@
 		\begin{subsection}{Complejidad temporal}
 			El algoritmo empieza inicializando el arreglo $grados$ lo que tiene un costo de $n^2$ ya que para cada vértice recorre la columna correspondiente en la matriz de adyacencia (diseñada como un arreglo de arreglos).
 			
-			Como mencionamos anteriormente, $grados$ es ordenado con un algoritmo de QuickSort dado por la librería estándar de C++. El costo del algoritmo es CUADRATICO APARENTEMENTE, OJO AHI LA VIDA FIJATE Q DICE LA STL.
+			Como mencionamos anteriormente, $grados$ es ordenado con un algoritmo de QuickSort dado por la librería estándar de C++. El costo del algoritmo es $n^2$.
 			
 			El algoritmo constructivo, una vez realizadas las operaciones antes mencionadas, entra a un ciclo $for$ que itera desde $0$ hasta $n$. En cada iteración, debe en primera instancia, analizar una guarda $if$. De ser $falsa$, procederá a la siguiente iteración del ciclo (teniendo así costo constante). De ser $verdadera$ (es decir, el vértice $i$ no forma parte de la solución parcial), analizará si puede formar una nueva clique mayor, ahora con el vértice $i$ (en nuestro pseudo-código, la función $forma\_completo$ es la encargada de analizarlo). Con el resultado de $forma\_completo$ la iteración del $for$ principal analiza una guarda $if$ más de costo constante (en el peor caso realiza dos asignaciones y una suma). Sabemos entonces que el costo de este ciclo será como mínimo $n$. Analizaremos a continuación el costo de $forma\_completo$, para concluir el costo total del algoritmo.
 			
