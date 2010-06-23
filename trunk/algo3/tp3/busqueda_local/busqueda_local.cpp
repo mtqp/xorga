@@ -63,68 +63,8 @@ int constructivo(bool* pertenece, const pair<int,int>* d, int** adyacencia, cons
 	return tamanyo;
 }
 
-
-int max_clique(bool* pertenece, int** adyacencia, int n){
-	// tupla (nodo, grado)
-	pair<int,int> d[n];
-
-	for(int i=0;i<n;i++){
-		d[i].first  = i;
-		d[i].second = 0;
-		for( int j = 0 ; j < n ; j++ )
-			if( adyacencia[i][j] )
-				d[i].second++;
-	}
-
-	qsort( d, n, sizeof(pair<int,int>), &comparar );
-
-	//Solución inicial
-	int tamanyo = constructivo(pertenece,d,adyacencia,n);
-	int tam_actual = tamanyo;
-	int tam_mejor_vecindad = tam_actual;
-	bool actual[n];
-	bool mejor_vecindad[n];
-	for(int i=0;i<n;i++){
-		actual[i]=pertenece[i];
-		mejor_vecindad[i] = pertenece[i];
-	}
-	
-	bool mejore=true;
-	for(int k=0; k<n && mejore; k++){
-		mejore=false;
-		for(int i=0;i<n;i++){
-			if(actual[i]){		//saco un nodo perteneciente a la solución actual
-				//cout << "saco: " << i+1 << endl;
-				actual[i]=false;
-				tam_actual--;
-				int nodo=-1;
-				for(int j=0;j<n;j++){
-					if(!actual[j] && j!=i){
-						formar_completo(actual,adyacencia,j,tam_actual,n);
-						if(actual[j]) nodo=j;
-					}
-				}
-				//cout << "Actual: " << endl;
-				//print_vector(actual,n);
-				if(tam_actual>tam_mejor_vecindad){		//si mejore, actualizo
-					tam_mejor_vecindad=tam_actual;
-					for(int j=0;j<n;j++) mejor_vecindad[j]=actual[j];
-				} else{
-					if(nodo!=-1) actual[nodo]=false;
-					actual[i]=true;
-				}
-			}
-		}
-		if(tam_mejor_vecindad>tamanyo){		//si mejore, actualizo
-			mejore=true;
-			tamanyo=tam_mejor_vecindad;
-			for(int j=0;j<n;j++) pertenece[j]=mejor_vecindad[j];
-		}
-	}
-	return tamanyo;
-}
 //saca menor grado y pone mayor grado
-/*
+
 int max_clique(bool* pertenece, int** adyacencia, int n){
 	// tupla (nodo, grado)
 	pair<int,int> d[n];
@@ -151,12 +91,11 @@ int max_clique(bool* pertenece, int** adyacencia, int n){
 	}
 	
 	bool mejore=true;
-	for(int k=0; k<n && mejore; k++){
+	while(mejore){
 		mejore=false;
-		for(int i=n-1;i<=0;i++){
+		for(int i=n-1;i>=0;i--){
 			int v1=d[i].first;
 			if(actual[v1]){		//saco un nodo perteneciente a la solución actual
-				//cout << "saco: " << i+1 << endl;
 				actual[v1]=false;
 				tam_actual--;
 				int nodo=-1;
@@ -186,7 +125,7 @@ int max_clique(bool* pertenece, int** adyacencia, int n){
 	}
 	return tamanyo;
 }
-*/
+
 int main(int argc, char** argv){
 	double ts;
 	int n;
