@@ -8,6 +8,8 @@ def grafos_random(n):
 	candidatos = [[y for y in range(n) if y!=x] for x in range(n)]
 	for i in range(n):
 		cant_ady = randint(0,len(candidatos[i]))
+		cant_ady-= randint(0, cant_ady*2)
+		if cant_ady < 0: cant_ady = 0
 		for j in range(cant_ady):
 			ady = choice(candidatos[i])
 			nodos[i].append(ady)
@@ -95,9 +97,9 @@ if __name__=="__main__":
 			for k in range(cantidad):
 				print "Calculando grafo random numero ", k
 				instancias.append(grafos_random(tamanyo))
-			print "Calculando grafos Max_clique"
+			'''print "Calculando grafos Max_clique"
 			for k in range(cantidad):
-				instancias_max.append(grafos_max_clique(tamanyo,15))
+				instancias_max.append(grafos_max_clique(tamanyo,15))'''
 		else:
 			print "No es opcion valida."
 	
