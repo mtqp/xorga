@@ -232,6 +232,8 @@ int max_clique_actual(bool* pertenece, int** adyacencia, int n){
 					}
 				}
 				rotar(clique_actual,c);
+
+				print_lista(clique_actual);
 				
 				//cout << "tam_actual: " << tam_actual << endl;
 				//cout << "Lista clique_actual";
@@ -239,6 +241,7 @@ int max_clique_actual(bool* pertenece, int** adyacencia, int n){
 				while(tam_actual!=1 && !mejore && iteracion<n){
 					pair par=clique_actual.back();
 					int nodo = par.first;
+					cout << "nodo: " << nodo+1 << endl;
 					
 					clique_actual.pop_back();
 					actual[nodo]=false;
@@ -250,7 +253,8 @@ int max_clique_actual(bool* pertenece, int** adyacencia, int n){
 					//print_vector(tabu,n);
 					
 					formar_completo_lista(actual,clique_actual,d,tabu,adyacencia,tam_actual,tamanyo,n);
-					  
+					cout << "despues de agregar" << endl;
+					print_lista(clique_actual);  
 					//cout << "Tamanyo: " << tam_actual << " Actual: ";
 					//print_res(actual,n);
 					//cout<< "Tabu: " << endl;
