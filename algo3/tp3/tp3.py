@@ -1,3 +1,15 @@
+def guardarInput(nombre, instancias):
+	fIn = open(nombre,'w')
+	for instancia in instancias:
+		fIn.write("%d\n"%len(instancia))
+		for nodo in instancia:
+			fIn.write("%d "%len(nodo))
+			for v in nodo:
+			 	fIn.write("%d "%(v))
+	 		fIn.write("\n")
+	fIn.write("-1")
+	fIn.close()
+
 def cargarInput( archivo ):
 	grafos = []
 	f = open(archivo,'r')
@@ -7,7 +19,7 @@ def cargarInput( archivo ):
 		n = int(linea)
 		for nodo in range(n):
 			linea = f.readline().strip()
-			ejes  = linea[1:].strip().split()
+			ejes  = linea.split()[1:]
 			adyacentes = [ int(x) for x in ejes ]
 			grafo.append( adyacentes )
 		grafos.append(grafo)
@@ -36,11 +48,11 @@ def cargarCounts( archivo ):
 		nro_linea += 1
 	return counts
 
-def graphviz( archivo, grafos, soluciones ):
+def graphviz( archivo, grafos, soluciones=[] ):
 	f = open(archivo,'w')
 	for i in range(len(grafos)):
 		grafo = grafos[i]
-		solucion = soluciones[i]
+		solucion = soluciones[i] if len(soluciones) > 0 else []
 		f.write( "graph G { \n" )
 		n = len(grafo)
 		f.write( "node[shape=circle]" )
