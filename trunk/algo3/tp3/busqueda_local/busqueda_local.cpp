@@ -96,11 +96,88 @@ int max_clique(bool* pertenece, int** adyacencia, int n){
 		for(int i=n-1;i>=0;i--){
 			int v1=d[i].first;
 			if(actual[v1]){		//saco un nodo perteneciente a la solución actual
+				cout << "solucion actual = ";
+				print_res(actual,n);
+				cout << "	saco v1= " << v1+1 << endl;				
+				actual[v1]=false;
+				cout << "	solucion PARCIAL actual = ";
+				print_res(actual,n);
+				tam_actual--;
+				int nodo=-1;
+				for(int j=0;j<n;j++){
+					int v2=d[j].first;
+					cout << "		pruebo v2= " << v2+1 << endl;
+					if(!actual[v2] && v2!=v1){
+						formar_completo(actual,adyacencia,v2,tam_actual,n);
+						if(actual[v2]) {
+							nodo=v2;
+							cout << "			forma completo con v2= " << v2+1 << endl;
+							cout << "			nueva solucion PARCIAL = ";
+							print_res(actual,n);
+						}
+					}
+				}
+				//cout << "Actual: " << endl;
+				//print_vector(actual,n);
+				if(tam_actual>tam_mejor_vecindad){		//si mejore, actualizo
+					cout << "			MEJORO" << endl;
+					tam_mejor_vecindad=tam_actual;
+					for(int j=0;j<n;j++) mejor_vecindad[j]=actual[j];
+				} else{
+					cout << "			NO MEJORO" << endl;
+					if(nodo!=-1) actual[nodo]=false;
+					actual[v1]=true;
+				}
+			}
+		}
+		if(tam_mejor_vecindad>tamanyo){		//si mejore, actualizo
+			mejore=true;
+			tamanyo=tam_mejor_vecindad;
+			for(int j=0;j<n;j++) pertenece[j]=mejor_vecindad[j];
+		}
+	}
+	return tamanyo;
+}
+
+/*ESTE ES EL ORIGINAL
+int max_clique(bool* pertenece, int** adyacencia, int n){
+	// tupla (nodo, grado)
+	pair<int,int> d[n];
+
+	for(int i=0;i<n;i++){
+		d[i].first  = i;
+		d[i].second = 0;
+		for( int j = 0 ; j < n ; j++ )
+			if( adyacencia[i][j] )
+				d[i].second++;
+	}
+
+	qsort( d, n, sizeof(pair<int,int>), &comparar );
+
+	//Solución inicial
+	int tamanyo = constructivo(pertenece,d,adyacencia,n);
+	int tam_actual = tamanyo;
+	int tam_mejor_vecindad = tam_actual;
+	bool actual[n];
+	bool mejor_vecindad[n];
+	for(int i=0;i<n;i++){
+		actual[i]=pertenece[i];
+		mejor_vecindad[i] = pertenece[i];
+	}
+	
+	bool mejore=true;
+	while(mejore){
+		mejore=false;
+		for(int i=n-1;i>=0;i--){
+			int v1=d[i].first;
+			cout << "v1= " << v1+1 << endl;
+			if(actual[v1]){		//saco un nodo perteneciente a la solución actual
 				actual[v1]=false;
 				tam_actual--;
 				int nodo=-1;
 				for(int j=0;j<n;j++){
 					int v2=d[j].first;
+					cout << "	v2= " << v2+1 << endl;
 					if(!actual[v2] && v2!=v1){
 						formar_completo(actual,adyacencia,v2,tam_actual,n);
 						if(actual[v2]) nodo=v2;
@@ -124,7 +201,7 @@ int max_clique(bool* pertenece, int** adyacencia, int n){
 		}
 	}
 	return tamanyo;
-}
+}*/
 
 int main(int argc, char** argv){
 	double ts;
