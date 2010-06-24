@@ -8,6 +8,7 @@ using namespace std;
 
 #define pair pair<int,int>
 #define list_pair list< pair > 
+#define list list<int>
 
 
 template<class T> void print_res(const T V, int n){
@@ -28,9 +29,9 @@ template<class T> void print_vector(T V, int n){
 	cout << endl;
 }
 
-void print_lista(list_pair l){
-	list_pair::iterator it;
-	for(it=l.begin(); it!=l.end(); it++) cout << "(" << (*it).first+1 << "," << (*it).second << ") ";
+void print_lista(list l){
+	list::iterator it;
+	for(it=l.begin(); it!=l.end(); it++) cout << *it;
 	cout << endl;
 }
 
@@ -61,14 +62,14 @@ void formar_completo(bool* pertenece, int** adyacencia, const int nodo, int& tam
 		}
 }
 
-void rotar(list_pair& l, int c){
+void rotar(list& l, int c){
 	for(int q=0; q<c; q++){
-		pair primero = l.back();
+		int primero = l.back();
 		l.pop_back();
 		l.push_front(primero);
 	}
 }
-
+/*
 void concatenar(bool* pertenece,list_pair& l,list_pair tmp,int& tamanyo){
 	list_pair::iterator it;
 	list_pair::iterator it_tmp;
@@ -79,48 +80,52 @@ void concatenar(bool* pertenece,list_pair& l,list_pair tmp,int& tamanyo){
 	it=l.begin();
 	l.splice(it,tmp);
 }
-
-void formar_completo_lista(bool* pertenece,list_pair& l,pair* d,int* tabu,int** adyacencia,int& tam_actual,const int tamanyo,const int n){
-	bool copia[n];
-	for(int k=0;k<n;k++) copia[k]=pertenece[k];
-	list_pair tmp;
+*/
+void formar_completo_lista(bool* pertenece,list& l,pair* d,int* tabu,int** adyacencia,int& tamanyo,const int n){
+	list tmp;
 	for(int i=0;i<n;i++){
 		int nodo=d[i].first;
-		if(!copia[nodo] && tabu[nodo]==0){
+		if(!pertenece[nodo] && tabu[nodo]==0){
 			bool forma_completo = true;
 			for(int j=0;j<n;j++)
-				if(copia[j] && j!=nodo) forma_completo &= adyacencia[nodo][j];
+				if(pertenece[j] && j!=nodo) forma_completo &= adyacencia[nodo][j];
 				if(forma_completo){
-					tmp.push_front(d[i]);
-					copia[nodo]=true;
+					tmp.push_back(nodo);	//tmp de mayor a menor grado
+					pertenece[nodo]=true;
+					tamanyo++;
 				}
 		}
 	}
-	concatenar(pertenece,l,tmp,tam_actual);
+	list::iterator it;
+	it=l.begin();
+	l.splice(it,tmp);
 }
 
-void agrandar_clique(bool* pertenece,list_pair& t, list_pair& l,int** adyacencia,int& tamanyo,const int n){
-	list_pair::iterator it_tabu;
+void agrandar_clique(bool* pertenece,list& t, list& l,int** adyacencia,int& tamanyo,const int n){
+	list::iterator it_tabu;
 	it_tabu=t.begin();
 	while(it_tabu!=t.end() && !t.empty()){
-		pair par=*it_tabu;
+		int nodo=*it_tabu;
 		//cout << "evaluo par: " << par << endl;
-		int nodo=par.first;
 		bool forma_completo = true;
 		for(int j=0;j<n;j++) if(pertenece[j] && j!=nodo) forma_completo &= adyacencia[nodo][j];
 		if(!forma_completo){
-			t.remove(par);
+			t.remove(nodo);
 			it_tabu=t.begin();
 			//cout << "no formo completo";
 			//print_lista(t);
 		}
 		else{
 			pertenece[nodo]=true;
+			tamanyo++;
 			it_tabu++;
 			//cout << "formo completo" << endl;
 		}
 	}
-	concatenar(pertenece,l,t,tamanyo);
+	//concatenar(pertenece,l,t,tamanyo);
+	list::iterator it;
+	it=l.begin();
+	l.splice(it,t);
 }
 
 int constructivo(bool* pertenece, const pair* d, int** adyacencia, const int n){
@@ -207,9 +212,9 @@ int max_clique_actual(bool* pertenece, int** adyacencia, int n){
 	int tam_actual;
 	bool actual[n];
 	int tabu[n];
-	list_pair elem_tabu;
-	list_pair::iterator it_tabu;
-	list_pair clique_actual;
+	list elem_tabu;
+	list::iterator it_tabu;
+	list clique_actual;
 	
 	bool mejore=true;
 	while(mejore){
@@ -227,34 +232,33 @@ int max_clique_actual(bool* pertenece, int** adyacencia, int n){
 				for(int i=0;i<n;i++){
 					int vertice=d[i].first;
 					if(pertenece[vertice]){
-						clique_actual.push_back(d[i]);
+						clique_actual.push_back(vertice); //quedan de mayor a menor grado
 						actual[vertice]=true;
 					}
 				}
 				rotar(clique_actual,c);
 
-				print_lista(clique_actual);
+				//print_lista(clique_actual);
 				
 				//cout << "tam_actual: " << tam_actual << endl;
 				//cout << "Lista clique_actual";
 				//print_lista(clique_actual);
 				while(tam_actual!=1 && !mejore && iteracion<n){
-					pair par=clique_actual.back();
-					int nodo = par.first;
-					cout << "nodo: " << nodo+1 << endl;
+					int nodo=clique_actual.back();
+					//cout << "nodo: " << nodo+1 << endl;
 					
-					clique_actual.pop_back();
+					clique_actual.pop_back();	//saco el de menor grado
 					actual[nodo]=false;
 					tam_actual--;
 					tabu[nodo]=cant_iter;
-					elem_tabu.push_back(par);
+					elem_tabu.push_front(nodo);	//tabu esta de mayor a menor grado
 					
 					//cout << "saco par: " << par << endl;
 					//print_vector(tabu,n);
 					
-					formar_completo_lista(actual,clique_actual,d,tabu,adyacencia,tam_actual,tamanyo,n);
-					cout << "despues de agregar" << endl;
-					print_lista(clique_actual);  
+					formar_completo_lista(actual,clique_actual,d,tabu,adyacencia,tam_actual,n);
+					//cout << "despues de agregar" << endl;
+					//print_lista(clique_actual);  
 					//cout << "Tamanyo: " << tam_actual << " Actual: ";
 					//print_res(actual,n);
 					//cout<< "Tabu: " << endl;
@@ -269,10 +273,9 @@ int max_clique_actual(bool* pertenece, int** adyacencia, int n){
 					}
 					else{
 						for(int j=0;j<n;j++){
-							int v=d[j].first;
-							if(tabu[v]){
-								tabu[v]--;
-								if(tabu[v]==0) elem_tabu.remove(d[j]);
+							if(tabu[j]){
+								tabu[j]--;
+								if(tabu[j]==0) elem_tabu.remove(j);
 							}
 						}
 					}
