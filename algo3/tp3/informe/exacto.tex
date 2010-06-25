@@ -40,10 +40,8 @@
 		
 		\begin{subsection}{Complejidad temporal}
 
-		%PONELE QUE ESTA SEA LA COMPLEJIDAD... HABRÍA QUE CONSULTAR, PORQUE ES ME DIO FEA
-		%ROCK, DAME NENA. NENA, DAME ROCK! ROCK'N ROLLENNENNENNNNNN
-
-		El algoritmo de Max\_Clique exacto utiliza la técnica de backtracking, con lo que genera un árbol donde cada rama es una posible solución, y esta se desarrolla hasta que encuentra una solucion o el algoritmo mediante una optimizacion "se da cuenta" que no hay forma de encontrar el clique óptimo y la "poda".
+		El algoritmo exacto utiliza la técnica de backtracking, con lo que genera un árbol donde cada rama es una posible solución, podando cuando considere que por ese camino no encuentra solución, o no encuentre una mejor a la actual.
+		Dar la cota de complejidad de este algoritmo es complicado si tuviésemos en cuenta las podas que se realizan en el backtracking. Si quisieramos ajustar la cota, deberíamos buscar un grafo particular tal que se minimice las podas, maximizando así la cantidad de vértices del árbol de backtracking.
 		Ya que las optimizaciones podan constantemente las ramas donde los cliques que no lleguen a ser el óptimo, se hace muy difícil encontrar el $peor$ $caso$ del algoritmo, que sería el caso donde las podas sean las mínimas posibles, con una cantidad máxima de cliques máximos, con lo que decidimos plantear un caso hipotético donde el árbol de backtracking se genere sin podas, verifícando para cada nodo $i$ las posibles cliques que contengan a $i$, y todos los nodos posibles entre $i$ y $n$. Como dijimos, esto es un caso hipotético, donde el algoritmo tiene un comportamiento menos eficiente, y de esta forma lo que nos da es una cota un tanto $gruesa$ con respecto a la real, pero que a fines prácticos nos da una idea de que aún en el peor caso, el algoritmo será un tanto mas eficiente respecto a la cota calculada. 
 
 		Sea $G$ un grafo con conexo, con $n$ nodos y relaciones máximas, es decir, siendo $m$ la cantidad de ejes del grafo, $m = n(n-1)$. $Es decir, G = K_n$
