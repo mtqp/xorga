@@ -69,22 +69,21 @@ void rotar(list& l, int c){
 	}
 }
 
-void formar_completo_lista(bool* pertenece,list& l,pair* d,int* tabu,int** adyacencia,int& primero,int& tamanyo,const int n){
+void formar_completo_lista(bool* pertenece,list& l,pair* d,int* tabu,int** adyacencia,int& tamanyo,const int n){
 	list tmp;
 	for(int i=0;i<n;i++){
 		int nodo=d[i].first;
-		if(!pertenece[nodo] && tabu[nodo]==0 && nodo!=primero){
+		if(!pertenece[nodo] && tabu[nodo]==0){
 			bool forma_completo = true;
 			for(int j=0;j<n;j++)
 				if(pertenece[j] && j!=nodo) forma_completo &= adyacencia[nodo][j];
-				if(forma_completo){
-					tmp.push_back(nodo);	//tmp de mayor a menor grado
-					pertenece[nodo]=true;
-					tamanyo++;
-				}
+			if(forma_completo){
+				tmp.push_back(nodo);	//tmp de mayor a menor grado
+				pertenece[nodo]=true;
+				tamanyo++;
+			}
 		}
 	}
-	if(!tmp.empty() && primero==-1) primero=tmp.front();
 
 	list::iterator it;
 	it=l.begin();
@@ -213,7 +212,6 @@ int max_clique_actual(bool* pertenece, int** adyacencia, int n){
 		int cant_iter=max(tamanyo,3);
 			for(int c=0;c<tamanyo;c++){
 				int iteracion=0;
-				int primero=-1;
 				tam_actual=tamanyo;
 				for(int i=0;i<n;i++){
 					actual[i]=false;
@@ -235,8 +233,12 @@ int max_clique_actual(bool* pertenece, int** adyacencia, int n){
 				//cout << "tam_actual: " << tam_actual << endl;
 
 				while(tam_actual!=1 && !mejore && iteracion<n){
+					bool igual_inicial=true;
+					for(int i=0;i<n;i++) igual_inicial&=(pertenece[i]==actual[i]);
+					if(igual_inicial && iteracion!=0) break;
+
 					int nodo=clique_actual.back();
-					//cout << "saco nodo: " << nodo+1 << endl;
+					cout << "saco nodo: " << nodo+1 << endl;
 					
 					clique_actual.pop_back();	//saco el de menor grado
 					actual[nodo]=false;
@@ -245,8 +247,9 @@ int max_clique_actual(bool* pertenece, int** adyacencia, int n){
 					elem_tabu.push_back(nodo);
 
 					//cout << "tam_actual: " << tam_actual << endl;
-					
-					formar_completo_lista(actual,clique_actual,d,tabu,adyacencia,primero,tam_actual,n);
+					cout << "Actual";
+					print_lista(clique_actual);  
+					formar_completo_lista(actual,clique_actual,d,tabu,adyacencia,tam_actual,n);
 
 					//cout << "despues de agregar";
 					//print_lista(clique_actual);  
