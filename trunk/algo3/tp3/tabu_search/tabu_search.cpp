@@ -132,6 +132,7 @@ int constructivo(bool* pertenece, const pair* d, int** adyacencia, const int n){
 int busqueda_local(bool* pertenece, pair* d, int** adyacencia, int n){
 	//Solución inicial
 	int tamanyo = constructivo(pertenece,d,adyacencia,n);
+	if(tamanyo==n || tamanyo==1) return tamanyo;
 	int tam_actual = tamanyo;
 	int tam_mejor_vecindad = tam_actual;
 	bool actual[n];

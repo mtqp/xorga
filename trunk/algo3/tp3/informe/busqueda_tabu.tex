@@ -24,6 +24,8 @@
 
 			\begin{pseudo}
 				\func{busqueda\_tabu}{lista\_solucion,tamanyo,matriz\_adyacencia}
+				\tab $\IF tamanyo==1 \OR tamanyo==n$
+				\tab \tab $\RET tamanyo$
 				\tab $grados[n] \leftarrow ordenar\_grados(matriz\_adyacencia)$\\
 				\tab $\WHILE mejore$\\
 				\tab \tab $iter\_tabu \leftarrow max(tamanyo,3)$\\
@@ -43,9 +45,11 @@
 				\RET $tamanyo$\\
 			\end{pseudo}
 
+		La primer cláusula \texttt{if} verifica si la solución de búsqueda local encontró la clique tanto completa como la de un elemento. En ambos casos no tiene sentido aplicar el tabú seach ya que, si encontró el completo, esta solución no podrá ser mejorada, al contener todos los vértices. Si sólo encontró un vértice, implica que el de grado mayor en el grafo es de grado cero, por lo tanto, todos sus vértices son de grado cero. 
+
 		EXPLICAR PORQUE NO TIENE SENTIDO SACAR EL ULTIMO NODO
 
-		En la implementación mantenemos la solución actual en una lista de tuplas, donde la primer componente corresponde al vértice y la segunda al grado. La lista inicia ordenada de mayor a menor según los grados, esto lo hacemos para empezar a sacar desde el de menor grado ya que consideramos que es el que tiene más probabilidades de estar condicionando la clique. Además, tenemos un arreglo de tipo bool de tamaño $n$ donde el indice representa a los vértices y esta seteado en $verdadero$ si y sólo si el vértice pertenece a la clique actual. Mantenemos ambas estructuras porque usamos la lista para determinar el orden en que se eliminan (rotarla tiene costo constante) y el arreglo para verificar la pertenencia de un vértice a la clique (ya que esta operación en esta estructura de datos tien costo constante).
+		En la implementación mantenemos la solución actual en una lista de vértices. La lista inicia ordenada de mayor a menor según los grados, esto lo hacemos para empezar a sacar desde el de menor grado ya que consideramos que es el que tiene más probabilidades de estar condicionando la clique. Además, tenemos un arreglo de tipo bool de tamaño $n$ donde el índice representa a los vértices y esta seteado en $verdadero$ si y sólo si el vértice pertenece a la clique actual. Mantenemos ambas estructuras porque usamos la lista para determinar el orden en que se eliminan (rotarla tiene costo constante) y el arreglo para verificar la pertenencia de un vértice a la clique (ya que esta operación en esta estructura de datos tiene costo constante).
 
 		\begin{itemize}			
 			\item \texttt{rotar: } Dado que fijar la pertenencia de un vértice a la clique condiciona el resultado final, el orden en que se eliminen los vértices puede hacer la diferencia entre un buen resultado y uno malo, a pesar de encontrar un buen criterio para hacerlo. Por este motivo, decidimos empezar eliminando de menor a mayor grado, y en cada iteración rotar la lista para sacar los vértices en otro orden.
@@ -54,11 +58,11 @@
 			
 			\item \texttt{formar\_completo: } ESTO RESTRINGE LAS SOLUCIONES FINAL,ES AGARRA EL DE MAYOR GRADO PRIMEROOOOO(USAR EL MISMO CRITERIO Q PARA SACAR)Esta función se encarga de buscar entre los vértices que actualmente no pertenecen a la clique e intenta agregarlos (agrega todo vértice que forma un completo con los ya pertenecientes), con el objeto de conseguir una de tamaño mayor. Para saber si agregarlo determina una solución al problema debemos verificar que forme un completo con los vértices ya incluídos. Para esto recorremos todos los vértices del grafo y para cada uno que pertenezca a la solución parcial chequeamos que sea adyacente a $v$. Si esto ocurre podemos agregar el vértice $v$ y agrandar la clique. Elegimos $v$ de mayor a menor grado.
 
-			\item \texttt{agrandar\_clique: } Esta función itera los vértices que estan en la lista tabú e intenta agregarlos a la clique actual. Esto es porque como ya conseguí una solución mejor lograr agregar algún vértice que esta tabú contribuye aún más a la solución.
+			\item \texttt{agrandar\_clique: } Esta función itera los vértices que están en la lista tabú e intenta agregarlos a la clique actual. Esto es porque como ya conseguí una solución mejor lograr agregar algún vértice que esta tabú contribuye aún más a la solución.
 
 			\item \texttt{restar\_tabu: } Para cada vértice tal que tiene tabú mayor a $cero$ decrementa la cantidad de iteraciones que va a permanecer tabú. Si al decrementarlo deja de ser tabú lo elimina de $lista\_tabu$.
 
-			Tanto en $formar\_completo$ como en $agrandar\_clique$ los vértices que agregamos a la lista los ponemos al principio de la misma, es una forma de poner tabú al menos tantas iteraciones como vértices habia en la clique previo a agregarlos la operación inversa, sacarlos.
+			Tanto en $formar\_completo$ como en $agrandar\_clique$ los vértices que agregamos a la lista los ponemos al principio de la misma, es una forma de poner tabú al menos tantas iteraciones como vértices había en la clique previo a agregarlos la operación inversa, sacarlos.
 		\end{itemize}
 	\end{subsection}
 

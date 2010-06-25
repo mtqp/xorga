@@ -81,6 +81,7 @@ int max_clique(bool* pertenece, int** adyacencia, int n){
 
 	//Solución inicial
 	int tamanyo = constructivo(pertenece,d,adyacencia,n);
+	if(tamanyo==n || tamanyo==1) return tamanyo;
 	int tam_actual = tamanyo;
 	int tam_mejor_vecindad = tam_actual;
 	bool actual[n];

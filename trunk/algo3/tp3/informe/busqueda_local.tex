@@ -3,51 +3,71 @@
 			La heurística de busqueda local actua a partir de una solución inicial $S$, en este caso, a partir de la solución dada por la heurística constructiva. El algoritmo busca en la vecindad de la solución dada, $N(S)$, una solución mejor que ésta. Si no encuentra ninguna mejor, nos encontramos en un óptimo local (de la vecindad) que tomamos como solución del algoritmo.
 			La vecindad $N(S)$ que elegimos en este problema es el conjunto de soluciones tales que no tienen uno y sólo uno de los vértices pertenecientes a $S$, es decir, $S \setminus \{v\} \cup L$ donde $L$ es un conjunto de vértices tal que $u \in L \Longleftrightarrow S \setminus \{v\} \cup \{u\}$ forma un completo.
 
-			Para revisar la vecindad, sacamos un nodo de la solución óptima actual e intentamos agreagar los vértices que no pertenecen a la clique. Luego, comparamos el tamaño de la clique que logramos contruir de esta manera con el tamaño de la clique correspondiente a la mejor solución vista de la vecindad. Si esta nueva solución es mejor, es decir, el tamaño de la clique es mayor al tamaño de la actual (mejor de la vecindad), dicha solución pasa a ser la mejor de la vecindad. Una vez revisada toda la vecindad comparamos la mejor solución encontrada en dicha vecindad con la mejor solución encontrada hasta el momento. Si es mejor, actualizamos el óptimo actual.
+			Para revisar la vecindad, sacamos un nodo de la solución óptima actual e intentamos agregar los vértices que no pertenecen a la clique. Luego, comparamos el tamaño de la clique que logramos contruir de esta manera con el tamaño de la clique correspondiente a la mejor solución vista de la vecindad. Si esta nueva solución es mejor, es decir, el tamaño de la clique es mayor al tamaño de la actual (mejor de la vecindad), dicha solución pasa a ser la mejor de la vecindad. Una vez revisada toda la vecindad comparamos la mejor solución encontrada en dicha vecindad con la mejor solución encontrada hasta el momento. Si es mejor, actualizamos el óptimo actual.
 		\end{subsection}
 		\begin{subsection}{Detalles de la implementación}
 			A continuación, se muestra el pseudocódigo del algoritmo de heurística de búsqueda local.\\
 
 			\begin{pseudo}
 				\func{busqueda\_local}{solucion,tamanyo,matriz\_adyacencia,n}
+				\tab $\IF tamanyo==1 \OR tamanyo==n$
+				\tab \tab $\RET tamanyo$
 				\tab $grados[n] \leftarrow ordenar\_grados(matriz\_adyacencia)$\\
-				\tab $tam\_actual \leftarrow tamanyo$\\
-				\tab $tam\_mejor\_vecindad \leftarrow tamanyo$\\
-				\tab $actual[1..n] \leftarrow solucion[1..n]$\\
-				\tab $mejor\_vecindad[1..n] \leftarrow solucion[1..n]$\\
-				\tab $mejore \leftarrow true$\\
-				\tab $\WHILE i<n \AND mejore$\\
-				\tab \tab \tab $mejore \leftarrow false$\\
-				\tab \tab \tab $\FOR j \TO n$\\
-				\tab \tab \tab \tab $sacar\_de\_clique(actual,i)$\\
-				\tab \tab \tab \tab $agrandar\_clique(actual,matriz\_adyacencia)$\\
-				\tab \tab \tab \tab$\IF tam\_actual>tam\_mejor\_vecindad$\\
-				\tab \tab \tab \tab \tab $tam\_mejor\_vecindad \leftarrow tam\_actual$\\
-				\tab \tab \tab \tab \tab $mejor\_vecindad[1..n] \leftarrow actual[1..n]$\\
-				\tab \tab \tab \tab$\ELSE$\\
-				\tab \tab \tab \tab \tab $reconstruir(actual)$\\
-				\tab \tab \tab \IF $tam\_mejor\_vecindad>tamanyo$\\
-				\tab \tab \tab \tab $mejore \leftarrow true$\\
-				\tab \tab \tab \tab $tamanyo \leftarrow tam\_mejor\_vecindad$\\
-				\tab \tab \tab \tab $solucion[1..n] \leftarrow mejor\_vecindad[1..n]$\\
+				\tab $inicializar\_estructuras$\\
+				\tab $\WHILE mejore$\\
+				\tab \tab $\FOR j \TO n$\\
+				\tab \tab \tab $sacar\_de\_clique(actual,i)$\\
+				\tab \tab \tab $agrandar\_clique(actual,matriz\_adyacencia)$\\
+				\tab \tab \tab$\IF tam\_actual>tam\_mejor\_vecindad$\\
+				\tab \tab \tab \tab $actualizar\_mejor\_vecindad$\\
+				\tab \tab \tab$\ELSE$\\
+				\tab \tab \tab \tab $reconstruir(actual)$\\
+				\tab \tab \IF $tam\_mejor\_vecindad>tamanyo$\\
+				\tab \tab \tab $mejore$\\
+				\tab \tab \tab $actualizar\_solucion$\\
 				\RET $tamanyo$\\
 			\end{pseudo}
 
+		La primer cláusula \texttt{if} verifica si la solución constructiva encontró la clique tanto completa como la de un elemento. En ambos casos no tiene sentido aplicar la búsqueda local ya que, si encontró el completo, esta solución no podrá ser mejorada, al contener todos los vértices. Si sólo encontró un vértice, implica que el de grado mayor en el grafo es de grado cero, por lo tanto, todos sus vértices son de grado cero. 
+
 		\begin{itemize}
+			\item \texttt{inicializar\_estructuras:} Consiste en hacer dos copias de la solución, una para mejor vecindad y otra para actual, y setear dos variables que representan el tamaño de la clique de cada uno de los arreglos.
+		
 			\item \texttt{sacar\_de\_clique:} Esta función setea en $falso$ la posición $i$ del arreglo $actual$, es decir, excluye el vértice $i$ de la solución actual. Además, decrementa el tamaño de la clique, variable $tam\_actual$ y resetea una variable $nodo$ que indica si despues logra agregar algún vértice, esto sirve para reconstruir la solución en caso de ser necesario (conseguir un tamaño de clique igual al tamaño de la clique desde la que partió).
 			
 			\item \texttt{agrandar\_clique:} Esta función se encarga de buscar entre los vértices que actualmente no pertenecen a la clique e intenta agregarlos (agrega todo vértice que forma un completo con los ya pertenecientes), con el objeto de conseguir una de tamaño mayor. Por otro lado, setea $nodo$ con el valor del último vértice que agrega.
 
 			\item \texttt{reconstruir:} En el caso donde el tamaño de la clique que logro contruir es igual al tamaño de la clique inicial, como queremos obtener el mejor de la vecindad, reconstruimos la clique anterior y continuamos, es decir, eliminamos $nodo$ y volvemos a agregar $i$.
+			
+			\item \texttt{actualizar\_mejor\_vecindad y actualizar\_solucion:} al encontrar una solución que es mejor a la que el algoritmo posee hasta ese momento, dependiendo del caso, la salva en uno de estos dos arreglos ($mejor\_vecindad$ o $actual$).
+			
 		\end{itemize}
 		\end{subsection}
+		\begin{subsection}{Desventajas}
+		
+		El algoritmo es estrictamente dependiente de la numeración inicial de los vértices. Para nodos de igual grado, al ordenarlos tiene prioridad el de menor numeración.
+		Sea el siguiente gráfico, un ejemplo en el que esto sucede:
+		
+		
+		PONER EJEMPLINGUI QUE NO ANDABAAAAAA era un caso de 7 nodoss q se qda con dos vertices en vez de tres.
+
+
+		La clique dada por la heurística constructiva es el <1,2>.
+		Cuando el algoritmo (búsqueda local) saca el vértice $uno$ de la clique, se mueve a la clique <2,4> ya que todos sus adyacentes tienen grado dos y el cuatro es el de menor numeración. Como no logra mejorar (no encuentra una clique que posea al dos y al cuatro, y además algún otro nodo), vuelve a la inicial de <1,2>. Prueba entonces sacando el dos, sin poder mejorar. Por lo tanto, la solución final es la que viene dada por el algortimo constructivo.
+		
+		\end{subsection}
 		\begin{subsection}{Complejidad temporal}
-			En un pricipio el algoritmo inicializa el arreglo de los $grados$ y lo ordena, lo que tiene un costo de $n^2$. Luego, obtiene la solución inicial mediante la heurística constructiva que como ya vimos tiene también un costo de $n^2$ e inicializa los arreglos $actual$ y $mejor\_vecindad$ con costo lineal.
+			En un pricipio el algoritmo inicializa el arreglo de los $grados$ y lo ordena aplicando QuickSort, lo que tiene un costo de $n^2$. Luego, obtiene la solución inicial mediante la heurística constructiva que como ya vimos tiene también un costo de $n^2$ e inicializa los arreglos $actual$ y $mejor\_vecindad$ con costo lineal.
 
 			La función $sacar\_de\_clique$ y $reconstruir$ tienen costo constante ya que consta sólo de indexaciones, asignaciones y otras operaciones elementales.
 
 			La función $agrandar\_clique$ tiene costo $n^2$ porque recorre todos los vértices y para cada uno de los que todavía no pertenece a la clique, verifica si puede agregarlo. Para esto, recorre nuevamente todos los vértices y corrobora que sea adyacente a cada uno de los pertenecientes a la clique.
 
-			La complejidad final del algoritmo es $n^4$ porque el ciclo \texttt{while} itera a lo sumo $n$ veces y por cada una de estas el ciclo \texttt{for} itera exactamente $n$ veces. En cada iteración del \texttt{for} hay una llamada a la función $sacar\_de\_clique$ y $agrandar\_clique$ las cuales tienen un costo de $n^2$. Eventualmente hay una llamada a $reconstruir$ lo que no altera la complejidad, ya que su costo es constante.
+			La complejidad final del algoritmo es $n^4$ porque el ciclo \texttt{while} itera a lo sumo $n$ veces (la solución final puede verse mejorada a lo sumo $n$ veces) y por cada una de estas el ciclo \texttt{for} itera exactamente $n$ veces. En cada iteración del \texttt{for} hay una llamada a la función $sacar\_de\_clique$ y $agrandar\_clique$ las cuales tienen un costo de $n^2$. Eventualmente hay una llamada a $reconstruir$ lo que no altera la complejidad, ya que su costo es constante.
+			
+			El costo lineal en función de la cantidad de vértices del ciclo \texttt{while} está acotado por el caso hipotético de comenzar por una clique trivial, y en cada iteración, aumentar la clique en uno. Esto no puede pasar ya que se trataría de un grafo completo, que el algoritmo constructivo encontraría. En ese caso, el algoritmo termina antes de la primera iteración del \texttt{while}.
 		\end{subsection}
 \end{section}
+
+
+
