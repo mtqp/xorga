@@ -41,16 +41,16 @@
 		\begin{subsection}{Complejidad temporal}
 
 		El algoritmo exacto utiliza la técnica de backtracking, con lo que genera un árbol donde cada rama es una posible solución, podando cuando considere que por ese camino no encuentra solución, o no encuentre una mejor a la actual.
-		Dar la cota de complejidad de este algoritmo es complicado si tuviésemos en cuenta las podas que se realizan en el backtracking. Si quisieramos ajustar la cota, deberíamos buscar un grafo particular tal que se minimice las podas, maximizando así la cantidad de vértices del árbol de backtracking.
-		Ya que las optimizaciones podan constantemente las ramas donde los cliques que no lleguen a ser el óptimo, se hace muy difícil encontrar el $peor$ $caso$ del algoritmo, que sería el caso donde las podas sean las mínimas posibles, con una cantidad máxima de cliques máximos, con lo que decidimos plantear un caso hipotético donde el árbol de backtracking se genere sin podas, verifícando para cada nodo $i$ las posibles cliques que contengan a $i$, y todos los nodos posibles entre $i$ y $n$. Como dijimos, esto es un caso hipotético, donde el algoritmo tiene un comportamiento menos eficiente, y de esta forma lo que nos da es una cota un tanto $gruesa$ con respecto a la real, pero que a fines prácticos nos da una idea de que aún en el peor caso, el algoritmo será un tanto mas eficiente respecto a la cota calculada. 
+		Dar la cota de complejidad de este algoritmo es complicado si tuviésemos en cuenta las podas que se realizan en el backtracking. Si quisieramos ajustar la cota, deberíamos buscar un grafo particular tal que las minimice (las podas), maximizando así la cantidad de vértices del árbol de backtracking.
+		Por este motivo decidimos plantear un caso hipotético donde el árbol de backtracking se genere sin podas, verifícando para cada nodo $i$ las posibles cliques que lo contengan, intentando incluir sólo los de mayor numeración para no repetir soluciones. Como dijimos, esto es un caso hipotético, donde el algoritmo tiene un comportamiento menos eficiente que el real, y de esta forma conseguimos una cota superior poco ajustada, pero que a los fines prácticos nos da una idea de que aún en el peor caso, el algoritmo será más eficiente respecto a la cota calculada. 
 
-		Sea $G$ un grafo con conexo, con $n$ nodos y relaciones máximas, es decir, siendo $m$ la cantidad de ejes del grafo, $m = n(n-1)$. $Es decir, G = K_n$
-		Al tratarse de un caso hipotético asumiremos que el algoritmo no efectua podas ni utiliza las optimizaciones que ayudan a terminar el algoritmo antes que recorra todos los nodos, es decir, que solo verificará para cada nodo $i$, con $0 < i < n$, los cliques posibles que contengan a $i$, junto con todos los nodos posibles entre $i$ y $n$, y terminara cuando $i$ sea igual a $n$
+		De esta forma el algoritmo verifica para cada vértice $i$, con $0 < i < n$, las cliques posibles que lo contengan, es decir, todas las combinaciones que tengan a $i$ más otros vértices entre $i$ y $n$ tal que forman una clique.
 
-		De esta forma, para cada nodo $i$ generará su arbol de cliques correspondiente,y así tendremos un arbol de $n-i$ factorial nodos, que son todas las posibles cliques máximas de $n$-$i$ nodos, con $i$ como raiz.
+		Así, para cada vértice $i$ genera un árbol donde cada rama representa una clique que lo incluye, por lo que tendremos un árbol de $n-i$ factorial vértices.
 
-		Como este procedimiento se repite con $i$ desde 1 a $n$ nos queda planteada una sumatoria: $\sum_{i=1}^{n}{i!}$ = $1 + 2 + 3! + ... + n!$ $\leq$  $n.n!$
-		
+		Como este procedimiento se repite con $i$ desde 1 hasta $n$ nos queda planteada la siguiente sumatoria: $\sum_{i=1}^{n}{i!}$ = $1! + 2! + 3! + ... + n!$
+
+		Entonces la complejidad viene dada por: \Ode{1! + 2! + 3! + ... + n!}= \Ode{max(1!,2!,3!,...,n!)}= \Ode{n!}
 		
 		
 		\end{subsection}
