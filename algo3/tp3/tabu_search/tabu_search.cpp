@@ -238,7 +238,7 @@ int max_clique_actual(bool* pertenece, int** adyacencia, int n){
 					if(igual_inicial && iteracion!=0) break;
 
 					int nodo=clique_actual.back();
-					cout << "saco nodo: " << nodo+1 << endl;
+					//cout << "saco nodo: " << nodo+1 << endl;
 					
 					clique_actual.pop_back();	//saco el de menor grado
 					actual[nodo]=false;
@@ -247,8 +247,9 @@ int max_clique_actual(bool* pertenece, int** adyacencia, int n){
 					elem_tabu.push_back(nodo);
 
 					//cout << "tam_actual: " << tam_actual << endl;
-					cout << "Actual";
-					print_lista(clique_actual);  
+					//cout << "Actual";
+					//print_lista(clique_actual);  
+
 					formar_completo_lista(actual,clique_actual,d,tabu,adyacencia,tam_actual,n);
 
 					//cout << "despues de agregar";

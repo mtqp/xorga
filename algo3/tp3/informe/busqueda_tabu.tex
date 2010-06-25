@@ -52,16 +52,20 @@
 		El valor de verdad de la guarda del \texttt{while} $puedo\_seguir$ viene dado por la conjunción entre $tam\_actual \neq 1$, $\neg mejore$ e $iteracion<n$.
 		Pedimos que el tamaño de la clique actual sea distinto de $uno$ ya que nos interesa movernos a soluciones vecinas. Si el tamaño es $uno$ en esa iteración saca el último vértice de la clique por lo que perdemos referencia a la misma moviéndose inmediatamente al primer vértice segun la numeración que no esté tabú.
 		Por otro lado, el \texttt{while} itera mientras no logre mejorar para forzar la salida del ciclo cuando encuentre una clique de mayor tamaño que la actual y así empezar a sacar vértices desde la primer rotación (ya que también se fuerza la salida del \texttt{for}).
-		La última condición es para asegurar la salida del ciclo, ya que podría no mejorar nunca y ciclar entre diferentes cliques. Además, esto determina la cantidad de iteraciones que le permitimos buscar sin lograr mejorar, es un parámetro que ajustamos de la siguiente manera AJUSTEMOSLO ALGUN DIAAAAAA!!!!!
+		La última condición es para asegurar la salida del ciclo, ya que podría no mejorar nunca y ciclar entre diferentes cliques. Además, esto determina la cantidad de iteraciones que le permitimos buscar sin lograr mejorar, es un parámetro que ajustamos de la siguiente manera AJUSTEMOSLO ALGUN DIAAAAAA!!!!!ukuyfuyjtjft5umj76fu7666m,6b,ib7,ki7k,i87fk7k,KUFMKUTJYTDMHYTMJUY6FMJUYMKY
 
 		\begin{itemize}			
 			\item \texttt{rotar: } Dado que fijar la pertenencia de un vértice a la clique condiciona el resultado final, el orden en que se eliminen los vértices puede hacer la diferencia entre un buen resultado y uno malo, a pesar de encontrar un buen criterio para hacerlo. Por este motivo, decidimos empezar eliminando de menor a mayor grado, y en cada iteración rotar la lista para sacar los vértices en otro orden.
 			
 			\item \texttt{sacar\_de\_clique: }Esta función saca de la lista el último elemento y setea en $falso$ la posición correspondiente en el arreglo (dejando tabú la operación inversa (agregarlo a la clique) tantas iteraciones como el tamaño de la clique con la que empieza a sacar), es decir, excluye el vértice de la solución actual. Además, decrementa el tamaño de la clique, variable $tam\_actual$.
 			
-			\item \texttt{formar\_completo: } ESTO RESTRINGE LAS SOLUCIONES FINAL,ES AGARRA EL DE MAYOR GRADO PRIMEROOOOO(USAR EL MISMO CRITERIO Q PARA SACAR)Esta función se encarga de buscar entre los vértices que actualmente no pertenecen a la clique e intenta agregarlos (agrega todo vértice que forma un completo con los ya pertenecientes), con el objeto de conseguir una de tamaño mayor. Para saber si agregarlo determina una solución al problema debemos verificar que forme un completo con los vértices ya incluídos. Para esto recorremos todos los vértices del grafo y para cada uno que pertenezca a la solución parcial chequeamos que sea adyacente al que pretendemos agregar. Si esto ocurre podemos agregarlo y agrandar la clique. Elegimos el vértice a agregar de mayor a menor grado.
+			\item \texttt{formar\_completo: } Esta función se encarga de buscar entre los vértices que actualmente no pertenecen a la clique e intenta agregarlos (agrega todo vértice que forma un completo con los ya pertenecientes), con el objeto de conseguir una de tamaño mayor. Para saber si agregarlo determina una solución al problema debemos verificar que forme un completo con los vértices ya incluídos. Para esto recorremos todos los vértices del grafo y para cada uno que pertenezca a la solución parcial chequeamos que sea adyacente al que pretendemos agregar. Si esto ocurre podemos agregarlo y agrandar la clique. Elegimos el vértice a agregar de mayor a menor grado.
 
-			\texttt{Observación: } Al agregar condicionamos la clique resultante al igual que pasa al sacar sin hacer rotaciones (depende del orden en que lo hagamos la calidad de la solución). Es decir, encontrar una mejor solución depende del orden en que agreguemos los vértices, podriamos también hacer rotaciones para agregar pero esto aumentaría en $n$ la complejidad. Buscando un equilibrio entre eficiencia y calidad de la solución, decidimos que hacer ambas rotaciones (agregar, sacar) tenia una complejidad ....
+			\begin{itemize}
+				\item \texttt{Observación: } Al agregar condicionamos la clique resultante al igual que pasa al sacar sin hacer rotaciones (depende del orden en que lo hagamos la calidad de la solución). Es decir, encontrar una mejor solución depende del orden en que agreguemos los vértices, podriamos también hacer rotaciones para agregar pero esto aumentaría en $n$ la complejidad. Buscando un equilibrio entre eficiencia y calidad de la solución, decidimos que hacer ambas rotaciones (agregar, sacar) tenia una complejidad mayor a la que pretendemos aceptar, no hacer ninguno implica perdernos de encontrar mejores soluciones y obtener así soluciones muy precarias. Entonces elegimos arbitrariamente hacer las rotaciones sólo para sacar.
+
+				\item \texttt{Observacion: } Si el algoritmo vuelve a la solución inicial y todavía le restan iteraciones del \texttt{while} anidado, queremos evitar que repita exactamente el mismo procedimiento pasando nuevamente por soluciones ya visitadas
+			\end{itemize}
 
 			\item \texttt{agrandar\_clique: } Esta función itera los vértices que están en la lista tabú e intenta agregarlos a la clique actual. Esto es porque como ya conseguí una solución mejor lograr agregar algún vértice que esta tabú contribuye aún más a la solución.
 
@@ -72,6 +76,11 @@
 	\end{subsection}
 
 	\begin{subsection}{Desventajas}
+		La numeración de los nodos toma un papel crucial a la hora de obtener una solución, es así que en casos patológicos puede pasar que:
+		\begin{itemize}
+			\item Como el algoritmo se mueve constantemente de solución, podría existir el caso donde vuelve a la solución inicial (ejemplo: la búsqueda local nos da un clique de dos vértices que se encuentran en un ciclo, y este ciclo está unido a un completo de tres o más). Si los nodos del completo tienen mayor numeración a los elementos del ciclo, el algoritmo ciclaría tomando en cada iteración (mientras no se cumpla la restricción de iteraciones pasadas como parámetros) como solución los vértices incidentes a una arista de ese ciclo, sin ver el completo.
+			\item Para evitar soluciones ya exploradas (en el caso que exista un ciclo), verificamos si vuelve a la solución inicial, de ser así, se sale del ciclo y se procede a la siguiente rotación.
+		\end{itemize}
 	
 	\end{subsection}
 
