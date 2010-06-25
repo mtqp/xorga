@@ -10,12 +10,12 @@
 
 			\begin{pseudo}
 				\func{busqueda\_local}{solucion,tamanyo,matriz\_adyacencia,n}
-				\tab $\IF tamanyo==1 \OR tamanyo==n$
-				\tab \tab $\RET tamanyo$
+				\tab $\IF tamanyo==1 \OR tamanyo==n$\\
+				\tab \tab $\RET tamanyo$\\
 				\tab $grados[n] \leftarrow ordenar\_grados(matriz\_adyacencia)$\\
 				\tab $inicializar\_estructuras$\\
 				\tab $\WHILE mejore$\\
-				\tab \tab $\FOR j \TO n$\\
+				\tab \tab $\FOR i \TO n$\\
 				\tab \tab \tab $sacar\_de\_clique(actual,i)$\\
 				\tab \tab \tab $agrandar\_clique(actual,matriz\_adyacencia)$\\
 				\tab \tab \tab$\IF tam\_actual>tam\_mejor\_vecindad$\\
@@ -23,9 +23,9 @@
 				\tab \tab \tab$\ELSE$\\
 				\tab \tab \tab \tab $reconstruir(actual)$\\
 				\tab \tab \IF $tam\_mejor\_vecindad>tamanyo$\\
-				\tab \tab \tab $mejore$\\
+				\tab \tab \tab $mejore 	\leftarrow true$\\
 				\tab \tab \tab $actualizar\_solucion$\\
-				\RET $tamanyo$\\
+				\tab \RET $tamanyo$\\
 			\end{pseudo}
 
 		La primer cláusula \texttt{if} verifica si la solución constructiva encontró la clique tanto completa como la de un elemento. En ambos casos no tiene sentido aplicar la búsqueda local ya que, si encontró el completo, esta solución no podrá ser mejorada, al contener todos los vértices. Si sólo encontró un vértice, implica que el de grado mayor en el grafo es de grado cero, por lo tanto, todos sus vértices son de grado cero. 
@@ -52,8 +52,8 @@
 		PONER EJEMPLINGUI QUE NO ANDABAAAAAA era un caso de 7 nodoss q se qda con dos vertices en vez de tres.
 
 
-		La clique dada por la heurística constructiva es el <1,2>.
-		Cuando el algoritmo (búsqueda local) saca el vértice $uno$ de la clique, se mueve a la clique <2,4> ya que todos sus adyacentes tienen grado dos y el cuatro es el de menor numeración. Como no logra mejorar (no encuentra una clique que posea al dos y al cuatro, y además algún otro nodo), vuelve a la inicial de <1,2>. Prueba entonces sacando el dos, sin poder mejorar. Por lo tanto, la solución final es la que viene dada por el algortimo constructivo.
+		La clique dada por la heurística constructiva es el $<1,2>$.
+		Cuando el algoritmo (búsqueda local) saca el vértice $uno$ de la clique, se mueve a la clique $<2,4>$ ya que todos sus adyacentes tienen grado dos y el cuatro es el de menor numeración. Como no logra mejorar (no encuentra una clique que posea al dos y al cuatro, y además algún otro nodo), vuelve a la inicial de $<1,2>$. Prueba entonces sacando el dos, sin poder mejorar. Por lo tanto, la solución final es la que viene dada por el algortimo constructivo.
 		
 		\end{subsection}
 		\begin{subsection}{Complejidad temporal}

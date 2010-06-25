@@ -19,11 +19,11 @@
 \contentsline {subsection}{\numberline {5.1}Explicaci\IeC {\'o}n}{13}
 \contentsline {subsection}{\numberline {5.2}Detalles de la implementaci\IeC {\'o}n}{13}
 \contentsline {subsection}{\numberline {5.3}Desventajas}{16}
-\contentsline {subsection}{\numberline {5.4}Complejidad temporal}{16}
-\contentsline {section}{\numberline {6}Observaci\IeC {\'o}n}{18}
-\contentsline {section}{\numberline {7}Resultados}{18}
-\contentsline {subsection}{\numberline {7.1}Parametros de la heur\IeC {\'\i }stica tab\IeC {\'u}}{18}
-\contentsline {subsection}{\numberline {7.2}Comparacion de tiempos}{18}
-\contentsline {subsection}{\numberline {7.3}Comparacion de calidad}{18}
-\contentsline {section}{\numberline {8}Mediciones}{18}
-\contentsline {section}{\numberline {9}Compilaci\IeC {\'o}n y ejecuci\IeC {\'o}n de los programas}{18}
+\contentsline {subsection}{\numberline {5.4}Complejidad temporal}{17}
+\contentsline {section}{\numberline {6}Observaci\IeC {\'o}n}{19}
+\contentsline {section}{\numberline {7}Resultados}{19}
+\contentsline {subsection}{\numberline {7.1}Parametros de la heur\IeC {\'\i }stica tab\IeC {\'u}}{19}
+\contentsline {subsection}{\numberline {7.2}Comparacion de tiempos}{19}
+\contentsline {subsection}{\numberline {7.3}Comparacion de calidad}{19}
+\contentsline {section}{\numberline {8}Mediciones}{19}
+\contentsline {section}{\numberline {9}Compilaci\IeC {\'o}n y ejecuci\IeC {\'o}n de los programas}{19}
