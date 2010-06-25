@@ -24,8 +24,8 @@
 
 			\begin{pseudo}
 				\func{busqueda\_tabu}{lista\_solucion,tamanyo,matriz\_adyacencia}
-				\tab $\IF tamanyo==1 \OR tamanyo==n$
-				\tab \tab $\RET tamanyo$
+				\tab $\IF tamanyo==1 \OR tamanyo==n$\\
+				\tab \tab $\RET tamanyo$\\
 				\tab $grados[n] \leftarrow ordenar\_grados(matriz\_adyacencia)$\\
 				\tab $\WHILE mejore$\\
 				\tab \tab $iter\_tabu \leftarrow max(tamanyo,3)$\\
@@ -41,22 +41,27 @@
 				\tab \tab \tab \tab \tab $c \leftarrow tamanyo$\\
 				\tab \tab \tab \tab \tab $lista\_solucion \leftarrow lista\_actual$\\
 				\tab \tab \tab \tab $\ELSE$\\
-				\tab \tab \tab \tab \tab $restar\_tabu(tabu,lista\_tabu)$
+				\tab \tab \tab \tab \tab $restar\_tabu(tabu,lista\_tabu)$\\
 				\RET $tamanyo$\\
 			\end{pseudo}
 
 		La primer cláusula \texttt{if} verifica si la solución de búsqueda local encontró la clique tanto completa como la de un elemento. En ambos casos no tiene sentido aplicar el tabú seach ya que, si encontró el completo, esta solución no podrá ser mejorada, al contener todos los vértices. Si sólo encontró un vértice, implica que el de grado mayor en el grafo es de grado cero, por lo tanto, todos sus vértices son de grado cero. 
 
-		EXPLICAR PORQUE NO TIENE SENTIDO SACAR EL ULTIMO NODO
-
 		En la implementación mantenemos la solución actual en una lista de vértices. La lista inicia ordenada de mayor a menor según los grados, esto lo hacemos para empezar a sacar desde el de menor grado ya que consideramos que es el que tiene más probabilidades de estar condicionando la clique. Además, tenemos un arreglo de tipo bool de tamaño $n$ donde el índice representa a los vértices y esta seteado en $verdadero$ si y sólo si el vértice pertenece a la clique actual. Mantenemos ambas estructuras porque usamos la lista para determinar el orden en que se eliminan (rotarla tiene costo constante) y el arreglo para verificar la pertenencia de un vértice a la clique (ya que esta operación en esta estructura de datos tiene costo constante).
+
+		El valor de verdad de la guarda del \texttt{while} $puedo\_seguir$ viene dado por la conjunción entre $tam\_actual \neq 1$, $\neg mejore$ e $iteracion<n$.
+		Pedimos que el tamaño de la clique actual sea distinto de $uno$ ya que nos interesa movernos a soluciones vecinas. Si el tamaño es $uno$ en esa iteración saca el último vértice de la clique por lo que perdemos referencia a la misma moviéndose inmediatamente al primer vértice segun la numeración que no esté tabú.
+		Por otro lado, el \texttt{while} itera mientras no logre mejorar para forzar la salida del ciclo cuando encuentre una clique de mayor tamaño que la actual y así empezar a sacar vértices desde la primer rotación (ya que también se fuerza la salida del \texttt{for}).
+		La última condición es para asegurar la salida del ciclo, ya que podría no mejorar nunca y ciclar entre diferentes cliques. Además, esto determina la cantidad de iteraciones que le permitimos buscar sin lograr mejorar, es un parámetro que ajustamos de la siguiente manera AJUSTEMOSLO ALGUN DIAAAAAA!!!!!
 
 		\begin{itemize}			
 			\item \texttt{rotar: } Dado que fijar la pertenencia de un vértice a la clique condiciona el resultado final, el orden en que se eliminen los vértices puede hacer la diferencia entre un buen resultado y uno malo, a pesar de encontrar un buen criterio para hacerlo. Por este motivo, decidimos empezar eliminando de menor a mayor grado, y en cada iteración rotar la lista para sacar los vértices en otro orden.
 			
 			\item \texttt{sacar\_de\_clique: }Esta función saca de la lista el último elemento y setea en $falso$ la posición correspondiente en el arreglo (dejando tabú la operación inversa (agregarlo a la clique) tantas iteraciones como el tamaño de la clique con la que empieza a sacar), es decir, excluye el vértice de la solución actual. Además, decrementa el tamaño de la clique, variable $tam\_actual$.
 			
-			\item \texttt{formar\_completo: } ESTO RESTRINGE LAS SOLUCIONES FINAL,ES AGARRA EL DE MAYOR GRADO PRIMEROOOOO(USAR EL MISMO CRITERIO Q PARA SACAR)Esta función se encarga de buscar entre los vértices que actualmente no pertenecen a la clique e intenta agregarlos (agrega todo vértice que forma un completo con los ya pertenecientes), con el objeto de conseguir una de tamaño mayor. Para saber si agregarlo determina una solución al problema debemos verificar que forme un completo con los vértices ya incluídos. Para esto recorremos todos los vértices del grafo y para cada uno que pertenezca a la solución parcial chequeamos que sea adyacente a $v$. Si esto ocurre podemos agregar el vértice $v$ y agrandar la clique. Elegimos $v$ de mayor a menor grado.
+			\item \texttt{formar\_completo: } ESTO RESTRINGE LAS SOLUCIONES FINAL,ES AGARRA EL DE MAYOR GRADO PRIMEROOOOO(USAR EL MISMO CRITERIO Q PARA SACAR)Esta función se encarga de buscar entre los vértices que actualmente no pertenecen a la clique e intenta agregarlos (agrega todo vértice que forma un completo con los ya pertenecientes), con el objeto de conseguir una de tamaño mayor. Para saber si agregarlo determina una solución al problema debemos verificar que forme un completo con los vértices ya incluídos. Para esto recorremos todos los vértices del grafo y para cada uno que pertenezca a la solución parcial chequeamos que sea adyacente al que pretendemos agregar. Si esto ocurre podemos agregarlo y agrandar la clique. Elegimos el vértice a agregar de mayor a menor grado.
+
+			\texttt{Observación: } Al agregar condicionamos la clique resultante al igual que pasa al sacar sin hacer rotaciones (depende del orden en que lo hagamos la calidad de la solución). Es decir, encontrar una mejor solución depende del orden en que agreguemos los vértices, podriamos también hacer rotaciones para agregar pero esto aumentaría en $n$ la complejidad. Buscando un equilibrio entre eficiencia y calidad de la solución, decidimos que hacer ambas rotaciones (agregar, sacar) tenia una complejidad ....
 
 			\item \texttt{agrandar\_clique: } Esta función itera los vértices que están en la lista tabú e intenta agregarlos a la clique actual. Esto es porque como ya conseguí una solución mejor lograr agregar algún vértice que esta tabú contribuye aún más a la solución.
 
@@ -79,7 +84,7 @@
 
 			La función $agrandar\_clique$ tiene costo $n^2$ porque recorre todos los vértices tal que agregarlos a la clique actual es tabú, la cantida de estos vértices se puede acotar por $n$ a pesar que sabemos que nunca va a pasar porque la cantidad de iteraciones que un vértice permanece tabú depende del tamaño de la clique de la que se lo elimina y si el grafo contiene una clique de tamaño $n$, es decir, es un grafo completo la clique máxima va a ser determinada por la heuristica constructiva y nuestra heuristica de busqueda tabú verifica en un principio que la solución inicial no sea todo el grafo. Para cada uno de estos vértices (pertenecientes a la lista tabú) verifica si puede agregarlo a la clique actual. Para esto, recorre nuevamente todos los vértices y corrobora que sea adyacente a cada uno de los pertenecientes a la clique.
 
-			 La cantidad de iteraciones del primer ciclo \texttt{while} se puede acotar por $n$ (seria un caso hipotetico en el que la mejora sea sólo de un vértice, es decir, se inicie con la clique trivial (tamaño $uno$) y en cada iteración de este ciclo se logre incrementar en uno el tamaño de la clique). En cada una de estas iteraciones hay un ciclo \texttt{for} que se ejecuta a lo sumo tantas veces como el tamaño de la clique, también puede ser acotado por $n$, dentro de este ciclo se resetean las estructuras (las listas y los arreglos) lo que tiene un costo lineal. Además, hay un ciclo \texttt{while} (dentro del for) que se ejecuta a los sumo $n$ veces y en cada una de las iteraciones hay una llamada a la función $sacar\_de\_clique$ con costo constante y $formar\_completo$ con costo $n^2$, en caso de lograr mejorar hay una llamada a la función $agrandar\_clique$ con costo $n^2$ o a la función $restar\_tabu$ sino de costo lineal (recorre todos los vértices decrementando la cantidad de iteraciones que permaneceran tabú). Entonces la complejidad del \texttt{while} anidado es:  Ode{n*(\Ode{sacar\_de\_clique}+\Ode{formar\_completo}+\Ode{agrandar\_clique}+\Ode{restar\_tabu})}=\Ode{n*(1+n^2+n^2+n)}=\Ode{n^3}.
+			 La cantidad de iteraciones del primer ciclo \texttt{while} se puede acotar por $n$ (seria un caso hipotetico en el que la mejora sea sólo de un vértice, es decir, se inicie con la clique trivial (tamaño $uno$) y en cada iteración de este ciclo se logre incrementar en uno el tamaño de la clique). En cada una de estas iteraciones hay un ciclo \texttt{for} que se ejecuta a lo sumo tantas veces como el tamaño de la clique, también puede ser acotado por $n$, dentro de este ciclo se resetean las estructuras (las listas y los arreglos) lo que tiene un costo lineal. Además, hay un ciclo \texttt{while} (dentro del for) que se ejecuta a los sumo $n$ veces y en cada una de las iteraciones hay una llamada a la función $sacar\_de\_clique$ con costo constante y $formar\_completo$ con costo $n^2$, en caso de lograr mejorar hay una llamada a la función $agrandar\_clique$ con costo $n^2$ o a la función $restar\_tabu$ sino de costo lineal (recorre todos los vértices decrementando la cantidad de iteraciones que permaneceran tabú). Entonces la complejidad del \texttt{while} anidado es:  \Ode{n*(\Ode{sacar\_de\_clique} + \Ode{formar\_completo} + \Ode{agrandar\_clique} + \Ode{restar\_tabu})} = \Ode{n*(1+n^2+n^2+n)} = \Ode{n^3}.
 
 			 Finalmente, se deduce que la complejidad final del algoritmo es $n^5$ ya que acotamos tanto la cantidad de iteraciones del cliclo \texttt{while} como del \texttt{for} por $n$, entonces tenemos \Ode{n*n*\Ode{while\_anidado}}=\Ode{n^5}.
 	\end{subsection}
