@@ -42,46 +42,57 @@ int comparar( const void* _a, const void* _b )
 
 int max_clique(bool* pertenece, int** adyacencia, int n){
 
-	/** CASOS EN LOS QUE NO ANDA **
-	 * - Cuando el nodo que tiene grado máximo no está en la clique máxima
-	 * - El de grado máximo conectado a todos de grado 1 y a una clique de tamaño > 2
-	 **/
-
 	int tamanyo = 1;
-
+	O(1);
 	// tupla (nodo, grado)
 	pair<int,int> d[n];
-
+	O(1);
+	//inicializo el arreglo de grados
+	O(1);
 	for( int i = 0 ; i < n ; i++ )
 	{
 		d[i].first  = i;
 		d[i].second = 0;
-		for( int j = 0 ; j < n ; j++ )
-			if( adyacencia[i][j] )
+		O(9);
+		for( int j = 0 ; j < n ; j++ ){
+			if( adyacencia[i][j] ){
 				d[i].second++;
+				O(2);
+			}
+			O(4);
+		}
 	}
 
+	//ordeno el arreglo de grados segun los mismo de mayor a menor
 	qsort( d, n, sizeof(pair<int,int>), &comparar );
-
+	O(n*n);
+	//agrego a la clique el de mayor grado
 	int actual = d[0].first;
 	pertenece[actual] = true;
-
-	//for( int k = 0 ; k < n ; k++ ) no tiene sentido...si en algun momento no puedo meter un nodo cuando es elegido por primera vez, nunca voy a poder meterlo ya que los que estan en el conj son definitivos
-	for( int i = 0 ; i < n ; i++ )
+	O(6);
+	for( int i = 0 ; i < n ; i++ )	//para cada nodo de mayor a menor grado
 	{
 		int nodo = d[i].first;
-		if( !pertenece[nodo] )
+		if( !pertenece[nodo] )	//si no esta en la clique intento agregarlo
 		{
 			bool forma_completo = true;
-			for( int j = 0 ; j < n ; j++ )
-				if( pertenece[j] && j != nodo )
+			for( int j = 0 ; j < n ; j++ ){	//para cada nodo verifico adyacencia con 'nodo'
+				if( pertenece[j] && j != nodo ){
 					forma_completo &= adyacencia[nodo][j];
+					O(4);
+				}
+				O(6);
+			}
 			if( forma_completo ){
 				pertenece[nodo] = true;
 				tamanyo++;
+				O(3);
 			}
+			O(3);
 		}
+		O(7);
 	}
+	O(1);
 	return tamanyo;
 
 }
