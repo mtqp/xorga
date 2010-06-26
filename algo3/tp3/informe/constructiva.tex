@@ -1,7 +1,23 @@
 \begin{section}{Heurística constructiva}
 		\begin{subsection}{Explicación}
-			Como Primera Heurística, en este caso constructiva, desarrollamos un algoritmo goloso para resolver el problema \texttt{MAX-CLIQUE} de manera aproximada.
+			Como primera heurística, en este caso constructiva, desarrollamos un algoritmo goloso para resolver el problema \texttt{MAX-CLIQUE} de manera aproximada. El algoritmo parte del vértice de mayor grado en el grafo. En cada paso, agrega a la clique el vértice adyacente (al último agregado) de mayor grado que sea adyacente a todos los vértices en la clique obtenida hasta el momento. Este procedimiento se repite hasta que no se puedan agregar más vértices a la clique. (Figura \ref{fig:seguimiento_constructivo})
 			
+			% --- Figura seguimiento algoritmo constructivo ---
+			\begin{figure}[H]
+				\centering
+		    	\includegraphics[scale=0.5]{constructivo/seguimiento.eps}
+			    \caption{Ejemplo de la heurística constructiva}
+			    \label{fig:seguimiento_constructivo}
+			\end{figure}
+			
+			[REDACTAR MEJOR] -- Por qué este criterio goloso? Se eligió este criterio para el algoritmo goloso pensando en la posibilidad de que el vértice con mayor grado está en la clique máxima, y los nodos adyacentes de mayor grado son los que la forman.
+			
+			Desventajas: si la clique máxima no incluía al vértice de mayor grado, la solución puede ser muy mala.
+			
+			Al ser un algoritmo goloso, en este problema como en tantos otros, no devuelve necesariamente el óptimo. Particularmente, la clique está condicionada al vértice de mayor grado, y no necesariamente la solución óptima lo contiene.\VSP
+		\end{subsection}
+		\begin{subsection}{Detalles de la implementación}
+			[REDACTAR MEJOR]
 			El mismo funciona de la siguiente manera:
 
 			Sea $grados$ un arreglo de tamaño $n$, donde $n$ es la cantidad de vértices del grafo. En cada posición $j\; \forall 	1\leq j \leq n$ del arreglo está el grado correspondiente al vértice $j$.
@@ -9,9 +25,6 @@
 			Para completar la clique recorremos $grados$ en forma completa, y cada vértice que forma un completo con la solución parcial se agrega a la misma.
 			Al terminar de recorrer $grados$ el algoritmo termina siendo la solución parcial, el resultado final.
 
-			Al ser un algoritmo goloso, en este problema como en tantos otros, no devuelve necesariamente el óptimo. Particularmente, la clique está condicionada al vértice de mayor grado, y no necesariamente la solución óptima lo contiene.\VSP
-		\end{subsection}
-		\begin{subsection}{Detalles de la implementación}
 			A continuación, se muestra el pseudocódigo del algoritmo de heurística constructiva.\\
 
 			\begin{pseudo}
