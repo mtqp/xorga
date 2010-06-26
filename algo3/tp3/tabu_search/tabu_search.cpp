@@ -342,8 +342,8 @@ int main(int argc, char** argv){
 			//for( int z=0; z<n; z++ )
 				//cout << z << "\t" << max_clique_actual(pertenece,adyacencia,n,z,n,n) << endl;
 			cout << max_clique_actual(pertenece,adyacencia,n) << endl;
-			//cout << "N";
-			//print_res(pertenece,n);
+			cout << "N";
+			print_res(pertenece,n);
 		}
 		for(int i=0; i<n; i++){	//libero la memoria
 			delete [] adyacencia[i];
