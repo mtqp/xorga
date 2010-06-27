@@ -87,10 +87,6 @@ Raffo Diego & 423/08 & enanodr@hotmail.com \\
 	
 	\newpage
 	
-	\begin{section}{Observación}
-		EXPLICAR PORQUE TABU VA POR GRADOS Y LOCAL NO
-	\end{section}
-	
 	\begin{section}{Resultados}
 		\begin{subsection}{Parametros de la heurística tabú}
 		\end{subsection}		
@@ -106,15 +102,17 @@ Raffo Diego & 423/08 & enanodr@hotmail.com \\
 		\begin{itemize}
 			\item Para contar la cantidad aproximada de operaciones definimos una variable inicializada en $cero$ la cual incrementamos luego de cada operación. Preferimos contar operaciones en vez de medir tiempo porque a pesar de que es aproximado el resultado, el error es siempre el mismo y así podemos hacer una mejor comparación entre las instancias.\\
 			Midiendo tiempo, el error para cada instancia varía, ya que es el sistema operativo el que ejecuta nuestro programa, al "mismo tiempo" que otras tareas.
+
+
+			PONER LO DE LA MACRO 'O()'
 		\end{itemize}
 	\end{section}
 	\begin{section}{Compilación y ejecución de los programas}
 	Para compilar los programas se puede usar el comando \texttt{make} (Requiere el compilador \texttt{g++}).
-	Se pueden correr los programas de cada ejercicio ejecutando \texttt{./secuencia\_unimodal}, \texttt{./ciudad} y \texttt{./prision} respectivamente.
+	Se pueden correr los programas de cada ejercicio ejecutando \texttt{./exacto}, \texttt{./constructivo}, \texttt{./busqueda\_local} y \texttt{./tabu\_search} respectivamente.
 		
 	Los programas leen la entrada de stdin y escriben la respuesta en stdout. Para leer la entrada de un archivo \texttt{Tp1EjX.in} y escribir la respuesta en un archivo \texttt{Tp1EjX.out} ses puede usar:\\ \texttt{./(ejecutable) < Tp1EjX.in > Tp1EjX.out}
 
 	Para contar la cantidad de operaciones: \texttt{./(ejecutable) count}. Devuelve para cada instancia el tamaño seguido de la cantidad de operaciones de cada instancia.
-	En el ejercicio 3 también se puede contar la cantidad de operaciones en función de la cantidad de llaves de la siguiente manera:\\ \texttt{./prision count\_llaves}. Devuelve para cada instancia la cantidad de llaves/puertas seguido de la cantidad de operaciones correspondientes. 
 	\end{section}
 \end{document}
