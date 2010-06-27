@@ -1,11 +1,12 @@
 \begin{section}{Busqueda local}
 		\begin{subsection}{Explicación}
 			La heurística de busqueda local actua a partir de una solución inicial $S$, en este caso, a partir de la solución dada por la heurística constructiva. El algoritmo busca en la vecindad de la solución dada, $N(S)$, una solución mejor que ésta. Si no encuentra ninguna mejor, nos encontramos en un óptimo local (de la vecindad) que tomamos como solución del algoritmo.
+						
+			Decidimos revisar toda la vecindad $N(S)$ en cada iteración y quedarnos con el vecino máximo. De esta manera llegamos al optimo local por la 'máxima pendiente'. La otra opción era quedarse con el primer vecino que es mayor que el actual, pero la complejidad es la misma y creemos que revisar todos da mejores resultados.
+			
 			La vecindad $N(S)$ que elegimos en este problema es el conjunto de soluciones tales que no tienen uno y sólo uno de los vértices pertenecientes a $S$, es decir, $S \setminus \{v\} \cup L$ donde $L$ es un conjunto de vértices tal que $u \in L \Longleftrightarrow S \setminus \{v\} \cup \{u\}$ forma un completo.
 
 			Para revisar la vecindad, sacamos un vértice de la solución óptima actual e intentamos agregar los vértices que no pertenecen a la clique. Luego, comparamos el tamaño de la clique que logramos contruir de esta manera con el tamaño de la clique correspondiente a la mejor solución vista de la vecindad. Si esta nueva solución es mejor, es decir, el tamaño de la clique es mayor al tamaño de la actual (mejor de la vecindad), dicha solución pasa a ser la mejor de la vecindad. Una vez revisada toda la vecindad comparamos la mejor solución encontrada en dicha vecindad con la mejor solución encontrada hasta el momento. Si es mejor, actualizamos el óptimo actual.
-
-		EXPLICAR PORQUE ELEGIMOS BUSCAR EL MEJOR DE LA VECINDAD!!!
 
 		\end{subsection}
 		\begin{subsection}{Detalles de la implementación}
