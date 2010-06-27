@@ -72,35 +72,49 @@ void formar_completo(bool* pertenece, int** adyacencia, const int nodo, int& tam
 }
 
 void rotar(list& l, int c){
+	O(1);
 	for(int q=0; q<c; q++){
 		int primero = l.back();
 		l.pop_back();
 		l.push_front(primero);
+		O(6);
 	}
 }
 
 void formar_completo_lista(bool* pertenece,list& l,pair* d,int* tabu,int** adyacencia,int& tamanyo,const int n){
 	list tmp;
+	O(2);
 	for(int i=0;i<n;i++){				//intento agregar de mayor a menor grado si todavía no pertenece a la clique y no esta tabú
 		int nodo=d[i].first;
+		O(5);
 		if(!pertenece[nodo] && tabu[nodo]==0){
 			bool forma_completo = true;
+
 			/* Veo que el nodo que pretendo agregar sea adyacente a todos los que están en la clique
 			** No uso la lista para hacer esto porque deberia ir agregando a la lista lo que pasa a pertenecer a la clique y eso no me permite ordenarlos de
 			** menor a mayor entre ellos (los que logro agregar) y a la vez que esten al principio de la clique anterior */
-			for(int j=0;j<n;j++)
-				if(pertenece[j] && j!=nodo) forma_completo &= adyacencia[nodo][j];
+			for(int j=0;j<n;j++){
+				if(pertenece[j] && j!=nodo){
+					forma_completo &= adyacencia[nodo][j];
+					O(4);
+				}
+				O(6);
+			}
 			if(forma_completo){
 				tmp.push_back(nodo);	//tmp contiene los nodos que logre agregar a la clique de mayor a menor grado
 				pertenece[nodo]=true;
 				tamanyo++;
+				O(4);
 			}
+			O(3);
 		}
+		O(6);
 	}
 	//concateno las listas
 	list::iterator it;
 	it=l.begin();
 	l.splice(it,tmp);
+	O(3);
 }
 
 int constructivo(bool* pertenece, const pair* d, int** adyacencia, const int n){
@@ -225,23 +239,31 @@ int max_clique_actual(bool* pertenece, int** adyacencia, int n){
 	list clique_actual;
 	
 	bool mejore=true;
+	O(5);
 	while(mejore){
 		mejore=false;
 		int cant_iter=max(tamanyo,3);
 		/* Empiezo tamanyo veces desde la clique original a no ser que en alguna de las iteraciones logre mejorarla
 		** Cada una de estas veces roto la lista para sacar los nodos en otro orden y asi explorar otros vecinos*/
+		O(5);
 		for(int c=0;c<tamanyo;c++){		
 			int iteracion=0;					//iteración controla la máxima cantidad de veces que va a iterar el 'while' sin lograr mejorar
 			//Inicializo todo
 			tam_actual=tamanyo;
-			for(int i=0;i<n;i++) actual[i]=false;
+			for(int i=0;i<n;i++){
+				actual[i]=false;
+				O(4);
+			}
 			clique_actual.clear();
+			O(6);
 			for(int i=0;i<n;i++){
 				int vertice=d[i].first;
 				if(pertenece[vertice]){
 					clique_actual.push_back(vertice);	//quedan ordenados de mayor a menor grado
 					actual[vertice]=true;
+					O(3);
 				}
+				O(7);
 			}
 			rotar(clique_actual,c);
 			
@@ -253,11 +275,14 @@ int max_clique_actual(bool* pertenece, int** adyacencia, int n){
 			
 				/* Veifico si moviendome por la vecindad vuelvo a la clique inicial, si pasa eso salgo del 'while' para hacer la rotación y 
 				   explorar soluciones distintas */
-				
+				O(12);
 				bool igual_inicial=true;
-				for(int i=0;i<n;i++) igual_inicial&=(pertenece[i]==actual[i]);
+				for(int i=0;i<n;i++){
+					igual_inicial&=(pertenece[i]==actual[i]);
+					O(7);
+				}
 				if(igual_inicial && iteracion!=0) break;
-
+				
 				/* Saco el nodo de menor grado (no en todas las iteraciones es el de menor grado sino que es el de menor grado entre los de la misma
 				   antiguedad en la clique) de la clique actual */
 				
@@ -266,7 +291,7 @@ int max_clique_actual(bool* pertenece, int** adyacencia, int n){
 				actual[nodo]=false;
 				tam_actual--;
 				tabu[nodo]=cant_iter;
-				
+				O(8);
 				//cout << "saco nodo: " << nodo+1 << endl;
 				//cout << "tam_actual: " << tam_actual << endl;
 				//cout << "Actual";
@@ -285,18 +310,32 @@ int max_clique_actual(bool* pertenece, int** adyacencia, int n){
 					mejore=true;
 					/* Si mejore, reseteo el arreglo 'tabu' e intento agrandar la clique (le doy la oportunidad de estar en la clique a los nodos
 					   que estaban tabú) ya que poder agregar algo sirve porque consigo una clique todavía mayor */
-					for(int i=0;i<n;i++) tabu[i]=0;
+					for(int i=0;i<n;i++){
+						tabu[i]=0;
+						O(4);
+					}
 					formar_completo_lista(actual,clique_actual,d,tabu,adyacencia,tam_actual,n);
 					tamanyo=tam_actual;
 					c=tamanyo;				//fuerzo salir del 'for' para empezar por la primero rotación
-					for(int k=0;k<n;k++) pertenece[k]=actual[k];
+					O(5);
+					for(int k=0;k<n;k++){
+						pertenece[k]=actual[k];
+						O(5);
+					}
 				}
 				else{
 					/* Si no pude mejorar, resto la cantidad de iteraciones que le queda a un nodo para dejar de ser tabú */
-					for(int j=0;j<n;j++)
-						if(tabu[j]!=0) tabu[j]--;
+					O(1);
+					for(int j=0;j<n;j++){
+						if(tabu[j]!=0){
+							tabu[j]--;
+							O(1);
+						}
+						O(4)
+					}
 				}
 				iteracion++;
+				O(3);
 			}
 		}
 	}
