@@ -1,6 +1,8 @@
 \begin{section}{Heurística constructiva}
 		\begin{subsection}{Explicación}
-			Como primera heurística, en este caso constructiva, desarrollamos un algoritmo goloso para resolver el problema \texttt{MAX-CLIQUE} de manera aproximada. El algoritmo parte del vértice de mayor grado en el grafo. En cada paso, agrega a la clique el vértice adyacente (al último agregado) de mayor grado que sea adyacente a todos los vértices en la clique obtenida hasta el momento. Este procedimiento se repite hasta que no se puedan agregar más vértices a la clique. (Figura \ref{fig:seguimiento_constructivo})
+			Como primera heurística, en este caso constructiva, desarrollamos un algoritmo goloso para resolver el problema \texttt{MAX-CLIQUE} de manera aproximada. El algoritmo parte del vértice de mayor grado en el grafo. En cada paso, agrega a la clique
+ \begin{comment}{el vértice de mayor grado que todavía no pertence a la misma tal que forma un completo con los ya pertenecientes}\end{comment} 
+el vértice adyacente (al último agregado) de mayor grado que sea adyacente a todos los vértices en la clique obtenida hasta el momento. Este procedimiento se repite hasta que no se puedan agregar más vértices a la clique. (Figura \ref{fig:seguimiento_constructivo})
 			
 			% --- Figura seguimiento algoritmo constructivo ---
 			\begin{figure}[H]
@@ -18,17 +20,19 @@
 		\end{subsection}
 		\begin{subsection}{Detalles de la implementación}
 			[REDACTAR MEJOR]
-			El mismo funciona de la siguiente manera:
+			El algoritmo funciona de la siguiente manera:
 
 			Sea $grados$ un arreglo de tamaño $n$, donde $n$ es la cantidad de vértices del grafo. En cada posición $j\; \forall 	1\leq j \leq n$ del arreglo está el grado correspondiente al vértice $j$.
 			Para construir una clique ordenamos $grados$ en forma decreciente. El primer vértice del arreglo, es decir, el de mayor grado del grafo se considera parte de la solución final del algoritmo.
 			Para completar la clique recorremos $grados$ en forma completa, y cada vértice que forma un completo con la solución parcial se agrega a la misma.
-			Al terminar de recorrer $grados$ el algoritmo termina siendo la solución parcial, el resultado final.
+			Al terminar de recorrer $grados$ el algoritmo termina, siendo la solución parcial, el resultado final.
 
-			A continuación, se muestra el pseudocódigo del algoritmo de heurística constructiva.\\
+			A continuación, se muestra el pseudocódigo de la heurística constructiva.\\
+
+			Sea $n$ la cantidad de vértices del grafo.
 
 			\begin{pseudo}
-				\func{constructivo}{matriz\_adyacencia,n}
+				\func{constructivo}{matriz\_adyacencia}
 				\tab $grados[n] \leftarrow ordenar\_grados(matriz\_adyacencia)$\\
 				\tab $solucion[n]$\\
 				\tab $solucion[0] \leftarrow grados[0]$\\
