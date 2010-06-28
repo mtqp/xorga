@@ -9,7 +9,8 @@
 \contentsline {section}{\numberline {3}Heur\IeC {\'\i }stica constructiva}{6}
 \contentsline {subsection}{\numberline {3.1}Explicaci\IeC {\'o}n}{6}
 \contentsline {subsection}{\numberline {3.2}Detalles de la implementaci\IeC {\'o}n}{6}
-\contentsline {subsection}{\numberline {3.3}Complejidad temporal}{8}
+\contentsline {subsection}{\numberline {3.3}Desventajas: }{7}
+\contentsline {subsection}{\numberline {3.4}Complejidad temporal}{8}
 \contentsline {section}{\numberline {4}Busqueda local}{9}
 \contentsline {subsection}{\numberline {4.1}Explicaci\IeC {\'o}n}{9}
 \contentsline {subsection}{\numberline {4.2}Detalles de la implementaci\IeC {\'o}n}{9}
