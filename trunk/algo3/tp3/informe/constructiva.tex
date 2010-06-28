@@ -52,7 +52,15 @@
 		\begin{subsection}{Desventajas }
 			Dado que el vértice de mayor grado pertenece a la clique resultado, si la clique máxima no incluía dicho vértice, la solución puede ser muy mala.
 			
-			Al ser un algoritmo goloso, en este problema como en tantos otros, no devuelve necesariamente el óptimo. Particularmente, la clique está condicionada al vértice de mayor grado, y no necesariamente la solución óptima lo contiene.
+			Al ser un algoritmo goloso, en este problema como en tantos otros, no devuelve necesariamente el óptimo. Particularmente, la clique está condicionada al vértice de mayor grado, y no necesariamente la solución óptima lo contiene.(Figura \ref{fig:seguimiento_caso_malo})
+
+			% --- Figura seguimiento algoritmo constructivo ---
+			\begin{figure}[H]
+				\centering
+		    	\includegraphics[scale=0.5]{constructivo/segCasoMalo.eps}
+			    \caption{Caso malo para la heurística constructiva}
+			    \label{fig:seguimiento_caso_malo}
+			\end{figure}
 		\end{subsection}
 		\begin{subsection}{Complejidad temporal}
 			El algoritmo empieza inicializando el arreglo $grados$ lo que tiene un costo de $n^2$ ya que para cada vértice recorre la columna correspondiente en la matriz de adyacencia (diseñada como un arreglo de arreglos).

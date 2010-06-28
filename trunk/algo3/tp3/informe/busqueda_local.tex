@@ -6,8 +6,15 @@
 			
 			La vecindad $N(S)$ que elegimos en este problema es el conjunto de soluciones tales que no tienen uno y sólo uno de los vértices pertenecientes a $S$, es decir, $S \setminus \{v\} \cup L$ donde $L$ es un conjunto de vértices tal que $u \in L \Longleftrightarrow S \setminus \{v\} \cup \{u\}$ forma un completo.
 
-			Para revisar la vecindad, sacamos un vértice de la solución óptima actual e intentamos agregar los vértices que no pertenecen a la clique. Luego, comparamos el tamaño de la clique que logramos contruir de esta manera con el tamaño de la clique correspondiente a la mejor solución vista de la vecindad. Si esta nueva solución es mejor, es decir, el tamaño de la clique es mayor al tamaño de la actual (mejor de la vecindad), dicha solución pasa a ser la mejor de la vecindad. Una vez revisada toda la vecindad comparamos la mejor solución encontrada en dicha vecindad con la mejor solución encontrada hasta el momento. Si es mejor, actualizamos el óptimo actual.
+			Para revisar la vecindad, sacamos un vértice de la solución óptima actual e intentamos agregar los vértices que no pertenecen a la clique. Luego, comparamos el tamaño de la clique que logramos contruir de esta manera con el tamaño de la clique correspondiente a la mejor solución vista de la vecindad. Si esta nueva solución es mejor, es decir, el tamaño de la clique es mayor al tamaño de la actual (mejor de la vecindad), dicha solución pasa a ser la mejor de la vecindad. Una vez revisada toda la vecindad comparamos la mejor solución encontrada en dicha vecindad con la mejor solución encontrada hasta el momento. Si es mejor, actualizamos el óptimo actual.(Figura \ref{fig:seguimiento_busqueda_local})
 
+			% --- Figura seguimiento algoritmo constructivo ---
+			\begin{figure}[H]
+				\centering
+		    	\includegraphics[scale=0.5]{busqueda_local/seguimiento.eps}
+			    \caption{Ejemplo de la heurística de busqueda local}
+			    \label{fig:seguimiento_busqueda_local}
+			\end{figure}
 		\end{subsection}
 		\begin{subsection}{Detalles de la implementación}
 			Almacenamos las relaciones entre los vértices en una matriz de $n \times n$, donde $n$ es la cantidad de vértices. Cada posición $(i,j)$ de la matriz contiene un $uno$ si existe la arista $(i,j)$ y un $cero$ en caso contrario. De esta forma se le asigna un número a cada vértice.\VSP
