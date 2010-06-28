@@ -97,6 +97,16 @@ Raffo Diego & 423/08 & enanodr@hotmail.com \\
 		\begin{subsection}{Comparacion de calidad}
 		\end{subsection}
 	\end{section}
+
+	\begin{section}{Concluciones}
+	\tab Luego de haber efectuado los analisis teóricos de complegidad y habiendo efectuado comparaciones en cuanto a la performance y a la precisión de cada algoritmo, se pudo sacar algunas concluciones:
+	\begin{itemize}
+		\item El algoritmo $Exacto$, como lo indica su nombre, es el único algoritmo que nos devuelve siempre la solucion precisa al problema de la clique máxima. Sin embargo, el costo de operaciones del algoritmo es factorial, y los resultados de las pruebas indicaron que para grafos de mas de NNNNNNNN, o con mas de EEEEEEEEEEe ejes, el algoritmo tardaba varias horas en devolver la solución, con lo cual hace que no siempre sea posible en la practica utilizar este algoritmo.
+		\item El algoritmo de heuristica constructiva es el algoritmo de heuristica mas rápido que encontramos, y también el menos preciso. Su complegidad en cantidad de operaciones fue cuadrática con respecto al tamaño de la entrada. Dado que hacer pruebas con todos los grafos posibles de N nodos y D densidad, tratando de abarcar la mayor cantidad de casos hicimos las pruebas  DE SARASA Y SARASA MANERA, con lo que este algoritmo mostro ser un TANTO TANTO mas eficiente en cantidad de operaciones, pero su precision fue de SARASA SARASA. Con esto vemos que es un algoritmo que se puede utilizar cuando no se cuenta no tiempo para poder conocer una solucion precisa, y no es de crucial importancia la absoluta precisión del resultado (UN ToQUE mEJOR HAY QUE DECIR ESO)
+		\item La heurística de busqueda local resulto ser mas preciso que el de heurística constructiva, pero su costo de operaciones resulto ser mayor, siendo o($n^4$). A pesar de esto, corre con la ventaja de que su precisión será siempre igual o mejor que la del algoritmo constructivo, ya que la utiliza como punto de partida, y dada la solucion constructiva, intenta mejorarla. En las pruebas, el algorñitmo resulto ser PROCENTAJELOCOOO preciso, pero tambien se puede apreciar la mayor cantidad de operaciones que el algorñitmo constructuvo. Podemos decir que la relación entre cantidad de operaciones y precision es SARASARASARSASRA (supongo no es buena porque es muucho mas compejo y no se si SIEMPRe da mejor. hay que ver las pruebas)
+		\item El algoritmo de Heurística de búsqueda tabú, tiene una complegidad aún mayor que la de la búsqueda local, siendo de orden de $n^5$. Este algorítmo es una meta-heurística de la búsqueda local, ya que parte de la solucion constructiva, y tambien a partir de esta solucion intenta mejorarla, con la diferencia de que la búsqueda tabu se permite escapar de la vecindad en busca de una solucion mas precisa. FALTA TERMINAR DE EXPLICAR COMO RESULTARON LOS PARAMETROS, Y LOS GRAFICOS  
+	\end{itemize}	
+	\end{section}
 	
 	\begin{section}{Mediciones}
 		Para contar la cantidad aproximada de operaciones definimos una variable inicializada en $cero$ la cual incrementamos luego de cada operación. En el código puede verse la llamada a la función \texttt{O(x)}, donde $x$ es un valor positivo entero, el cual es sumado a la cantidad de operaciones parcial para una vez terminado el algortimo, poseer la cantidad de operaciones que realiza para una instancia dada.
