@@ -73,6 +73,7 @@
 
 		La clique dada por la heurística constructiva es el $<2,3>$.
 		Cuando el algoritmo (búsqueda local) saca el vértice $dos$ de la clique, se mueve a la clique $<3,4>$ ya que todos sus adyacentes tienen grado dos y el $cuatro$ es el de menor numeración (excluyendo el $dos$ que es el que acaba de sacar). Como no logra mejorar (no encuentra una clique que posea al $tres$, al $cuatro$, y además algún otro vértice), no actualiza el mejor de la vecindad quedando el $<2,3>$. Prueba entonces sacando el $tres$, sin poder mejorar. Por lo tanto, la solución final es la que viene dada por el algortimo constructivo.
+		
 		\end{subsection}
 		\begin{subsection}{Complejidad temporal}
 			En un pricipio el algoritmo inicializa el arreglo de los $grados$ y lo ordena aplicando QuickSort, lo que tiene un costo de $n^2$. Luego, obtiene la solución inicial mediante la heurística constructiva que como ya vimos tiene también un costo de $n^2$ e inicializa los arreglos $actual$ y $mejor\_vecindad$ con costo lineal.
