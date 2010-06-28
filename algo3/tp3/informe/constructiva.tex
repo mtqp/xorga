@@ -1,9 +1,7 @@
 
 \begin{section}{Heurística constructiva}
 		\begin{subsection}{Explicación}
-			Como primera heurística, en este caso constructiva, desarrollamos un algoritmo goloso para resolver el problema \texttt{MAX-CLIQUE} de manera aproximada. El algoritmo parte del vértice de mayor grado en el grafo. En cada paso, agrega a la clique
- \begin{comment}{el vértice de mayor grado que todavía no pertence a la misma tal que forma un completo con los ya pertenecientes}\end{comment} 
-el vértice adyacente (al último agregado) de mayor grado que sea adyacente a todos los vértices en la clique obtenida hasta el momento. Este procedimiento se repite hasta que no se puedan agregar más vértices a la clique. (Figura \ref{fig:seguimiento_constructivo})
+			Como primera heurística, en este caso constructiva, desarrollamos un algoritmo goloso para resolver el problema \texttt{MAX-CLIQUE} de manera aproximada. El algoritmo parte del vértice de mayor grado en el grafo (el cual es considerado parte de la clique). En cada paso, agrega a la clique el vértice de mayor grado que todavía no pertence a la misma tal que forma un completo con los ya pertenecientes. Este procedimiento se repite hasta que no se puedan agregar más vértices a la clique. (Figura \ref{fig:seguimiento_constructivo})
 			
 			% --- Figura seguimiento algoritmo constructivo ---
 			\begin{figure}[H]
@@ -13,13 +11,11 @@ el vértice adyacente (al último agregado) de mayor grado que sea adyacente a t
 			    \label{fig:seguimiento_constructivo}
 			\end{figure}
 			
-			\begin{comment}[REDACTAR MEJOR] -- Por qué este criterio goloso? Se eligió este criterio para el algoritmo goloso pensando en la posibilidad de que el vértice con mayor grado está en la clique máxima, y los nodos adyacentes de mayor grado son los que la forman.\end{comment}
 			Se eligió este criterio goloso pensando en que el vértice con mayor grado tiene más probabilidad de pertenecer a la clique máxima ya que el grado de un vértice perteneciente a la misma condiciona la mayor clique que podrá contenerlo, es decir, si un vértice que está en la clique tiene grado $x$ no se podrá conseguir así una clique de tamaño mayor a $x+1$.
 		\end{subsection}
 		\begin{subsection}{Detalles de la implementación}
 			Almacenamos las relaciones entre los vértices en una matriz de $n \times n$, donde $n$ es la cantidad de vértices. Cada posición $(i,j)$ de la matriz contiene un $uno$ si existe la arista $(i,j)$ y un $cero$ en caso contrario. De esta forma se le asigna un número a cada vértice.\VSP
 
-			[REDACTAR MEJOR]
 			El algoritmo funciona de la siguiente manera:
 
 			Sea $grados$ un arreglo de tamaño $n$, donde $n$ es la cantidad de vértices del grafo. En cada posición $j\; \forall 	1\leq j \leq n$ del arreglo está el grado correspondiente al vértice $j$.
@@ -53,7 +49,7 @@ el vértice adyacente (al último agregado) de mayor grado que sea adyacente a t
 				\item \texttt{forma\_completo: } Para saber si agregar un vértice $v$ determina una solución al problema debemos verificar que forme un completo con los vértices ya incluídos. Para esto recorremos todos los vértices del grafo y para cada uno que pertenezca a la solución parcial chequeamos que sea adyacente a $v$. Si esto ocurre podemos agregar el vértice $v$ y agrandar la clique.
 			\end{itemize}
 		\end{subsection}
-		\begin{subsection}{Desventajas: }
+		\begin{subsection}{Desventajas }
 			Dado que el vértice de mayor grado pertenece a la clique resultado, si la clique máxima no incluía dicho vértice, la solución puede ser muy mala.
 			
 			Al ser un algoritmo goloso, en este problema como en tantos otros, no devuelve necesariamente el óptimo. Particularmente, la clique está condicionada al vértice de mayor grado, y no necesariamente la solución óptima lo contiene.
