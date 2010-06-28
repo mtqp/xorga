@@ -1,0 +1,116 @@
+\documentclass[12pt,titlepage]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{color}
+\usepackage{graphicx} % para insertar imagenes
+\usepackage{verbatim}
+\usepackage{float}
+
+
+\newcommand{\func}[2]{\texttt{#1}(#2)\\}
+\newcommand{\tab}{\hspace*{2em}}
+\newcommand{\FOR}{\textbf{for }}
+\newcommand{\TO}{\textbf{ to }}
+\newcommand{\IF}{\textbf{if }}
+\newcommand{\WHILE}{\textbf{while }}
+\newcommand{\THEN}{\textbf{then }}
+\newcommand{\ELSE}{\textbf{else }}
+\newcommand{\RET}{\textbf{return }}
+\newcommand{\MOD}{\textbf{ \% }}
+\newcommand{\OR}{\textbf{ or }}
+\newcommand{\AND}{\textbf{ and }}
+\newcommand{\tOde}[1]{\tab \small{O($#1$)}}
+\newcommand{\Ode}[1]{O($#1$)}
+\newcommand{\Thetade}[1]{{\small$\Theta$($#1$)}}
+\newcommand{\Omegade}[1]{{\small$\Omega$($#1$)}}
+\newcommand{\VSP}{\vspace*{3em}}
+\newcommand{\Pa}{\vspace{5mm}}
+\newenvironment{pseudo}{\begin{tabular}{p{11cm}l}}{\end{tabular}\VSP}
+
+\newcommand{\gra}[1]{{\noindent\centering\includegraphics[width=14cm]{#1}}\\}
+
+\title{{\sc\normalsize Algoritmos y estructuras de datos III}\\{\bf Trabajo Práctico Nº3}}
+\author{\begin{tabular}{lcr}
+De Sousa Bispo Mariano & 389/08 & marian\_sabianaa@hotmail.com \\
+Grosso Daniel & 694/08 & dgrosso@gmail.com\\
+Livorno Carla & 424/08 & carlalivorno@hotmail.com\\
+Raffo Diego & 423/08 & enanodr@hotmail.com \\
+\end{tabular}}
+\date{\VSP \normalsize{Junio 2010}}
+%\date{}
+\begin{document}
+\begin{titlepage}
+\maketitle
+\end{titlepage}
+\tableofcontents
+\newpage
+
+
+	\begin{section}*{Introducción}	\addcontentsline{toc}{section}{Introducción}
+		Este trabajo tiene como objetivo la aplicación de diferentes técnicas algorítmicas para la resolución de tres problemas particulares, el cálculo de complejidad teórica en el peor caso de cada algoritmo implementado, y la posterior verificación empírica.
+	
+		El lenguaje utilizado para implementar los algoritmos de todos los problemas fue C/C++
+	\end{section}
+
+
+	\begin{section}{Situaciones de la vida real}
+		El problema del Clique Máximo puede usarse como modelo para diversas situaciones de la vida real en ámbitos muy variados.\Pa
+		
+		\texttt{Aplicación Nº 1: }
+			Por un lado tenemos los problemas que involucren personas (como nodos) y las relaciones entre ellos (los ejes) en distintas materias. El ejemplo mas cotidiano (al menos para todos nosotros) es el de las redes sociales, y las 'amistades' entre las distintas personas. En este caso, puede ser útil para hacer pruebas de mercado, como dar productos gratis para promocionarlos, y dado que el costo de cada producto puede ser elevado se trata de entregar la menor cantidad, asegurandose la máxima promoción posible, entonces se busca el grupo de 'amigos' mas grande intentando que todos se enteren del producto en cuestión.\Pa %CAPAZ HAYA QUE CAMBIARLO
+			
+			%Otro ejemplo con personas como nodos, y "amistad" como ejes, podría usarse a la hora de formar una seleccion nacional en algún deporte de equipo. Una vez que el entrenador hace una selección preeliminar, para elejir entre ellos los que quedarían en el equipo se puede usar una modificacion del problema Max_Clique para saber cual es el mayor grupo de jugadores que se llevan bien entre si, lo que mejoraría el juego colectivo de dicha selección. (razon por la que riquelme no fue al mundial)
+			
+			%Podemos suponer que el Doctor Malito, némesis del conocido y carismático agente ingles Austin Powers, 
+		\texttt{Aplicación Nº 2: }
+			Un terrorista quiere infectar a la población con un virus. Supongamos que el virus es de transmición aérea, y dado el enorme costo de fabricacion del virus, solo se pudieron fabricar un par de cientos de ejemplares. El terrorista utilizaría una modificacion de Max Clique para elegir sus blancos para que la probabilidad de contagio sea mayor.		
+	\newpage
+	\end{section}
+	
+	\input{exacto.tex}
+
+	\newpage
+
+	\input{constructiva.tex}
+
+	\newpage
+
+	\input{busqueda_local.tex}
+	
+	\newpage
+	
+	\input{busqueda_tabu.tex}
+	%\input{anexo.tex}
+	
+	\newpage
+	
+	\begin{section}{Resultados}
+		\begin{subsection}{Parametros de la heurística tabú}
+		\end{subsection}		
+
+		\begin{subsection}{Comparacion de tiempos}
+		\end{subsection}
+
+		\begin{subsection}{Comparacion de calidad}
+		\end{subsection}
+	\end{section}
+	
+	\begin{section}{Mediciones}
+		Para contar la cantidad aproximada de operaciones definimos una\\ variable inicializada en $cero$ la cual incrementamos luego de cada operación. En el código puede verse la llamada a la función \texttt{O(x)}, donde $x$ es un valor positivo entero, el cual es sumado a la cantidad de operaciones parcial para una vez terminado el algortimo, poseer la cantidad de operaciones que realiza para una instancia dada.
+			
+		Preferimos contar operaciones en vez de medir tiempo porque a pesar de que es aproximado el resultado, el error es siempre el mismo y así podemos hacer una mejor comparación entre las instancias.
+			
+		Midiendo tiempo, el error para cada instancia varía, ya que es el sistema operativo el que ejecuta nuestro programa, al "mismo tiempo" que otras tareas.
+	\end{section}
+	\begin{section}{Compilación y ejecución de los programas}
+	Para compilar los programas se puede usar el comando \texttt{make} (Requiere el compilador \texttt{g++}).
+	Se pueden correr los programas de cada ejercicio ejecutando \texttt{./exacto}, \texttt{./constructivo}, \texttt{./busqueda\_local} y \texttt{./tabu\_search} respectivamente.
+		
+	Los programas leen la entrada de stdin y escriben la respuesta en stdout. Para leer la entrada de un archivo \texttt{Tp1EjX.in} y escribir la respuesta en un archivo \texttt{Tp1EjX.out} ses puede usar:\\ \texttt{./(ejecutable) < Tp1EjX.in > Tp1EjX.out}
+
+	Para contar la cantidad de operaciones: \texttt{./(ejecutable) count}. Devuelve para cada instancia el tamaño seguido de la cantidad de operaciones de cada instancia.
+	\end{section}
+\end{document}
