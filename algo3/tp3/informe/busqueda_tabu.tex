@@ -21,9 +21,11 @@
 			    \label{fig:seguimiento_busqueda_tabu}
 			\end{figure}
 
-		CARLANCHA LOQUIÑA TENES Q AGREGARLE MIL MIL MIL MIL NODOS AL SEIS XQ SINO ES REQUETE VERSO ESTO
+		El seguimiento del algoritmo no está completo, se incluye sólo la parte más relevante (la rotación en la que se mejora la solución parcial).
 
-		La heurística de búsqueda local nos da la clique formada por $<4,5,6>$ SARARARARARARASASASASA
+		La heurística de búsqueda local nos da la clique formada por $<4,5,6>$. En una de las rotaciones, saca el vértice $seis$ intentando formar una clique de mayor tamaño con $<4,5>$, al no poder hacerlo, retira el $cinco$ (es decir, ahora el $seis$ y el $cinco$ son tabú). Es entonces que encuentra una nueva clique de cuatro nodos y actualiza la solución parcial con esta. El algoritmo continúa haciendo rotaciones sobre la nueva solución intentando agrandar la clique durante la cantidad de iteraciones permitidas y volviendo a permitir agregar los vértices tabú después de pasada su cantidad de iteraciones tabú. En este grafo en particular, no logra ninguna nueva mejora, siendo la clique observada en el último grafo de la figura, la solución que devuelve el algoritmo, así como el óptimo.
+
+
 
 		\begin{comment}
 		Esto lo implementamos mediante un arreglo de vértices (los índices representan los vértices), donde para cada uno guardamos la cantidad de iteraciones que falta para que deje de ser tabú (el algoritmo lleva la cuenta de las iteraciones).
