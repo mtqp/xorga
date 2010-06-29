@@ -6,26 +6,25 @@
 \contentsline {subsubsection}{\numberline {2.1.1}Optimizaciones}{4}
 \contentsline {subsection}{\numberline {2.2}Detalles de la implementaci\IeC {\'o}n}{5}
 \contentsline {subsection}{\numberline {2.3}Complejidad temporal}{6}
-\contentsline {subsection}{\numberline {2.4}Conclusiones}{6}
 \contentsline {section}{\numberline {3}Heur\IeC {\'\i }stica constructiva}{7}
 \contentsline {subsection}{\numberline {3.1}Explicaci\IeC {\'o}n}{7}
 \contentsline {subsection}{\numberline {3.2}Detalles de la implementaci\IeC {\'o}n}{8}
 \contentsline {subsection}{\numberline {3.3}Desventajas }{9}
-\contentsline {subsection}{\numberline {3.4}Complejidad temporal}{10}
-\contentsline {section}{\numberline {4}Busqueda local}{12}
-\contentsline {subsection}{\numberline {4.1}Explicaci\IeC {\'o}n}{12}
-\contentsline {subsection}{\numberline {4.2}Detalles de la implementaci\IeC {\'o}n}{13}
-\contentsline {subsection}{\numberline {4.3}Desventajas}{15}
-\contentsline {subsection}{\numberline {4.4}Complejidad temporal}{17}
-\contentsline {section}{\numberline {5}Tabu-Search}{19}
-\contentsline {subsection}{\numberline {5.1}Explicaci\IeC {\'o}n}{19}
-\contentsline {subsection}{\numberline {5.2}Detalles de la implementaci\IeC {\'o}n}{20}
-\contentsline {subsection}{\numberline {5.3}Desventajas}{24}
-\contentsline {subsection}{\numberline {5.4}Complejidad temporal}{24}
-\contentsline {section}{\numberline {6}Resultados}{26}
-\contentsline {subsection}{\numberline {6.1}Parametros de la heur\IeC {\'\i }stica tab\IeC {\'u}}{26}
-\contentsline {subsection}{\numberline {6.2}Comparacion de tiempos}{26}
-\contentsline {subsection}{\numberline {6.3}Comparacion de calidad}{26}
-\contentsline {section}{\numberline {7}Concluciones}{26}
-\contentsline {section}{\numberline {8}Mediciones}{27}
-\contentsline {section}{\numberline {9}Compilaci\IeC {\'o}n y ejecuci\IeC {\'o}n de los programas}{27}
+\contentsline {subsection}{\numberline {3.4}Complejidad temporal}{11}
+\contentsline {section}{\numberline {4}Busqueda local}{13}
+\contentsline {subsection}{\numberline {4.1}Explicaci\IeC {\'o}n}{13}
+\contentsline {subsection}{\numberline {4.2}Detalles de la implementaci\IeC {\'o}n}{15}
+\contentsline {subsection}{\numberline {4.3}Desventajas}{17}
+\contentsline {subsection}{\numberline {4.4}Complejidad temporal}{20}
+\contentsline {section}{\numberline {5}Tabu-Search}{22}
+\contentsline {subsection}{\numberline {5.1}Explicaci\IeC {\'o}n}{22}
+\contentsline {subsection}{\numberline {5.2}Detalles de la implementaci\IeC {\'o}n}{23}
+\contentsline {subsection}{\numberline {5.3}Desventajas}{27}
+\contentsline {subsection}{\numberline {5.4}Complejidad temporal}{27}
+\contentsline {section}{\numberline {6}Resultados}{29}
+\contentsline {subsection}{\numberline {6.1}Parametros de la heur\IeC {\'\i }stica tab\IeC {\'u}}{29}
+\contentsline {subsection}{\numberline {6.2}Comparacion de tiempos}{29}
+\contentsline {subsection}{\numberline {6.3}Comparacion de calidad}{29}
+\contentsline {section}{\numberline {7}Concluciones}{29}
+\contentsline {section}{\numberline {8}Mediciones}{30}
+\contentsline {section}{\numberline {9}Compilaci\IeC {\'o}n y ejecuci\IeC {\'o}n de los programas}{30}
