@@ -13,18 +13,18 @@
 \contentsline {subsection}{\numberline {3.4}Complejidad temporal}{11}
 \contentsline {section}{\numberline {4}Busqueda local}{13}
 \contentsline {subsection}{\numberline {4.1}Explicaci\IeC {\'o}n}{13}
-\contentsline {subsection}{\numberline {4.2}Detalles de la implementaci\IeC {\'o}n}{15}
-\contentsline {subsection}{\numberline {4.3}Desventajas}{17}
-\contentsline {subsection}{\numberline {4.4}Complejidad temporal}{20}
-\contentsline {section}{\numberline {5}Tabu-Search}{22}
-\contentsline {subsection}{\numberline {5.1}Explicaci\IeC {\'o}n}{22}
-\contentsline {subsection}{\numberline {5.2}Detalles de la implementaci\IeC {\'o}n}{23}
-\contentsline {subsection}{\numberline {5.3}Desventajas}{27}
-\contentsline {subsection}{\numberline {5.4}Complejidad temporal}{27}
-\contentsline {section}{\numberline {6}Resultados}{29}
-\contentsline {subsection}{\numberline {6.1}Parametros de la heur\IeC {\'\i }stica tab\IeC {\'u}}{29}
-\contentsline {subsection}{\numberline {6.2}Comparacion de tiempos}{29}
-\contentsline {subsection}{\numberline {6.3}Comparacion de calidad}{29}
-\contentsline {section}{\numberline {7}Concluciones}{29}
-\contentsline {section}{\numberline {8}Mediciones}{30}
-\contentsline {section}{\numberline {9}Compilaci\IeC {\'o}n y ejecuci\IeC {\'o}n de los programas}{30}
+\contentsline {subsection}{\numberline {4.2}Detalles de la implementaci\IeC {\'o}n}{16}
+\contentsline {subsection}{\numberline {4.3}Desventajas}{18}
+\contentsline {subsection}{\numberline {4.4}Complejidad temporal}{21}
+\contentsline {section}{\numberline {5}Tabu-Search}{23}
+\contentsline {subsection}{\numberline {5.1}Explicaci\IeC {\'o}n}{23}
+\contentsline {subsection}{\numberline {5.2}Detalles de la implementaci\IeC {\'o}n}{24}
+\contentsline {subsection}{\numberline {5.3}Desventajas}{28}
+\contentsline {subsection}{\numberline {5.4}Complejidad temporal}{28}
+\contentsline {section}{\numberline {6}Resultados}{30}
+\contentsline {subsection}{\numberline {6.1}Parametros de la heur\IeC {\'\i }stica tab\IeC {\'u}}{30}
+\contentsline {subsection}{\numberline {6.2}Comparacion de tiempos}{30}
+\contentsline {subsection}{\numberline {6.3}Comparacion de calidad}{30}
+\contentsline {section}{\numberline {7}Concluciones}{30}
+\contentsline {section}{\numberline {8}Mediciones}{31}
+\contentsline {section}{\numberline {9}Compilaci\IeC {\'o}n y ejecuci\IeC {\'o}n de los programas}{31}

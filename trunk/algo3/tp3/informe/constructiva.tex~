@@ -12,7 +12,7 @@
 			\end{figure}
 			
 			El grafo anterior, tiene una clique máxima de $cuatro$ vértices, dada por $<3,4,6,7>$. El vértice de grado mayor es el $tres$, siendo este, el vértice con el que comienza.
-			Continúa eligiendo los de menor grado que sean adyacentes a todos los vértices de la solución parcial, que en la figura se muestra en los sucesivos gráficos del grafo. 
+			Continúa eligiendo el de mayor grado que sea adyacentes a todos los vértices de la solución parcial, como se muestra en la figura en los sucesivos gráficos del grafo.
 
 			Se eligió este criterio goloso pensando en que el vértice con mayor grado tiene más probabilidad de pertenecer a la clique máxima ya que el grado de un vértice perteneciente a la misma condiciona la mayor clique que podrá contenerlo, es decir, si un vértice que está en la clique tiene grado $x$ no se podrá conseguir así una clique de tamaño mayor a $x+1$.
 		\end{subsection}
@@ -69,7 +69,7 @@
 
 			En esta figura el vértice de mayor grado es el $cinco$, con el que se puede formar una clique de 3, o dos cliques de dos nodos, dependiendo cuál sea el adyancente a él con mayor grado. Si existen dos de igual grado, el de menor numeración es el que primero se elegirá. Al incluirse un nuevo nodo a la clique, los siguientes a agregar van a venir condicionados a ser adyacentes a todos los que estén en la clique hasta el momento.
 
-			Este grafo en particular la clique máxima es de $cuatro$ vértices, y el algoritmo constructivo no la encuentra. Esto sucede por que los grados de la clique resultante son los mayores de todo el grafo, y además, está condicionado a comenzar con el vértice $cinco$. Es entonces que en los casos donde el de grado máximo posee una cantidad significativa de nodos colgando, y/o circuitos, y/o caminos, el algoritmo tenderá a obtener una solución lejos de la óptima. Si en cambio, el de mayor grado se encuentra conectado a la clique máxima, muy probablemente la solución sea la óptima.
+			En este grafo en particular la clique máxima es de $cuatro$ vértices, y el algoritmo constructivo no la encuentra. Esto sucede por que los grados de la clique resultante son los mayores de todo el grafo, y además, está condicionado a comenzar con el vértice $cinco$. Es entonces que en los casos donde el de grado máximo posee una cantidad significativa de nodos colgando, y/o circuitos, y/o caminos, el algoritmo tenderá a obtener una solución lejos de la óptima. Si en cambio, el de mayor grado se encuentra en la clique máxima, muy probablemente la solución sea la óptima.
 		\end{subsection}
 		\begin{subsection}{Complejidad temporal}
 			El algoritmo empieza inicializando el arreglo $grados$ lo que tiene un costo de $n^2$ ya que para cada vértice recorre la columna correspondiente en la matriz de adyacencia (diseñada como un arreglo de arreglos).
