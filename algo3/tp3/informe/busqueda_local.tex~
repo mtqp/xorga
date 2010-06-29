@@ -65,8 +65,8 @@
 			% --- Figura seguimiento algoritmo busqueda local ---
 			\begin{figure}[H]
 				\centering
-		    	\includegraphics[scale=0.5]{búsqueda_local/segCasoMalo.eps}
-			    \caption{Caso malo para la heurística de busqueda local}
+		    	\includegraphics[scale=0.5]{busqueda_local/segCasoMalo.eps}
+			    \caption{Caso malo para la heurística de búsqueda local}
 			    \label{fig:seguimiento_caso_malo_busqueda_local}
 			\end{figure}
 
@@ -80,8 +80,8 @@
 			% --- Figura seguimiento algoritmo busqueda local ---
 			\begin{figure}[H]
 				\centering
-		    	\includegraphics[scale=0.5]{búsqueda_local/segCasoMalo2.eps}
-			    \caption{Caso malo para la heurística de busqueda local}
+		    	\includegraphics[scale=0.5]{busqueda_local/segCasoMalo2.eps}
+			    \caption{Caso malo para la heurística de búsqueda local}
 			    \label{fig:seguimiento_caso_malo_busqueda_local2}
 			\end{figure}
 		\end{subsection}
