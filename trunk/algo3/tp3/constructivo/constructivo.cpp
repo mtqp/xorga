@@ -41,7 +41,7 @@ int comparar( const void* _a, const void* _b )
 }
 
 int max_clique(bool* pertenece, int** adyacencia, int n){
-
+	if(n==0) return 0;
 	int tamanyo = 1;
 	O(1);
 	// tupla (nodo, grado)
