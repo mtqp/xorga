@@ -63,6 +63,7 @@ void formar_completo(bool* pertenece, int** adyacencia, const int nodo, int& tam
 }
 
 int constructivo(bool* pertenece, const pair<int,int>* d, int** adyacencia, const int n){
+	if(n==0) return 0;
 	/*construye una clique a partir del de mayor grado*/
 	int tamanyo = 1;
 	int actual = d[0].first;

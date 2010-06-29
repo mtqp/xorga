@@ -118,6 +118,7 @@ void formar_completo_lista(bool* pertenece,list& l,pair* d,int* tabu,int** adyac
 }
 
 int constructivo(bool* pertenece, const pair* d, int** adyacencia, const int n){
+	if(n==0) return 0;
 	/*construye una clique a partir del de mayor grado*/
 	int tamanyo = 1;
 	int actual = d[0].first;
