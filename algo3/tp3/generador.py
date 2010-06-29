@@ -94,16 +94,16 @@ if __name__=="__main__":
 					instancias_max.append(grafos_max_clique(i,j))
 	else:
 		if(instancias_menores == 0):
-			for k in range(cantidad):
+			'''for k in range(cantidad):
 				print "Calculando grafo random numero ", k
-				instancias.append(grafos_random(tamanyo))
-			'''print "Calculando grafos Max_clique"
+				instancias.append(grafos_random(tamanyo))'''
+			print "Calculando grafos Max_clique"
 			for k in range(cantidad):
-				instancias_max.append(grafos_max_clique(tamanyo,15))'''
+				instancias_max.append(grafos_max_clique(tamanyo,30))
 		else:
 			print "No es opcion valida."
 	
 	print "Generando Input"
-	generar_input("test/test_random.in", instancias)
+	#generar_input("test/test_random.in", instancias)
 	generar_input("test/test_max_clique.in", instancias_max)
 	#generar_output("test_max_clique.out", instancias_max)

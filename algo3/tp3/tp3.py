@@ -1,5 +1,30 @@
 import random
 
+def grafoSinAristas( n ):
+	return [ [] for i in range(n) ]
+
+def agregarClique( grafo, nodos ):
+	for nodo in nodos:
+		for v in nodos:
+			if v != nodo and nodo not in grafo[v-1]:
+				grafo[v-1].append( nodo )
+
+def agregarRandom( grafo ):
+	n = len(grafo)
+	nodos = [ x+1 for x in range(n) ]
+	for i in range(n):
+		posibles  = list(set(nodos)-set(grafo[i]))
+		elegidos  = random.sample( posibles , random.randint(0,len(posibles) ) )
+		grafo[i] += elegidos
+
+def grafoCliqueMin( n, n_clique ):
+	g = grafoSinAristas( n )
+	nodos_clique = random.sample([ x+1 for x in range(n) ],n_clique)
+	agregarClique( g, nodos_clique )
+	agregarRandom( g )
+	return g
+
+
 def guardarInput(nombre, instancias):
 	fIn = open(nombre,'w')
 	for instancia in instancias:
