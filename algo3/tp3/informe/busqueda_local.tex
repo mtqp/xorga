@@ -12,13 +12,17 @@
 			\begin{figure}[H]
 				\centering
 		    	\includegraphics[scale=0.5]{busqueda_local/seguimiento.eps}
+			\end{figure}
+			\begin{figure}[H]
+				\centering
+			\includegraphics[scale=0.5]{busqueda_local/seguimiento_cont.eps}
 			    \caption{Ejemplo de la heurística de búsqueda local}
 			    \label{fig:seguimiento_busqueda_local}
 			\end{figure}
 
-			La heurística constructiva nos da la clique con los vértices $<3,4,5>$. Prueba primeramente quitando el vértices $tres$ sin poder conseguir una clique mayor a la previamente obtenida que incluya el $<4,5>$. Al no poder mejorar, regresa a la original y prueba quitando ahora el vértice $cuatro$, obteniendo iguales resultados.
+			La heurística constructiva nos da la clique con los vértices $<3,4,5>$. La heurística de busqueda local prueba primeramente quitando el vértices $cuatro$ ya que entre los de menor grado perteneciente a la clique es el de mayor numerción (se recorre a la inversa el arreglo de los grados ordenado) sin poder conseguir una clique mayor a la previamente obtenida que incluya el $<3,5>$. Al no poder mejorar no actualiza el mejor de la vecindad, regresa a la original y prueba quitando ahora el vértice $tres$, obteniendo iguales resultados.
 
-			Resta quitar el vértice $cinco$ e intentar agrandar la clique, como se ve en la figura, existe una clique de $cuatro$ vértices que incluye al $cuatro$ y $tres$. En particular, es la clique máxima de este grafo. La búsqueda local en este caso, encuentra esta solución al quitar el vértice $cinco$, ya que la nueva clique es de $cuatro$ vértices es mejor (es decir, es mayor a la calculada por la constructiva de $tres$) y ya probó quitando cada uno de los nodos de la clique original, es decir (de la vecindad, la clique de cuatro es la mejor).
+			Resta quitar el vértice $cinco$ e intentar agrandar la clique, como se ve en la figura, existe una clique de $cuatro$ vértices que incluye al $<3,4>$. Como la nueva clique de cuatro vértices es la mejor de la vecindad la actualiza. También actualiza la solución actual ya que terminó de recorrer toda la vecindad logrando mejorar. Luego, el algoritmo repite este procedimiento con la clique $<1,2,3,4>$  sin lograr mejorar ya que es la clique máxima del grafo.
 
 			Por lo tanto para este caso particular, la heurística de búsqueda local nos devuelve el óptimo.
 
@@ -91,11 +95,10 @@
 			\begin{figure}[H]
 				\centering
 		    	\includegraphics[scale=0.5]{busqueda_local/segCasoMalo2.eps}
+			\includegraphics[scale=0.5]{busqueda_local/segCasoMalo2_cont.eps}
 			    \caption{Caso malo para la heurística de búsqueda local}
 			    \label{fig:seguimiento_caso_malo_busqueda_local2}
 			\end{figure}
-
-		CHE CARLINGUIIIII MANDALE CIENTO SETENTA Y NUEVE MIL TRESCIENTOS VEINTE DOS NODOS AL 6, XQ ES MENTIRA Q EL ALGO HACE ESO... TQP OVER.
 
 		En este caso, vemos que la heurística constructiva nos da una clique con los vértices $<4,5,6>$. La búsqueda local al sacar el vértice $seis$, busca mejorar la clique máxima hasta el momento, con la restricción de que posea los vértices que no fueron excluídos ($5$, y $6$). Encuentra así una nueva clique de tres nodos, formada por los vértices $<1,4,5>$. Como la clique es del mismo tamaño, es decir no mejoró con respecto a la anterior, vuelve a la clique dada por la heurística constructiva.
 
