@@ -12,7 +12,7 @@
 			\begin{figure}[H]
 				\centering
 		    	\includegraphics[scale=0.5]{busqueda_local/seguimiento.eps}
-			    \caption{Ejemplo de la heurística de busqueda local}
+			    \caption{Ejemplo de la heurística de búsqueda local}
 			    \label{fig:seguimiento_busqueda_local}
 			\end{figure}
 		\end{subsection}
@@ -62,10 +62,10 @@
 		
 		El algoritmo es estrictamente dependiente de la numeración inicial de los vértices. Para vértices de igual grado, al ordenarlos tiene prioridad el de menor numeración.(Figura \ref{fig:seguimiento_caso_malo_busqueda_local})
 
-			% --- Figura seguimiento algoritmo constructivo ---
+			% --- Figura seguimiento algoritmo busqueda local ---
 			\begin{figure}[H]
 				\centering
-		    	\includegraphics[scale=0.5]{busqueda_local/segCasoMalo.eps}
+		    	\includegraphics[scale=0.5]{búsqueda_local/segCasoMalo.eps}
 			    \caption{Caso malo para la heurística de busqueda local}
 			    \label{fig:seguimiento_caso_malo_busqueda_local}
 			\end{figure}
@@ -77,10 +77,10 @@
 		ACAAAA ACAAAA ESCRIBI
 		(Figura \ref{fig:seguimiento_caso_malo_busqueda_local2})
 
-			% --- Figura seguimiento algoritmo constructivo ---
+			% --- Figura seguimiento algoritmo busqueda local ---
 			\begin{figure}[H]
 				\centering
-		    	\includegraphics[scale=0.5]{busqueda_local/segCasoMalo2.eps}
+		    	\includegraphics[scale=0.5]{búsqueda_local/segCasoMalo2.eps}
 			    \caption{Caso malo para la heurística de busqueda local}
 			    \label{fig:seguimiento_caso_malo_busqueda_local2}
 			\end{figure}

@@ -11,7 +11,18 @@
 		prohibimos revertir el cambio que hicimos para llegar del aspirante anterior al nuevo, o sea, prohibimos volver a agregar el vértice que sacamos.
 		
 		Cada vez que logramos mejorar, es decir, encontramos una clique de tamaño mayor a la máxima clique vista hasta el momento actualizamos la solución.
-		Repetimos este procedimiento hasta agotar la máxima cantidad de iteraciones permitidas sin mejorar. Una vez que ocurre esto, el algoritmo termina, siendo la solución final la solución actual, es decir, la clique de mayor tamaño que logro encontrar.
+		Repetimos este procedimiento hasta agotar la máxima cantidad de iteraciones permitidas sin mejorar. Una vez que ocurre esto, el algoritmo termina, siendo la solución final la solución actual, es decir, la clique de mayor tamaño que logro encontrar.(Figura \ref{fig:seguimiento_busqueda_tabu})
+
+			% --- Figura seguimiento algoritmo constructivo ---
+			\begin{figure}[H]
+				\centering
+		    	\includegraphics[scale=0.5]{tabu_search/seguimiento.eps}
+			    \caption{Ejemplo de la heurística de búsqueda tabú}
+			    \label{fig:seguimiento_busqueda_tabu}
+			\end{figure}
+
+		AHI NO TERMINA EL ALGORITMO, BUSCA ROTANDO LA CLIQUE PERO SE HACE MUY LARGO PONER TODO EL SEGUIMIENTO...
+
 		\begin{comment}
 		Esto lo implementamos mediante un arreglo de vértices (los índices representan los vértices), donde para cada uno guardamos la cantidad de iteraciones que falta para que deje de ser tabú (el algoritmo lleva la cuenta de las iteraciones).
 		Luego, cuando revisamos las vecindades de un aspirante, evitamos aquellas donde la modificación implica agregar un vértice tabú.
