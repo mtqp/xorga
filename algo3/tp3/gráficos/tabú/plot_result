@@ -1,0 +1,104 @@
+#!/usr/bin/gnuplot -persist
+
+#exporto como png
+set term postscript enhanced color
+
+#set style data histogram
+#set style histogram rowstacked
+#set style fill solid border -1
+#set boxwidth 0.75
+
+#set bar 1.000000
+#set boxwidth 1.0 absolute
+#set style fill  solid 1.00 border -1
+#set style rectangle back fc lt -3 fillstyle  solid 1.00 border -1
+#set key inside right top vertical Right noreverse enhanced autotitles columnhead nobox
+#set style histogram clustered gap 1 title  offset character 0, 0, 0
+#set style data histograms
+
+set style data linespoints
+
+#pone la descripccion de los ejes
+set xlabel "cantidad de nodos"
+set ylabel "cantidad de nodos del resultado"
+
+#pone la leyenda a la izquierda y con borde
+set key left box
+
+#defino dos tipos de lineas
+#lt=tipo de linea y color,  pt=point type,  ps=point size
+#(para ver los distintos point types pongan "test" en el gnuplot)
+#set style line 1 lt 1 pt 1 ps 1
+#set style line 2 lt 2 pt 1 ps 1
+#set style line 3 lt 3 pt 1 ps 1
+
+#plot[0:]	'exacto.out'  title "Exacto",\
+#		'../inpute.out'  title "Constructiva"
+
+
+set output 'resultados.eps'
+cd "data"
+plot[0:50][0:10]	'param_5.out'  title '5%',\
+					'param_10.out'  title '10%',\
+					'param_15.out'  title '15%',\
+					'param_20.out'  title '20%',\
+					'param_25.out'  title '25%',\
+					'param_30.out'  title '30%',\
+					'param_35.out'  title '35%',\
+					'param_40.out'  title '40%',\
+					'param_45.out'  title '45%'
+cd ".."
+
+set output 'counts.eps'
+set ylabel "cantidad de operaciones"
+cd "data"
+plot[0:50]	'param_5.count'  title '5%',\
+			'param_10.count'  title '10%',\
+			'param_15.count'  title '15%',\
+			'param_20.count'  title '20%',\
+			'param_25.count'  title '25%',\
+			'param_30.count'  title '30%',\
+			'param_35.count'  title '35%',\
+			'param_40.count'  title '40%',\
+			'param_45.count'  title '45%'
+cd ".."
+
+#set bar 1.000000
+#set boxwidth 0.9 absolute
+#set style fill solid 1.00 border 0
+#set key inside right top vertical Right noreverse enhanced autotitles columnhead nobox
+#set style histogram clustered gap 1 title  offset character 0, 0, 0
+#set style data histograms
+
+set output 'counts_sobre_resultado.eps'
+
+cd "data"
+
+set ylabel "cant. op. heuristica / tiempo exacto"
+plot	'param_5.dat'  using ($5/$2) title 'iteraciones=5%*n',\
+		'param_10.dat' using ($5/$2) title 'iteraciones=10%*n',\
+		'param_20.dat' using ($5/$2) title 'iteraciones=20%*n'
+
+
+set style data points
+set ylabel "% de error de la heuristica respecto al exacto"
+plot[][0:1]		'param_5.dat'  using (1-$4/$2) title 'iteraciones=5%',\
+				'param_10.dat' using (1-$4/$2) title 'iteraciones=10%',\
+				'param_20.dat' using (1-$4/$2) title 'iteraciones=20%'
+
+#set style data histograms
+#set ylabel "cantidad de instancias"
+#set xlabel "porcentaje de error"
+#plot[][]		'param_5.dat'  using 2:xtic() title 'iteraciones=5%'
+#				'param_10.dat' using (1-$4/$2) title 'iteraciones=10%',\
+#				'param_20.dat' using (1-$4/$2) title 'iteraciones=20%'
+
+
+#set style data points
+#set ylabel "distancia a la solucion"
+#set xlabel "cantidad de iteraciones"
+#plot[][0:1]		'param_5.dat'  using (1-$4/$2) title 'iteraciones=5%',\
+#				'param_10.dat' using (1-$4/$2) title 'iteraciones=10%',\
+#				'param_20.dat' using (1-$4/$2) title 'iteraciones=20%'
+cd ".."
+
