@@ -24,7 +24,7 @@ template<class T> void print_matriz(T M, int n){
 }
 
 template<class T> void print_vector(T V, int n){
-	for(int i=0; i<n; i++) cout << V[i];
+	for(int i=0; i<n; i++) cout << V[i] << ", ";
 	cout << endl;
 }
 
@@ -253,6 +253,7 @@ int max_clique_actual(bool* pertenece, int** adyacencia, int n, int MAX_ITERACIO
 			tam_actual=tamanyo;
 			for(int i=0;i<n;i++){
 				actual[i]=false;
+				tabu[i]=0;
 				O(4);
 			}
 			clique_actual.clear();
@@ -266,9 +267,11 @@ int max_clique_actual(bool* pertenece, int** adyacencia, int n, int MAX_ITERACIO
 				}
 				O(7);
 			}
+			print_lista(clique_actual);
+			cout << "holaaaaa ------------------------------" << endl;
 			rotar(clique_actual,c);
 			
-			//cout << "Lista actual: ";
+			//cout << "empiezo con Lista actual: ";
 			//print_lista(clique_actual);
 			//cout << "tam_actual: " << tam_actual << endl;
 
@@ -293,15 +296,15 @@ int max_clique_actual(bool* pertenece, int** adyacencia, int n, int MAX_ITERACIO
 				tam_actual--;
 				tabu[nodo]=cant_iter;
 				O(8);
-				//cout << "saco nodo: " << nodo+1 << endl;
+				cout << "saco nodo: " << nodo+1 << endl;
 				//cout << "tam_actual: " << tam_actual << endl;
-				//cout << "Actual";
+				//cout << "queda Actual";
 				//print_lista(clique_actual);  
 				
 				formar_completo_lista(actual,clique_actual,d,tabu,adyacencia,tam_actual,n);
 
-				//cout << "despues de agregar";
-				//print_lista(clique_actual);  
+				cout << "despues de agregar";
+				print_lista(clique_actual);  
 				//cout << "Tam_actual: " << tam_actual << endl;
 				
 				//cout<< "Tabu: ";
@@ -328,7 +331,7 @@ int max_clique_actual(bool* pertenece, int** adyacencia, int n, int MAX_ITERACIO
 					/* Si no pude mejorar, resto la cantidad de iteraciones que le queda a un nodo para dejar de ser tabú */
 					O(1);
 					for(int j=0;j<n;j++){
-						if(tabu[j]!=0){
+						if(tabu[j]>0){
 							tabu[j]--;
 							O(1);
 						}
