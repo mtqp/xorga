@@ -1,3 +1,5 @@
+import random
+
 def guardarInput(nombre, instancias):
 	fIn = open(nombre,'w')
 	for instancia in instancias:
@@ -47,6 +49,13 @@ def cargarCounts( archivo ):
 		counts.append( (nro_linea,n,count) )
 		nro_linea += 1
 	return counts
+
+def grafo_random( n ):
+	grafo = [ [] for i in range(n) ]
+	for i in range(n):
+		grafo[i] += [ x+1 for x in range(i)     if i+1 in grafo[x] ]
+		grafo[i] += [ x+1 for x in range(i+1,n) if random.randint(0,1) == 1 ]
+	return grafo
 
 def graphviz( archivo, grafos, soluciones=[] ):
 	f = open(archivo,'w')
