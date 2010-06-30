@@ -243,7 +243,9 @@ int max_clique_actual(bool* pertenece, int** adyacencia, int n, int MAX_ITERACIO
 	O(5);
 	while(mejore){
 		mejore=false;
+		cout << "tam  " << tamanyo << endl;
 		int cant_iter=max(tamanyo*MAX_TABU_PORCENTAJE/100,3);
+		cout << "cant_iter " << cant_iter << endl;
 		/* Empiezo tamanyo veces desde la clique original a no ser que en alguna de las iteraciones logre mejorarla
 		** Cada una de estas veces roto la lista para sacar los nodos en otro orden y asi explorar otros vecinos*/
 		O(5);
@@ -386,6 +388,7 @@ int main(int argc, char** argv){
 			cout << n << "\t" << contador << "\t" << res << endl;	//imprimo la cuenta
 		}
 		else if(argc>1 && string(argv[1])=="tamaño"){
+			cout << porcentaje << endl;
 			cout << max_clique_actual(pertenece,adyacencia,n,MAX_ITERACIONES,porcentaje) << endl;
 		}
 		else{
