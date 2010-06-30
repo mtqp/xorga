@@ -127,7 +127,8 @@
 			    \label{fig:seguimiento_busqueda_tabu_continuacion}
 			\end{figure}
 
-		En la segunda y última rotación, comienza por quitar el vértice $tres$, dejándolo tabú, y no pudiendo tomar otro vértice mas que el $uno$. Recorre el camino dado por los vértices $2,1,4$. Al llegar al $cuatro$, posee todos sus vértices adyacentes tabú, por lo que no puede seguir. Termina porque
+		En la segunda y última rotación, comienza por quitar el vértice $tres$, dejándolo tabú, y no pudiendo tomar otro vértice mas que el $uno$. Recorre el camino dado por los vértices $2,1,4$. Al llegar al $cuatro$, posee todos sus vértices adyacentes tabú, por lo que no puede seguir. Termina porque probó mejorar en todas sus rotaciones, sin poder lograrlo.
+
 	\end{subsection}
 
 	\begin{subsection}{Complejidad temporal}
@@ -146,4 +147,8 @@
 			 \texttt{Observación: } En la función $formar\_completo$ para ver si es factible agregar un vértice a la clique en vez de recorrer todos los vértices del grafo como hacemos, se podria sólo recorrer los vértices pertenecientes a la clique ya que están en una lista, pero la complejidad sería la misma y deberiamos ir agregando a la lista a medida que se decide agregar un vértice (para considerarlo en las proximas verificaciones) y esto no nos permite hacerlo en el orden deseado (ya que queremos agregar al principio de la lista de la clique actual de menor a mayor grado y los recorremos de mayor a menor grado). Como ya mencionamos esto no mejoraria la complejidad asintotica y aumentaria la complejidad de comprensión del código.
 	\end{subsection}
 
+	\begin{subsection}{Parámetros de la heurística tabú}
+		\includegraphics{tabu_search/iteraciones.eps}
+		\includegraphics{tabu_search/time.eps}
+	\end{subsection}	
 \end{section}
