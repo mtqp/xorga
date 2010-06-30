@@ -36,7 +36,7 @@
 		\end{comment}
 	\end{subsection}
 	\begin{subsection}{Detalles de la implementación}
-		Almacenamos las relaciones entre los vértices en una matriz de $n \times n$, donde $n$ es la cantidad de vértices. Cada posición $(i,j)$ de la matriz contiene un $uno$ si existe la arista $(i,j)$ y un $cero$ en caso contrario. De esta forma se le asigna un número a cada vértice.\VSP
+		Almacenamos las relaciones entre los vértices en una matriz de $n \times n$, donde $n$ es la cantidad de vértices. Cada posición $(i,j)$ de la matriz contiene un $uno$ si existe la arista $(i,j)$ y un $cero$ en caso contrario. De esta forma se le asigna un número a cada vértice.
 
 		A continuación, se muestra el pseudocódigo de la heurística de búsqueda tabú.\\
 
@@ -69,11 +69,10 @@
 
 		La primer cláusula \texttt{if} verifica si la solución de búsqueda local encontró la clique tanto completa como la de un elemento. En ambos casos no tiene sentido aplicar el tabú search ya que, si encontró el completo, esta solución no podrá ser mejorada, al contener todos los vértices. Si sólo encontró un vértice, implica que el de grado mayor en el grafo es de grado cero, por lo tanto, todos sus vértices son de grado cero.
 
-		El valor de verdad de la guarda del \texttt{while} $puedo\_seguir$ viene dado por la conjunción entre $tam\_actual \neq 1$, $\neg mejore$ e $iteracion<n$.
+		El valor de verdad de la guarda del \texttt{while} $puedo\_seguir$ viene dado por la conjunción entre $tam\_actual \neq 1$, $\neg mejore$ e $iteracion<iteraciones$.
 		Pedimos que el tamaño de la clique actual sea distinto de $uno$ ya que nos interesa movernos a soluciones vecinas. Si el tamaño es $uno$ en esa iteración saca el último vértice de la clique por lo que se pierde referencia a la misma moviéndose inmediatamente al primer vértice segun la numeración que no esté tabú.
 		Por otro lado, el \texttt{while} itera mientras no logre mejorar para forzar la salida del ciclo cuando encuentre una clique de mayor tamaño que la actual y así empezar a sacar vértices desde la primer rotación (ya que también se fuerza la salida del \texttt{for}).
-		La última condición es para asegurar la salida del ciclo, ya que podría no mejorar nunca y ciclar entre diferentes cliques. Además, esto determina la cantidad de iteraciones que le permitimos buscar sin lograr mejorar, es un parámetro que ajustamos de la siguiente manera AJUSTEMOSLO ALGUN DIAAAAAA!!!!!ukuyfuyjtjft5umj76fu7666m,6b,ib7,ki7k,i87fk7k,KUFMKUTJYTDMHYTMJUY6FMJUYMKY
-
+		La última condición es para asegurar la salida del ciclo, ya que podría no mejorar nunca y ciclar entre diferentes cliques. Además, esto determina la cantidad de iteraciones que le permitimos buscar sin lograr mejorar, es un parámetro (iteraciones) que ajustamos mediante pruebas (ver sección 5.5).
 		\begin{itemize}			
 			\item \texttt{rotar\_clique: } Dado que fijar la pertenencia de un vértice a la clique condiciona el resultado final, el orden en que se eliminen los vértices puede hacer la diferencia entre un buen resultado y uno malo, a pesar de encontrar un buen criterio para hacerlo. Por este motivo, decidimos empezar eliminando de menor a mayor grado, y en cada iteración rotar la lista para sacar los vértices en otro orden.
 			
