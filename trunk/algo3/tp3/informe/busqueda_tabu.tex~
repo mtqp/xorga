@@ -184,7 +184,6 @@
 		\label{fig:Ajuste_del_parametro_tabu}
 	\end{figure}
 
-	A partir del gráfico consideramos que el valor más adecuado para este parámetro es el $40$ ya que vamos a elegirlo según la calidad de solución que proporcione. En el gráfico se observa que el valor que se mantiene más próximo al exacto es este.
-.	
+	A partir del gráfico consideramos que el valor más adecuado para este parámetro es el $40$ ya que vamos a elegirlo según la calidad de solución que proporcione. En el gráfico se observa que el valor que se mantiene más próximo al exacto es este.	
 	\end{subsection}
 \end{section}
