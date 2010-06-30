@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=latex 2010.6.8)  30 JUN 2010 17:25
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=latex 2010.6.8)  30 JUN 2010 17:38
 entering extended mode
  %&-line parsing enabled.
 **informe.tex dvips -p pdf
@@ -535,32 +535,30 @@ Overfull \hbox (4.09813pt too wide) in paragraph at lines 133--134
 OT1/cmr/m/n/12 ninguno de los pun-tos de tab^^Su search
  []
 
+File: conclusiones/heuris_rapidas2.eps Graphic file (type eps)
+<conclusiones/heuris_rapidas2.eps> [40]
 File: conclusiones/heuris_rapidas.eps Graphic file (type eps)
-<conclusiones/heuris_rapidas.eps> [40]
+ <conclusiones/heuris_rapidas.eps>
+[41]
 File: conclusiones/calidad.eps Graphic file (type eps)
- <conclusiones/calidad.eps> [41] [42]
-Overfull \hbox (2.93474pt too wide) in paragraph at lines 178--179
+ <conclusiones/calidad.eps> [42] [43]
+Overfull \hbox (2.93474pt too wide) in paragraph at lines 187--188
 []\OT1/cmr/m/n/12 El al-go-rit-mo de heur^^S^^Psti-ca de b^^Susque-da tab^^Su, 
 con-tiene la im-ple-mentaci^^Son
  []
 
-[43] [44]
-Overfull \hbox (1.52736pt too wide) in paragraph at lines 203--206
-\OT1/cmr/m/n/12 DANI-I-I-II EL SHELL FUN-CIONA SO-LO PARA TP3 HACETE UNA MAKE
- []
-
-[45] [46] (./informe.aux)
+[44] [45] [46] [47] (./informe.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 2574 strings out of 95087
- 30790 string characters out of 1183279
+ 2576 strings out of 95087
+ 30841 string characters out of 1183279
  84885 words of memory out of 1500000
- 5684 multiletter control sequences out of 10000+50000
+ 5685 multiletter control sequences out of 10000+50000
  15526 words of font info for 60 fonts, out of 1200000 for 2000
  28 hyphenation exceptions out of 8191
  27i,13n,25p,1566b,397s stack positions out of 5000i,500n,6000p,200000b,5000s
 
-Output written on informe.dvi (47 pages, 111660 bytes).
+Output written on informe.dvi (48 pages, 113200 bytes).
