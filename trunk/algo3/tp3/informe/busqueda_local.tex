@@ -58,6 +58,10 @@
 		La primer cláusula \texttt{if} verifica si la solución constructiva encontró la clique tanto completa como la de un elemento. En ambos casos no tiene sentido aplicar la búsqueda local ya que, si encontró el completo, esta solución no podrá ser mejorada, al contener todos los vértices. Si sólo encontró un vértice, implica que el de grado mayor en el grafo es de grado cero, por lo tanto, todos sus vértices son de grado cero. 
 
 		\begin{itemize}
+			\item \texttt{ordenar\_grados: } En la implementación, el arreglo $grados$ es de tipo tupla donde la primer componente representa el vértice y la segunda el grado. Dicho arreglo está ordenado según la segunda componente en forma decreciente. Lo ordenamos con el algoritmo de Quick Sort de $STL$.
+				
+			Para setear el grado de un vértice $i$ tenemos un contador inicializado en $cero$. Recorremos la columna de la matriz de adyacencia correspondiente a dicho vértice e incrementamos el contador por cada posición $(i,j)$ igual $uno$.
+			
 			\item \texttt{inicializar\_estructuras:} Consiste en hacer dos copias de la solución, una para mejor vecindad y otra para actual, y setear dos variables que representan el tamaño de la clique de cada uno de los arreglos.
 		
 			\item \texttt{sacar\_de\_clique:} Esta función setea en $falso$ la posición $i$ del arreglo $actual$, es decir, excluye el vértice $i$ de la solución actual. Además, decrementa el tamaño de la clique, variable $tam\_actual$ y resetea una variable $nodo$ que indica si despues logra agregar algún vértice, esto sirve para reconstruir la solución en caso de ser necesario (conseguir un tamaño de clique igual al tamaño de la clique desde la que partió).
@@ -71,43 +75,41 @@
 		\end{itemize}
 		\end{subsection}
 		\begin{subsection}{Desventajas}
-		
-		El algoritmo es estrictamente dependiente de la numeración inicial de los vértices. Para vértices de igual grado, al ordenarlos tiene prioridad el de menor numeración.(Figura \ref{fig:seguimiento_caso_malo_busqueda_local})
+			\begin{itemize}	
+				\item El algoritmo es estrictamente dependiente de la numeración inicial de los vértices. Para vértices de igual grado, al ordenarlos tiene prioridad el de menor numeración.(Figura \ref{fig:seguimiento_caso_malo_busqueda_local})
 
-			% --- Figura seguimiento algoritmo busqueda local ---
-			\begin{figure}[H]
-				\centering
-		    	\includegraphics[scale=0.5]{busqueda_local/segCasoMalo.eps}
-			    \caption{Caso malo para la heurística de búsqueda local}
-			    \label{fig:seguimiento_caso_malo_busqueda_local}
-			\end{figure}
+				% --- Figura seguimiento algoritmo busqueda local ---
+				\begin{figure}[H]
+					\centering
+			    	\includegraphics[scale=0.5]{busqueda_local/segCasoMalo.eps}
+				    \caption{Caso malo para la heurística de búsqueda local}
+				    \label{fig:seguimiento_caso_malo_busqueda_local}
+				\end{figure}
 
 
-		La clique dada por la heurística constructiva es el $<2,3>$.
-		Cuando el algoritmo (búsqueda local) saca el vértice $dos$ de la clique, se mueve a la clique $<3,4>$ ya que todos sus adyacentes tienen grado dos y el $cuatro$ es el de menor numeración (excluyendo el $dos$ que es el que acaba de sacar). Como no logra mejorar (no encuentra una clique que posea al $tres$, al $cuatro$, y además algún otro vértice), no actualiza el mejor de la vecindad quedando el $<2,3>$. Prueba entonces sacando el $tres$, sin poder mejorar. Por lo tanto, la solución final es la que viene dada por el algortimo constructivo.
+				La clique dada por la heurística constructiva es el $<2,3>$.
+				Cuando el algoritmo (búsqueda local) saca el vértice $dos$ de la clique, se mueve a la clique $<3,4>$ ya que todos sus adyacentes tienen grado dos y el $cuatro$ es el de menor numeración (excluyendo el $dos$ que es el que acaba de sacar). Como no logra mejorar (no encuentra una clique que posea al $tres$, al $cuatro$, y además algún otro vértice), no actualiza el mejor de la vecindad quedando el $<2,3>$. Prueba entonces sacando el $tres$, sin poder mejorar. Por lo tanto, la solución final es la que viene dada por el algortimo constructivo.
 	
-		\VSP
-		La solución viene estrictamente ligada a la definición de vecindad, en la siguiente figura muestra un caso en que esta definición de vecindad no ayuda a conseguir una mejor solución.
 
-		(Figura \ref{fig:seguimiento_caso_malo_busqueda_local2})
+				\item La solución viene estrictamente ligada a la definición de vecindad, en la siguiente figura muestra un caso en que esta definición de vecindad no ayuda a conseguir una mejor solución.(Figura \ref{fig:seguimiento_caso_malo_busqueda_local2})
 
-			% --- Figura seguimiento algoritmo busqueda local ---
-			\begin{figure}[H]
-				\centering
-		    	\includegraphics[scale=0.5]{busqueda_local/segCasoMalo2.eps}
-			\includegraphics[scale=0.5]{busqueda_local/segCasoMalo2_cont.eps}
-			    \caption{Caso malo para la heurística de búsqueda local}
-			    \label{fig:seguimiento_caso_malo_busqueda_local2}
-			\end{figure}
+					% --- Figura seguimiento algoritmo busqueda local ---
+					\begin{figure}[H]
+						\centering
+				    	\includegraphics[scale=0.5]{busqueda_local/segCasoMalo2.eps}
+					\includegraphics[scale=0.5]{busqueda_local/segCasoMalo2_cont.eps}
+					    \caption{Caso malo para la heurística de búsqueda local}
+					    \label{fig:seguimiento_caso_malo_busqueda_local2}
+					\end{figure}
 
-		En este caso, vemos que la heurística constructiva nos da una clique con los vértices $<4,5,6>$. La búsqueda local al sacar el vértice $seis$, busca mejorar la clique máxima hasta el momento, con la restricción de que posea los vértices que no fueron excluídos ($5$, y $6$). Encuentra así una nueva clique de tres nodos, formada por los vértices $<1,4,5>$. Como la clique es del mismo tamaño, es decir no mejoró con respecto a la anterior, vuelve a la clique dada por la heurística constructiva.
+					En este caso, vemos que la heurística constructiva nos da una clique con los vértices $<4,5,6>$. La búsqueda local al sacar el vértice $seis$ (entre los de menor grado es el de mayor numeración), busca mejorar la clique máxima hasta el momento, con la restricción de que posea los vértices que no fueron excluídos ($5$, y $6$). Encuentra así una nueva clique de tres nodos, formada por los vértices $<1,4,5>$. Como la clique es del mismo tamaño, es decir no mejoró con respecto a la anterior, vuelve a la clique dada por la heurística constructiva.
 
-		Saca ahora el vértice $cuatro$, intentando nuevamente generar una clique mayor a tres que incluya ahora los vértices $<5,6>$. Como vemos en la figura $5$, el algoritmo no encuentra ningún vértice para agregar la clique. Posee entonces una nueva solución de dos vértices, $<5,6>$, menor a la que ya venía dada por el constructivo. Es así que vuelve a empezar desde la constructiva, sacando el vértices $5$, sin poder mejorar nuevamente.
+					Saca ahora el vértice $cuatro$, intentando nuevamente generar una clique mayor a tres que incluya ahora los vértices $<5,6>$. Como vemos en la figura $5$, el algoritmo logra agregar el vértice $8$, consiguiendo así una clique de igual tamaño a la original. Posee entonces una nueva solución de tres vértices, $<5,6,8>$ por lo que no actualiza la mejor solución vista de la vecindad. Es así que vuelve a empezar desde la constructiva, sacando el vértices $5$, sin poder mejorar nuevamente.
 
-		Al haber probado quitar cada uno de los nodos, e intentado agrandar la clique y no conseguir agrandarla, el algoritmo termina y devuelve la solución previamente calculada por la heurística constructiva.
+					Al haber probado quitar cada uno de los vértices, intentado agrandar la clique sin conseguirlo, el algoritmo termina y devuelve la solución previamente calculada por la heurística constructiva.
 
-		Cabe destacar que este grafo en particular, posee una clique máxima de $cuatro$ vértices, dada por $<1,2,3,4>$. El algoritmo no la encuentra debido a nuestra implementación, ya que preferimos buscar el mejor de nuestra vecindad. Si al haber encontrado la clique $<1,4,5>$, se hubiera desplazado a la misma, olvidándose de la dada por la constructiva, al quitar el vértices $cinco$, hubiera encontrado la clique máxima particular a este grafo. Este grafo es un caso patológico a nuestra implementación, en donde nuestra desición sobre la vecindad, perjudica acercarnos u obtener la clique máxima.
-
+					Cabe destacar que este grafo en particular, posee una clique máxima de $cuatro$ vértices, dada por $<1,2,3,4>$. El algoritmo no la encuentra debido a nuestra implementación, ya que preferimos buscar el mejor de nuestra vecindad. Si al haber encontrado la clique $<1,4,5>$, se hubiera desplazado a la misma, olvidándose de la dada por la constructiva, al quitar el vértices $cinco$, hubiera encontrado la clique máxima particular a este grafo. Este grafo es un caso patológico a nuestra implementación, en donde nuestra desición sobre la vecindad, perjudica acercarnos u obtener la clique máxima.
+			\end{itemize}
 		\end{subsection}
 		\begin{subsection}{Complejidad temporal}
 			En un pricipio el algoritmo inicializa el arreglo de los $grados$ y lo ordena aplicando QuickSort, lo que tiene un costo de $n^2$. Luego, obtiene la solución inicial mediante la heurística constructiva que como ya vimos tiene también un costo de $n^2$ e inicializa los arreglos $actual$ y $mejor\_vecindad$ con costo lineal.
@@ -116,9 +118,9 @@
 
 			La función $agrandar\_clique$ tiene costo $n^2$ porque recorre todos los vértices y para cada uno de los que todavía no pertenece a la clique, verifica si puede agregarlo. Para esto, recorre nuevamente todos los vértices y corrobora que sea adyacente a cada uno de los pertenecientes a la clique.
 
-			La complejidad final del algoritmo es $n^4$ porque el ciclo \texttt{while} itera a lo sumo $n$ veces (la solución final puede verse mejorada a lo sumo $n$ veces, ver observación) y por cada una de estas el ciclo \texttt{for} itera exactamente $n$ veces. En cada iteración del \texttt{for} hay una llamada a la función $sacar\_de\_clique$ y $agrandar\_clique$ las cuales tienen un costo de $n^2$. Eventualmente hay una llamada a $reconstruir$ lo que no altera la complejidad, ya que su costo es constante.
+			La complejidad final del algoritmo es $n^4$ porque el ciclo \texttt{while} itera a lo sumo $n$ veces (la solución final puede verse mejorada a lo sumo $n$ veces, ver observación) y por cada una de estas el ciclo \texttt{for} itera exactamente $n$ veces. En cada iteración del \texttt{for} hay una llamada a la función $sacar\_de\_clique$ con costo constante y $agrandar\_clique$ la cual tiene costo $n^2$. Eventualmente hay una llamada a $reconstruir$ lo que no altera la complejidad, ya que su costo es constante.
 			
-			\texttt{Observación: } El costo lineal en función de la cantidad de vértices del ciclo \texttt{while} está acotado por el caso hipotético de comenzar por una clique trivial, y en cada iteración, aumentar la clique en uno. Esto no puede pasar ya que se trataría de un grafo completo, que el algoritmo constructivo encontraría. En ese caso, el algoritmo termina antes de la primera iteración del \texttt{while}.
+			\texttt{Observación: } El costo lineal en función de la cantidad de vértices del ciclo \texttt{while} está acotado por el caso hipotético de comenzar por una clique trivial (sólo un vértice), y en cada iteración, aumentar la clique en uno. Esto no puede pasar ya que se trataría de un grafo completo, que el algoritmo constructivo encontraría. En ese caso, el algoritmo termina antes de la primera iteración del \texttt{while}.
 		\end{subsection}
 \end{section}
 

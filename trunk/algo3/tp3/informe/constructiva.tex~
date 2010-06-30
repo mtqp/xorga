@@ -17,18 +17,18 @@
 			Se eligió este criterio goloso pensando en que el vértice con mayor grado tiene más probabilidad de pertenecer a la clique máxima ya que el grado de un vértice perteneciente a la misma condiciona la mayor clique que podrá contenerlo, es decir, si un vértice que está en la clique tiene grado $x$ no se podrá conseguir así una clique de tamaño mayor a $x+1$.
 		\end{subsection}
 		\begin{subsection}{Detalles de la implementación}
-			Almacenamos las relaciones entre los vértices en una matriz de $n \times n$, donde $n$ es la cantidad de vértices. Cada posición $(i,j)$ de la matriz contiene un $uno$ si existe la arista $(i,j)$ y un $cero$ en caso contrario. De esta forma se le asigna un número a cada vértice.\VSP
+			Almacenamos las relaciones entre los vértices en una matriz de $n \times n$, donde $n$ es la cantidad de vértices. Cada posición $(i,j)$ de la matriz contiene un $uno$ si existe la arista $(i,j)$ y un $cero$ en caso contrario. De esta forma se le asigna un número a cada vértice.
 
 			El algoritmo funciona de la siguiente manera:
 
 			Sea $grados$ un arreglo de tamaño $n$, donde $n$ es la cantidad de vértices del grafo. En cada posición $j\; \forall 	1\leq j \leq n$ del arreglo está el grado correspondiente al vértice $j$.
 			Para construir una clique ordenamos $grados$ en forma decreciente. El primer vértice del arreglo, es decir, el de mayor grado del grafo se considera parte de la solución final del algoritmo.
 			Para completar la clique recorremos $grados$ en forma completa, y cada vértice que forma un completo con la solución parcial se agrega a la misma.
-			Al terminar de recorrer $grados$ el algoritmo termina, siendo la solución parcial, el resultado final.
+			Al terminar de recorrer $grados$ el algoritmo termina, siendo la solución parcial, el resultado final.\Pa
 
 			A continuación, se muestra el pseudocódigo de la heurística constructiva.\\
 
-			Sea $n$ la cantidad de vértices del grafo.
+			Sea $n$ la cantidad de vértices del grafo.\\
 
 			\begin{pseudo}
 				\func{constructivo}{matriz\_adyacencia}
@@ -65,9 +65,7 @@
 			    \label{fig:seguimiento_caso_malo_constructiva}
 			\end{figure}
 
-			CHER CARLINGUA AGREGALE POR LOMENOS UN NODO AL 5, XQ SINO ESTA MAL TODO EL GRAFICO DEL MUNDO ROCK.TQP();
-
-			En esta figura el vértice de mayor grado es el $cinco$, con el que se puede formar una clique de 3, o dos cliques de dos nodos, dependiendo cuál sea el adyancente a él con mayor grado. Si existen dos de igual grado, el de menor numeración es el que primero se elegirá. Al incluirse un nuevo nodo a la clique, los siguientes a agregar van a venir condicionados a ser adyacentes a todos los que estén en la clique hasta el momento.
+			En esta figura el vértice de mayor grado es el $cinco$, con el que se puede formar una clique de 3, o dos cliques de 2 vértices, dependiendo cuál sea el adyancente a él con mayor grado. Si existen dos de igual grado, el de menor numeración es el que primero se elegirá. Al incluirse un nuevo vértice a la clique, los siguientes a agregar van a venir condicionados a ser adyacentes a todos los que estén en la clique hasta el momento.
 
 			En este grafo en particular la clique máxima es de $cuatro$ vértices, y el algoritmo constructivo no la encuentra. Esto sucede por que los grados de la clique resultante son los mayores de todo el grafo, y además, está condicionado a comenzar con el vértice $cinco$. Es entonces que en los casos donde el de grado máximo posee una cantidad significativa de nodos colgando, y/o circuitos, y/o caminos, el algoritmo tenderá a obtener una solución lejos de la óptima. Si en cambio, el de mayor grado se encuentra en la clique máxima, muy probablemente la solución sea la óptima.
 		\end{subsection}
@@ -76,9 +74,9 @@
 			
 			Como mencionamos anteriormente, $grados$ es ordenado con un algoritmo de QuickSort dado por la librería estándar de C++. El costo del algoritmo es $n^2$.
 			
-			El algoritmo constructivo, una vez realizadas las operaciones antes mencionadas, entra a un ciclo $for$ que itera desde $0$ hasta $n$. En cada iteración, debe en primera instancia, analizar una guarda $if$. De ser $falsa$, procederá a la siguiente iteración del ciclo (teniendo así costo constante). De ser $verdadera$ (es decir, el vértice $i$ no forma parte de la solución parcial), analizará si puede formar una nueva clique mayor, ahora con el vértice $i$ (en nuestro pseudo-código, la función $forma\_completo$ es la encargada de analizarlo). Con el resultado de $forma\_completo$ la iteración del $for$ principal analiza una guarda $if$ más de costo constante (en el peor caso realiza dos asignaciones y una suma). Sabemos entonces que el costo de este ciclo será como mínimo $n$. Analizaremos a continuación el costo de $forma\_completo$, para concluir el costo total del algoritmo.
+			El algoritmo constructivo, una vez realizadas las operaciones antes mencionadas, entra a un ciclo $for$ que itera desde $0$ hasta $n$. En cada iteración, debe en primera instancia, analizar una guarda $if$. De ser $falsa$, procederá a la siguiente iteración del ciclo (teniendo así costo constante). De ser $verdadera$ (es decir, el vértice $i$ no forma parte de la solución parcial), analizará si puede formar una nueva clique mayor, ahora con el vértice $i$ (en nuestro pseudo-código, la función $forma\_completo$ es la encargada de analizarlo). Con el resultado de $forma\_completo$ la iteración del $for$ principal analiza una guarda $if$ más, de costo constante (en el peor caso realiza dos asignaciones y una suma). Sabemos entonces que el costo de este ciclo será como mínimo $n$. Analizaremos a continuación el costo de $forma\_completo$, para concluir el costo total del algoritmo.
 			
-			$forma\_completo$, como ya dijimos antes, recorre todos los vértices del grafo analizando que, los vértices que pertenecen a la solución parcial, sean adyacentes al que queremos agregar. Esta función itera por todos los vértices del grafo, teniendo así un costo lineal en función de la cantidad de vértices.
+			La función $forma\_completo$, como ya dijimos antes, recorre todos los vértices del grafo analizando que, los vértices que pertenecen a la solución parcial, sean adyacentes al que queremos agregar. Esta función itera por todos los vértices del grafo, teniendo así un costo lineal en función de la cantidad de vértices.
 			
 			Como el ciclo $for$ del algoritmo constructivo, en el peor caso, llamaría una vez por cada una de las $n$ iteraciones a la función $forma\_completo$, el costo del ciclo entonces es cuadrático en función de la cantidad de vértices.
 			
