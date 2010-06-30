@@ -8,7 +8,7 @@ test: $(patsubst $(TEST_PATH)%.in,%.out,$(wildcard $(TEST_PATH)*.in) )
 all: $(EJ) grafos
 
 %:%.cpp
-	@g++ -o $@ $< $(FLAGS)
+	g++ -o $@ $< $(FLAGS)
 
 %.out: $(TEST_PATH)%.in
 	./$(EJ) < $< > $@
