@@ -1,0 +1,56 @@
+#!/usr/bin/gnuplot -persist
+
+#exporto como png
+set term postscript enhanced color
+
+#set style data histogram
+#set style histogram rowstacked
+#set style fill solid border -1
+#set boxwidth 0.75
+
+#set bar 1.000000
+#set boxwidth 1.0 absolute
+#set style fill  solid 1.00 border -1
+#set style rectangle back fc lt -3 fillstyle  solid 1.00 border -1
+#set key inside right top vertical Right noreverse enhanced autotitles columnhead nobox
+#set style histogram clustered gap 1 title  offset character 0, 0, 0
+#set style data histograms
+
+
+#pone la descripccion de los ejes
+
+#pone la leyenda a la izquierda y con borde
+set key left box
+
+#defino dos tipos de lineas
+#lt=tipo de linea y color,  pt=point type,  ps=point size
+#(para ver los distintos point types pongan "test" en el gnuplot)
+#set style line 1 lt 1 pt 1 ps 1
+#set style line 2 lt 2 pt 1 ps 1
+#set style line 3 lt 3 pt 1 ps 1
+
+#plot[0:]	'exacto.out'  title "Exacto",\
+#		'../inpute.out'  title "Constructiva"
+
+
+set output 'resultados.eps'
+set ylabel "cantidad de instancias"
+set xlabel "cantidad de nodos del resultado"
+#set style data points
+set bar 1.000000
+set boxwidth 0.9 absolute
+set style fill solid 1.00 border 0
+set key inside right top vertical Right noreverse enhanced autotitles columnhead nobox
+set style histogram clustered gap 1 title  offset character 0, 0, 0
+set style data histograms
+
+cd "data"
+plot	'param_20.dat' using 2 title '20%',\
+		'param_40.dat' using 2:xtic(1) title '40%',\
+		'param_60.dat' using 2:xtic(1) title '60%',\
+		'param_80.dat' using 2:xtic(1) title '80%',\
+		'param_100.dat' using 2:xtic(1) title '100%',\
+		'exacto.dat' using 2:xtic(1) title 'exacto'
+cd ".."
+
+
