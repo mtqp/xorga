@@ -1,7 +1,7 @@
 EJ = $(patsubst %.cpp,%,$(wildcard *.cpp))
 FLAGS = -Wall
 TEST_PATH = ../test/
-PARAM_TEST = $(TEST_PATH)grafo_random_n_fijo.in
+PARAM_TEST = $(TEST_PATH)grafo_random_n_variable.in
 
 .PHONY: test_param
 
