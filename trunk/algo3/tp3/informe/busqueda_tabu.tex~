@@ -148,7 +148,32 @@
 	\end{subsection}
 
 	\begin{subsection}{Parámetros de la heurística tabú}
-		\includegraphics{tabu_search/iteraciones.eps}
-		\includegraphics{tabu_search/time.eps}
-	\end{subsection}	
+		La heurística de busqueda tabú hace uso de dos parámetros, los cuales tuvimos que ajustar de manera de conseguir los mejores resultados posibles, mejores en el sentido de relación calidad de la solución y eficiencia en terminos de tiempo del algoritmo.
+
+		Uno de los parámetros es para determinar la máxima cantidad de\\ iteraciones que le permitimos al algoritmo buscar (explorar la vecindad) sin lograr mejorar. Para ajustar este parámetro generamos $300$ instancias aleatorias donde cada una es un grafo de $100$ vértices (las relaciones entre ellos son aleatorias, y por lo tanto las cliques que se forman). Para llevar a cabo las pruebas ejecutamos las instancias modificando el valor del parámetro. Creemos que dicho parámetro debe depender de la cantidad de vértices del grafo porque fijar un valor no tendría sentido ya que para grafos chicos un valor grande sería inutil (saldía del ciclo por la condición de 'tamaño de la clique igual a uno' o visitaria soluciones ya exploradas) y para grafos grandes un valor chico devolvería probablemente soluciones muy malas ya que se le daría muy pocas oportunidades de explorar la vecindad. Por este motivo, decidimos que el parámetro iba a ser un porcentaje de la cantidad de vértices del grafo. En el siguiente gráfico se ven los resultados para un $20$, $40$, $60$, $80$, $100$, $200$ y $300$ por ciento de la cantidad de vértices del grafo. Se muestra la cantidad de instancias (entre las $300$) que devuelven una determinada cantidad de vértices como resultado, es decir, se grafica la cantidad de instancias en función del tamaño de la clique que logra encontrar el algoritmo.(Figura \ref{fig:Ajuste_del_parametro_iteraciones})
+
+	\begin{figure}[H]
+		\centering
+		  	\includegraphics[width=9cm,angle=-90]{tabu_search/iteraciones.eps}
+		\caption{Pruebas de calidad para ajustar el parámetro iteraciones}
+		\label{fig:Ajuste_del_parametro_iteraciones}
+	\end{figure}
+
+	En el gráfico (Figura \ref{fig:Ajuste_del_parametro_iteraciones}) se puede observar que con un $20$ y $40$ por ciento del total de vértices del grafo, la calidad de la solución provista por la heurística de búsqueda tabú es muy mala en términos de calidad, es decir, los resultados distan considerablemente del óptimo (de los resultados del algoritmo exacto). Por este motivo, decidimos descartar estos valores para el parámetro, dado que el objetivo es encontrar un equilibrio calidad-eficiencia y estos resultados carecen de calidad.
+
+	Por otro lado, vemos que con un $100$, $200$ y $300$ por ciento los resultados son muy buenos en cuanto a calidad, es decir, están muy proximos a los resultados provistos por el algoritmo exacto por lo que por el momento son valores que podriamos elegir pero que creemos van a tener un costo elevado en cuanto a tiempo de ejecución.
+
+	Para valores de $60$ y $80$ por ciento que se encuentran en el medio de los anteriores, es decir, las soluciones que provee la heurística de búsqueda tabú para estos valores no es tan 'mala' como lo es para los primeros valores ni tan 'buena' como para los segundos por lo que estos valores son candidatos a ser elegidos ya que muy probablemente sean los que proveen el equilibrio calidad-eficiencia que buscamos.\Pa
+
+	Para poder terminar de decidir el valor del parámetro, hicimos pruebas de tiempo (en segundos) en función de la cantidad de vértices del grafo. Para esto generamos $100$ instancias aleatorias donde la cantidad de vértices para cada una es $8*x+1$ siendo $x$ el número de instancia (Figura \ref{fig:Ajuste_del_parametro_iteraciones2}). El objetivo de este gráfico es descartar los valores que según el gráfico anterior (Figura \ref{fig:Ajuste_del_parametro_iteraciones}) son aceptables y finalmente decidir cual es el valor adecuado.
+
+	\begin{figure}[H]
+		\centering
+		    	\includegraphics[width=9cm,angle=-90]{tabu_search/time.eps}
+		\caption{Pruebas de tiempo para ajustar el parámetro iteraciones}
+		\label{fig:Ajuste_del_parametro_iteraciones2}
+	\end{figure}
+	
+	En el gráfico (Figura \ref{fig:Ajuste_del_parametro_iteraciones2}) observamos que para el valor del parámetro de $100$ para grafos grandes el tiempo de ejecución es considerable. Por este motivo, directamente no graficamos los tiempos para los valores $200$ y $300$.
+	\end{subsection}
 \end{section}

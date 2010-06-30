@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=latex 2010.6.8)  30 JUN 2010 00:20
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=latex 2010.6.8)  30 JUN 2010 02:13
 entering extended mode
  %&-line parsing enabled.
 **informe.tex dvips -p pdf
@@ -515,14 +515,10 @@ er-mi-na porque prob^^So mejo-
 
 [31] [32]
 File: tabu_search/iteraciones.eps Graphic file (type eps)
- <tabu_search/iteraciones.eps>
+ <tabu_search/iteraciones.eps> [33] [34]
 File: tabu_search/time.eps Graphic file (type eps)
  <tabu_search/time.eps>)
-Underfull \hbox (badness 10000) in paragraph at lines 151--89
-
- []
-
-[33] [34] [35]
+[35]
 Overfull \hbox (2.60704pt too wide) in paragraph at lines 105--106
 []\OT1/cmr/m/n/12 La heur^^S^^Psti-ca de busque-da lo-cal re-sul-to ser mas pre
 -ciso que el de heur^^S^^Psti-
@@ -557,12 +553,12 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 2556 strings out of 95087
- 30344 string characters out of 1183279
+ 2558 strings out of 95087
+ 30421 string characters out of 1183279
  84885 words of memory out of 1500000
- 5672 multiletter control sequences out of 10000+50000
+ 5674 multiletter control sequences out of 10000+50000
  15526 words of font info for 60 fonts, out of 1200000 for 2000
  28 hyphenation exceptions out of 8191
- 27i,13n,25p,1342b,339s stack positions out of 5000i,500n,6000p,200000b,5000s
+ 27i,13n,25p,1543b,347s stack positions out of 5000i,500n,6000p,200000b,5000s
 
-Output written on informe.dvi (40 pages, 87444 bytes).
+Output written on informe.dvi (40 pages, 92968 bytes).
