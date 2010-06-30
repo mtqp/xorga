@@ -147,4 +147,8 @@
 			 \texttt{Observación: } En la función $formar\_completo$ para ver si es factible agregar un vértice a la clique en vez de recorrer todos los vértices del grafo como hacemos, se podria sólo recorrer los vértices pertenecientes a la clique ya que están en una lista, pero la complejidad sería la misma y deberiamos ir agregando a la lista a medida que se decide agregar un vértice (para considerarlo en las proximas verificaciones) y esto no nos permite hacerlo en el orden deseado (ya que queremos agregar al principio de la lista de la clique actual de menor a mayor grado y los recorremos de mayor a menor grado). Como ya mencionamos esto no mejoraria la complejidad asintotica y aumentaria la complejidad de comprensión del código.
 	\end{subsection}
 
+	\begin{subsection}{Parámetros de la heurística tabú}
+		\gra{tabu_search/iteraciones.eps}
+		\gra{tabu_search/time.eps}
+	\end{subsection}	
 \end{section}

@@ -90,9 +90,6 @@ Raffo Diego & 423/08 & enanodr@hotmail.com \\
 	\newpage
 	
 	\begin{section}{Resultados}
-		\begin{subsection}{Parámetros de la heurística tabú}
-		\end{subsection}		
-
 		\begin{subsection}{Comparación de tiempos}
 		\end{subsection}
 
@@ -140,7 +137,7 @@ Raffo Diego & 423/08 & enanodr@hotmail.com \\
 
 	Para contar la cantidad de operaciones: \texttt{./(ejecutable) count}. Devuelve para cada instancia el tamaño seguido de la cantidad de operaciones de cada instancia.
 
-	Para medir tiempo: \texttt{./(ejecutable) time}. Devuelve para cada instancia el tamaño seguido del tiempo que toma ejecutarla
+	Para medir tiempo: \texttt{./(ejecutable) time}. Devuelve para cada instancia el tamaño seguido del tiempo que toma ejecutarla.
 
 	Para especificar la cantidad máxima de iteraciones en las que se le permite no mejorar, como también la cantidad de iteraciones tabú para cada vértice (en tabú search), ejecutar en su carpeta el programa \texttt{./tabu\_search [iteraciones \texttt{I}] [tabu \texttt{T}]}, donde $I$ es un número entero positivo que representa el porcentaje en relación a la cantidad de vértices del grafo, y $T$ es el porcentaje en relación al tamaño de la clique actual. $T$ define la cantidad de iteraciones que se prohíbe un vértice (recordar que este valor de prohibición será el máximo entre $T$ y 3).
 	De no incluirse ninguno de los parámetros, $tabu\_search$ se ejecutará con los parámetros definidos por nosotros, los cuales creemos que tienen una mejor relación calidad-eficiencia para este algoritmo.
