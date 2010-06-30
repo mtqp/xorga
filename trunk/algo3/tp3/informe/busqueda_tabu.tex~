@@ -23,7 +23,7 @@
 
 		El seguimiento del algoritmo no está completo, se incluye sólo la parte más relevante (la rotación en la que se mejora la solución parcial).
 
-		La heurística de búsqueda local nos da la clique formada por $<4,5,6>$. En una de las rotaciones, saca el vértice $seis$ intentando formar una clique de mayor tamaño con $<4,5>$, al no poder hacerla, retira el $cinco$ (es decir, ahora el $seis$ y el $cinco$ son tabú). Es entonces que encuentra una nueva clique de cuatro nodos y actualiza la solución parcial con esta. El algoritmo continúa haciendo rotaciones sobre la nueva solución intentando agrandar la clique durante la cantidad de iteraciones permitidas y volviendo a permitir agregar los vértices tabú después de pasada su cantidad de iteraciones tabú. En este grafo en particular, no logra ninguna nueva mejora.
+		La heurística de búsqueda local nos da la clique formada por $<4,5,6>$. En una de las rotaciones, saca el vértice $cinco$ intentando formar una clique de mayor tamaño con $<4,6>$, al no poder hacerlo, retira el $seis$ (es decir, ahora el $seis$ y el $cinco$ son tabú). Es entonces que encuentra una nueva clique de cuatro nodos y actualiza la solución parcial con esta. El algoritmo continúa haciendo rotaciones sobre la nueva solución intentando agrandar la clique durante la cantidad de iteraciones permitidas y volviendo a permitir agregar los vértices tabú después de pasada su cantidad de iteraciones tabú. En este grafo en particular, no logra ninguna nueva mejora, siendo la clique observada en el último grafo de la figura, la solución que devuelve el algoritmo, así como el óptimo.
 
 
 
@@ -105,6 +105,29 @@
 
 		Para evitar pasar varias veces por las mismas soluciones, por cada iteración del \texttt{while} anidado se verifica si vuelve a la solución inicial, de ser así, se fuerza la salida y se procede a la siguiente rotación de la clique.
 		A pesar de solucionar este problema para casos particulares como el que mencionamos (donde se parte de una solución y a través eliminar y agregar vértices se llega nuevamente a la solución inical), pueden existir casos donde se repitan soluciones desde distintas rotaciones de la clique inicial. Estos casos no son advertidos por el algoritmo.
+
+		El siguiente seguimiento refleja el problema de la numeración (Figura \ref{fig:seguimiento_busqueda_tabu} y \ref{fig:seguimiento_busqueda_tabu_continuacion}).
+
+			% --- Figura seguimiento algoritmo busqueda tabu ---
+			\begin{figure}[H]
+				\centering
+		    	\includegraphics[scale=0.5]{tabu_search/segCasoMalo.eps}
+			    \caption{Caso malo para la heurística de búsqueda tabú}
+			    \label{fig:seguimiento_busqueda_tabu}
+			\end{figure}
+
+		En la primer rotación, el algoritmo al quitar el vértice $dos$ tiene dos caminos para seguir, o el $cuatro$ o el $cinco$. En el primero, se encontrará con un ciclo de cuatro nodos, sin poder agrandar la clique. En el segundo caso, encontrará una clique de tres, pudiendo mejorar y además encontrar el óptimo para este caso. Como ya dijimos, al tener dos vértices de igual grado, el algoritmo elige el de menor numeración, en este caso el $cuatro$. 
+
+		Por lo tanto, en esta rotación, el algoritmo no puede encontrar la clique de tres.
+
+			\begin{figure}[H]
+				\centering
+		    	\includegraphics[scale=0.5]{tabu_search/segCasoMalo_cont.eps}
+			    \caption{Caso malo para la heurística de búsqueda tabú}
+			    \label{fig:seguimiento_busqueda_tabu_continuacion}
+			\end{figure}
+
+		En la segunda y última rotación, comienza por quitar el vértice $tres$, dejándolo tabú, y no pudiendo tomar otro vértice mas que el $uno$. Recorre el camino dado por los vértices $2,1,4$. Al llegar al $cuatro$, posee todos sus vértices adyacentes tabú, por lo que no puede seguir. Termina porque
 	\end{subsection}
 
 	\begin{subsection}{Complejidad temporal}

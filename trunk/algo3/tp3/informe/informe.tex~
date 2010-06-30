@@ -90,39 +90,60 @@ Raffo Diego & 423/08 & enanodr@hotmail.com \\
 	\newpage
 	
 	\begin{section}{Resultados}
-		\begin{subsection}{Parametros de la heurística tabú}
+		\begin{subsection}{Parámetros de la heurística tabú}
 		\end{subsection}		
 
-		\begin{subsection}{Comparacion de tiempos}
+		\begin{subsection}{Comparación de tiempos}
 		\end{subsection}
 
-		\begin{subsection}{Comparacion de calidad}
+		\begin{subsection}{Comparación de calidad}
 		\end{subsection}
 	\end{section}
 
-	\begin{section}{Concluciones}
+	\begin{section}{Conclusiones}
 	\tab Luego de haber efectuado los análisis teóricos de complejidad y habiendo efectuado comparaciones en cuanto a la performance y a la precisión de cada algoritmo, se pudo sacar algunas concluciones:
 	\begin{itemize}
 		\item El algoritmo $Exacto$, como lo indica su nombre, es el único algoritmo que nos devuelve siempre la solución precisa al problema de la clique máxima. Sin embargo, el costo de operaciones del algoritmo es factorial, y los resultados de las pruebas indicaron que para grafos de mas de NNNNNNNN, o con mas de EEEEEEEEEEe ejes, el algoritmo tardaba varias horas en devolver la solución, con lo cual hace que no siempre sea posible en la practica utilizar este algoritmo.
 		\item El algoritmo de heuristica constructiva es el algoritmo de heuristica mas rápido que encontramos, y también el menos preciso. Su complejidad en cantidad de operaciones fue cuadrática con respecto al tamaño de la entrada. Dado que hacer pruebas con todos los grafos posibles de N nodos y D densidad, tratando de abarcar la mayor cantidad de casos hicimos las pruebas  DE SARASA Y SARASA MANERA, con lo que este algoritmo mostro ser un TANTO TANTO mas eficiente en cantidad de operaciones, pero su precision fue de SARASA SARASA. Con esto vemos que es un algoritmo que se puede utilizar cuando no se cuenta no tiempo para poder conocer una solucion precisa, y no es de crucial importancia la absoluta precisión del resultado (UN ToQUE mEJOR HAY QUE DECIR ESO)
 		\item La heurística de busqueda local resulto ser mas preciso que el de heurística constructiva, pero su costo de operaciones resulto ser mayor, siendo o($n^4$). A pesar de esto, corre con la ventaja de que su precisión será siempre igual o mejor que la del algoritmo constructivo, ya que la utiliza como punto de partida, y dada la solucion constructiva, intenta mejorarla. En las pruebas, el algorñitmo resulto ser PROCENTAJELOCOOO preciso, pero tambien se puede apreciar la mayor cantidad de operaciones que el algorñitmo constructuvo. Podemos decir que la relación entre cantidad de operaciones y precision es SARASARASARSASRA (supongo no es buena porque es muucho mas compejo y no se si SIEMPRe da mejor. hay que ver las pruebas)
 		\item El algoritmo de heurística de búsqueda tabú, tiene una complegidad aún mayor que la de la búsqueda local, siendo de orden de $n^5$. SARASEAR UN TOQUE
+
+
+		\begin{subsection}{Evaluación de Problemas}
+		\tab Luego de haber llegado a varias concluciones, podemos comenzar a hacer evaluaciones posibles problemas de la vida real. Al comenzar el informe se mencionaron dos situaciones que pueden ser modelados mediante grafos, mas precisamente con un problema de Clique Máxima. 
+		\begin{itemize}
+		\item El primer problema consistía en la empresa que queria promocionar su producto, con lo que utulizaba el programa de max\_clique para determinar los cliques máximos de cada empresa elegida para promosionarse. Suponiendo que las empresas que eligió son multinacionales, con miles de empleados cada una, no creemos conveniente el uso del max\_clique exacto, ya que el tiempo de ejecución sería muy costoso, con lo cual debería optar por un algorimo heurístico. Con lo visto en las pruebas, dado el tamaño del grafo con el que modelaríamos el problema, optaríamos por el algorítmo de busqueda tabú, ya que para estos tamaños de entrada la diferencia de tiempo no es tan significativa en comparación a posible maximización de las ganancias.
+		\item En el segundo problema, el terrorista se enfrenta a un gran problema, que es la enorme cantidad de personas en el planeta (aproximadamente 6.000.000.000 personas). Con esto se hace imposible aplicar un algoritmo exacto. Dependiendo de las carácteristicas del virus, este puede ser extremadamente contagioso, y suponiendo esto, tal vez no sea de tanta importancia que el clique de personas elegido sea el máximo. Consideramos que de el algoritmo de heurística constructiva podría dar buenos resultados ya que es tal vez el único algoritmo que terminaría en un tiempo aceptable, que puede ser de varios meses, y tiene una gran probabilidad de contagio que simplemente eligir personas que conozcan mucha gente, pero que entre ellas tal vez no se conozcan.
+		\end{itemize}
+	\end{subsection}
 	\end{itemize}	
 	\end{section}
 	
 	\begin{section}{Mediciones}
 		Para contar la cantidad aproximada de operaciones definimos una variable inicializada en $cero$ la cual incrementamos luego de cada operación. En el código puede verse la llamada a la función \texttt{O(x)}, donde $x$ es un valor positivo entero, el cual es sumado a la cantidad de operaciones parcial para una vez terminado el algoritmo, poseer la cantidad de operaciones que realiza para una instancia dada.
-			
-		Preferimos contar operaciones en vez de medir tiempo porque a pesar de que es aproximado el resultado, el error es siempre el mismo y así podemos hacer una mejor comparación entre las instancias.
-			
-		Midiendo tiempo, el error para cada instancia varía, ya que es el sistema operativo el que ejecuta nuestro programa, al "mismo tiempo" que otras tareas.
+
+		Se realizaron las mediciones de tiempo mediante una macro que cuenta ejecuta sucesivamente el algoritmo hasta que:
+			\begin{itemize}
+				\item Se cumple medio segundo y saca un promedio de los tiempos o,
+				\item Una ejecución tarda más de medio segundo, dejando el valor de esa ejecución.
+			\end{itemize}
+	
 	\end{section}
 	\begin{section}{Compilación y ejecución de los programas}
+	MANDATE UN PUNTO BARRA SHL MAX CLIQUE PODEROSO DANIIIII EL SHELL FUNCIONA SOLO PARA TP3
+	HACETE UNA MAKE QUE SEA RE PODEROSO Y MAKEE TODOS LOS ALGOS
 	Para compilar los programas se puede usar el comando \texttt{make} (Requiere el compilador \texttt{g++}).
-	Se pueden correr los programas de cada ejercicio ejecutando \texttt{./exacto}, \texttt{./constructivo}, \texttt{./busqueda\_local} y \texttt{./tabu\_search} respectivamente.
+	
+	Para correr todos los algoritmos, ejecute en terminal \texttt{./max\_clique.sh [nombre\_de\_archivo.in]} siendo los \texttt{nombre\_de\_archivoX.out} guardados en la carpeta $out$. ($tabu\_search$ se ejecutará con los parámetros que consideramos mejores en el análisis del algoritmo)
 		
-	Los programas leen la entrada de stdin y escriben la respuesta en stdout. Para leer la entrada de un archivo \texttt{Tp1EjX.in} y escribir la respuesta en un archivo \texttt{Tp1EjX.out} ses puede usar:\\ \texttt{./(ejecutable) < Tp1EjX.in > Tp1EjX.out}
+	Se pueden correr los programas de cada ejercicio ejecutando \texttt{./exacto}, \texttt{./constructivo}, \texttt{./busqueda\_local} y \texttt{./tabu\_search} respectivamente. Los programas leen la entrada de stdin y escriben la respuesta en stdout. Para leer la entrada de un archivo \texttt{Tp3X.in} y escribir la respuesta en un archivo \texttt{Tp3X.out} ses puede usar:\\ \texttt{./(ejecutable) < Tp3X.in > Tp3X.out}
 
 	Para contar la cantidad de operaciones: \texttt{./(ejecutable) count}. Devuelve para cada instancia el tamaño seguido de la cantidad de operaciones de cada instancia.
+
+	Para medir tiempo: \texttt{./(ejecutable) time}. Devuelve para cada instancia el tamaño seguido del tiempo que toma ejecutarla
+
+	Para especificar la cantidad máxima de iteraciones en las que se le permite no mejorar, como también la cantidad de iteraciones tabú para cada vértice (en tabú search), ejecutar en su carpeta el programa \texttt{./tabu\_search [iteraciones \texttt{I}] [tabu \texttt{T}]}, donde $I$ es un número entero positivo que representa el porcentaje en relación a la cantidad de vértices del grafo, y $T$ es el porcentaje en relación al tamaño de la clique actual. $T$ define la cantidad de iteraciones que se prohíbe un vértice (recordar que este valor de prohibición será el máximo entre $T$ y 3).
+	De no incluirse ninguno de los parámetros, $tabu\_search$ se ejecutará con los parámetros definidos por nosotros, los cuales creemos que tienen una mejor relación calidad-eficiencia para este algoritmo.
+
 	\end{section}
 \end{document}
