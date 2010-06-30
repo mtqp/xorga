@@ -128,23 +128,32 @@ Raffo Diego & 423/08 & enanodr@hotmail.com \\
 		
 		Podemos ver en principio que existen diferencias entre el costo temporal de búsqueda tabú y constructiva/búsqueda local.
 		
-		La diferencia en costo (tiempo) entre estos algoritmos es significativa, resta ver entonces, si esa diferencia se hace merecer, al mejorar la calidad de la solución.
+		La diferencia en costo (tiempo) entre estos algoritmos es significativa, resta ver entonces, si esa diferencia se hace merecer, al mejorar la calidad de la solución (Se tratará en "Comparación de Calidad").
 		
 		No podemos considerar como $outliers$ ninguno de los puntos de tabú search que parecen alejarse de la curva, debido a que el algoritmo depende las iteraciones si mejora o no, y esto a su vez, depende del grafo en particular.
 		
 		No podemos afirmar por el momento que exista diferencias de tiempo entre la heurística constructiva, y la de búsqueda local. La diferencia de complejidad entre los algoritmos, dificulta su apreciación (debido a la escala en la que debe graficarse para incluir todos los puntos).
 		
-		En el siguiente gráfico, se incluirán sólo la heúristica de búqueda local y constructiva, con el objeto de denotar alguna diferencia en el coste temporal entre ellas. Se realizaron UN REUQTE MONTON DE INSTANCIAS que varían el tamaño entre ESTO Y ESTO, con grafos aleatorios.
+		En el siguiente gráfico, se incluirán sólo la heúristica de búqueda local y constructiva, con el objeto de denotar alguna diferencia en el coste temporal entre ellas. Se realizaron instancias 50 intancias que varían el tamaño entre 500 y 1200 vértices de a múltiplos de 14, con grafos aleatorios.
 
 		\begin{figure}[H]
 			\centering
-					\includegraphics[width=9cm,angle=-90]{conclusiones/heuris_rapidas.eps}
-			\caption{Pruebas de tiempo de Constructivo vs. Búsqueda Local}
+					\includegraphics[width=9cm,angle=-90]{conclusiones/heuris_rapidas2.eps}
+			\caption{Pruebas de tiempo de Constructivo vs. Búsqueda Local [500-1200]}
 			\label{fig:Tiempo de const_bus_loc}
 		\end{figure}
 		
-		YEAH HARD
+		Podemos observar que recién a partir de grafos de 700 nodos empieza a existir diferencia significativa entre el tiempo que toma cada instancias para analizar con búsqueda local y con constructivo. Podemos concluir con eso que la búsqueda local es más conveniente para estos casos menores a 700 vértices, ya que podemos inclusive hasta mejorar la solución, sin perder tiempo (recordar que búsqueda local comienza con el resultado de la constructiva y nunca lo empeora).
 		
+		Se incluye debajo, el gráfico con 100 instancias, entre 0 y 800 vértices (nuevamente grafos aleatorios). Los algoritmos que se muestran son el de búsqueda local y constructivo. El gráfico tiene como objetivo mostrar que no existen diferencias significativas en el costo temporal de ellos para intancias que se encuentren en esa franja de tamaño.
+		
+		\begin{figure}[H]
+			\centering
+					\includegraphics[width=9cm,angle=-90]{conclusiones/heuris_rapidas.eps}
+			\caption{Pruebas de tiempo de Constructivo vs. Búsqueda Local [0-800]}
+			\label{fig:Tiempo de const_bus_loc}
+		\end{figure}
+
 		\end{subsection}
 
 		\begin{subsection}{Comparación de calidad}
