@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=latex 2010.3.15)  29 JUN 2010 20:22
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=latex 2010.3.15)  29 JUN 2010 21:26
 entering extended mode
  %&-line parsing enabled.
 **informe.tex dvips -p pdf
@@ -380,7 +380,11 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \float@box=\box28
 \@float@everytoks=\toks27
 \@floatcapt=\box29
-) (./informe.aux)
+) (./informe.aux
+
+LaTeX Warning: Label `fig:seguimiento_busqueda_tabu' multiply defined.
+
+)
 \openout1 = `informe.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 44.
@@ -396,8 +400,7 @@ LaTeX Font Info:    ... okay on input line 44.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 44.
 LaTeX Font Info:    ... okay on input line 44.
 LaTeX Font Info:    Try loading font information for U+msa on input line 46.
-
-(/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
+ (/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2002/01/19 v2.2g AMS font definitions
 )
 LaTeX Font Info:    Try loading font information for U+msb on input line 46.
@@ -493,21 +496,30 @@ File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 88.
- [28] [29] [30])
-[31]
+ [28]
+File: tabu_search/segCasoMalo.eps Graphic file (type eps)
+
+<tabu_search/segCasoMalo.eps> [29]
+File: tabu_search/segCasoMalo_cont.eps Graphic file (type eps)
+ <tabu_search/segCasoMalo_cont.eps> [30]
+[31] [32]) [33]
 Overfull \hbox (2.60704pt too wide) in paragraph at lines 108--109
 []\OT1/cmr/m/n/12 La heur^^S^^Psti-ca de bus-que-da lo-cal re-sul-to ser mas pr
 e-ci-so que el de heur^^S^^Psti-
  []
 
-[32] [33] [34] (./informe.aux) ) 
+[34] [35] [36] [37] (./informe.aux)
+
+LaTeX Warning: There were multiply-defined labels.
+
+ ) 
 Here is how much of TeX's memory you used:
- 2543 strings out of 94102
- 30104 string characters out of 1165833
- 86188 words of memory out of 1500000
- 5767 multiletter control sequences out of 10000+50000
+ 2547 strings out of 94102
+ 30231 string characters out of 1165833
+ 86250 words of memory out of 1500000
+ 5770 multiletter control sequences out of 10000+50000
  15526 words of font info for 60 fonts, out of 1200000 for 2000
  637 hyphenation exceptions out of 8191
  27i,13n,25p,1342b,339s stack positions out of 5000i,500n,6000p,200000b,5000s
 
-Output written on informe.dvi (35 pages, 81996 bytes).
+Output written on informe.dvi (38 pages, 86956 bytes).
