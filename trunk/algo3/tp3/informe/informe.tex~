@@ -90,10 +90,70 @@ Raffo Diego & 423/08 & enanodr@hotmail.com \\
 	\newpage
 	
 	\begin{section}{Resultados}
-		\begin{subsection}{Parámetros de la heurística tabú}
-		\end{subsection}		
 
 		\begin{subsection}{Comparación de tiempos}
+
+		En el siguiente gráfico se medirán todos los algoritmos implementados en función del tiempo. Las intancias analizadas varían en cantidad de vértices entre $uno$ y $cien$, siendo las aristas que los conectan aleatorias para todos los casos(Figura \ref{fig:Tiempo de los Algoritmos}).
+		
+		Queremos ver si en la ejecución empírica de estos programas, existe diferencia en cantidad de tiempo como esperamos debido a la diferencia de complejidad entre ellos.
+		
+		\begin{figure}[H]
+			\centering
+					\includegraphics[width=9cm,angle=-90]{conclusiones/heuris_vs_exacto.eps}
+			\caption{Pruebas de tiempo de todos los Algoritmos implementados}
+			\label{fig:Tiempo de los Algoritmos}
+		\end{figure}
+		
+		Como esperabamos, y dada estas instancias, se nota que el costo en segundos del algoritmo exacto supera sin ninguna duda a cualquiera de las heúristicas a partir de los grafos de 50 vértices. Los casos son relativamente pequeños y la diferencia entre los algoritmos son importantísimas. Si bien la cantidad de segundos que al el exacto le toma calcular la solución para estos casos es pequeña (casi tres segundos en el peor caso para estas instancias), a medida que el tamaño de los grafos aumente, el tiempo crecerá también hasta volver impractible este algoritmo.
+
+		Viendo las instancias calculadas por el algoritmo exacto, notamos algunas de ellas que tiene un comportamiento distinto al esperado, es decir, tardaron más de lo que tardaron tanto los casos predecesores como antecesores. Podemos atribuir este fenómeno a dos cosas:
+
+			\begin{itemize}
+				\item Al ser un cálculo de tiempo, y estar corriendo el algoritmo bajo un sistema operativo, no podemos afirmar que el tiempo reflejado en el gráfico sea puramente el costo de $exacto$ (es más podemos afirmarlo que no lo es, ya son sistemas multi-tareas, no podemos afirmar qué tiempo es el que le correspondió al algoritmo).
+				\item El algoritmo pudo realizar para ese caso en particular y así tener que realizar mayor cantidad de cálculos, que son directamente proporcionales a la cantidad de tiempo.
+			\end{itemize}
+
+		Existen además, casos en los que el algoritmo (exacto), se comporta de manera más eficiente que lo esperado. Atribuímos esto a efectivas podas que favorecieron a mejorar el tiempo de corrida.
+
+		Debido a la escala, no podemos afirmar que la complejidad que analizamos para las heúristicas sea correcta.\VSP
+
+		Analizaremos en el siguiente gráfico, sólo las heurísticas, para ver si existen diferencias en el costo temporal entre cada una de ellas, se generaron aleatoriamente 100 instancias con $8x$ vértices, donde $x$ es el número de instancias.	
+		
+		\begin{figure}[H]
+			\centering
+					\includegraphics[width=9cm,angle=-90]{conclusiones/heuris.eps}
+			\caption{Pruebas de tiempo de todas las Heurísticas implementadas}
+			\label{fig:Tiempo de Heuristicas}
+		\end{figure}
+		
+		Podemos ver en principio que existen diferencias entre el costo temporal de búsqueda tabú y constructiva/búsqueda local.
+		
+		La diferencia en costo (tiempo) entre estos algoritmos es significativa, resta ver entonces, si esa diferencia se hace merecer, al mejorar la calidad de la solución (Se tratará en 'Comparación de Calidad').
+		
+		No podemos considerar como $outliers$ ninguno de los puntos de tabú search que parecen alejarse de la curva, debido a que el algoritmo depende las iteraciones si mejora o no, y esto a su vez, depende del grafo en particular.
+		
+		No podemos afirmar por el momento que exista diferencias de tiempo entre la heurística constructiva, y la de búsqueda local. La diferencia de complejidad entre los algoritmos, dificulta su apreciación (debido a la escala en la que debe graficarse para incluir todos los puntos).\VSP
+		
+		En el siguiente gráfico, se incluirán sólo la heúristica de búqueda local y constructiva, con el objeto de denotar alguna diferencia en el coste temporal entre ellas. Se realizaron 50 intancias que varían el tamaño entre 500 y 1200 vértices de a múltiplos de 14, con grafos aleatorios.
+
+		\begin{figure}[H]
+			\centering
+					\includegraphics[width=9cm,angle=-90]{conclusiones/heuris_rapidas2.eps}
+			\caption{Pruebas de tiempo de Constructivo vs. Búsqueda Local [500-1200]}
+			\label{fig:Tiempo de const_bus_loc}
+		\end{figure}
+		
+		Podemos observar que recién a partir de grafos de 700 nodos empieza a existir diferencia significativa entre el tiempo que toma cada instancias para analizar con búsqueda local y con constructivo. Podemos concluir con eso que la búsqueda local es más conveniente para estos casos menores a 700 vértices, ya que podemos inclusive hasta mejorar la solución, sin perder tiempo considerable (recordar que búsqueda local comienza con el resultado de la constructiva y nunca lo empeora).\VSP
+		
+		Se incluye debajo, el gráfico con 100 instancias, entre 0 y 800 vértices (nuevamente grafos aleatorios). Los algoritmos que se muestran son el de búsqueda local y constructivo. El gráfico tiene como objetivo mostrar que no existen diferencias significativas en el costo temporal de ellos para intancias que se encuentren en esa franja de tamaño.
+		
+		\begin{figure}[H]
+			\centering
+					\includegraphics[width=9cm,angle=-90]{conclusiones/heuris_rapidas.eps}
+			\caption{Pruebas de tiempo de Constructivo vs. Búsqueda Local [0-800]}
+			\label{fig:Tiempo de const_bus_loc}
+		\end{figure}
+
 		\end{subsection}
 
 		\begin{subsection}{Comparación de calidad}
@@ -108,7 +168,7 @@ Raffo Diego & 423/08 & enanodr@hotmail.com \\
 			\label{fig:Calidad de los Algoritmos}
 		\end{figure}
 		
-		En la figura \ref{fig:Calidad de los Algoritmos} podemos ver como el algorítmo de búsqueda tabú es el que más se aproxima al tamaño de la clique óptima dada por el algoritmo $exacto$. Es significativo el nivel de mejora de la búsqueda tabú en relación al resto (recordar que cada algoritmo parte de la solución dada por el predecesor en complejidad).
+		En la figura anterior podemos ver como el algorítmo de búsqueda tabú es el que más se aproxima al tamaño de la clique óptima dada por el algoritmo $exacto$. Es significativo el nivel de mejora de la búsqueda tabú en relación al resto (recordar que cada algoritmo parte de la solución dada por el predecesor en complejidad).
 		
 		Vemos también que el algoritmo de búsqueda local tiende a mejorar las soluciones dadas por el constructivo, es decir, para cliques de $seis$ o $siete$ encontró más casos constructivo que búsqueda local. En conclusión, como búqueda local parte de la solución dada por la constructiva y nunca la empeora, la diferencia que hay entre estos en las cliques de ocho y nueve, nos hacen inferir que búsqueda local, mejora en uno o dos vértices la solución dada por la heurística constructiva.
 		
@@ -122,9 +182,9 @@ Raffo Diego & 423/08 & enanodr@hotmail.com \\
 	\tab Luego de haber efectuado los análisis teóricos de complejidad y habiendo efectuado comparaciones en cuanto a la $performance$ y a la precisión de cada algoritmo, podemos sacar algunas conclusiones:
 	\begin{itemize}
 		\item El algoritmo $exacto$, como lo indica su nombre, es el único algoritmo que nos devuelve siempre la solución precisa al problema de la clique máxima. Sin embargo, el costo de operaciones y en tiempo del algoritmo es factorial, siendo su utilización para grafos grandes impracticable.
-		\item El algoritmo de heurística constructiva es el algoritmo de heurística mas rápido que implementamos, y también el menos preciso en líneas generales. Su complejidad en cantidad de operaciones es cuadrática con respecto al tamaño de la entrada. Como aproximación performante al problema de clique máxima es una buena elección, si bien como antes vimos, puede estar lejos de la óptima. Si se necesitara una presición aceptable, pero se quisiera minimizar el tiempo de esperar para obtener el resultado, $constructivo$ sería una buena opción
-		\item La heurística de búsqueda local resulta ser más precisa que la heurística constructiva, elevando el orden de complejidad a \Ode{n^4}. En el análisis empírico, en las computadoras en las que fue corrido y para el tamaño de test en el que fue analizado, esta relación performancia/eficiencia nos pareció adecuada, ya que logramos mejores resultados y la resolución de los casos fue rápida.
-		\item El algoritmo de heurística de búsqueda tabú, contiene la implementación más fina en la búsqueda de la clique máxima. La experimentanción sobre este algoritmo nos mostró la pequeña línea que existe entre 'velocidad' y 'presición'. Si bien es clara la mejora que produce sobre los demás algoritmos, intentamos siempre mejorar los casos en los que esta heurística no funcionaba, en un intento por tender cada vez más al óptimo. Al tener una nueva idea sobre como mejorarlo, nos dabamos cuenta que la complejidad aumentaba como mínimo en un orden y el código se complicaba aún más. Durante los $tests$ realizados, vimos que la diferencia en la velocidad de respuesta entre este y el resto de los algoritmos, no era menor. 
+		\item El algoritmo de heurística constructiva es el algoritmo de heurística mas rápido que implementamos, y también el menos preciso en líneas generales. Su complejidad en cantidad de operaciones es cuadrática con respecto al tamaño del grafo. Como aproximación performante al problema de clique máxima es una buena elección, si bien como antes vimos, puede estar lejos de la óptima. Si el problema acepta una precisión no muy buena, pero requiere minimizar el tiempo de espera para obtener el resultado, $constructivo$ sería una buena opción
+		\item La heurística de búsqueda local resulta ser más precisa que la heurística constructiva, elevando el orden de complejidad a \Ode{n^4}. En el análisis empírico, en las computadoras en las que fue corrido y para el tamaño de test en el que fue analizado, esta relación calidad/tiempo de ejecución nos pareció adecuada, ya que logramos mejores resultados y la resolución de los casos fue rápida.
+		\item El algoritmo de heurística de búsqueda tabú, contiene la implementación más fina en la búsqueda de la clique máxima. La experimentanción sobre este algoritmo nos mostró la pequeña línea que existe entre 'tiempo de ejecución' y 'presición'. Si bien es clara la mejora que produce sobre los demás algoritmos, intentamos siempre mejorar los casos en los que esta heurística no funcionaba, en un intento por tender cada vez más al óptimo. Al tener una nueva idea sobre como mejorarlo, nos dabamos cuenta que la complejidad aumentaba como mínimo en un orden y el código se complicaba aún más. Durante los $tests$ realizados, vimos que la diferencia en el tiempo de ejecuciónentre este y el resto de los algoritmos, no era menor. 
 	\end{itemize}
 	En nuestra primera aproximación con los algoritmos heurísticos, podemos concluir que dependiendo del problema en particular, y qué esté uno dispuesto a perder en pos de una mejoría (tiempo o calidad) radica en la elección del algoritmo.
 
@@ -132,7 +192,7 @@ Raffo Diego & 423/08 & enanodr@hotmail.com \\
 		\tab Al comenzar el informe se mencionaron dos situaciones que pueden ser modelados mediante grafos, más precisamente con un problema de clique máxima, veamos como nuestros algoritmos se relacionan con estas situaciones. 
 			\begin{itemize}
 			\item El primer problema consistía en la empresa que queria promocionar su producto, con lo que utilizaba el programa de max\_clique para determinar las cliques máximas de cada empresa elegida para promosionarse. Suponiendo que las empresas que eligió son multinacionales, con miles de empleados cada una, no creemos conveniente el uso del max\_clique exacto, ya que el tiempo de ejecución sería muy costoso, con lo cual debería optar por un algorimo heurístico. Con lo visto en las pruebas, dado el tamaño del grafo con el que modelaríamos el problema, optaríamos por el algorítmo de busqueda tabú, ya que para estos tamaños de entrada la diferencia de tiempo no es tan significativa en comparación a posible maximización de las ganancias.
-			\item En el segundo problema, el terrorista se enfrenta a un gran problema, que es la enorme cantidad de personas en el planeta (aproximadamente 6.000.000.000 personas). Con esto se hace imposible aplicar un algoritmo exacto. Dependiendo de las carácteristicas del virus, este puede ser extremadamente contagioso, y suponiendo esto, tal vez no sea de tanta importancia que el clique de personas elegido sea el máximo. Consideramos que de el algoritmo de heurística constructiva podría dar buenos resultados ya que es tal vez el único algoritmo que terminaría en un tiempo aceptable, que puede ser de varios meses, y tiene una gran probabilidad de contagio que simplemente eligir personas que se conozcan con mucha gente.
+			\item En el segundo problema, el terrorista se enfrenta a un gran problema, que es la enorme cantidad de personas en el planeta (aproximadamente 6.000.000.000 personas). Con esto se hace imposible aplicar un algoritmo exacto. Dependiendo de las carácteristicas del virus, este puede ser extremadamente contagioso, y suponiendo esto, tal vez no sea de tanta importancia que el clique de personas elegido sea el máximo. Consideramos que de el algoritmo de heurística constructiva podría dar buenos resultados ya que es tal vez el único algoritmo que terminaría en un tiempo aceptable, que puede ser de varios meses, y tiene una mayor probabilidad de contagio que simplemente eligir personas que se conozcan con mucha gente.
 			\end{itemize}
 		\end{subsection}
 	
@@ -149,11 +209,9 @@ Raffo Diego & 423/08 & enanodr@hotmail.com \\
 	
 	\end{section}
 	\begin{section}{Compilación y ejecución de los programas}
-	MANDATE UN PUNTO BARRA SHL MAX CLIQUE PODEROSO DANIIIII EL SHELL FUNCIONA SOLO PARA TP3
-	HACETE UNA MAKE QUE SEA RE PODEROSO Y MAKEE TODOS LOS ALGOS
 	Para compilar los programas se puede usar el comando \texttt{make} (Requiere el compilador \texttt{g++}).
 	
-	Para correr todos los algoritmos, ejecute en terminal \texttt{./max\_clique.sh [nombre\_de\_archivo.in]} siendo los \texttt{nombre\_de\_archivoX.out} guardados en la carpeta $out$. ($tabu\_search$ se ejecutará con los parámetros que consideramos mejores en el análisis del algoritmo)
+	Para correr todos los algoritmos, ejecute en terminal \texttt{./max\_clique.sh [nombre\_de\_archivo.in]} siendo los \texttt{nombre\_de\_archivoX.out} guardados en la carpeta $out$. ($tabu\_search$ se ejecutará con los parámetros que consideramos mejores en el análisis del algoritmo. No es necesario compilar los programas previamente).
 		
 	Se pueden correr los programas de cada ejercicio ejecutando \texttt{./exacto}, \texttt{./constructivo}, \texttt{./busqueda\_local} y \texttt{./tabu\_search} respectivamente. Los programas leen la entrada de stdin y escriben la respuesta en stdout. Para leer la entrada de un archivo \texttt{Tp3X.in} y escribir la respuesta en un archivo \texttt{Tp3X.out} ses puede usar:\\ \texttt{./(ejecutable) < Tp3X.in > Tp3X.out}
 
