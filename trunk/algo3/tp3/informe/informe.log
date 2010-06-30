@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=latex 2010.6.8)  30 JUN 2010 05:11
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=latex 2010.6.8)  30 JUN 2010 05:48
 entering extended mode
  %&-line parsing enabled.
 **informe.tex dvips -p pdf
@@ -514,7 +514,7 @@ File: tabu_search/time.eps Graphic file (type eps)
  <tabu_search/time.eps>
 [35]
 File: tabu_search/max_tabu2.eps Graphic file (type eps)
- <tabu_search/max_tabu2.eps>) [36] [37]
+ <tabu_search/max_tabu2.eps> [36]) [37]
 Overfull \hbox (2.60704pt too wide) in paragraph at lines 105--106
 []\OT1/cmr/m/n/12 La heur^^S^^Psti-ca de busque-da lo-cal re-sul-to ser mas pre
 -ciso que el de heur^^S^^Psti-
@@ -557,4 +557,4 @@ Here is how much of TeX's memory you used:
  28 hyphenation exceptions out of 8191
  27i,13n,25p,1566b,347s stack positions out of 5000i,500n,6000p,200000b,5000s
 
-Output written on informe.dvi (42 pages, 96088 bytes).
+Output written on informe.dvi (42 pages, 97140 bytes).
