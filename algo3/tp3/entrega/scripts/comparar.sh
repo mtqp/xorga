@@ -1,3 +1,10 @@
+#!/usr/bin/bash
+# Script que compara dos métodos y grafica
+# las instancias diferentes
+# 	Requiere estar en la carpeta principal
+#
+# uso: ./comparar.sh {input} {metodo1} {metodo2}
+#
 ENTRADA=$1
 BASENAME=${ENTRADA##*/}
 NOMBRE=${BASENAME%.*}

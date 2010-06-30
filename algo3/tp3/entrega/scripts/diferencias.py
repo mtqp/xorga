@@ -1,5 +1,9 @@
 #!/usr/bin/python
 
+# Script que calcula las diferencias entre
+# dos métodos para un input determinado
+#	Requiere estar en la carpeta principal
+
 import sys
 import os.path
 from tp3 import cargarInput, cargarOutput, lineaInstancia, graphviz
