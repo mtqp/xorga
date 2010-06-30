@@ -1,8 +1,10 @@
 #pequeño script para ejecutar todos los algoritmos!
 
-input=$1
-input_length=${#input}
-output=${input:0:input_length-3}
+INPUT=$1
+COMPLETE_INPUT=$1
+INPUT=${INPUT##*/}
+INPUT_length=${#INPUT}
+OUTPUT=${INPUT:0:$INPUT_length-3}
 
 if [ ! -d out/ ]; then
 	mkdir out #if no esta creado crearlo....
@@ -13,8 +15,8 @@ cd exacto
 if [ ! -e "./exacto" ]; then
 	make
 fi
-exacto_out=${output}"Exacto.out"
-./exacto < ../$input > ../out/$exacto_out
+exacto_out=${OUTPUT}"Exacto.out"
+./exacto < ../$COMPLETE_INPUT > ../out/$exacto_out
 echo "Exacto 		procesó entrada."
 
 cd ..
@@ -22,8 +24,8 @@ cd constructivo
 if [ ! -e "./constructivo" ]; then
 	make
 fi
-constructivo_out=${output}"Constructivo.out"
-./constructivo < ../$input > ../out/$constructivo_out 
+constructivo_out=${OUTPUT}"Constructivo.out"
+./constructivo < ../$COMPLETE_INPUT > ../out/$constructivo_out 
 echo "Constructivo 	procesó entrada."
 
 cd ..
@@ -31,8 +33,8 @@ cd busqueda_local
 if [ ! -e "./busqueda_local" ]; then
 	make
 fi
-busqueda_out=${output}"Busqueda_Local.out"
-./busqueda_local < ../$input > ../out/$busqueda_out
+busqueda_out=${OUTPUT}"Busqueda_Local.out"
+./busqueda_local < ../$COMPLETE_INPUT > ../out/$busqueda_out
 echo "Búsqueda Local  procesó entrada."
 
 cd ..
@@ -40,6 +42,6 @@ cd tabu_search
 if [ ! -e "./tabu_search" ]; then
 	make
 fi
-tabu_out=${output}"Tabu_Search.out"
-./tabu_search < ../$input > ../out/$tabu_out
+tabu_out=${OUTPUT}"Tabu_Search.out"
+./tabu_search < ../$COMPLETE_INPUT > ../out/$tabu_out
 echo "Tabú Search 	procesó entrada."
