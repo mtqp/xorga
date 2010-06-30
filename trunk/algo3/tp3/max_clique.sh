@@ -2,10 +2,7 @@
 
 input=$1
 input_length=${#input}
-echo $input
-echo $input_length
 output=${input:0:input_length-3}
-echo $output
 
 if [ ! -d out/ ]; then
 	mkdir out #if no esta creado crearlo....
