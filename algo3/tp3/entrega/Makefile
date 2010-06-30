@@ -1,12 +1,15 @@
-GRAFOS = $(patsubst %.dot, %.eps, $(wildcard *.dot ))
+ALGOS=constructivo busqueda_local tabu_search exacto
 
-grafos: $(GRAFOS)
+.PHONY: all
 
-%.eps: %.dot
-	@echo "Generando $@"
-	@dot -Tps $< > $@
-	@rm $<
+all: $(ALGOS)
+	@make -C constructivo
+	@make -C busqueda_local
+	@make -C tabu_search
+	@make -C exacto
 
 clean:
-	rm -f $(wildcard *.out.eps)
-
+	@make -C constructivo clean
+	@make -C busqueda_local clean
+	@make -C tabu_search clean
+	@make -C exacto clean
