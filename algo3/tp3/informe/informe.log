@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=latex 2010.6.8)  30 JUN 2010 03:02
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=latex 2010.6.8)  30 JUN 2010 05:11
 entering extended mode
  %&-line parsing enabled.
 **informe.tex dvips -p pdf
@@ -489,26 +489,20 @@ Underfull \hbox (badness 10000) in paragraph at lines 59--62
 | | | | | $\OML/cmm/m/it/12 actualizar[]solucion$
  []
 
-[26]
-Overfull \hbox (180.89276pt too wide) in paragraph at lines 72--76
-\OT1/cmr/m/n/12 DI-AAAAAA!!!!!ukuyfuyjtjft5umj76fu7666m,6b,ib7,ki7k,i87fk7k,KUF
-MKUTJYTDMHYTMJUY6FMJUYMKY 
- []
-
-[27]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 88.
+[26] [27]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 85.
  (/usr/share/texmf-texlive/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 88.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 85.
  [28]
 File: tabu_search/segCasoMalo.eps Graphic file (type eps)
 
 <tabu_search/segCasoMalo.eps> [29]
 File: tabu_search/segCasoMalo_cont.eps Graphic file (type eps)
  <tabu_search/segCasoMalo_cont.eps> [30]
-Overfull \hbox (18.18681pt too wide) in paragraph at lines 130--131
+Overfull \hbox (18.18681pt too wide) in paragraph at lines 127--128
 \OT1/cmr/m/n/12 v^^Sertices ady-a-centes tab^^Su, por lo que no puede seguir. T
 er-mi-na porque prob^^So mejo-
  []
@@ -517,8 +511,10 @@ er-mi-na porque prob^^So mejo-
 File: tabu_search/iteraciones.eps Graphic file (type eps)
  <tabu_search/iteraciones.eps> [33] [34]
 File: tabu_search/time.eps Graphic file (type eps)
- <tabu_search/time.eps>)
-[35] [36]
+ <tabu_search/time.eps>
+[35]
+File: tabu_search/max_tabu2.eps Graphic file (type eps)
+ <tabu_search/max_tabu2.eps>) [36] [37]
 Overfull \hbox (2.60704pt too wide) in paragraph at lines 105--106
 []\OT1/cmr/m/n/12 La heur^^S^^Psti-ca de busque-da lo-cal re-sul-to ser mas pre
 -ciso que el de heur^^S^^Psti-
@@ -530,7 +526,7 @@ Overfull \hbox (17.33052pt too wide) in paragraph at lines 105--106
  SARASARASARSAS-
  []
 
-[37]
+[38]
 Overfull \hbox (11.09952pt too wide) in paragraph at lines 106--107
 \OT1/cmr/m/n/12 a^^Sun may-or que la de la b^^Susque-da lo-cal, sien-do de or-d
 en de $\OML/cmm/m/it/12 n[]$\OT1/cmr/m/n/12 . SARASEAR
@@ -542,23 +538,23 @@ Overfull \hbox (0.47581pt too wide) in paragraph at lines 112--113
 ax[]clique
  []
 
-[38]
+[39]
 Overfull \hbox (1.52736pt too wide) in paragraph at lines 130--133
 \OT1/cmr/m/n/12 DANI-I-I-II EL SHELL FUN-CIONA SO-LO PARA TP3 HACETE UNA MAKE
  []
 
-[39] [40] (./informe.aux)
+[40] [41] (./informe.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 2558 strings out of 95087
- 30421 string characters out of 1183279
+ 2561 strings out of 95087
+ 30490 string characters out of 1183279
  84885 words of memory out of 1500000
- 5674 multiletter control sequences out of 10000+50000
+ 5676 multiletter control sequences out of 10000+50000
  15526 words of font info for 60 fonts, out of 1200000 for 2000
  28 hyphenation exceptions out of 8191
- 27i,13n,25p,1543b,347s stack positions out of 5000i,500n,6000p,200000b,5000s
+ 27i,13n,25p,1566b,347s stack positions out of 5000i,500n,6000p,200000b,5000s
 
-Output written on informe.dvi (41 pages, 93868 bytes).
+Output written on informe.dvi (42 pages, 96088 bytes).
