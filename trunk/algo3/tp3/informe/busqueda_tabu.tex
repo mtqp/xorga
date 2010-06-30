@@ -177,7 +177,7 @@
 
 		El otro parámetro es para determinar la máxima cantidad de iteraciones que un atributo permanece tabú, en este caso agregar un vértice. Para ajustar este parámetro usamos las mismas instancias que para los tiempo del gráfico anterior (Figura \ref{fig:Ajuste_del_parametro_iteraciones}). Para realizar las pruebas variamos el parámetro entre los valores $5$, $10$, $20$, $40$, $60$, $80$ y $100$ donde estos representan un porcentaje del tamaño de la clique desde la que se comienza a sacar los vértices. Creemos que este parámetro debe depender del tamaño de la clique ya que si parte de una clique chica y el valor es grande la vecindad va a estar demasiado restringida dado que la misma también va a ser chica, si la clique desde la que parte es grande y el valor chico muy probablemente vuelva a soluciones ya exploradas y no es lo que queremos. En el siguiente gráfico se muestra la cantidad de instancias (entre las $100$) que devuelven una determinada cantidad de vértices como resultado, es decir, se grafica la cantidad de instancias en función del tamaño de la clique que logra encontrar el algoritmo.(Figura \ref{fig:Ajuste_del_parametro_tabu}).
 
-		\begin{figure}[H]
+	\begin{figure}[H]
 		\centering
 		    	\includegraphics[width=9cm,angle=-90]{tabu_search/max_tabu2.eps}
 		\caption{Pruebas de calidad para ajustar el parámetro tabu}
