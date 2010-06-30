@@ -360,7 +360,7 @@ int main(int argc, char** argv){
 	while(cin >> n && n!=(int)-1){
 		bool pertenece[n];
 		int** adyacencia;
-		int MAX_ITERACIONES = n*porcentaje/100;
+		int MAX_ITERACIONES = n*60/100;
 		adyacencia = new int* [n];
 		for(int i=0; i<n; i++){
 			adyacencia[i] = new int [n];
@@ -378,20 +378,20 @@ int main(int argc, char** argv){
 		}
 		if(argc>1 && string(argv[1])=="time"){	//si el argumento es "time", mido el tiempo
 			ts=0;
-			medir_tiempo( ts, max_clique_actual(pertenece,adyacencia,n,MAX_ITERACIONES,100), 1, 0.5f);
+			medir_tiempo( ts, max_clique_actual(pertenece,adyacencia,n,MAX_ITERACIONES,porcentaje), 1, 0.5f);
 			cout << n << "\t" << ts << endl;
 		}
 		else if(argc>1 && string(argv[1])=="count"){	//si el argumento es "count", cuento cantidad de operaciones
-			int res = max_clique_actual(pertenece,adyacencia,n,MAX_ITERACIONES,100);
+			int res = max_clique_actual(pertenece,adyacencia,n,MAX_ITERACIONES,porcentaje);
 			cout << n << "\t" << contador << "\t" << res << endl;	//imprimo la cuenta
 		}
 		else if(argc>1 && string(argv[1])=="tamaño"){
-			cout << max_clique_actual(pertenece,adyacencia,n,MAX_ITERACIONES,100) << endl;
+			cout << max_clique_actual(pertenece,adyacencia,n,MAX_ITERACIONES,porcentaje) << endl;
 		}
 		else{
 			//for( int z=0; z<n; z++ )
 				//cout << z << "\t" << max_clique_actual(pertenece,adyacencia,n,z,n,n) << endl;
-			cout << max_clique_actual(pertenece,adyacencia,n,MAX_ITERACIONES,100) << endl;
+			cout << max_clique_actual(pertenece,adyacencia,n,MAX_ITERACIONES,porcentaje) << endl;
 			cout << "N";
 			print_res(pertenece,n);
 		}
