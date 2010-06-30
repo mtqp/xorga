@@ -95,7 +95,7 @@
 
 			\item \texttt{agrandar\_clique: } Esta función itera los vértices que están en la lista tabú e intenta agregarlos a la clique actual. Esto es porque como ya conseguió una solución mejor lograr agregar algún vértice que esta tabú contribuye aún más a la solución.
 
-			\item \texttt{restar\_tabu: } Para cada vértice tal que tiene tabú mayor a $cero$ decrementa la cantidad de iteraciones que va a permanecer tabú. Si al decrementarlo deja de ser tabú lo elimina de $lista\_tabu$.
+			\item \texttt{restar\_tabu: } Para cada vértice tal que tiene tabú mayor a $cero$ decrementa la cantidad de iteraciones que va a permanecer tabú.
 
 			Tanto en $formar\_completo$ como en $agrandar\_clique$ los vértices que agregamos a la lista de la clique actual los ponemos al principio de la misma, es una forma de poner tabú al menos tantas iteraciones como vértices había en la clique previo a agregarlos la operación inversa, sacarlos (ya que se saca siempre el último de la lista).
 		\end{itemize}
@@ -119,7 +119,7 @@
 			    \label{fig:seguimiento_busqueda_tabu}
 			\end{figure}
 
-		En la primer rotación, el algoritmo al quitar el vértice $dos$ tiene dos caminos para seguir, o el $cuatro$ o el $cinco$. En el primero, se encontrará con un ciclo de cuatro nodos, sin poder agrandar la clique. En el segundo caso, encontrará una clique de tres, pudiendo mejorar y además encontrar el óptimo para este caso. Como ya dijimos, al tener dos vértices de igual grado, el algoritmo elige el de menor numeración, en este caso el $cuatro$. 
+		En la primer rotación, el algoritmo saca el vértice $dos$ (ya que es el de menor grado entre los pertenecientes a la clique) tiene dos caminos para seguir, agregar el $cuatro$ o el $cinco$. En el primero, se encontrará con un ciclo de cuatro nodos, sin poder agrandar la clique. En el segundo caso, encontrará una clique de tres, pudiendo mejorar y además encontrar el óptimo para este caso. Como ya dijimos, al tener dos vértices de igual grado, el algoritmo elige el de menor numeración, en este caso el $cuatro$. Por esto, se mueve a la solución $<3,4>$ agregando el $cuatro$ al principio de la lista de la clique, por lo que en la siguiente iteración saca el vértice $tres$ moviendose a la clique $<1,4>$ por el mismo motivo que antes prosigue retirando el vértice $4$, como todos sus adyacentes se encuentran tabú no puede agregar nada quedando la clique actual de tamaño $uno$ por lo que sale del ciclo \texttt{while} y procede a la siguiente rotacion de la clique inicial $<2,3>$ (Figura \ref{fig:seguimiento_busqueda_tabu_continuacion).
 
 		Por lo tanto, en esta rotación, el algoritmo no puede encontrar la clique de tres.
 
@@ -130,7 +130,7 @@
 			    \label{fig:seguimiento_busqueda_tabu_continuacion}
 			\end{figure}
 
-		En la segunda y última rotación, comienza por quitar el vértice $tres$, dejándolo tabú, y no pudiendo tomar otro vértice mas que el $uno$. Recorre el camino dado por los vértices $2,1,4$. Al llegar al $cuatro$, posee todos sus vértices adyacentes tabú, por lo que no puede seguir. Termina porque probó mejorar en todas sus rotaciones, sin poder lograrlo.
+		En la segunda y última rotación se encuentra con el mismo problema que en la primer rotación, comienza por quitar el vértice $tres$, dejándolo tabú, y no pudiendo tomar otro vértice mas que el $uno$. Recorre el camino dado por los vértices $2,1,4$. Al llegar al $cuatro$, posee todos sus vértices adyacentes tabú, por lo que no puede seguir. Termina porque probó mejorar en todas sus rotaciones, sin poder lograrlo.
 
 	\end{subsection}
 
