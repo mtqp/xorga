@@ -1,7 +1,7 @@
 EJ = $(patsubst %.cpp,%,$(wildcard *.cpp))
 FLAGS = -Wall
 TEST_PATH = ../test/
-PARAM_TEST = $(TEST_PATH)pruebas.in
+PARAM_TEST = $(TEST_PATH)grafo_random_n_fijo.in
 
 .PHONY: test_param
 
@@ -9,6 +9,8 @@ ejercicio: $(EJ)
 test: $(patsubst $(TEST_PATH)%.in,%.out,$(wildcard $(TEST_PATH)*.in) )
 
 test_param: $(EJ)
+	./$(EJ) tamaño parametro 5 < $(PARAM_TEST) > param_5.out
+	./$(EJ) tamaño parametro 10 < $(PARAM_TEST) > param_10.out
 	./$(EJ) tamaño parametro 20 < $(PARAM_TEST) > param_20.out
 	./$(EJ) tamaño parametro 40 < $(PARAM_TEST) > param_40.out
 	./$(EJ) tamaño parametro 60 < $(PARAM_TEST) > param_60.out

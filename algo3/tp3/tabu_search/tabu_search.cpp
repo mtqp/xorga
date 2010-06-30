@@ -243,7 +243,7 @@ int max_clique_actual(bool* pertenece, int** adyacencia, int n, int MAX_ITERACIO
 	O(5);
 	while(mejore){
 		mejore=false;
-		int cant_iter=max(tamanyo*MAX_TABU_PORCENTAJE/100,3);
+		int cant_iter=(tamanyo*MAX_TABU_PORCENTAJE/100);
 		//cout << "cant_iter " << cant_iter << endl;
 		/* Empiezo tamanyo veces desde la clique original a no ser que en alguna de las iteraciones logre mejorarla
 		** Cada una de estas veces roto la lista para sacar los nodos en otro orden y asi explorar otros vecinos*/
@@ -347,21 +347,46 @@ int max_clique_actual(bool* pertenece, int** adyacencia, int n, int MAX_ITERACIO
 	return tamanyo;
 }
 
+void parsearArgumentos( int argc, char**argv, int& modo, int& pMaxIter, int& pMaxTabu )
+{
+	modo = 0;
+	pMaxIter = 60;
+	pMaxTabu = 40;
+	for( int i = 1 ; i < argc ; i++ )
+	{
+		string arg = string(argv[i]);
+		if( arg=="iteraciones" && argc > i+1 )
+		{
+			i++;
+			pMaxIter = atoi(argv[i]);
+		}
+		else if( arg=="tabu" && argc > i+1 )
+		{
+			i++;
+			pMaxTabu = atoi(argv[i]);
+		}
+		else if( arg=="tamaño" )
+			modo = 3;
+		else if( arg=="time" )
+			modo = 1;
+		else if( arg=="count" )
+			modo = 2;
+	}
+}
+
 int main(int argc, char** argv){
 	double ts;
 	int n;
 	int cant_ady;
 	int ady;
-	int porcentaje = 100;
 	
-	if( argc > 3 && string(argv[2])=="parametro" )
-	{
-		porcentaje = atoi(argv[3]);
-	}
+	int modo, pMaxIter, pMaxTabu;
+	parsearArgumentos( argc, argv, modo, pMaxIter, pMaxTabu ); 
+	
 	while(cin >> n && n!=(int)-1){
 		bool pertenece[n];
 		int** adyacencia;
-		int MAX_ITERACIONES = n*60/100;
+		int MAX_ITERACIONES = n*pMaxIter/100;
 		adyacencia = new int* [n];
 		for(int i=0; i<n; i++){
 			adyacencia[i] = new int [n];
@@ -377,22 +402,22 @@ int main(int argc, char** argv){
 				adyacencia[i][ady-1]=1;
 			}
 		}
-		if(argc>1 && string(argv[1])=="time"){	//si el argumento es "time", mido el tiempo
+		if(modo==1){	//si el argumento es "time", mido el tiempo
 			ts=0;
-			medir_tiempo( ts, max_clique_actual(pertenece,adyacencia,n,MAX_ITERACIONES,porcentaje), 1, 0.5f);
+			medir_tiempo( ts, max_clique_actual(pertenece,adyacencia,n,MAX_ITERACIONES,pMaxTabu), 1, 0.5f);
 			cout << n << "\t" << ts << endl;
 		}
-		else if(argc>1 && string(argv[1])=="count"){	//si el argumento es "count", cuento cantidad de operaciones
-			int res = max_clique_actual(pertenece,adyacencia,n,MAX_ITERACIONES,porcentaje);
-			cout << n << "\t" << contador << "\t" << res << endl;	//imprimo la cuenta
+		else if(modo==2){	//si el argumento es "count", cuento cantidad de operaciones
+			max_clique_actual(pertenece,adyacencia,n,MAX_ITERACIONES,pMaxTabu);
+			cout << n << "\t" << contador << endl;	//imprimo la cuenta
 		}
-		else if(argc>1 && string(argv[1])=="tamaño"){
-			cout << max_clique_actual(pertenece,adyacencia,n,MAX_ITERACIONES,porcentaje) << endl;
+		else if(modo==3){	//si el argumento es "tamaño" no imprime los nodos de la clique
+			cout << max_clique_actual(pertenece,adyacencia,n,MAX_ITERACIONES,pMaxTabu) << endl;
 		}
-		else{
+		else{	//si no tiene argumento entonces imprime la solución
 			//for( int z=0; z<n; z++ )
 				//cout << z << "\t" << max_clique_actual(pertenece,adyacencia,n,z,n,n) << endl;
-			cout << max_clique_actual(pertenece,adyacencia,n,MAX_ITERACIONES,porcentaje) << endl;
+			cout << max_clique_actual(pertenece,adyacencia,n,MAX_ITERACIONES,pMaxTabu) << endl;
 			cout << "N";
 			print_res(pertenece,n);
 		}
