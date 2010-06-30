@@ -4,14 +4,18 @@
 
 		El \texttt{Tabu-Search} permite evitar que la heurística de búsqueda local se estanque en óptimos locales cuando en realidad fuera de la vecindad existía una solución óptima global (mejor que la local).
 		Para lograrlo, permite al algoritmo perseguir una solución peor que la mejor obtenida mediante búsqueda local, por una cantidad máxima de iteraciones.
-		Pasada esta cantidad, con-\\sideramos que el algoritmo ya buscó lo suficiente y la mejor solución encontrada hasta el momento debe ser la óptima.
+		Pasada esta cantidad, con-\\sideramos que el algoritmo ya buscó lo suficiente por lo que volvemos a la solución inicial y buscamos por otro camino, es decir, comenzamos a sacar los vértices en otro orden lo que denominaremos 'rotacion'.
+		%y la mejor solución encontrada hasta el momento debe ser la óptima.
 
 		Para no revisar las vecindades que se revisaron anteriormente (que son muy cercanas a la vecindad actual),
 		cada vez que decidimos movernos a otra vecindad porque tenemos un nuevo aspirante a óptimo (más allá de que sea peor que la mejor solución que encontramos hasta el momento, pero lo llamamos así por su similitud con el mismo en la búsqueda local)
 		prohibimos revertir el cambio que hicimos para llegar del aspirante anterior al nuevo, o sea, prohibimos volver a agregar el vértice que sacamos.
 		
 		Cada vez que logramos mejorar, es decir, encontramos una clique de tamaño mayor a la máxima clique vista hasta el momento actualizamos la solución.
-		Repetimos este procedimiento hasta agotar la máxima cantidad de iteraciones permitidas sin mejorar. Una vez que ocurre esto, el algoritmo termina, siendo la solución final la solución actual, es decir, la clique de mayor tamaño que logro encontrar.(Figura \ref{fig:seguimiento_busqueda_tabu})
+		Repetimos este procedimiento hasta agotar la máxima cantidad de iteraciones permitidas sin mejorar desde cada camino (rotación). Una vez que ocurre esto, el algoritmo termina, siendo la solución final la solución actual, es decir, la clique de mayor tamaño que logro encontrar.(Figura \ref{fig:seguimiento_busqueda_tabu})\Pa
+
+
+		La siguiente figura no representa el seguimiento completo del algoritmo, sólo se incluye la parte más relevante, es decir, se muesta la rotación donde logra encontrar el óptimo.  Las rotaciones consisten en empezar a sacar en un orden distinto al que se comenzo a sacar anteriormente.
 
 			% --- Figura seguimiento algoritmo constructivo ---
 			\begin{figure}[H]
@@ -20,8 +24,6 @@
 			    \caption{Ejemplo de la heurística de búsqueda tabú}
 			    \label{fig:seguimiento_busqueda_tabu}
 			\end{figure}
-
-		El seguimiento del algoritmo no está completo, se incluye sólo la parte más relevante (la rotación en la que se mejora la solución parcial).
 
 		La heurística de búsqueda local nos da la clique formada por $<4,5,6>$. En una de las rotaciones, saca el vértice $cinco$ intentando formar una clique de mayor tamaño con $<4,6>$, al no poder hacerlo, retira el $seis$ (es decir, ahora el $seis$ y el $cinco$ son tabú). Es entonces que encuentra una nueva clique de cuatro nodos y actualiza la solución parcial con esta. El algoritmo continúa haciendo rotaciones sobre la nueva solución intentando agrandar la clique durante la cantidad de iteraciones permitidas y volviendo a permitir agregar los vértices tabú después de pasada su cantidad de iteraciones tabú. En este grafo en particular, no logra ninguna nueva mejora, siendo la clique observada en el último grafo de la figura, la solución que devuelve el algoritmo, así como el óptimo.
 
@@ -64,7 +66,7 @@
 			\tab \RET $tamanyo$\\
 		\end{pseudo}
 
-		En la implementación mantenemos la solución actual tanto en una lista de vértices. La lista inicia ordenada de mayor a menor según los grados, esto lo hacemos para empezar a sacar desde el de menor grado ya que consideramos que es el que tiene más probabilidades de estar condicionando la clique. Además, tenemos un arreglo de tipo bool de tamaño $n$ donde el índice representa a los vértices y esta seteado en $verdadero$ si y sólo si el vértice pertenece a la clique actual. Mantenemos ambas estructuras porque usamos la lista para determinar el orden en que se eliminan (rotarla tiene costo constante) y el arreglo para verificar la pertenencia de un vértice a la clique (ya que esta operación en esta estructura de datos tiene costo constante).
+		En la implementación mantenemos la solución actual en una lista de vértices. La lista inicia ordenada de mayor a menor según los grados, esto lo hacemos para empezar a sacar desde el de menor grado ya que consideramos que es el que tiene más probabilidades de estar condicionando la clique. Además, tenemos un arreglo de tipo bool de tamaño $n$ donde el índice representa a los vértices y esta seteado en $verdadero$ si y sólo si el vértice pertenece a la clique actual. Mantenemos ambas estructuras porque usamos la lista para determinar el orden en que se eliminan (rotarla tiene costo constante) y el arreglo para verificar la pertenencia de un vértice a la clique (ya que esta operación en esta estructura de datos tiene costo constante).
 		Por otro lado, mantenemos un arreglo de vértices (los índices representan los vértices), donde para cada uno guardamos la cantidad de iteraciones que falta para que deje de ser tabú una vez que son eliminados de la clique actual (el algoritmo lleva la cuenta de las iteraciones). Esto lo hacemos para no revertir los cambios recientemente hechos y cuando revisamos las vecindades de un aspirante, evitamos aquellas donde la modificación implica agregar un vértice tabú.
 
 		La primer cláusula \texttt{if} verifica si la solución de búsqueda local encontró la clique tanto completa como la de un elemento. En ambos casos no tiene sentido aplicar el tabú search ya que, si encontró el completo, esta solución no podrá ser mejorada, al contener todos los vértices. Si sólo encontró un vértice, implica que el de grado mayor en el grafo es de grado cero, por lo tanto, todos sus vértices son de grado cero.
@@ -73,7 +75,11 @@
 		Pedimos que el tamaño de la clique actual sea distinto de $uno$ ya que nos interesa movernos a soluciones vecinas. Si el tamaño es $uno$ en esa iteración saca el último vértice de la clique por lo que se pierde referencia a la misma moviéndose inmediatamente al primer vértice segun la numeración que no esté tabú.
 		Por otro lado, el \texttt{while} itera mientras no logre mejorar para forzar la salida del ciclo cuando encuentre una clique de mayor tamaño que la actual y así empezar a sacar vértices desde la primer rotación (ya que también se fuerza la salida del \texttt{for}).
 		La última condición es para asegurar la salida del ciclo, ya que podría no mejorar nunca y ciclar entre diferentes cliques. Además, esto determina la cantidad de iteraciones que le permitimos buscar sin lograr mejorar, es un parámetro 'iteraciones' que ajustamos mediante pruebas (ver sección 5.5).
-		\begin{itemize}			
+		\begin{itemize}
+			\item \texttt{ordenar\_grados: } En la implementación, el arreglo $grados$ es de tipo tupla donde la primer componente representa el vértice y la segunda el grado. Dicho arreglo está ordenado según la segunda componente en forma decreciente. Lo ordenamos con el algoritmo de Quick Sort de $STL$.
+				
+			Para setear el grado de un vértice $i$ tenemos un contador inicializado en $cero$. Recorremos la columna de la matriz de adyacencia correspondiente a dicho vértice e incrementamos el contador por cada posición $(i,j)$ igual $uno$.	
+
 			\item \texttt{rotar\_clique: } Dado que fijar la pertenencia de un vértice a la clique condiciona el resultado final, el orden en que se eliminen los vértices puede hacer la diferencia entre un buen resultado y uno malo, a pesar de encontrar un buen criterio para hacerlo. Por este motivo, decidimos empezar eliminando de menor a mayor grado, y en cada iteración rotar la lista para sacar los vértices en otro orden.
 			
 			\item \texttt{sacar\_de\_clique: }Esta función saca de la lista el último elemento (el de menor grado entre los vértices con una misma 'antiguedad' en la clique) y setea en $falso$ la posición correspondiente en el arreglo (dejando tabú la operación inversa (agregarlo a la clique) tantas iteraciones como lo indique el parámetro 'tabu'(Ver sección 5.5)), es decir, excluye el vértice de la solución actual. Además, decrementa la variable que indica el tamaño de la clique.
@@ -87,7 +93,7 @@
 				\item Si el algoritmo vuelve a la solución inicial y todavía le restan iteraciones del \texttt{while} anidado, queremos evitar que repita exactamente el mismo procedimiento pasando nuevamente por soluciones ya visitadas por lo que forzamos la salida y aplicamos una rotación a dicha solución para explorar nuevas posibilidades.
 			\end{itemize}
 
-			\item \texttt{agrandar\_clique: } Esta función itera los vértices que están en la lista tabú e intenta agregarlos a la clique actual. Esto es porque como ya conseguí una solución mejor lograr agregar algún vértice que esta tabú contribuye aún más a la solución.
+			\item \texttt{agrandar\_clique: } Esta función itera los vértices que están en la lista tabú e intenta agregarlos a la clique actual. Esto es porque como ya conseguió una solución mejor lograr agregar algún vértice que esta tabú contribuye aún más a la solución.
 
 			\item \texttt{restar\_tabu: } Para cada vértice tal que tiene tabú mayor a $cero$ decrementa la cantidad de iteraciones que va a permanecer tabú. Si al decrementarlo deja de ser tabú lo elimina de $lista\_tabu$.
 
@@ -175,9 +181,9 @@
 	Luego del análisis, tenemos como candidatos a ser el valor del parámetro a $60$ y $80$. Ambos valores satisfacen lo buscado, equilibrio calidad-tiempo de ejecución. Cualquiera de ellos sería adecuado para el algoritmo. Nos decidimos por $60$ dado que preferimos ganar un poco en tiempo de ejecución debido a que la complejidad de este algoritmo es $n^5$ y no es menor una pequeña diferencia en la constante.\VSP
 
 
-		El otro parámetro es para determinar la máxima cantidad de iteraciones que un atributo permanece tabú, en este caso agregar un vértice. Para ajustar este parámetro usamos las mismas instancias que para los tiempo del gráfico anterior (Figura \ref{fig:Ajuste_del_parametro_iteraciones}). Para realizar las pruebas variamos el parámetro entre los valores $5$, $10$, $20$, $40$, $60$, $80$ y $100$ donde estos representan un porcentaje del tamaño de la clique desde la que se comienza a sacar los vértices. Creemos que este parámetro debe depender del tamaño de la clique ya que si parte de una clique chica y el valor es grande la vecindad va a estar demasiado restringida dado que la misma también va a ser chica, si la clique desde la que parte es grande y el valor chico muy probablemente vuelva a soluciones ya exploradas y no es lo que queremos. En el siguiente gráfico se muestra la cantidad de instancias (entre las $100$) que devuelven una determinada cantidad de vértices como resultado, es decir, se grafica la cantidad de instancias en función del tamaño de la clique que logra encontrar el algoritmo.(Figura \ref{fig:Ajuste_del_parametro_tabu}).
+		El otro parámetro es para determinar la máxima cantidad de iteraciones que un atributo permanece tabú, en este caso agregar un vértice. Para ajustar este parámetro usamos las mismas instancias que para los tiempo del gráfico anterior (Figura \ref{fig:Ajuste_del_parametro_iteraciones}). Para realizar las pruebas variamos el parámetro entre los valores $10$, $20$, $40$, $60$, $80$ y $100$ donde estos representan un porcentaje del tamaño de la clique desde la que se comienza a sacar los vértices. Creemos que este parámetro debe depender del tamaño de la clique ya que si parte de una clique chica y el valor es grande la vecindad va a estar demasiado restringida dado que la misma también va a ser chica, si la clique desde la que parte es grande y el valor chico muy probablemente vuelva a soluciones ya exploradas y no es lo que queremos. En el siguiente gráfico se muestra la cantidad de instancias (entre las $100$) que devuelven una determinada cantidad de vértices como resultado, es decir, se grafica la cantidad de instancias en función del tamaño de la clique que logra encontrar el algoritmo.(Figura \ref{fig:Ajuste_del_parametro_tabu}).
 
-		\begin{figure}[H]
+	\begin{figure}[H]
 		\centering
 		    	\includegraphics[width=9cm,angle=-90]{tabu_search/max_tabu2.eps}
 		\caption{Pruebas de calidad para ajustar el parámetro tabu}
