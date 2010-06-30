@@ -130,7 +130,7 @@
 			    \label{fig:seguimiento_busqueda_tabu_continuacion}
 			\end{figure}
 
-		En la segunda y última rotación se encuentra con el mismo problema que en la primer rotación, comienza por quitar el vértice $tres$, dejándolo tabú, y no pudiendo tomar otro vértice mas que el $uno$. Recorre el camino dado por los vértices $2,1,4$. Al llegar al $cuatro$, posee todos sus vértices adyacentes tabú, por lo que no puede seguir. Termina porque probó mejorar en todas sus rotaciones, sin poder lograrlo.
+		En la segunda y última rotación, comienza por quitar el vértice $tres$, dejándolo tabú, y no pudiendo tomar otro vértice mas que el $uno$. Recorre el camino dado por los vértices $2,1,4$. Al llegar al $cuatro$, posee todos sus vértices adyacentes tabú, por lo que no puede seguir. Termina porque probó mejorar en todas sus rotaciones, sin poder lograrlo.
 
 	\end{subsection}
 

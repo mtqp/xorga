@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=latex 2010.6.8)  30 JUN 2010 17:02
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=latex 2010.6.8)  30 JUN 2010 17:25
 entering extended mode
  %&-line parsing enabled.
 **informe.tex dvips -p pdf
@@ -509,9 +509,9 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
  [28]
 File: tabu_search/segCasoMalo.eps Graphic file (type eps)
 
-<tabu_search/segCasoMalo.eps> [29]
+<tabu_search/segCasoMalo.eps> [29] [30]
 File: tabu_search/segCasoMalo_cont.eps Graphic file (type eps)
- <tabu_search/segCasoMalo_cont.eps> [30]
+ <tabu_search/segCasoMalo_cont.eps>
 Overfull \hbox (18.18681pt too wide) in paragraph at lines 133--134
 \OT1/cmr/m/n/12 v^^Sertices ady-a-centes tab^^Su, por lo que no puede seguir. T
 er-mi-na porque prob^^So mejo-
@@ -563,4 +563,4 @@ Here is how much of TeX's memory you used:
  28 hyphenation exceptions out of 8191
  27i,13n,25p,1566b,397s stack positions out of 5000i,500n,6000p,200000b,5000s
 
-Output written on informe.dvi (47 pages, 110856 bytes).
+Output written on informe.dvi (47 pages, 111660 bytes).
