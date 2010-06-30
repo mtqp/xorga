@@ -90,10 +90,34 @@ Raffo Diego & 423/08 & enanodr@hotmail.com \\
 	\newpage
 	
 	\begin{section}{Resultados}
-		\begin{subsection}{Parámetros de la heurística tabú}
-		\end{subsection}		
 
 		\begin{subsection}{Comparación de tiempos}
+
+		En el siguiente gráfico se medirán todos los algoritmos implementados en función del tiempo. Las intancias analizadas varían en cantidad de vértices entre $uno$ y $cien$, siendo las aristas que los conectan aleatorias para todos los casos(Figura \ref{fig:Tiempo de los Algoritmos}).
+		
+		Queremos ver si en la ejecución empírica de estos programas, existe diferencia en cantidad de tiempo como esperamos debido a la diferencia de complejidad entre ellos.
+		
+		\begin{figure}[H]
+			\centering
+					\includegraphics[width=9cm,angle=-90]{conclusiones/heuris_vs_exacto.eps}
+			\caption{Pruebas de tiempo de todos los Algoritmos implementados}
+			\label{fig:Tiempo de los Algoritmos}
+		\end{figure}
+		
+		Como esperabamos, y dada estas instancias, se nota que el costo en segundos del algoritmo exacto supera sin ninguna duda a cualquiera de las heúristicas a partir de los grafos de 50 vértices. Los casos son relativamente pequeños y la diferencia entre los algoritmos son importantísimas. Si bien la cantidad de segundos que al el exacto le toma calcular la solución para estos casos es pequeña (casi tres segundos en el peor caso para estas instancias), a medida que los grafos crezcan en tamaños, el tiempo crecerá también hasta volver impractible este algoritmo.
+
+		Viendo las instancias calculadas por el algoritmo exacto, notamos algunas de ellas que tiene un comportamiento distinto al esperado, es decir, tardaron más de lo que tardaron tanto los casos predecesores como antecesores. Podemos atribuir este fenómeno a dos cosas:
+
+			\begin{itemize}
+				\item Al ser un cálculo de tiempo, y estar corriendo el algoritmo bajo un sistema operativo, no podemos afirmar que el tiempo reflejado en el gráfico sea puramente el costo de $exacto$ (es más podemos afirmarlo que no lo es, ya son sistemas multi-tareas, no podemos afirmar qué tiempo es el que le correspondió al algoritmo).
+				\item El algoritmo pudo realizar para ese caso en particular y así tener que realizar mayor cantidad de cálculos, que son directamente proporcionales a la cantidad de tiempo.
+			\end{itemize}
+
+		Existen además, casos en los que el algoritmo (exacto), se comporta de manera más eficiente que lo esperado. Atribuímos esto a efectivas podas que favorecieron a mejorar el tiempo de corrida.
+
+		Debido a la escala, no podemos afirmar que la complejidad que analizamos para las heúristicas sea correcta
+
+		Sea el siguiente gráfico LA SOLUCION A TODOS TU SPROBLEMAS		
 		\end{subsection}
 
 		\begin{subsection}{Comparación de calidad}
