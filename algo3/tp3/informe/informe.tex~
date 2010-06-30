@@ -50,7 +50,7 @@ Raffo Diego & 423/08 & enanodr@hotmail.com \\
 
 
 	\begin{section}*{Introducción}	\addcontentsline{toc}{section}{Introducción}
-		Este trabajo tiene como objetivo la aplicación de diferentes técnicas algorítmicas para la resolución de tres problemas particulares, el cálculo de complejidad teórica en el peor caso de cada algoritmo implementado, y la posterior verificación empírica.
+		Este trabajo tiene como objetivo la aplicación de diferentes técnicas algorítmicas para la resolución de tres problemas particulares, el cálculo de complejidad teórica en el peor c aso de cada algoritmo implementado, y la posterior verificación empírica.
 	
 		El lenguaje utilizado para implementar los algoritmos de todos los problemas fue C/C++
 	\end{section}
@@ -60,7 +60,7 @@ Raffo Diego & 423/08 & enanodr@hotmail.com \\
 		El problema del Clique Máximo puede usarse como modelo para diversas situaciones de la vida real en ámbitos muy variados.\Pa
 		
 		\texttt{Aplicación Nº 1: }
-			Por un lado tenemos los problemas que involucren personas (como nodos) y las relaciones entre ellos (los ejes) en distintas materias. Por ejemplo, puede ser útil para hacer promocionarse, dar productos gratis, y dado que el costo de cada producto puede ser elevado se trata de entregar la menor cantidad, asegurándose la máxima promoción posible, podemos pedir que los ejes conecten a dos personas que trabajen juntas, y con esto seleccionar diversas empresas y repartir el producto a alguna persona de cada máximo clique de compañeros de trabajo de cada empresa, intentando con esto maximizar la promoción del producto en cuestión en cada empresa elegida.\Pa %CAPAZ HAYA QUE CAMBIARLO
+			Por un lado tenemos los problemas que involucren personas (como nodos) y las relaciones entre ellos (los ejes) en distintas materias. Por ejemplo, puede ser útil para hacer promocionarse, dar productos gratis, y dado que el costo de cada producto puede ser elevado se trata de entregar la menor cantidad, asegurándose la máxima promoción posible. Podemos pedir que los ejes conecten a dos personas que trabajen juntas, y con esto seleccionar diversas empresas y repartir el producto a alguna persona de cada máximo clique de compañeros de trabajo de cada empresa, intentando con esto maximizar la promoción del producto en cuestión en cada empresa elegida.\Pa %CAPAZ HAYA QUE CAMBIARLO
 
 %			Supongamos que una empresa de comptadoras quiere hacer propaganda de su producto. Para esto la empresa decide repartir computadoras gratis para que la gente las use en su trabajo, y dado su buen rendimiento, se promocione entre sus compañeros de trabajo. Como el producto no es barato de fabricar, esta empresa utilizaria una modificación de nuestro algorítmo para encontrar 
 
@@ -90,30 +90,49 @@ Raffo Diego & 423/08 & enanodr@hotmail.com \\
 	\newpage
 	
 	\begin{section}{Resultados}
+		\begin{subsection}{Parámetros de la heurística tabú}
+		\end{subsection}		
+
 		\begin{subsection}{Comparación de tiempos}
 		\end{subsection}
 
 		\begin{subsection}{Comparación de calidad}
+
+		Para obtener conclusiones sobre la calidad de los algoritmos, realizamos trescientos grafos de tamaño cien con aristas aleatorias, los cuales fueron analizados por el algoritmo exacto y por todas las heurísticas previamente descriptas. Para moldear esta información en datos tangibles y posibles de analizar realizamos un histograma que en el eje $x$ tenga el tamaño de la clique encontrada, y en el eje $y$ la cantidad de instancias (para cada algoritmo) que se encontraron con esa clique. Si bien no nos da precisión en cuanto a qué casos fueron los que dieron 'igual' o 'peor' del óptimo, tenemos una idea general del comportamiento de todas las heurísticas y su aproximación al exacto (ya vimos que dependiendo del grafo, el comportamiento de las heurísticas puede variar significativamente).
+		
+		A continuación, se muestra el histograma con estos resultados.
+		\begin{figure}[H]
+			\centering
+					\includegraphics[width=9cm,angle=-90]{conclusiones/calidad.eps}
+			\caption{Pruebas de calidad de todos los Algoritmos implementados}
+			\label{fig:Calidad de los Algoritmos}
+		\end{figure}
+		
+		En la figura \ref{fig:Calidad de los Algoritmos} podemos ver como el algorítmo de búsqueda tabú es el que más se aproxima al tamaño de la clique óptima dada por el algoritmo $exacto$. Es significativo el nivel de mejora de la búsqueda tabú en relación al resto (recordar que cada algoritmo parte de la solución dada por el predecesor en complejidad).
+		
+		Vemos también que el algoritmo de búsqueda local tiende a mejorar las soluciones dadas por el constructivo, es decir, para cliques de $seis$ o $siete$ encontró más casos constructivo que búsqueda local. En conclusión, como búqueda local parte de la solución dada por la constructiva y nunca la empeora, la diferencia que hay entre estos en las cliques de ocho y nueve, nos hacen inferir que búsqueda local, mejora en uno o dos vértices la solución dada por la heurística constructiva.
+		
+		Es interesante observar que para cliques pequeñas (de seis) la cantidad de entradas encontradas por el goloso constructivo y el exacto parecen ser bastante similares. Nos hace pensar que los grafos pueden tener pocas aristas, y pocos vértices con gran cantidad de ellas, es decir que el vértice de máximo grado pertenece a la clique máxima, y por lo tanto, la heurística lo encuentra. Una observación pertinente a la hora de decidir qué algoritmo usar podría ser ver el porcentaje de aristas en relación a la cantidad de nodos, y si ese porcentaje es bajo, o muy alto (nos acercamos al completo) hacer una pasada de constructivo.
 		\end{subsection}
 	\end{section}
 
 	\begin{section}{Conclusiones}
-	\tab Luego de haber efectuado los análisis teóricos de complejidad y habiendo efectuado comparaciones en cuanto a la performance y a la precisión de cada algoritmo, se pudo sacar algunas concluciones:
+	\tab Luego de haber efectuado los análisis teóricos de complejidad y habiendo efectuado comparaciones en cuanto a la performance y a la precisión de cada algoritmo, se pudo sacar algunas conclusiones:
 	\begin{itemize}
-		\item El algoritmo $Exacto$, como lo indica su nombre, es el único algoritmo que nos devuelve siempre la solución precisa al problema de la clique máxima. Sin embargo, el costo de operaciones del algoritmo es factorial, y los resultados de las pruebas indicaron que para grafos de mas de NNNNNNNN, o con mas de EEEEEEEEEEe ejes, el algoritmo tardaba varias horas en devolver la solución, con lo cual hace que no siempre sea posible en la practica utilizar este algoritmo.
-		\item El algoritmo de heuristica constructiva es el algoritmo de heuristica mas rápido que encontramos, y también el menos preciso. Su complejidad en cantidad de operaciones fue cuadrática con respecto al tamaño de la entrada. Dado que hacer pruebas con todos los grafos posibles de N nodos y D densidad, tratando de abarcar la mayor cantidad de casos hicimos las pruebas  DE SARASA Y SARASA MANERA, con lo que este algoritmo mostro ser un TANTO TANTO mas eficiente en cantidad de operaciones, pero su precision fue de SARASA SARASA. Con esto vemos que es un algoritmo que se puede utilizar cuando no se cuenta no tiempo para poder conocer una solucion precisa, y no es de crucial importancia la absoluta precisión del resultado (UN ToQUE mEJOR HAY QUE DECIR ESO)
-		\item La heurística de busqueda local resulto ser mas preciso que el de heurística constructiva, pero su costo de operaciones resulto ser mayor, siendo o($n^4$). A pesar de esto, corre con la ventaja de que su precisión será siempre igual o mejor que la del algoritmo constructivo, ya que la utiliza como punto de partida, y dada la solucion constructiva, intenta mejorarla. En las pruebas, el algorñitmo resulto ser PROCENTAJELOCOOO preciso, pero tambien se puede apreciar la mayor cantidad de operaciones que el algorñitmo constructuvo. Podemos decir que la relación entre cantidad de operaciones y precision es SARASARASARSASRA (supongo no es buena porque es muucho mas compejo y no se si SIEMPRe da mejor. hay que ver las pruebas)
-		\item El algoritmo de heurística de búsqueda tabú, tiene una complegidad aún mayor que la de la búsqueda local, siendo de orden de $n^5$. SARASEAR UN TOQUE
-
+		\item El algoritmo $Exacto$, como lo indica su nombre, es el único algoritmo que nos devuelve siempre la solución precisa al problema de la clique máxima. Sin embargo, el costo de operaciones del algoritmo es factorial, y los resultados de las pruebas indicaron que para grafos de 100 nodos con una clique máxima de 30 nodos tardaba XXXXXXXXXXXXXX, podemos decir que al agrandar el grafo y la clique máxima en un par de decenas y el algorítmo debería tardar cuando menos algunas horas en devolver la solución, con lo cual concluímos que no siempre es posible en la practica utilizar este algoritmo.
+		\item El algoritmo de heuristica constructiva es el algoritmo de heuristica mas rápido que encontramos, y también el menos preciso. Su complejidad en cantidad de operaciones fue cuadrática con respecto al tamaño de la entrada.Las pruebas realizadas con grafos aleatorios, como se explica en la seccion pruebas, muestran que este algoritmo resulto ser un TANTO TANTO mas eficiente en cantidad de operaciones, pero su precision fue de SARASA SARASA. Con esto vemos que es un algoritmo que se puede utilizar cuando no se cuenta no tiempo para poder conocer una solucion precisa, y no es de crucial importancia la absoluta precisión del resultado (UN ToQUE mEJOR HAY QUE DECIR ESO)
+		\item La heurística de busqueda local resulto ser mas preciso que el de heurística constructiva, pero su costo de operaciones resulto ser mayor, siendo o($n^4$). A pesar de esto, corre con la ventaja de que su precisión será siempre igual o mejor que la del algoritmo constructivo, ya que la utiliza como punto de partida, y dada la solucion constructiva, intenta mejorarla. En las pruebas, el algorñitmo resulto ser PROCENTAJELOCOOO de precisión respecto a la clique máxima real, pero también se puede apreciar la mayor cantidad de operaciones que el algoritmo realiza en comparación al constructivo. Podemos decir que la relación entre cantidad de operaciones y precisión es SARASARASARSASRA (supongo no es buena porque es muucho mas compejo y no se si SIEMPRe da mucho mejor. hay que ver las pruebas)
+		\item (ESTE SI PORFAVOR EXPLIQUE UN TOQUE QUE SE CONCLUYE ) El algoritmo de heurística de búsqueda tabú, tiene una complegidad aún mayor que la de la búsqueda local, siendo de orden de $n^5$. SARASEAR UN TOQUE
+	\end{itemize}
 
 		\begin{subsection}{Evaluación de Problemas}
-		\tab Luego de haber llegado a varias concluciones, podemos comenzar a hacer evaluaciones posibles problemas de la vida real. Al comenzar el informe se mencionaron dos situaciones que pueden ser modelados mediante grafos, mas precisamente con un problema de Clique Máxima. 
-		\begin{itemize}
-		\item El primer problema consistía en la empresa que queria promocionar su producto, con lo que utulizaba el programa de max\_clique para determinar los cliques máximos de cada empresa elegida para promosionarse. Suponiendo que las empresas que eligió son multinacionales, con miles de empleados cada una, no creemos conveniente el uso del max\_clique exacto, ya que el tiempo de ejecución sería muy costoso, con lo cual debería optar por un algorimo heurístico. Con lo visto en las pruebas, dado el tamaño del grafo con el que modelaríamos el problema, optaríamos por el algorítmo de busqueda tabú, ya que para estos tamaños de entrada la diferencia de tiempo no es tan significativa en comparación a posible maximización de las ganancias.
-		\item En el segundo problema, el terrorista se enfrenta a un gran problema, que es la enorme cantidad de personas en el planeta (aproximadamente 6.000.000.000 personas). Con esto se hace imposible aplicar un algoritmo exacto. Dependiendo de las carácteristicas del virus, este puede ser extremadamente contagioso, y suponiendo esto, tal vez no sea de tanta importancia que el clique de personas elegido sea el máximo. Consideramos que de el algoritmo de heurística constructiva podría dar buenos resultados ya que es tal vez el único algoritmo que terminaría en un tiempo aceptable, que puede ser de varios meses, y tiene una gran probabilidad de contagio que simplemente eligir personas que conozcan mucha gente, pero que entre ellas tal vez no se conozcan.
-		\end{itemize}
-	\end{subsection}
-	\end{itemize}	
+		\tab Luego de haber llegado a varias conclusiones, podemos comenzar a hacer evaluaciones posibles problemas de la vida real. Al comenzar el informe se mencionaron dos situaciones que pueden ser modelados mediante grafos, mas precisamente con un problema de Clique Máxima. 
+			\begin{itemize}
+			\item El primer problema consistía en la empresa que queria promocionar su producto, con lo que utulizaba el programa de max\_clique para determinar los cliques máximos de cada empresa elegida para promosionarse. Suponiendo que las empresas que eligió son multinacionales, con miles de empleados cada una, no creemos conveniente el uso del max\_clique exacto, ya que el tiempo de ejecución sería muy costoso, con lo cual debería optar por un algorimo heurístico. Con lo visto en las pruebas, dado el tamaño del grafo con el que modelaríamos el problema, optaríamos por el algorítmo de busqueda tabú, ya que para estos tamaños de entrada la diferencia de tiempo no es tan significativa en comparación a posible maximización de las ganancias.
+			\item En el segundo problema, el terrorista se enfrenta a un gran problema, que es la enorme cantidad de personas en el planeta (aproximadamente 6.000.000.000 personas). Con esto se hace imposible aplicar un algoritmo exacto. Dependiendo de las carácteristicas del virus, este puede ser extremadamente contagioso, y suponiendo esto, tal vez no sea de tanta importancia que el clique de personas elegido sea el máximo. Consideramos que de el algoritmo de heurística constructiva podría dar buenos resultados ya que es tal vez el único algoritmo que terminaría en un tiempo aceptable, que puede ser de varios meses, y tiene una gran probabilidad de contagio que simplemente eligir personas que conozcan mucha gente, pero que entre ellas tal vez no se conozcan.
+			\end{itemize}
+		\end{subsection}
+	
 	\end{section}
 	
 	\begin{section}{Mediciones}

@@ -97,7 +97,22 @@ Raffo Diego & 423/08 & enanodr@hotmail.com \\
 		\end{subsection}
 
 		\begin{subsection}{Comparación de calidad}
-		En la figura (FIGURA QUE TOQUE) podemos el una cantidad de instancias en funcion al tamaño de la clique máxima encontrada (ESTO TIENE SENTIDO??? ES TARDE Y NO CASO UN FULBO). Podemos ver, como el algorítmo de búsqueda tabú es el que mas se aproxima al tamaño de la clique verdadera, aunque no es un cien por ciento preciso. CHEEE ESTE GRAFICO TIEEN UN PROBLEMA, COMO ES QUE EL EXACTO TIENE ALGUNOS CASOS DE 6 y EL TABU NO LOS ENCONTR?????
+
+		Para obtener conclusiones sobre la calidad de los algoritmos, realizamos trescientos grafos de tamaño cien con aristas aleatorias, los cuales fueron analizados por el algoritmo exacto y por todas las heurísticas previamente descriptas. Para moldear esta información en datos tangibles y posibles de analizar realizamos un histograma que en el eje $x$ tenga el tamaño de la clique encontrada, y en el eje $y$ la cantidad de instancias (para cada algoritmo) que se encontraron con esa clique. Si bien no nos da precisión en cuanto a qué casos fueron los que dieron 'igual' o 'peor' del óptimo, tenemos una idea general del comportamiento de todas las heurísticas y su aproximación al exacto (ya vimos que dependiendo del grafo, el comportamiento de las heurísticas puede variar significativamente).
+		
+		A continuación, se muestra el histograma con estos resultados.
+		\begin{figure}[H]
+			\centering
+					\includegraphics[width=9cm,angle=-90]{conclusiones/calidad.eps}
+			\caption{Pruebas de calidad de todos los Algoritmos implementados}
+			\label{fig:Calidad de los Algoritmos}
+		\end{figure}
+		
+		En la figura \ref{fig:Calidad de los Algoritmos} podemos ver como el algorítmo de búsqueda tabú es el que más se aproxima al tamaño de la clique óptima dada por el algoritmo $exacto$. Es significativo el nivel de mejora de la búsqueda tabú en relación al resto (recordar que cada algoritmo parte de la solución dada por el predecesor en complejidad).
+		
+		Vemos también que el algoritmo de búsqueda local tiende a mejorar las soluciones dadas por el constructivo, es decir, para cliques de $seis$ o $siete$ encontró más casos constructivo que búsqueda local. En conclusión, como búqueda local parte de la solución dada por la constructiva y nunca la empeora, la diferencia que hay entre estos en las cliques de ocho y nueve, nos hacen inferir que búsqueda local, mejora en uno o dos vértices la solución dada por la heurística constructiva.
+		
+		Es interesante observar que para cliques pequeñas (de seis) la cantidad de entradas encontradas por el goloso constructivo y el exacto parecen ser bastante similares. Nos hace pensar que los grafos pueden tener pocas aristas, y pocos vértices con gran cantidad de ellas, es decir que el vértice de máximo grado pertenece a la clique máxima, y por lo tanto, la heurística lo encuentra. Una observación pertinente a la hora de decidir qué algoritmo usar podría ser ver el porcentaje de aristas en relación a la cantidad de nodos, y si ese porcentaje es bajo, o muy alto (nos acercamos al completo) hacer una pasada de constructivo.
 		\end{subsection}
 	\end{section}
 

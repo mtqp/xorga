@@ -26,7 +26,7 @@
 \contentsline {subsection}{\numberline {6.1}Par\IeC {\'a}metros de la heur\IeC {\'\i }stica tab\IeC {\'u}}{38}
 \contentsline {subsection}{\numberline {6.2}Comparaci\IeC {\'o}n de tiempos}{38}
 \contentsline {subsection}{\numberline {6.3}Comparaci\IeC {\'o}n de calidad}{38}
-\contentsline {section}{\numberline {7}Conclusiones}{38}
-\contentsline {subsection}{\numberline {7.1}Evaluaci\IeC {\'o}n de Problemas}{39}
-\contentsline {section}{\numberline {8}Mediciones}{40}
-\contentsline {section}{\numberline {9}Compilaci\IeC {\'o}n y ejecuci\IeC {\'o}n de los programas}{40}
+\contentsline {section}{\numberline {7}Conclusiones}{40}
+\contentsline {subsection}{\numberline {7.1}Evaluaci\IeC {\'o}n de Problemas}{41}
+\contentsline {section}{\numberline {8}Mediciones}{42}
+\contentsline {section}{\numberline {9}Compilaci\IeC {\'o}n y ejecuci\IeC {\'o}n de los programas}{42}
