@@ -5,6 +5,8 @@ COMPLETE_INPUT=$1
 INPUT=${INPUT##*/}
 INPUT_length=${#INPUT}
 OUTPUT=${INPUT:0:$INPUT_length-3}
+COMPLETE_ARGS="$@"
+ARGS=${COMPLETE_ARGS:${#COMPLETE_INPUT}+1}
 
 if [ ! -d out/ ]; then
 	mkdir out #if no esta creado crearlo....
@@ -16,7 +18,7 @@ if [ ! -e "./exacto" ]; then
 	make
 fi
 exacto_out=${OUTPUT}"Exacto.out"
-./exacto < ../$COMPLETE_INPUT > ../out/$exacto_out
+./exacto $ARGS < ../$COMPLETE_INPUT > ../out/$exacto_out
 echo "Exacto 		procesó entrada."
 
 cd ..
@@ -25,7 +27,7 @@ if [ ! -e "./constructivo" ]; then
 	make
 fi
 constructivo_out=${OUTPUT}"Constructivo.out"
-./constructivo < ../$COMPLETE_INPUT > ../out/$constructivo_out 
+./constructivo $ARGS < ../$COMPLETE_INPUT > ../out/$constructivo_out 
 echo "Constructivo 	procesó entrada."
 
 cd ..
@@ -34,7 +36,7 @@ if [ ! -e "./busqueda_local" ]; then
 	make
 fi
 busqueda_out=${OUTPUT}"Busqueda_Local.out"
-./busqueda_local < ../$COMPLETE_INPUT > ../out/$busqueda_out
+./busqueda_local $ARGS < ../$COMPLETE_INPUT > ../out/$busqueda_out
 echo "Búsqueda Local  procesó entrada."
 
 cd ..
@@ -43,5 +45,5 @@ if [ ! -e "./tabu_search" ]; then
 	make
 fi
 tabu_out=${OUTPUT}"Tabu_Search.out"
-./tabu_search < ../$COMPLETE_INPUT > ../out/$tabu_out
+./tabu_search $ARGS < ../$COMPLETE_INPUT > ../out/$tabu_out
 echo "Tabú Search 	procesó entrada."
