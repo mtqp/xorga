@@ -1,0 +1,18 @@
+\select@language {spanish}
+\contentsline {section}{\numberline {1}Introducci\'on}{3}
+\contentsline {section}{\numberline {2}Desarrollo}{4}
+\contentsline {subsection}{\numberline {2.1}Implementaci\'on preliminar en lenguaje C}{4}
+\contentsline {subsection}{\numberline {2.2}Implementaci\'on en lenguaje ensamblador}{4}
+\contentsline {subsection}{\numberline {2.3}Versi\'on definitiva}{4}
+\contentsline {section}{\numberline {3}Discusi\'on}{5}
+\contentsline {subsection}{\numberline {3.1}Versi\'on C}{5}
+\contentsline {subsection}{\numberline {3.2}Versi\'on asm}{6}
+\contentsline {subsubsection}{\numberline {3.2.1}apply\_mask}{6}
+\contentsline {subsubsection}{\numberline {3.2.2}Operadores: asmSobel, asmRoberts y asmPrewitt}{7}
+\contentsline {subsection}{\numberline {3.3}Medici\'on de performance}{11}
+\contentsline {section}{\numberline {4}Conclusiones}{12}
+\contentsline {section}{\numberline {5}Manual de usuario}{13}
+\contentsline {subsection}{\numberline {5.1}Ayuda r\'apida}{13}
+\contentsline {subsection}{\numberline {5.2}Descripci\'on}{13}
+\contentsline {subsection}{\numberline {5.3}Instrucciones de compilaci\'on}{13}
+\contentsline {section}{\numberline {6}Archivos entregados}{14}
